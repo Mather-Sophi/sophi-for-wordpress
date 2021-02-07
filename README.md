@@ -35,10 +35,10 @@ The NPM commands will fail without these files present.
 
 - Do case-sensitive search/replace for the following:
 
-	- TenUpScaffold
-	- TENUP_SCAFFOLD
-	- tenup-scaffold
-	- tenup_scaffold
+	- SophiWP
+	- SOPHI_WP
+	- sophi-wp
+	- sophi_wp
 
 - `cd` into the plugin folder
 - run `npm run start` to build the front-end assets

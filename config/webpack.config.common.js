@@ -38,7 +38,7 @@ module.exports = {
 		 *
 		 * @see (@link https://webpack.js.org/configuration/output/#outputjsonpfunction)
 		 */
-		jsonpFunction: '__TenUpScaffold_webpackJsonp',
+		jsonpFunction: '__SophiWP_webpackJsonp',
 	},
 
 	// Console stats output.
