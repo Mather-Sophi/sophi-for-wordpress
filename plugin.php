@@ -30,11 +30,24 @@ require_once SOPHI_WP_INC . 'functions/settings.php';
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
 register_deactivation_hook( __FILE__, '\SophiWP\Core\deactivate' );
 
-// Bootstrap.
-SophiWP\Core\setup();
-SophiWP\Settings\setup();
+if ( apply_filters( 'sophi_available', is_ssl() ) ) {
+	// Bootstrap.
+	SophiWP\Core\setup();
+	SophiWP\Settings\setup();
 
-// Require Composer autoloader if it exists.
-if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
-	require_once SOPHI_WP_PATH . 'vendor/autoload.php';
+	// Require Composer autoloader if it exists.
+	if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
+		require_once SOPHI_WP_PATH . 'vendor/autoload.php';
+	}
+} else {
+	add_action(
+		'admin_notices',
+		function() {
+			?>
+	<div class="notice notice-error">
+		<p><?php esc_html_e( 'Sophi requires HTTPS. Please install SSL to your site and try again.', 'sophi-wp' ); ?></p>
+	</div>
+			<?php
+		}
+	);
 }
