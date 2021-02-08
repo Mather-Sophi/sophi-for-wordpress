@@ -24,6 +24,7 @@ define( 'SOPHI_WP_INC', SOPHI_WP_PATH . 'includes/' );
 
 // Include files.
 require_once SOPHI_WP_INC . 'functions/core.php';
+require_once SOPHI_WP_INC . 'functions/settings.php';
 
 // Activation/Deactivation.
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
@@ -31,6 +32,7 @@ register_deactivation_hook( __FILE__, '\SophiWP\Core\deactivate' );
 
 // Bootstrap.
 SophiWP\Core\setup();
+SophiWP\Settings\setup();
 
 // Require Composer autoloader if it exists.
 if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
