@@ -1,5 +1,5 @@
 {
-  "name": "10up/tenup-scaffold",
+  "name": "10up/sophi-wp",
   "description": "10up Plugin Scaffold",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "TenUpScaffold\\": "includes/classes/"
+      "SophiWP\\": "includes/classes/"
     }
   },
   "require-dev": {

@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name:       10up Plugin Scaffold
- * Plugin URI:        https://github.com/10up/plugin-scaffold
+ * Plugin Name:       Sophi for WordPress
+ * Plugin URI:        https://github.com/10up/sophi-for-wordpress
  * Description:       A brief description of the plugin.
  * Version:           0.1.0
  * Requires at least: 4.9
@@ -10,29 +10,44 @@
  * Author URI:        https://10up.com
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       tenup-scaffold
+ * Text Domain:       sophi-wp
  * Domain Path:       /languages
  *
- * @package           TenUpScaffold
+ * @package           SophiWP
  */
 
 // Useful global constants.
-define( 'TENUP_SCAFFOLD_VERSION', '0.1.0' );
-define( 'TENUP_SCAFFOLD_URL', plugin_dir_url( __FILE__ ) );
-define( 'TENUP_SCAFFOLD_PATH', plugin_dir_path( __FILE__ ) );
-define( 'TENUP_SCAFFOLD_INC', TENUP_SCAFFOLD_PATH . 'includes/' );
+define( 'SOPHI_WP_VERSION', '0.1.0' );
+define( 'SOPHI_WP_URL', plugin_dir_url( __FILE__ ) );
+define( 'SOPHI_WP_PATH', plugin_dir_path( __FILE__ ) );
+define( 'SOPHI_WP_INC', SOPHI_WP_PATH . 'includes/' );
 
 // Include files.
-require_once TENUP_SCAFFOLD_INC . 'functions/core.php';
+require_once SOPHI_WP_INC . 'functions/core.php';
+require_once SOPHI_WP_INC . 'functions/settings.php';
 
 // Activation/Deactivation.
-register_activation_hook( __FILE__, '\TenUpScaffold\Core\activate' );
-register_deactivation_hook( __FILE__, '\TenUpScaffold\Core\deactivate' );
+register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
+register_deactivation_hook( __FILE__, '\SophiWP\Core\deactivate' );
 
-// Bootstrap.
-TenUpScaffold\Core\setup();
+if ( apply_filters( 'sophi_available', is_ssl() ) ) {
+	// Bootstrap.
+	SophiWP\Core\setup();
+	SophiWP\Settings\setup();
 
-// Require Composer autoloader if it exists.
-if ( file_exists( TENUP_SCAFFOLD_PATH . 'vendor/autoload.php' ) ) {
-	require_once TENUP_SCAFFOLD_PATH . 'vendor/autoload.php';
+	// Require Composer autoloader if it exists.
+	if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
+		require_once SOPHI_WP_PATH . 'vendor/autoload.php';
+	}
+} else {
+	add_action(
+		'admin_notices',
+		function() {
+			?>
+	<div class="notice notice-error">
+		<p><?php esc_html_e( 'Sophi requires HTTPS. Please install SSL to your site and try again.', 'sophi-wp' ); ?></p>
+	</div>
+			<?php
+		}
+	);
 }

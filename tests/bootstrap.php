@@ -3,16 +3,16 @@ if ( ! defined( 'PROJECT' ) ) {
 	define( 'PROJECT', __DIR__ . '/../includes/' );
 }
 
-if ( ! defined( 'TENUP_SCAFFOLD_DIR' ) ) {
-	define( 'TENUP_SCAFFOLD_DIR', __DIR__ . '/' );
+if ( ! defined( 'SOPHI_WP_DIR' ) ) {
+	define( 'SOPHI_WP_DIR', __DIR__ . '/' );
 }
 
 // Place any additional bootstrapping requirements here for PHP Unit.
 if ( ! defined( 'WP_LANG_DIR' ) ) {
 	define( 'WP_LANG_DIR', 'lang_dir' );
 }
-if ( ! defined( 'TENUP_SCAFFOLD_PATH' ) ) {
-	define( 'TENUP_SCAFFOLD_PATH', 'path' );
+if ( ! defined( 'SOPHI_WP_PATH' ) ) {
+	define( 'SOPHI_WP_PATH', 'path' );
 }
 
 if ( ! file_exists( __DIR__ . '/../vendor/autoload.php' ) ) {
