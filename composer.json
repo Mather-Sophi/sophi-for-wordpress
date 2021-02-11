@@ -1,28 +1,39 @@
 {
   "name": "10up/sophi-wp",
-  "description": "10up Plugin Scaffold",
+  "description": "WordPress VIP-compatible plugin for the Sophi.io Curator service.",
   "type": "wordpress-plugin",
+  "homepage": "https://github.com/10up/sophi-for-wordpress",
+  "readme": "https://github.com/10up/sophi-for-wordpress/blob/develop/README.md",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "10up",
-      "email": "info@10up.com",
+      "email": "opensource@10up.com",
       "homepage": "https://10up.com",
+			"role": "Developer"
+    },
+    {
+      "name": "The Globe and Mail",
+      "email": "info@sophi.io",
+      "homepage": "https://www.sophi.io",
 			"role": "Developer"
     }
   ],
-  "require": {
-    "php": ">=7.0"
+  "support": {
+    "issues": "https://github.com/10up/sophi-for-wordpress/issues"
   },
-  "autoload": {
-    "psr-4": {
-      "SophiWP\\": "includes/classes/"
-    }
+  "require": {
+    "php": ">=7.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^8.2",
     "10up/wp_mock": "dev-master",
     "10up/phpcs-composer": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "SophiWP\\": "includes/classes/"
+    }
   },
   "scripts": {
     "lint": "phpcs .",
