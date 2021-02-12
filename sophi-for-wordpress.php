@@ -2,10 +2,10 @@
 /**
  * Plugin Name:       Sophi for WordPress
  * Plugin URI:        https://github.com/10up/sophi-for-wordpress
- * Description:       A brief description of the plugin.
+ * Description:       WordPress VIP-compatible plugin for the Sophi.io Curator service.
  * Version:           0.1.0
- * Requires at least: 4.9
- * Requires PHP:      7.2
+ * Requires at least: 5.6
+ * Requires PHP:      7.4
  * Author:            10up
  * Author URI:        https://10up.com
  * License:           GPL v2 or later

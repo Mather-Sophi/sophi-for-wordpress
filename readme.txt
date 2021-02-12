@@ -1,14 +1,14 @@
 === 10up Plugin Scaffold ===
 Contributors:      10up
-Tags:
-Requires at least: 4.9
-Tested up to: 5.5
-Requires PHP: 7.2
-Stable tag: 0.1.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags:              Sophi, Curator, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
+Requires at least: 5.6
+Tested up to:      5.6
+Requires PHP:      7.4
+Stable tag:        0.1.0
+License:           GPLv2 or later
+License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
-A brief description of the plugin.
+WordPress VIP-compatible plugin for the Sophi.io Curator service.
 
 == Description ==
 
@@ -48,8 +48,3 @@ An answer to that question.
 
 = 0.1.0 =
 * First release
-
-== Upgrade Notice ==
-
-= 0.1.0 =
-First Release

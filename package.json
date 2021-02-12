@@ -1,14 +1,25 @@
 {
-  "name": "plugin-scaffold",
-  "version": "1.0.0",
-  "description": "10up Plugin Scaffold",
-  "author": {
-    "name": "10up",
-    "email": "info@10up.com",
-    "url": "https://10up.com",
-    "role": "developer"
+  "name": "@10up/sophi-wp",
+  "version": "0.1.0",
+  "description": "WordPress VIP-compatible plugin for the Sophi.io Curator service.",
+  "homepage": "https://github.com/10up/sophi-for-wordpress",
+  "bugs": { "url": "https://github.com/10up/sophi-for-wordpress/issues"
   },
   "license": "GPL-2.0-or-later",
+  "author": {
+    "name": "10up",
+    "email": "opensource@10up.com",
+    "url": "https://10up.com"
+  },
+  "contributors": [ {
+    "name": "The Globe and Mail",
+    "email": "info@sophi.io",
+    "url": "https://www.sophi.io"
+  } ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/10up/sophi-for-wordpress"
+  },
   "scripts": {
     "test": "phpunit",
     "start": "composer install && npm install && npm run build",
@@ -24,26 +35,7 @@
     "lint": "npm run lint-css && npm run lint-js && npm run lint-php",
     "format": "npm run format-js"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.css": [
-      "stylelint"
-    ],
-    "*.js": [
-      "eslint"
-    ],
-    "*.php": [
-      "./vendor/bin/phpcs --extensions=php --warning-severity=8 -s"
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/10up/plugin-scaffold"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@10up/babel-preset-default": "^1.0.0",
     "@10up/eslint-config": "^2.0.0",
@@ -97,5 +89,20 @@
   "engines": {
     "node": ">=12.0.0"
   },
-  "dependencies": {}
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.css": [
+      "stylelint"
+    ],
+    "*.js": [
+      "eslint"
+    ],
+    "*.php": [
+      "./vendor/bin/phpcs --extensions=php --warning-severity=8 -s"
+    ]
+  }
 }
