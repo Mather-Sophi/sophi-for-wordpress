@@ -33,7 +33,8 @@
     "lint-php": "composer run lint",
     "format-js": "eslint --fix assets/js",
     "lint": "npm run lint-css && npm run lint-js && npm run lint-php",
-    "format": "npm run format-js"
+    "format": "npm run format-js",
+    "build:docs": "rm -rf docs && jsdoc -c hookdoc-conf.json checkup.php includes"
   },
   "dependencies": {},
   "devDependencies": {
@@ -84,7 +85,9 @@
     "webpack-cli": "^3.3.10",
     "webpack-fix-style-only-entries": "^0.4.0",
     "webpack-merge": "^4.2.2",
-    "webpackbar": "^4.0.0"
+    "webpackbar": "^4.0.0",
+    "jsdoc": "~3.6.3",
+    "wp-hookdoc": "^0.2.0"
   },
   "engines": {
     "node": ">=12.0.0"
