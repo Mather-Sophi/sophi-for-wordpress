@@ -34,7 +34,7 @@
     "format-js": "eslint --fix assets/js",
     "lint": "npm run lint-css && npm run lint-js && npm run lint-php",
     "format": "npm run format-js",
-    "build:docs": "rm -rf docs && jsdoc -c hookdoc-conf.json checkup.php includes"
+    "build:docs": "rm -rf docs && jsdoc -c hookdoc-conf.json sophi-for-wordpress.php includes"
   },
   "dependencies": {},
   "devDependencies": {
