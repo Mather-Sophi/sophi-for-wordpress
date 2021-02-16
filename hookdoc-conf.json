@@ -6,11 +6,7 @@
         "readme": "./.github/hookdoc-tmpl/README.md"
     },
     "source": {
-      "include": [
-          "./",
-          "includes"
-        ],
-        "includePattern": ".+\\.(php)?$"
+      "includePattern": ".+\\.(php)?$"
     },
     "plugins": [
       "node_modules/wp-hookdoc/plugin",
