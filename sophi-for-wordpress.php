@@ -5,7 +5,7 @@
  * Description:       WordPress VIP-compatible plugin for the Sophi.io Curator service.
  * Version:           0.1.0
  * Requires at least: 5.6
- * Requires PHP:      7.4
+ * Requires PHP:      7.2
  * Author:            10up
  * Author URI:        https://10up.com
  * License:           GPL v2 or later
@@ -22,32 +22,35 @@ define( 'SOPHI_WP_URL', plugin_dir_url( __FILE__ ) );
 define( 'SOPHI_WP_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SOPHI_WP_INC', SOPHI_WP_PATH . 'includes/' );
 
+// Require Composer autoloader if it exists.
+if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
+	require_once SOPHI_WP_PATH . 'vendor/autoload.php';
+}
+
 // Include files.
 require_once SOPHI_WP_INC . 'functions/core.php';
 require_once SOPHI_WP_INC . 'functions/settings.php';
+require_once SOPHI_WP_INC . 'functions/content-sync.php';
 
 // Activation/Deactivation.
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
 register_deactivation_hook( __FILE__, '\SophiWP\Core\deactivate' );
 
-if ( apply_filters( 'sophi_available', is_ssl() ) ) {
-	// Bootstrap.
-	SophiWP\Core\setup();
-	SophiWP\Settings\setup();
-
-	// Require Composer autoloader if it exists.
-	if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
-		require_once SOPHI_WP_PATH . 'vendor/autoload.php';
+add_action( 'init', function() {
+	if ( apply_filters( 'sophi_available', is_ssl() ) ) {
+		// Bootstrap.
+		SophiWP\Core\setup();
+		SophiWP\Settings\setup();
+	} else {
+		add_action(
+			'admin_notices',
+			function() {
+				?>
+				<div class="notice notice-error">
+					<p><?php esc_html_e( 'Sophi requires HTTPS. Please install SSL to your site and try again.', 'sophi-wp' ); ?></p>
+				</div>
+				<?php
+			}
+		);
 	}
-} else {
-	add_action(
-		'admin_notices',
-		function() {
-			?>
-	<div class="notice notice-error">
-		<p><?php esc_html_e( 'Sophi requires HTTPS. Please install SSL to your site and try again.', 'sophi-wp' ); ?></p>
-	</div>
-			<?php
-		}
-	);
-}
+} );
