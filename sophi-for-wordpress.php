@@ -36,21 +36,24 @@ require_once SOPHI_WP_INC . 'functions/content-sync.php';
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
 register_deactivation_hook( __FILE__, '\SophiWP\Core\deactivate' );
 
-add_action( 'init', function() {
-	if ( apply_filters( 'sophi_available', is_ssl() ) ) {
-		// Bootstrap.
-		SophiWP\Core\setup();
-		SophiWP\Settings\setup();
-	} else {
-		add_action(
-			'admin_notices',
-			function() {
-				?>
+add_action(
+	'init',
+	function() {
+		if ( apply_filters( 'sophi_available', is_ssl() ) ) {
+			// Bootstrap.
+			SophiWP\Core\setup();
+			SophiWP\Settings\setup();
+		} else {
+			add_action(
+				'admin_notices',
+				function() {
+					?>
 				<div class="notice notice-error">
-					<p><?php esc_html_e( 'Sophi requires HTTPS. Please install SSL to your site and try again.', 'sophi-wp' ); ?></p>
+						<p><?php esc_html_e( 'Sophi requires HTTPS. Please install SSL to your site and try again.', 'sophi-wp' ); ?></p>
 				</div>
-				<?php
-			}
-		);
+					<?php
+				}
+			);
+		}
 	}
-} );
+);
