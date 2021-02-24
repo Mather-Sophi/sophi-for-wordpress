@@ -25,6 +25,7 @@ define( 'SOPHI_WP_INC', SOPHI_WP_PATH . 'includes/' );
 // Include files.
 require_once SOPHI_WP_INC . 'functions/core.php';
 require_once SOPHI_WP_INC . 'functions/settings.php';
+require_once SOPHI_WP_INC . 'functions/tracking.php';
 
 // Activation/Deactivation.
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
@@ -37,6 +38,7 @@ add_action(
 			// Bootstrap.
 			SophiWP\Core\setup();
 			SophiWP\Settings\setup();
+			SophiWP\Tracking\setup();
 		} else {
 			add_action(
 				'admin_notices',
