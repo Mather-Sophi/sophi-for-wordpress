@@ -35,15 +35,36 @@ function enqueue_scripts() {
  */
 function get_single_post_tracking_data() {
 	$post = get_post();
-	return [
-		'pageType' => 'article',
-		'breadcrumbs' => get_breadcrumbs( $post ),
-		'sectionName' => get_section_name( $post ),
-		'environment' => get_sophi_settings( 'environment' ),
-		'environmentVersion' => get_bloginfo( 'version' ),
-		'contentType' => 'article',
-		'contentId' => $post->ID,
-	];
+	return apply_filters(
+		'sophi_post_tracking_data',
+		[
+			'pageType' => 'article',
+			'breadcrumbs' => get_breadcrumbs( $post ),
+			'sectionName' => get_section_name( get_breadcrumbs( $post ) ),
+			'environment' => get_sophi_settings( 'environment' ),
+			'environmentVersion' => get_bloginfo( 'version' ),
+			'contentType' => 'article',
+			'contentId' => $post->ID,
+		]
+	);
+}
+
+/**
+ * Prepare data for JS tracking on archive page.
+ */
+function get_archive_tracking_data() {
+	global $wp;
+	return apply_filters(
+		'sophi_archive_tracking_data',
+		[
+			'pageType' => 'section',
+			'breadcrumbs' => $wp->request,
+			'sectionName' => get_section_name( $wp->request ),
+			'environment' => get_sophi_settings( 'environment' ),
+			'environmentVersion' => get_bloginfo( 'version' ),
+			'contentType' => 'article',
+		]
+	);
 }
 
 /**
@@ -64,13 +85,12 @@ function get_breadcrumbs( $post ) {
  * For example, example.com/news/politics, news would be the section name.
  * Not all content will have a section name.
  *
- * @param WP_Post $post Post object.
+ * @param string $path URL path.
  *
  * @return string Section name.
  */
-function get_section_name( $post ) {
-	$path = get_breadcrumbs( $post );
-	$parts     = explode( '/', $path );
+function get_section_name( $path = '' ) {
+	$parts = explode( '/', $path );
 
 	if ( 1 === count( $parts ) ) {
 		return '';
