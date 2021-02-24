@@ -133,7 +133,7 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_client_id',
-		__( 'Snowplow Client ID', 'sophi-wp' ),
+		__( 'Sophi Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
 		'sophi_api',
@@ -144,7 +144,7 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_client_secret',
-		__( 'Snowplow Client Secret', 'sophi-wp' ),
+		__( 'Sophi Client Secret', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
 		'sophi_api',
@@ -155,7 +155,7 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_curator_url',
-		__( 'Snowplow Curator URL', 'sophi-wp' ),
+		__( 'Sophi Curator URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
 		'sophi_api',
