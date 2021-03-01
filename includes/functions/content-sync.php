@@ -8,6 +8,8 @@
 namespace SophiWP\ContentSync;
 
 use function SophiWP\Settings\get_sophi_settings;
+use function SophiWP\Core\get_supported_post_types;
+use SophiWP\Utils;
 
 use Snowplow\Tracker\Tracker;
 use Snowplow\Tracker\Subject;
@@ -37,6 +39,10 @@ function track_event( $new_status, $old_status, $post ) {
 	$tracker = init_tracker();
 	$action  = '';
 
+	if ( ! in_array( $post->post_type, get_supported_post_types(), true ) ) {
+		return;
+	}
+
 	if ( ! $tracker ) {
 		return false;
 	}
@@ -57,10 +63,13 @@ function track_event( $new_status, $old_status, $post ) {
 		return false;
 	}
 
+	$data = get_post_data( $post );
+	$data['action'] = $action;
+
 	$tracker->trackUnstructEvent(
 		[
 			'schema' => 'iglu:com.sophi/content_update/jsonschema/1-0-3',
-			'data'   => get_post_data( $post, $action ),
+			'data'   => $data,
 		],
 		[
 			'schema' => 'iglu:com.globeandmail/environment/jsonschema/1-0-9',
@@ -94,65 +103,27 @@ function init_tracker() {
  * Prepare post data to send to Snowplow.
  *
  * @param WP_Post $post Post object.
- * @param string  $action publish|update|delete|unpublish
  *
  * @return array
  */
-function get_post_data( $post, $action ) {
-	return apply_filters(
-		'sophi_post_data',
-		[
-			'action'         => $action,
-			'contentId'      => $post->ID,
-			'headline'       => get_the_title( $post ),
-			'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
-			'accessCategory' => 'free access',
-			'datePublished'  => $post->post_date_gmt,
-			'plainText'      => $post->post_content,
-			'contentSize'    => str_word_count( strip_tags( $post->post_content ) ),
-			'sectionName'    => get_section_name( $post ),
-			// Optional fields
-			'dateModified'   => $post->post_modified_gmt,
-			'tags'           => get_post_tags( $post ),
-			'canonicalURL'   => wp_get_canonical_url( $post ),
-		]
-	);
-}
+function get_post_data( $post ) {
+	$data = [
+		'contentId'      => $post->ID,
+		'headline'       => get_the_title( $post ),
+		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
+		'accessCategory' => 'free access',
+		'datePublished'  => $post->post_date_gmt,
+		'plainText'      => strip_tags( $post->post_content ),
+		'contentSize'    => str_word_count( strip_tags( $post->post_content ) ),
+		'sectionName'    => Utils\get_section_name( Utils\get_breadcrumbs( $post ) ),
+		// Optional fields
+		'dateModified'   => $post->post_modified_gmt,
+		'tags'           => Utils\get_post_tags( $post ),
+		'canonicalURL'   => wp_get_canonical_url( $post ),
+	];
 
-/**
- * Get section name from the post URL.
- * For example, example.com/news/politics, news would be the section name.
- * Not all content will have a section name.
- *
- * @param WP_Post $post Post object.
- *
- * @return string Section name.
- */
-function get_section_name( $post ) {
-	$permalink = get_permalink( $post );
-	$permalink = parse_url( $permalink );
-	$parts     = explode( '/', $permalink['path'] );
+	// Remove empty key.
+	$data = array_filter( $data );
 
-	if ( 1 === count( $parts ) ) {
-		return '';
-	}
-
-	return array_slice( $parts, -2, 1 );
-}
-
-/**
- * Get post tags name for post.
- *
- * @param WP_Post $post Post object.
- *
- * @return array Array of tag name.
- */
-function get_post_tags( $post ) {
-	$tags = get_the_tags( $post );
-	return array_map(
-		function( $tag ) {
-			return $tag->name;
-		},
-		$tags
-	);
+	return apply_filters( 'sophi_post_data', $data );
 }

@@ -28,6 +28,7 @@ if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
 }
 
 // Include files.
+require_once SOPHI_WP_INC . 'functions/utils.php';
 require_once SOPHI_WP_INC . 'functions/core.php';
 require_once SOPHI_WP_INC . 'functions/settings.php';
 require_once SOPHI_WP_INC . 'functions/content-sync.php';

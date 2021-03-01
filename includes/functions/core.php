@@ -276,3 +276,15 @@ function script_loader_tag( $tag, $handle ) {
 
 	return $tag;
 }
+
+/**
+ * Get supported post types.
+ *
+ * @return array
+ */
+function get_supported_post_types() {
+	/**
+	 * Filter supported post types.
+	 */
+	return apply_filters( 'sophi_supported_post_types', [ 'post', 'page' ] );
+}
