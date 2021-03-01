@@ -254,6 +254,7 @@ function get_custom_contexts() {
 			)
 		);
 
+		// We need this indirect way to prevent the url encode two times.
 		return str_replace(
 			[ '__environment_schama_url__', '__page_schama_url__', '__content_schama_url__' ],
 			[ 'iglu:com.globeandmail/environment/jsonschema/1-0-9', 'iglu:com.globeandmail/page/jsonschema/1-0-10', 'iglu:com.globeandmail/content/jsonschema/1-0-12' ],
