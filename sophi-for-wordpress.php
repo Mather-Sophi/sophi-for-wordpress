@@ -22,9 +22,16 @@ define( 'SOPHI_WP_URL', plugin_dir_url( __FILE__ ) );
 define( 'SOPHI_WP_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SOPHI_WP_INC', SOPHI_WP_PATH . 'includes/' );
 
+// Require Composer autoloader if it exists.
+if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
+	require_once SOPHI_WP_PATH . 'vendor/autoload.php';
+}
+
 // Include files.
+require_once SOPHI_WP_INC . 'functions/utils.php';
 require_once SOPHI_WP_INC . 'functions/core.php';
 require_once SOPHI_WP_INC . 'functions/settings.php';
+require_once SOPHI_WP_INC . 'functions/content-sync.php';
 
 // Activation/Deactivation.
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
