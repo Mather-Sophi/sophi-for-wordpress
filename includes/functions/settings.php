@@ -86,9 +86,9 @@ function fields_setup() {
 			'default'    => get_default_settings( 'environment' ),
 			'input_type' => 'select',
 			'options'    => [
-				'production'   => __( 'Production', 'sophi-wp' ),
-				'staging'      => __( 'Staging', 'sophi-wp' ),
-				'developmentj' => __( 'Development', 'sophi-wp' ),
+				'prod' => __( 'Production', 'sophi-wp' ),
+				'stg'  => __( 'Staging', 'sophi-wp' ),
+				'dev'  => __( 'Development', 'sophi-wp' ),
 			],
 		]
 	);
@@ -172,7 +172,7 @@ function fields_setup() {
  */
 function get_default_settings( $key = '' ) {
 	$default = [
-		'environment'         => 'production',
+		'environment'         => 'prod',
 		'snowplow_api_key'    => '',
 		'snowplow_api_url'    => '',
 		'sophi_client_id'     => '',
