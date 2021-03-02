@@ -107,14 +107,17 @@ function init_tracker() {
  * @return array
  */
 function get_post_data( $post ) {
+	$content = apply_filters( 'the_content', get_the_content( null, false, $post ) );
+	$content = str_replace( ']]>', ']]&gt;', $content );
+
 	$data = [
 		'contentId'      => $post->ID,
 		'headline'       => get_the_title( $post ),
 		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
 		'accessCategory' => 'free access',
 		'datePublished'  => $post->post_date_gmt,
-		'plainText'      => strip_tags( $post->post_content ),
-		'contentSize'    => str_word_count( strip_tags( $post->post_content ) ),
+		'plainText'      => strip_tags( $content ),
+		'contentSize'    => str_word_count( strip_tags( $content ) ),
 		'sectionName'    => Utils\get_section_name( Utils\get_breadcrumbs( $post ) ),
 		// Optional fields
 		'dateModified'   => $post->post_modified_gmt,

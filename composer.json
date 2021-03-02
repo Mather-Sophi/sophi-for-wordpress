@@ -23,7 +23,7 @@
     "issues": "https://github.com/10up/sophi-for-wordpress/issues"
   },
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.4",
     "snowplow/snowplow-tracker": "^0.3.0"
   },
   "require-dev": {
