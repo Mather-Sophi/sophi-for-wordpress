@@ -94,7 +94,7 @@ function init_tracker() {
 	$home_url = parse_url( home_url() );
 	$app_id   = $home_url['host'] . '-cms';
 
-	$emitter = new SyncEmitter( $collector_url, 'https', 'post', 1, false );
+	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
 }
