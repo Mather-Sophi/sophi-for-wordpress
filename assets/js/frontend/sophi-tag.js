@@ -1,7 +1,8 @@
 /* eslint-disable */
 // Sophi Tag
 (function (f, g) {
-	const c = SOPHIDATA || {};
+	window.sophi = SOPHIDATA || {};
+    var c = window.sophi;
 	c.q = c.q || [];
 	c.sendEvent = function (a) {
 		c.q.push(a);
