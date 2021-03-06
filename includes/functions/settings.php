@@ -86,9 +86,9 @@ function fields_setup() {
 			'default'    => get_default_settings( 'environment' ),
 			'input_type' => 'select',
 			'options'    => [
-				'production'   => __( 'Production', 'sophi-wp' ),
-				'staging'      => __( 'Staging', 'sophi-wp' ),
-				'developmentj' => __( 'Development', 'sophi-wp' ),
+				'prod' => __( 'Production', 'sophi-wp' ),
+				'stg'  => __( 'Staging', 'sophi-wp' ),
+				'dev'  => __( 'Development', 'sophi-wp' ),
 			],
 		]
 	);
@@ -133,7 +133,7 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_client_id',
-		__( 'Snowplow Client ID', 'sophi-wp' ),
+		__( 'Sophi Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
 		'sophi_api',
@@ -144,7 +144,7 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_client_secret',
-		__( 'Snowplow Client Secret', 'sophi-wp' ),
+		__( 'Sophi Client Secret', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
 		'sophi_api',
@@ -155,7 +155,7 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_curator_url',
-		__( 'Snowplow Curator URL', 'sophi-wp' ),
+		__( 'Sophi Curator URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
 		'sophi_api',
@@ -172,9 +172,9 @@ function fields_setup() {
  */
 function get_default_settings( $key = '' ) {
 	$default = [
-		'environment'         => 'production',
+		'environment'         => 'prod',
 		'snowplow_api_key'    => '',
-		'snowplow_api_url'    => '',
+		'snowplow_api_url'    => 'https://collector.sophi.io',
 		'sophi_client_id'     => '',
 		'sophi_client_secret' => '',
 		'sophi_curator_url'   => '',
