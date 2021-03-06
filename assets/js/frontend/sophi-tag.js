@@ -1,9 +1,13 @@
 /* eslint-disable */
-// Sophi Tag
+// Sophi Data and Settings
+try {
+	window.sophi = SOPHIDATA;
+} catch (e) {}
+
 (function (f, g) {
-	window.sophi = SOPHIDATA || {};
+    window.sophi = window.sophi || {};
     var c = window.sophi;
-	c.q = c.q || [];
+    c.q = c.q || [];
 	c.sendEvent = function (a) {
 		c.q.push(a);
 	};

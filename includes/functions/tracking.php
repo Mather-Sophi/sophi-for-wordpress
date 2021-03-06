@@ -8,6 +8,9 @@
 namespace SophiWP\Tracking;
 
 use function SophiWP\Settings\get_sophi_settings;
+use function SophiWP\Utils\get_domain;
+use function SophiWP\Utils\get_section_name;
+use function SophiWP\Utils\get_breadcrumbs;
 
 /**
  * Default setup routine
@@ -161,51 +164,6 @@ function get_amp_tracking_data() {
 	];
 
 	return apply_filters( 'sophi_amp_tracking_data', $data );
-}
-
-/**
- * Get breadcrumbs from the post URL.
- *
- * @param WP_Post $post Post object.
- *
- * @return string Breadcrumbs.
- */
-function get_breadcrumbs( $post ) {
-	$permalink = get_permalink( $post );
-	$permalink = wp_parse_url( $permalink );
-	return $permalink['path'];
-}
-
-/**
- * Get section name from the post URL.
- * For example, example.com/news/politics, news would be the section name.
- * Not all content will have a section name.
- *
- * @param string $path URL path.
- *
- * @return string Section name.
- */
-function get_section_name( $path = '' ) {
-	$parts = explode( '/', $path );
-	$parts = array_filter( $parts );
-
-	if ( 2 !== count( $parts ) ) {
-		return '';
-	}
-
-	$section = array_slice( $parts, -2, 1 );
-
-	return reset( $section );
-}
-
-/**
- * Get site domain.
- *
- * return string
- */
-function get_domain() {
-	$urlparts = wp_parse_url( home_url() );
-	return $urlparts['host'];
 }
 
 /**
