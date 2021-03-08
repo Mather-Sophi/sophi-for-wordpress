@@ -31,6 +31,7 @@ if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
 require_once SOPHI_WP_INC . 'functions/utils.php';
 require_once SOPHI_WP_INC . 'functions/core.php';
 require_once SOPHI_WP_INC . 'functions/settings.php';
+require_once SOPHI_WP_INC . 'functions/tracking.php';
 require_once SOPHI_WP_INC . 'functions/content-sync.php';
 
 // Activation/Deactivation.
@@ -44,6 +45,7 @@ add_action(
 			// Bootstrap.
 			SophiWP\Core\setup();
 			SophiWP\Settings\setup();
+			SophiWP\Tracking\setup();
 		} else {
 			add_action(
 				'admin_notices',
