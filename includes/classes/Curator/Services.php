@@ -8,7 +8,7 @@ class Services {
 	public function register() {
 		$this->auth        = new Auth();
 		$this->request     = new Request( $this->auth );
-		$this->integration = new QueryIntegration();
+		$this->integration = new Integration( $this->request );
 	}
 
 	public function __get( $name ) {

@@ -8,6 +8,7 @@ class Auth {
 	private $auth_url = 'https://sophi-qa.auth0.com/oauth/token';
 
 	public function get_access_token() {
+		// todo: security concern for storing access token in database.
 		$access_token = get_transient( 'sophi_curator_access_token' );
 
 		if ( $access_token ) {
