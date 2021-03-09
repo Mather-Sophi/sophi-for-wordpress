@@ -62,3 +62,13 @@ function get_post_tags( $post ) {
 		$tags
 	);
 }
+
+/**
+ * Get site domain.
+ *
+ * return string
+ */
+function get_domain() {
+	$urlparts = wp_parse_url( home_url() );
+	return $urlparts['host'];
+}
