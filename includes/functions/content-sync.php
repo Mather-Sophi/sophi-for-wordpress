@@ -63,7 +63,7 @@ function track_event( $new_status, $old_status, $post ) {
 		return false;
 	}
 
-	$data = get_post_data( $post );
+	$data           = get_post_data( $post );
 	$data['action'] = $action;
 
 	$tracker->trackUnstructEvent(

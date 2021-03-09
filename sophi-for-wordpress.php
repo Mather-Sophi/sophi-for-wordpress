@@ -44,6 +44,8 @@ add_action(
 			// Bootstrap.
 			SophiWP\Core\setup();
 			SophiWP\Settings\setup();
+
+			( new SophiWP\Curator\Services() )->register();
 		} else {
 			add_action(
 				'admin_notices',

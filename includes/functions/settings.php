@@ -95,31 +95,20 @@ function fields_setup() {
 
 	// Add settings section
 	add_settings_section(
-		'snowplow_api',
-		__( 'Snowplow API settings', 'sophi-wp' ),
+		'collector_settings',
+		__( 'Collector settings', 'sophi-wp' ),
 		'',
 		'sophi'
 	);
 
 	add_settings_field(
-		'snowplow_api_key',
-		__( 'Snowplow API key', 'sophi-wp' ),
+		'collector_url',
+		__( 'Collector URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
-		'snowplow_api',
+		'collector_settings',
 		[
-			'label_for' => 'snowplow_api_key',
-		]
-	);
-
-	add_settings_field(
-		'snowplow_api_url',
-		__( 'Snowplow API URL', 'sophi-wp' ),
-		__NAMESPACE__ . '\render_input',
-		'sophi',
-		'snowplow_api',
-		[
-			'label_for' => 'snowplow_api_url',
+			'label_for' => 'collector_url',
 		]
 	);
 
@@ -173,8 +162,7 @@ function fields_setup() {
 function get_default_settings( $key = '' ) {
 	$default = [
 		'environment'         => 'prod',
-		'snowplow_api_key'    => '',
-		'snowplow_api_url'    => 'https://collector.sophi.io',
+		'collector_url'       => 'https://collector.sophi.io',
 		'sophi_client_id'     => '',
 		'sophi_client_secret' => '',
 		'sophi_curator_url'   => '',
