@@ -1,14 +1,31 @@
 <?php
+/**
+ * Request and manage access_token for API calls.
+ *
+ * @package SophiWP
+ */
 
 namespace SophiWP\Curator;
 
 use function SophiWP\Settings\get_sophi_settings;
 
+/**
+ * Class: Auth
+ */
 class Auth {
+	/**
+	 * API URL to get access_token.
+	 *
+	 * @var string $auth_url
+	 */
 	private $auth_url = 'https://sophi-qa.auth0.com/oauth/token';
 
+	/**
+	 * Get cached access_token.
+	 *
+	 * @return string
+	 */
 	public function get_access_token() {
-		// todo: security concern for storing access token in database.
 		$access_token = get_transient( 'sophi_curator_access_token' );
 
 		if ( $access_token ) {
@@ -18,6 +35,11 @@ class Auth {
 		return $this->request_access_token();
 	}
 
+	/**
+	 * Request a new access_token.
+	 *
+	 * @return string
+	 */
 	private function request_access_token() {
 		$request = wp_remote_post(
 			$this->auth_url,
@@ -32,7 +54,8 @@ class Auth {
 			]
 		);
 
-		if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
+		// todo: error handling for failed cases
+		if ( is_wp_error( $request ) || 200 !== wp_remote_retrieve_response_code( $request ) ) {
 			error_log( print_r( $request, true ) );
 			return false;
 		}

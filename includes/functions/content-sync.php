@@ -91,7 +91,7 @@ function init_tracker() {
 		return false;
 	}
 
-	$home_url = parse_url( home_url() );
+	$home_url = wp_parse_url( home_url() );
 	$app_id   = $home_url['host'] . '-cms';
 
 	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
@@ -116,8 +116,8 @@ function get_post_data( $post ) {
 		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
 		'accessCategory' => 'free access',
 		'datePublished'  => $post->post_date_gmt,
-		'plainText'      => strip_tags( $content ),
-		'contentSize'    => str_word_count( strip_tags( $content ) ),
+		'plainText'      => wp_strip_all_tags( $content ),
+		'contentSize'    => str_word_count( wp_strip_all_tags( $content ) ),
 		'sectionName'    => Utils\get_section_name( Utils\get_breadcrumbs( $post ) ),
 		// Optional fields
 		'dateModified'   => $post->post_modified_gmt,
