@@ -7,6 +7,8 @@
 
 namespace SophiWP\Settings;
 
+use function SophiWP\Utils\get_domain;
+
 /**
  * Default setup routine
  *
@@ -95,31 +97,42 @@ function fields_setup() {
 
 	// Add settings section
 	add_settings_section(
-		'snowplow_api',
-		__( 'Snowplow API settings', 'sophi-wp' ),
+		'collector_settings',
+		__( 'Collector settings', 'sophi-wp' ),
 		'',
 		'sophi'
 	);
 
 	add_settings_field(
-		'snowplow_api_key',
-		__( 'Snowplow API key', 'sophi-wp' ),
+		'collector_url',
+		__( 'Collector URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
-		'snowplow_api',
+		'collector_settings',
 		[
-			'label_for' => 'snowplow_api_key',
+			'label_for' => 'collector_url',
 		]
 	);
 
 	add_settings_field(
-		'snowplow_api_url',
-		__( 'Snowplow API URL', 'sophi-wp' ),
+		'website_app_id',
+		__( 'Website App ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		'sophi',
-		'snowplow_api',
+		'collector_settings',
 		[
-			'label_for' => 'snowplow_api_url',
+			'label_for' => 'website_app_id',
+		]
+	);
+
+	add_settings_field(
+		'cms_updates_app_id',
+		__( 'CMS Update App ID', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		'sophi',
+		'collector_settings',
+		[
+			'label_for' => 'cms_updates_app_id',
 		]
 	);
 
@@ -173,11 +186,12 @@ function fields_setup() {
 function get_default_settings( $key = '' ) {
 	$default = [
 		'environment'         => 'prod',
-		'snowplow_api_key'    => '',
-		'snowplow_api_url'    => 'https://collector.sophi.io',
+		'collector_url'       => 'https://collector.sophi.io',
 		'sophi_client_id'     => '',
 		'sophi_client_secret' => '',
 		'sophi_curator_url'   => '',
+		'website_app_id' => get_domain() . '-website',
+		'cms_updates_app_id' => get_domain() . '-cms',
 	];
 
 	if ( ! $key ) {
