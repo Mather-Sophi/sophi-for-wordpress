@@ -190,8 +190,8 @@ function get_default_settings( $key = '' ) {
 		'sophi_client_id'     => '',
 		'sophi_client_secret' => '',
 		'sophi_curator_url'   => '',
-		'website_app_id' => get_domain() . '-website',
-		'cms_updates_app_id' => get_domain() . '-cms',
+		'website_app_id'      => get_domain() . '-website',
+		'cms_updates_app_id'  => get_domain() . '-cms',
 	];
 
 	if ( ! $key ) {
