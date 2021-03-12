@@ -63,7 +63,7 @@ function track_event( $new_status, $old_status, $post ) {
 		return false;
 	}
 
-	$data = get_post_data( $post );
+	$data           = get_post_data( $post );
 	$data['action'] = $action;
 
 	$tracker->trackUnstructEvent(
@@ -86,13 +86,13 @@ function track_event( $new_status, $old_status, $post ) {
  * @return Tracker
  */
 function init_tracker() {
-	$collector_url = get_sophi_settings( 'snowplow_api_url' );
+	$collector_url = get_sophi_settings( 'collector_url' );
 	if ( ! $collector_url ) {
 		return false;
 	}
 
 	$home_url = parse_url( home_url() );
-	$app_id   = $home_url['host'] . '-cms';
+	$app_id   = get_sophi_settings( 'cms_updates_app_id' );
 
 	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
 	$subject = new Subject();
