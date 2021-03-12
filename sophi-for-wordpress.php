@@ -45,6 +45,7 @@ add_action(
 			// Bootstrap.
 			SophiWP\Core\setup();
 			SophiWP\Settings\setup();
+			SophiWP\ContentSync\setup();
 			SophiWP\Tracking\setup();
 		} else {
 			add_action(

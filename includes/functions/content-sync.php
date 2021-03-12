@@ -25,7 +25,7 @@ function setup() {
 		return __NAMESPACE__ . "\\$function";
 	};
 
-	add_action( 'transition_post_status', $n( '\track_event' ), 10, 3 );
+	add_action( 'transition_post_status', $n( 'track_event' ), 10, 3 );
 }
 
 /**
