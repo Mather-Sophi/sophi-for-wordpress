@@ -82,7 +82,7 @@ function get_tracking_data() {
 		],
 		'settings' => [
 			'client'        => get_domain(),
-			'appId'         => get_domain(),
+			'appId'         => get_sophi_settings( 'website_app_id' ),
 			'linkedDomains' => [ get_domain() ],
 			'plugin'        => [
 				'adblock' => false,
