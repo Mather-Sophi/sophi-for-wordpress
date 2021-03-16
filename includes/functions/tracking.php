@@ -81,10 +81,11 @@ function get_tracking_data() {
 			],
 		],
 		'settings' => [
-			'client'        => get_domain(),
-			'appId'         => get_sophi_settings( 'website_app_id' ),
-			'linkedDomains' => [ get_domain() ],
-			'plugin'        => [
+			'client'            => get_domain(),
+			'appId'             => get_sophi_settings( 'website_app_id' ),
+			'collectorEndpoint' => get_sophi_settings( 'collector_url' ),
+			'linkedDomains'     => [ get_domain() ],
+			'plugin'            => [
 				'adblock' => false,
 				'private' => false,
 				'video'   => false,
