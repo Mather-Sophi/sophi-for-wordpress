@@ -1,6 +1,6 @@
 <?php
 /**
- * Content sync 
+ * Content sync
  *
  * @package SophiWP
  */
