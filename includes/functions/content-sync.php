@@ -118,7 +118,7 @@ function get_post_data( $post ) {
 		'datePublished'  => $post->post_date_gmt,
 		'plainText'      => strip_tags( $content ),
 		'contentSize'    => str_word_count( strip_tags( $content ) ),
-		'sectionName'    => Utils\get_section_name( Utils\get_breadcrumbs( $post ) ),
+		'sectionName'    => Utils\get_section_name( Utils\get_breadcrumb( $post ) ),
 		// Optional fields
 		'dateModified'   => $post->post_modified_gmt,
 		'tags'           => Utils\get_post_tags( $post ),

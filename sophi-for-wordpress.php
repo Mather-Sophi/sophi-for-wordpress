@@ -33,6 +33,7 @@ require_once SOPHI_WP_INC . 'functions/core.php';
 require_once SOPHI_WP_INC . 'functions/settings.php';
 require_once SOPHI_WP_INC . 'functions/tracking.php';
 require_once SOPHI_WP_INC . 'functions/content-sync.php';
+require_once SOPHI_WP_INC . 'functions/blocks.php';
 
 // Activation/Deactivation.
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
@@ -47,6 +48,7 @@ add_action(
 			SophiWP\Settings\setup();
 			SophiWP\ContentSync\setup();
 			SophiWP\Tracking\setup();
+			SophiWP\Blocks\setup();
 		} else {
 			add_action(
 				'admin_notices',

@@ -1,0 +1,18 @@
+{
+	"title": "Curator Block",
+	"text-domain": "sophi-wp",
+	"name": "sophi/curator-block",
+  "icon": "feedback",
+  "category": "sophi-blocks",
+	"attributes":{
+		"customTitle": {
+			"type" : "string"
+		}
+  },
+  "example": {
+    "attributes":{
+      "customTitle": "Curator Block"
+    }
+  },
+	"editorScript": "file:../../../dist/blocks/curator-block/editor.js"
+}

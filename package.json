@@ -32,7 +32,9 @@
     "lint-style": "10up-scripts lint-style",
     "test": "10up-scripts test-unit-jest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "prop-types": "^15.7.2"
+  },
   "devDependencies": {
     "@10up/scripts": "^1.3.1"
   },
@@ -57,7 +59,8 @@
   },
   "@10up/scripts": {
     "entry": {
-      "sophi-tag": "./assets/js/frontend/sophi-tag.js"
+      "sophi-tag": "./assets/js/frontend/sophi-tag.js",
+      "curator-block": "./includes/blocks/curator-block/index.js"
     }
   }
 }
