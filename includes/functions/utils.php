@@ -136,13 +136,7 @@ function get_section_name( $path = '' ) {
 		return '';
 	}
 
-	if ( 1 === count( $parts ) ) {
-		return $parts[0];
-	}
-
-	$section = array_slice( $parts, -2, 1 );
-
-	return reset( $section );
+	return $parts[0];
 }
 
 /**
