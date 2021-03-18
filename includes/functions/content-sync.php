@@ -111,7 +111,7 @@ function get_post_data( $post ) {
 	$content = str_replace( ']]>', ']]&gt;', $content );
 
 	$data = [
-		'contentId'      => $post->ID,
+		'contentId'      => strval( $post->ID ),
 		'headline'       => get_the_title( $post ),
 		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
 		'accessCategory' => 'free access',
