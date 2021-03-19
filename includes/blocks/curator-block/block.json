@@ -7,12 +7,28 @@
 	"attributes":{
 		"customTitle": {
 			"type" : "string"
+		},
+		"pageName": {
+			"type" : "string"
+		},
+		"widgetName": {
+			"type" : "string"
+		},
+		"displayPostExcept": {
+			"type" : "boolean"
+		},
+		"displayAuthor": {
+			"type" : "boolean"
+		},
+		"displayPostDate": {
+			"type" : "boolean"
+		},
+		"displayFeaturedImage": {
+			"type" : "boolean"
+		},
+		"addLinkToFeaturedImage": {
+			"type" : "boolean"
 		}
-  },
-  "example": {
-    "attributes":{
-      "customTitle": "Curator Block"
-    }
   },
 	"editorScript": "file:../../../dist/blocks/curator-block/editor.js"
 }
