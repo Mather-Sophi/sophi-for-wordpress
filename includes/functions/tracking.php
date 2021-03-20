@@ -74,10 +74,12 @@ function amp_tracking( $analytics_entries ) {
 function get_tracking_data() {
 	global $wp, $post;
 
+	$env = get_sophi_settings( 'environment' );
+
 	$data = [
 		'data'     => [
 			'environment' => [
-				'environment' => get_sophi_settings( 'environment' ),
+				'environment' => $env,
 				'version'     => get_bloginfo( 'version' ),
 			],
 			'page'        => [
@@ -115,6 +117,15 @@ function get_tracking_data() {
 	if ( is_front_page() ) {
 		$data['data']['page']['breadcrumb']  = 'homepage';
 		$data['data']['page']['sectionName'] = 'homepage';
+		$data['data']['page']['type']        = 'section';
+	}
+
+	if ( 'prod' === $env ) {
+		$data['settings']['productionEndpoint'] = get_sophi_settings( 'collector_url' );
+	}
+
+	if ( 'stg' === $env ) {
+		$data['settings']['stagingEndpoint'] = get_sophi_settings( 'collector_url' );
 	}
 
 	return apply_filters( 'sophi_tracking_data', $data );
@@ -242,6 +253,6 @@ function get_custom_contexts() {
 function page_need_tracking() {
 	return apply_filters(
 		'sophi_page_need_tracking',
-		is_archive() || is_singular() || is_front_page() || is_home()
+		is_tax() || is_tag() || is_category() || is_singular() || is_front_page() || is_home()
 	);
 }

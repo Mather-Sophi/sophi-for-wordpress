@@ -15,19 +15,103 @@ namespace SophiWP\Utils;
 function get_breadcrumb() {
 	global $wp;
 
-	if ( is_singular() ) {
-		$permalink = get_permalink();
-		$permalink = wp_parse_url( $permalink );
-		$parts     = explode( '/', $permalink['path'] );
-		$parts     = array_filter( $parts );
-		array_pop( $parts );
-		return implode( ':', $parts );
+	if ( is_front_page() ) {
+		return 'homepage';
 	}
 
-	$path = $wp->request;
-	$path = untrailingslashit( $path );
-	$path = rtrim( $path, '/\\' );
-	return str_replace( '/', ':', $path );
+	if ( is_singular() ) {
+		$post = get_post();
+
+		// If current post is hierarchical, we use page ancestors for breadcrumb.
+		if ( is_post_type_hierarchical( $post->post_type ) ) {
+			$ancestors = array_map(
+				function( $parent ) {
+					$post_object = get_post( $parent );
+					return $post_object->post_name;
+				},
+				get_post_ancestors( $post )
+			);
+
+			if ( count( $ancestors ) > 0 ) {
+				return implode(
+					':',
+					array_reverse( $ancestors )
+				);
+			}
+		}
+
+		// If the current post isn't hierarchical, we use taxonomy.
+		$taxonomies = array_filter(
+			get_object_taxonomies( $post ),
+			'is_taxonomy_hierarchical'
+		);
+
+		if ( count( $taxonomies ) > 0 ) {
+			$terms = get_the_terms( $post, $taxonomies[0] );
+
+			if ( count( $terms ) > 0 ) {
+				return get_term_breadcrumb( $terms[0] );
+			}
+		} else { // Just return the current term if it's not hierarchical.
+			$non_hierarchial_taxonomies = array_filter(
+				get_object_taxonomies( $post ),
+				function( $taxonomy ) {
+					return ! is_taxonomy_hierarchical( $taxonomy );
+				}
+			);
+			if ( count( $non_hierarchial_taxonomies ) > 0 ) {
+				$terms = get_the_terms( $post, $non_hierarchial_taxonomies[0] );
+
+				if ( count( $terms ) > 0 ) {
+					return $terms[0]->slug;
+				}
+			}
+		}
+
+		// Use post type archive as the fallback.
+		$post_type_obj = get_post_type_object( $post->post_type );
+
+		if ( ! $post_type_obj->has_archive ) {
+			return '';
+		}
+
+		if ( get_option( 'permalink_structure' ) && is_array( $post_type_obj->rewrite ) ) {
+			return $post_type_obj->rewrite['slug'];
+		}
+
+		return $post_type_obj->post_type;
+	}
+
+	if ( is_tax() || is_tag() || is_category() ) {
+		$current_term = get_queried_object();
+		return get_term_breadcrumb( $current_term );
+	}
+
+	return '';
+}
+
+/**
+ * Get breadcrumb string for a single term.
+ *
+ * @param WP_Term $term Term object.
+ *
+ * @return string
+ */
+function get_term_breadcrumb( $term ) {
+	$term_ancestors = array_map(
+		function( $item ) use ( $term ) {
+			$term_object = get_term( $item, $term->taxonomy );
+			return $term_object->slug;
+		},
+		get_ancestors( $term->term_id, $term->taxonomy, 'taxonomy' )
+	);
+
+	$terms = array_merge( [ $term->slug ], $term_ancestors );
+
+	return implode(
+		':',
+		array_reverse( $terms )
+	);
 }
 
 /**
@@ -48,13 +132,11 @@ function get_section_name( $path = '' ) {
 	$parts = explode( ':', $path );
 	$parts = array_filter( $parts );
 
-	if ( 2 !== count( $parts ) ) {
+	if ( 0 === count( $parts ) ) {
 		return '';
 	}
 
-	$section = array_slice( $parts, -2, 1 );
-
-	return reset( $section );
+	return $parts[0];
 }
 
 /**
