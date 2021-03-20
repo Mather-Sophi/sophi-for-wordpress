@@ -91,9 +91,7 @@ function init_tracker() {
 		return false;
 	}
 
-	$home_url = parse_url( home_url() );
-	$app_id   = get_sophi_settings( 'cms_updates_app_id' );
-
+	$app_id  = get_sophi_settings( 'cms_updates_app_id' );
 	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
@@ -115,12 +113,12 @@ function get_post_data( $post ) {
 		'headline'       => get_the_title( $post ),
 		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
 		'accessCategory' => 'free access',
-		'datePublished'  => $post->post_date_gmt,
-		'plainText'      => strip_tags( $content ),
-		'contentSize'    => str_word_count( strip_tags( $content ) ),
+		'datePublished'  => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
+		'plainText'      => wp_strip_all_tags( $content ),
+		'contentSize'    => str_word_count( wp_strip_all_tags( $content ) ),
 		'sectionName'    => Utils\get_section_name( Utils\get_breadcrumb( $post ) ),
 		// Optional fields
-		'dateModified'   => $post->post_modified_gmt,
+		'dateModified'   => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'           => Utils\get_post_tags( $post ),
 		'canonicalURL'   => wp_get_canonical_url( $post ),
 	];
