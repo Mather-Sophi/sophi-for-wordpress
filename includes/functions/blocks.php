@@ -7,6 +7,8 @@
 
 namespace SophiWP\Blocks;
 
+use function SophiWP\Core\get_supported_post_types;
+
 /**
  * Set up blocks
  *
@@ -16,6 +18,8 @@ function setup() {
 	$n = function( $function ) {
 		return __NAMESPACE__ . "\\$function";
 	};
+
+	add_filter( 'block_categories', $n( 'blocks_categories' ), 10, 2 );
 
 	register_blocks();
 }
@@ -32,4 +36,28 @@ function register_blocks() {
 
 	// Call block register functions for each block.
 	CuratorBlock\register();
+}
+
+/**
+ * Filters the registered block categories.
+ *
+ * @param array  $categories Registered categories.
+ * @param object $post       The post object.
+ *
+ * @return array Filtered categories.
+ */
+function blocks_categories( $categories, $post ) {
+	if ( ! in_array( $post->post_type, get_supported_post_types(), true ) ) {
+		return $categories;
+	}
+
+	return array_merge(
+		$categories,
+		array(
+			array(
+				'slug'  => 'sophi-blocks',
+				'title' => __( 'Sophi Blocks', 'sophi-wp' ),
+			),
+		)
+	);
 }

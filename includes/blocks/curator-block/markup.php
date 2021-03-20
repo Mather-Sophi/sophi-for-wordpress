@@ -19,14 +19,16 @@
 		<li class="curated-item">
 			<?php if ( ! empty( $attributes['displayFeaturedImage'] ) && has_post_thumbnail( $curated_post ) ) : ?>
 				<?php if ( ! empty( $attributes['addLinkToFeaturedImage'] ) ) : ?>
-					<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+					<a href="<?php echo esc_url( get_permalink( $curated_post ) ); ?>" title="<?php echo esc_attr( get_the_title( $curated_post ) ); ?>">
 						<?php echo get_the_post_thumbnail( $curated_post ); ?>
 					</a>
 				<?php else : ?>
 					<?php echo get_the_post_thumbnail( $curated_post ); ?>
 				<?php endif; ?>
 			<?php endif; ?>
-			<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
+			<a href="<?php echo esc_url( get_permalink( $curated_post ) ); ?>" title="<?php echo esc_attr( get_the_title( $curated_post ) ); ?>">
+				<?php echo esc_html( get_the_title( $curated_post ) ); ?>
+			</a>
 			<?php if ( ! empty( $attributes['displayAuthor'] ) ) : ?>
 				<?php
 				$author_display_name = get_the_author_meta( 'display_name', $curated_post->post_author );

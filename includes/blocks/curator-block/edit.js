@@ -4,6 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl, Placeholder } from '@wordpress/components';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies
@@ -99,7 +100,21 @@ const CuratorBlockEdit = ({
 					</p>
 				</Placeholder>
 			)}
-			{pageName && widgetName && <div className="post-list">Post list goes here.</div>}
+			{/* todo: use React and REST API instead of ServerSideRender */}
+			{pageName && widgetName && (
+				<ServerSideRender
+					block="sophi/curator-block"
+					attributes={{
+						pageName,
+						widgetName,
+						displayPostExcept,
+						displayAuthor,
+						displayPostDate,
+						displayFeaturedImage,
+						addLinkToFeaturedImage,
+					}}
+				/>
+			)}
 		</div>
 	);
 };
