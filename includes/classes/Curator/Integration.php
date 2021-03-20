@@ -7,6 +7,8 @@
 
 namespace SophiWP\Curator;
 
+use function SophiWP\Settings\get_sophi_settings;
+
 /**
  * Class: Integration.
  */
@@ -37,6 +39,12 @@ class Integration {
 	 * @param \WP_Query  $query  The WP_Query instance (passed by reference).
 	 */
 	public function get_curated_posts( $posts, $query ) {
+		$query_integration = get_sophi_settings( 'query_integration' );
+
+		if ( 1 !== intval( $query_integration ) ) {
+			return $posts;
+		}
+
 		$query_vars = $query->query_vars;
 
 		if ( empty( $query_vars['sophi_curated_page'] ) || empty( $query_vars['sophi_curated_widget'] ) ) {

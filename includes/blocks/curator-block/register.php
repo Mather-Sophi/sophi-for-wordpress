@@ -41,7 +41,6 @@ function render_block_callback( $attributes, $content, $block ) {
 		[
 			'sophi_curated_page'   => $attributes['pageName'],
 			'sophi_curated_widget' => $attributes['widgetName'],
-			'posts_per_page'       => 10,
 		]
 	);
 

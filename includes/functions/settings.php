@@ -176,6 +176,19 @@ function fields_setup() {
 			'label_for' => 'sophi_curator_url',
 		]
 	);
+
+	add_settings_field(
+		'query_integration',
+		__( 'Query Integration', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		'sophi',
+		'sophi_api',
+		[
+			'label_for'   => 'query_integration',
+			'input_type'  => 'checkbox',
+			'description' => __( 'Replace WP Query result with curated data from Sophi.', 'sophi-wp' ),
+		]
+	);
 }
 
 /**
@@ -192,6 +205,7 @@ function get_default_settings( $key = '' ) {
 		'sophi_curator_url'   => '',
 		'website_app_id'      => get_domain() . '-website',
 		'cms_updates_app_id'  => get_domain() . '-cms',
+		'query_integration'   => 1,
 	];
 
 	if ( ! $key ) {
@@ -211,6 +225,9 @@ function get_default_settings( $key = '' ) {
  * @param array $settings Raw settings.
  */
 function sanitize_settings( $settings ) {
+	if ( empty( $settings['query_integration'] ) ) {
+		$settings['query_integration'] = 0;
+	}
 	return $settings;
 }
 
@@ -269,7 +286,11 @@ function render_input( $args ) {
 		<?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
 	<?php
 	if ( ! empty( $args['description'] ) ) {
-		echo '<br /><span class="description">' . wp_kses_post( $args['description'] ) . '</span>';
+		if ( 'checkbox' === $type ) {
+			echo '<span class="description">' . wp_kses_post( $args['description'] ) . '</span>';
+		} else {
+			echo '<br /><span class="description">' . wp_kses_post( $args['description'] ) . '</span>';
+		}
 	}
 }
 
