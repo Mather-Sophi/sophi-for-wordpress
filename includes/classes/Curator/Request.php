@@ -74,7 +74,7 @@ class Request {
 		$this->status = $this->get_status();
 		$curator_data = get_option( "sophi_curator_data_{$page}_{$section}" );
 
-		if ( $this->status['success'] && $curator_data ) {
+		if ( ! empty( $this->status['success'] ) && $curator_data ) {
 			return $curator_data;
 		}
 
