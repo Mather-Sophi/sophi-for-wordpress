@@ -33,7 +33,31 @@ function register() {
  * @return string The rendered block markup.
  */
 function render_block_callback( $attributes, $content, $block ) {
+	if ( empty( $attributes['pageName'] ) || empty( $attributes['widgetName'] ) ) {
+		return '';
+	}
+
+	$curated_posts = get_posts(
+		[
+			'sophi_curated_page'   => $attributes['pageName'],
+			'sophi_curated_widget' => $attributes['widgetName'],
+			'posts_per_page'       => 10,
+		]
+	);
+
+	if ( empty( $curated_posts ) ) {
+		return '';
+	}
+
 	ob_start();
 	include __DIR__ . '/markup.php';
-	return ob_get_clean();
+
+	return apply_filters(
+		'sophi_curator_block_output',
+		ob_get_clean(),
+		$curated_posts,
+		$attributes,
+		$content,
+		$block
+	);
 }
