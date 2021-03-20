@@ -10,7 +10,8 @@ namespace SophiWP\Tracking;
 use function SophiWP\Settings\get_sophi_settings;
 use function SophiWP\Utils\get_domain;
 use function SophiWP\Utils\get_section_name;
-use function SophiWP\Utils\get_breadcrumbs;
+use function SophiWP\Utils\get_breadcrumb;
+use function SophiWP\Core\script_url;
 
 /**
  * Default setup routine
@@ -30,11 +31,18 @@ function setup() {
  * Enqueue tracking scripts.
  */
 function enqueue_scripts() {
-	if ( ! is_archive() && ! is_singular() ) {
+	if ( ! page_need_tracking() ) {
 		return;
 	}
 
-	wp_enqueue_script( 'sophi-tag', SOPHI_WP_URL . '/dist/js/sophi-tag.js', [], SOPHI_WP_VERSION, true );
+	wp_enqueue_script(
+		'sophi-tag',
+		script_url( 'sophi-tag', 'frontend' ),
+		[],
+		SOPHI_WP_VERSION,
+		true
+	);
+
 	wp_localize_script(
 		'sophi-tag',
 		'SOPHIDATA',
@@ -50,7 +58,7 @@ function enqueue_scripts() {
  * return array
  */
 function amp_tracking( $analytics_entries ) {
-	if ( is_archive() || is_singular() ) {
+	if ( page_need_tracking() ) {
 		$analytics_entries[] = [
 			'type'   => 'snowplow_v2',
 			'config' => wp_json_encode( get_amp_tracking_data() ),
@@ -73,18 +81,19 @@ function get_tracking_data() {
 				'version'     => get_bloginfo( 'version' ),
 			],
 			'page'        => [
-				'type'       => 'article',
-				'breadcrumb' => is_singular() ? get_breadcrumbs( $post ) : $wp->request,
+				'type'       => is_singular() ? 'article' : 'section',
+				'breadcrumb' => get_breadcrumb(),
 			],
 			'content'     => [
 				'type' => 'article',
 			],
 		],
 		'settings' => [
-			'client'        => get_domain(),
-			'appId'         => get_domain(),
-			'linkedDomains' => [ get_domain() ],
-			'plugin'        => [
+			'client'            => get_domain(),
+			'appId'             => get_sophi_settings( 'website_app_id' ),
+			'collectorEndpoint' => get_sophi_settings( 'collector_url' ),
+			'linkedDomains'     => [ get_domain() ],
+			'plugin'            => [
 				'adblock' => false,
 				'private' => false,
 				'video'   => false,
@@ -93,14 +102,19 @@ function get_tracking_data() {
 
 	];
 
-	$section = is_singular() ? get_section_name( get_breadcrumbs( $post ) ) : get_section_name( $wp->request );
+	$section = get_section_name();
 
 	if ( $section ) {
 		$data['data']['page']['sectionName'] = $section;
 	}
 
 	if ( is_singular() ) {
-		$data['data']['content']['contentId'] = $post->ID;
+		$data['data']['content']['contentId'] = strval( $post->ID );
+	}
+
+	if ( is_front_page() ) {
+		$data['data']['page']['breadcrumb']  = 'homepage';
+		$data['data']['page']['sectionName'] = 'homepage';
 	}
 
 	return apply_filters( 'sophi_tracking_data', $data );
@@ -170,12 +184,12 @@ function get_amp_tracking_data() {
  * Get custom context for AMP tracking.
  */
 function get_custom_contexts() {
-	global $wp, $post;
+	global $post;
 
-	$section      = is_singular() ? get_section_name( get_breadcrumbs( $post ) ) : get_section_name( $wp->request );
+	$section      = get_section_name();
 	$page_data    = [
 		'type'       => 'article',
-		'breadcrumb' => is_singular() ? get_breadcrumbs( $post ) : $wp->request,
+		'breadcrumb' => get_breadcrumb(),
 	];
 	$content_data = [ 'type' => 'article' ];
 
@@ -218,4 +232,16 @@ function get_custom_contexts() {
 			[ 'iglu:com.globeandmail/environment/jsonschema/1-0-9', 'iglu:com.globeandmail/page/jsonschema/1-0-10', 'iglu:com.globeandmail/content/jsonschema/1-0-12' ],
 			$context
 		);
+}
+
+/**
+ * Check if current page needs tracking.
+ *
+ * @return bool
+ */
+function page_need_tracking() {
+	return apply_filters(
+		'sophi_page_need_tracking',
+		is_archive() || is_singular() || is_front_page() || is_home()
+	);
 }

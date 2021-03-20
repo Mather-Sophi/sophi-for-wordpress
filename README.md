@@ -2,7 +2,7 @@
 
 > WordPress VIP-compatible plugin for the Sophi.io Curator service.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level)![![Release Version](https://img.shields.io/github/release/10up/sophi-for-wordpress.svg)](https://github.com/10up/sophi-for-wordpress/releases/latest) [WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.6%20tested-success.svg) [![GPL-2.0-or-later License](https://img.shields.io/github/license/10up/sophi-for-wordpress.svg)](https://github.com/10up/sophi-for-wordpress/blob/trunk/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/release/10up/sophi-for-wordpress.svg)](https://github.com/10up/sophi-for-wordpress/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.6%20tested-success.svg) [![GPL-2.0-or-later License](https://img.shields.io/github/license/10up/sophi-for-wordpress.svg)](https://github.com/10up/sophi-for-wordpress/blob/trunk/LICENSE.md)
 
 ## Developers
 

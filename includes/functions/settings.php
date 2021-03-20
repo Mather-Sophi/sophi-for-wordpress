@@ -7,6 +7,8 @@
 
 namespace SophiWP\Settings;
 
+use function SophiWP\Utils\get_domain;
+
 /**
  * Default setup routine
  *
@@ -112,6 +114,28 @@ function fields_setup() {
 		]
 	);
 
+	add_settings_field(
+		'website_app_id',
+		__( 'Website App ID', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		'sophi',
+		'collector_settings',
+		[
+			'label_for' => 'website_app_id',
+		]
+	);
+
+	add_settings_field(
+		'cms_updates_app_id',
+		__( 'CMS Update App ID', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		'sophi',
+		'collector_settings',
+		[
+			'label_for' => 'cms_updates_app_id',
+		]
+	);
+
 	// Add settings section
 	add_settings_section(
 		'sophi_api',
@@ -166,6 +190,8 @@ function get_default_settings( $key = '' ) {
 		'sophi_client_id'     => '',
 		'sophi_client_secret' => '',
 		'sophi_curator_url'   => '',
+		'website_app_id'      => get_domain() . '-website',
+		'cms_updates_app_id'  => get_domain() . '-cms',
 	];
 
 	if ( ! $key ) {

@@ -21,13 +21,7 @@ function setup() {
 
 	add_action( 'init', $n( 'i18n' ) );
 	add_action( 'init', $n( 'init' ) );
-	add_action( 'wp_enqueue_scripts', $n( 'scripts' ) );
-	add_action( 'wp_enqueue_scripts', $n( 'styles' ) );
-	add_action( 'admin_enqueue_scripts', $n( 'admin_scripts' ) );
-	add_action( 'admin_enqueue_scripts', $n( 'admin_styles' ) );
 
-	// Editor styles. add_editor_style() doesn't work outside of a theme.
-	add_filter( 'mce_css', $n( 'mce_css' ) );
 	// Hook to allow async or defer on asset loading.
 	add_filter( 'script_loader_tag', $n( 'script_loader_tag' ), 10, 2 );
 
@@ -120,127 +114,6 @@ function style_url( $stylesheet, $context ) {
 
 	return SOPHI_WP_URL . "dist/css/${stylesheet}.css";
 
-}
-
-/**
- * Enqueue scripts for front-end.
- *
- * @return void
- */
-function scripts() {
-
-	wp_enqueue_script(
-		'sophi_wp_shared',
-		script_url( 'shared', 'shared' ),
-		[],
-		SOPHI_WP_VERSION,
-		true
-	);
-
-	wp_enqueue_script(
-		'sophi_wp_frontend',
-		script_url( 'frontend', 'frontend' ),
-		[],
-		SOPHI_WP_VERSION,
-		true
-	);
-
-}
-
-/**
- * Enqueue scripts for admin.
- *
- * @return void
- */
-function admin_scripts() {
-
-	wp_enqueue_script(
-		'sophi_wp_shared',
-		script_url( 'shared', 'shared' ),
-		[],
-		SOPHI_WP_VERSION,
-		true
-	);
-
-	wp_enqueue_script(
-		'sophi_wp_admin',
-		script_url( 'admin', 'admin' ),
-		[],
-		SOPHI_WP_VERSION,
-		true
-	);
-
-}
-
-/**
- * Enqueue styles for front-end.
- *
- * @return void
- */
-function styles() {
-
-	wp_enqueue_style(
-		'sophi_wp_shared',
-		style_url( 'shared-style', 'shared' ),
-		[],
-		SOPHI_WP_VERSION
-	);
-
-	if ( is_admin() ) {
-		wp_enqueue_style(
-			'sophi_wp_admin',
-			style_url( 'admin-style', 'admin' ),
-			[],
-			SOPHI_WP_VERSION
-		);
-	} else {
-		wp_enqueue_style(
-			'sophi_wp_frontend',
-			style_url( 'style', 'frontend' ),
-			[],
-			SOPHI_WP_VERSION
-		);
-	}
-
-}
-
-/**
- * Enqueue styles for admin.
- *
- * @return void
- */
-function admin_styles() {
-
-	wp_enqueue_style(
-		'sophi_wp_shared',
-		style_url( 'shared-style', 'shared' ),
-		[],
-		SOPHI_WP_VERSION
-	);
-
-	wp_enqueue_style(
-		'sophi_wp_admin',
-		style_url( 'admin-style', 'admin' ),
-		[],
-		SOPHI_WP_VERSION
-	);
-
-}
-
-/**
- * Enqueue editor styles. Filters the comma-delimited list of stylesheets to load in TinyMCE.
- *
- * @param string $stylesheets Comma-delimited list of stylesheets.
- * @return string
- */
-function mce_css( $stylesheets ) {
-	if ( ! empty( $stylesheets ) ) {
-		$stylesheets .= ',';
-	}
-
-	return $stylesheets . SOPHI_WP_URL . ( ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ?
-			'assets/css/frontend/editor-style.css' :
-			'dist/css/editor-style.min.css' );
 }
 
 /**

@@ -10,14 +10,24 @@ namespace SophiWP\Utils;
 /**
  * Get breadcrumbs from the post URL.
  *
- * @param WP_Post $post Post object.
- *
  * @return string Breadcrumbs.
  */
-function get_breadcrumbs( $post ) {
-	$permalink = get_permalink( $post );
-	$permalink = wp_parse_url( $permalink );
-	return $permalink['path'];
+function get_breadcrumb() {
+	global $wp;
+
+	if ( is_singular() ) {
+		$permalink = get_permalink();
+		$permalink = wp_parse_url( $permalink );
+		$parts     = explode( '/', $permalink['path'] );
+		$parts     = array_filter( $parts );
+		array_pop( $parts );
+		return implode( ':', $parts );
+	}
+
+	$path = $wp->request;
+	$path = untrailingslashit( $path );
+	$path = rtrim( $path, '/\\' );
+	return str_replace( '/', ':', $path );
 }
 
 /**
@@ -30,7 +40,12 @@ function get_breadcrumbs( $post ) {
  * @return string Section name.
  */
 function get_section_name( $path = '' ) {
-	$parts = explode( '/', $path );
+	if ( ! $path ) {
+		$path = get_breadcrumb();
+	}
+
+	$path  = str_replace( '/', ':', $path );
+	$parts = explode( ':', $path );
 	$parts = array_filter( $parts );
 
 	if ( 2 !== count( $parts ) ) {
