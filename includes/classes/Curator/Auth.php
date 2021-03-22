@@ -45,7 +45,7 @@ class Auth {
 			$this->auth_url,
 			[
 				'headers' => [ 'Content-Type' => 'application/json' ],
-				'bopy'    => [
+				'body'    => [
 					'client_id'     => get_sophi_settings( 'sophi_client_id' ),
 					'client_secret' => get_sophi_settings( 'sophi_client_secret' ),
 					'audience'      => 'https://curator.sophi.works.qa/',
