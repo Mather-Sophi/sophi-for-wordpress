@@ -40,7 +40,7 @@ function track_event( $new_status, $old_status, $post ) {
 	$action  = '';
 
 	if ( ! in_array( $post->post_type, get_supported_post_types(), true ) ) {
-		return;
+		return false;
 	}
 
 	if ( ! $tracker ) {

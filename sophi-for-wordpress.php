@@ -47,6 +47,14 @@ add_action(
 			SophiWP\Settings\setup();
 			SophiWP\ContentSync\setup();
 			SophiWP\Tracking\setup();
+
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				try {
+					\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
+				} catch ( \Exception $e ) {
+					error_log( $e->getMessage() );
+				}
+			}
 		} else {
 			add_action(
 				'admin_notices',
