@@ -43,12 +43,13 @@ class Command extends \WPCOM_VIP_CLI_Command {
 	public function sync( $args, $assoc_args ) {
 		$this->start_bulk_operation();
 
-		$per_page   = 50;
-		$limit      = 0;
-		$paged      = 1;
-		$count      = 0;
-		$dry_run    = true;
-		$post_types = get_supported_post_types();
+		$per_page    = 50;
+		$limit       = 0;
+		$paged       = 1;
+		$count       = 0;
+		$error_count = 0;
+		$dry_run     = true;
+		$post_types  = get_supported_post_types();
 
 		if ( ! empty( $assoc_args['limit'] ) ) {
 			$_limit = intval( $assoc_args['limit'] );
@@ -114,9 +115,15 @@ class Command extends \WPCOM_VIP_CLI_Command {
 			foreach ( $posts as $post ) {
 				if ( 0 === $limit || $count < $limit ) {
 					if ( ! $dry_run ) {
-						track_event( 'publish', 'publish', $post );
+						$response = track_event( 'publish', 'publish', $post );
+						if ( is_wp_error( $response ) ) {
+							$error_count++;
+						} else {
+							$count++;
+						}
+					} else {
+						$count++;
 					}
-					$count++;
 				}
 			}
 
@@ -134,6 +141,9 @@ class Command extends \WPCOM_VIP_CLI_Command {
 
 		if ( false === $dry_run ) {
 			WP_CLI::success( sprintf( '%d posts have successfully been synced to Sophi Collector.', $count ) );
+			if ( $error_count ) {
+				WP_CLI::warning( sprintf( '%d posts have issues.', $count ) );
+			}
 		} else {
 			WP_CLI::success( sprintf( '%d posts will be synced to Sophi Collector.', $count ) );
 		}
