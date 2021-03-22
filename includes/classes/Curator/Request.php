@@ -152,19 +152,22 @@ class Request {
 	 * Get curated data from Sophi Curator API.
 	 */
 	private function request() {
-		$request = wp_remote_get(
-			$this->api_url,
-			[
-				'headers' => [
-					'Content-Type'  => 'application/json',
-					'Authorization' => 'Bearer ' . $this->auth->get_access_token(),
-				],
-				'bopy'    => [
-					'page'   => $this->page,
-					'widget' => $this->section,
-				],
-			]
-		);
+		$args = [
+			'headers' => [
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bearer ' . $this->auth->get_access_token(),
+			],
+			'body'    => [
+				'page'   => $this->page,
+				'widget' => $this->section,
+			],
+		];
+
+		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
+			$request = vip_safe_wp_remote_get( $this->api_url, false, 3, 1, 20, $args );
+		} else {
+			$request = wp_remote_get( $this->api_url, $args );
+		}
 
 		if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
 			error_log( print_r( $request, true ) );
