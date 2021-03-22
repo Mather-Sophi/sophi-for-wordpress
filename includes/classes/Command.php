@@ -37,6 +37,9 @@ class Command extends \WPCOM_VIP_CLI_Command {
 	 * [--post_types=<string>]
 	 * : Post types to be processed. Comma separated for passing multiple post types.
 	 *
+	 * [--include=<number>]
+	 * : Post IDs to process. Comma separated for passing multiple item.
+	 *
 	 * @param array $args       Arguments.
 	 * @param array $assoc_args Options.
 	 */
@@ -50,6 +53,7 @@ class Command extends \WPCOM_VIP_CLI_Command {
 		$error_count = 0;
 		$dry_run     = true;
 		$post_types  = get_supported_post_types();
+		$include     = [];
 
 		if ( ! empty( $assoc_args['limit'] ) ) {
 			$_limit = intval( $assoc_args['limit'] );
@@ -85,6 +89,14 @@ class Command extends \WPCOM_VIP_CLI_Command {
 			}
 		}
 
+		if ( ! empty( $assoc_args['include'] ) ) {
+			$_include = explode( ',', $assoc_args['include'] );
+			$_include = array_filter( $_include, 'is_int' );
+			if ( ! empty( $_include ) ) {
+				$include = $_include;
+			}
+		}
+
 		if ( isset( $assoc_args['dry-run'] ) ) {
 			// Passing `--dry-run=false` to the command leads to the `false` value being set to string `'false'`, but casting `'false'` to bool produces `true`. Thus the special handling.
 			if ( 'false' === $assoc_args['dry-run'] ) {
@@ -102,15 +114,28 @@ class Command extends \WPCOM_VIP_CLI_Command {
 
 		do {
 
-			$posts = get_posts(
-				array(
-					'posts_per_page'   => $per_page,
-					'post_type'        => get_supported_post_types(),
-					'paged'            => $paged,
-					'post_status'      => 'publish',
-					'suppress_filters' => 'false',
-				)
-			);
+			if ( ! empty( $include ) ) {
+				$posts = get_posts(
+					array(
+						'posts_per_page'      => $per_page,
+						'post_type'           => get_supported_post_types(),
+						'paged'               => $paged,
+						'post_status'         => 'publish',
+						'post__in'            => $include,
+						'ignore_sticky_posts' => true,
+					)
+				);
+			} else {
+				$posts = get_posts(
+					array(
+						'posts_per_page'      => $per_page,
+						'post_type'           => get_supported_post_types(),
+						'paged'               => $paged,
+						'post_status'         => 'publish',
+						'ignore_sticky_posts' => true,
+					)
+				);
+			}
 
 			foreach ( $posts as $post ) {
 				if ( 0 === $limit || $count < $limit ) {
