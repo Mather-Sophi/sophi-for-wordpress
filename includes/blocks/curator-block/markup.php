@@ -1,16 +1,8 @@
 <?php
 /**
- * Example block markup
+ * Curator block markup.
  *
- * @package TenUpScaffold\Blocks\Example
- *
- * @var array $args {
- *     $args is provided by get_template_call.
- *
- *     @type array $attributes Block attributes.
- *     @type array $content    Block content.
- *     @type array $block      Block instance.
- * }
+ * @package SophiWP
  */
 
 ?>
@@ -34,7 +26,7 @@
 				$author_display_name = get_the_author_meta( 'display_name', $curated_post->post_author );
 
 				/* translators: byline. %s: current author. */
-				$byline = sprintf( __( 'by %s' ), $author_display_name );
+				$byline = sprintf( __( 'by %s', 'sophi-wp' ), $author_display_name );
 				?>
 
 				<?php if ( ! empty( $author_display_name ) ) : ?>

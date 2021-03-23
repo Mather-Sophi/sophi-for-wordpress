@@ -59,28 +59,28 @@ const CuratorBlockEdit = ({
 					/>
 				</PanelBody>
 
-				<PanelBody title={__('Post meta settings')}>
+				<PanelBody title={__('Post meta settings', 'sophi-wp')}>
 					<ToggleControl
-						label={__('Display author name')}
+						label={__('Display author name', 'sophi-wp')}
 						checked={displayAuthor}
 						onChange={(value) => setAttributes({ displayAuthor: value })}
 					/>
 					<ToggleControl
-						label={__('Display post date')}
+						label={__('Display post date', 'sophi-wp')}
 						checked={displayPostDate}
 						onChange={(value) => setAttributes({ displayPostDate: value })}
 					/>
 				</PanelBody>
 
-				<PanelBody title={__('Featured image settings')}>
+				<PanelBody title={__('Featured image settings', 'sophi-wp')}>
 					<ToggleControl
-						label={__('Display featured image')}
+						label={__('Display featured image', 'sophi-wp')}
 						checked={displayFeaturedImage}
 						onChange={(value) => setAttributes({ displayFeaturedImage: value })}
 					/>
 					{displayFeaturedImage && (
 						<ToggleControl
-							label={__('Add link to featured image')}
+							label={__('Add link to featured image', 'sophi-wp')}
 							checked={addLinkToFeaturedImage}
 							onChange={(value) =>
 								setAttributes({
@@ -93,10 +93,12 @@ const CuratorBlockEdit = ({
 			</InspectorControls>
 
 			{!(pageName && widgetName) && (
-				<Placeholder label={__('Sophi Curator')}>
+				<Placeholder label={__('Sophi Curator', 'sophi-wp')}>
 					<p>
-						Please set page and widget name for this curator block on the sidebar
-						settings.
+						{__(
+							'Please set page and widget name for this curator block on the sidebar settings.',
+							'sophi-wp',
+						)}
 					</p>
 				</Placeholder>
 			)}

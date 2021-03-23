@@ -23,8 +23,8 @@ import block from './block.json';
  * Register block
  */
 registerBlockType(block.name, {
-	title: __('Curator Block'),
-	description: __('Display curated content by Sophi'),
+	title: __('Curator Block', 'sophi-wp'),
+	description: __('Display curated content by Sophi', 'sophi-wp'),
 	edit,
 	save,
 });

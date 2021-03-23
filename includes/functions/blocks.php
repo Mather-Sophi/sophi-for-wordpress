@@ -1,8 +1,8 @@
 <?php
 /**
- * Gutenberg Blocks setup
+ * Sophi Blocks setup
  *
- * @package TenUpScaffold\Core
+ * @package SophiWP
  */
 
 namespace SophiWP\Blocks;
