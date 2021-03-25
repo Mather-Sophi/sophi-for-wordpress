@@ -63,9 +63,14 @@ class Command extends \WPCOM_VIP_CLI_Command {
 		}
 
 		if ( ! empty( $assoc_args['per_page'] ) ) {
-			$_per_page = intval( $assoc_args['per_page'] );
+			$per_page_limit = apply_filters( 'sophi_cli_per_page_limit', 100 );
+			$_per_page      = intval( $assoc_args['per_page'] );
 			if ( $_per_page ) {
-				$per_page = $_per_page;
+				if ( $_per_page > $per_page_limit ) {
+					$per_page = $per_page_limit;
+				} else {
+					$per_page = $_per_page;
+				}
 			}
 		}
 
