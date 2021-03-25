@@ -86,6 +86,7 @@ function track_event( $new_status, $old_status, $post ) {
 				'schema' => 'iglu:com.globeandmail/environment/jsonschema/1-0-9',
 				'data'   => [
 					'environment' => get_sophi_settings( 'environment' ),
+					'client'      => Utils\get_domain(),
 				],
 			],
 		]
