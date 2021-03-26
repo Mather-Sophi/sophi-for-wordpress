@@ -57,6 +57,13 @@ class Request {
 	public function __construct( $auth ) {
 		$this->auth    = $auth;
 		$this->api_url = $this->prepare_api_url();
+
+		add_action(
+			'sophi_retry_get_curated_data',
+			[ $this, 'do_cron' ],
+			10,
+			2
+		);
 	}
 
 	/**
@@ -108,13 +115,6 @@ class Request {
 	 */
 	private function retry() {
 		// todo check if we need refresh access_token
-
-		add_action(
-			'sophi_retry_get_curated_data',
-			[ $this, 'do_cron' ],
-			10,
-			2
-		);
 
 		$retry_time = $this->status['retry'] < 20 ? 5 * MINUTE_IN_SECONDS : HOUR_IN_SECONDS;
 
