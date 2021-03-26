@@ -111,14 +111,24 @@ class Request {
 
 		add_action(
 			'sophi_retry_get_curated_data',
-			function() {
-				$this->get( $this->page, $this->section );
-			}
+			[ $this, 'do_cron' ],
+			10,
+			2
 		);
 
 		$retry_time = $this->status['retry'] < 20 ? 5 * MINUTE_IN_SECONDS : HOUR_IN_SECONDS;
 
-		wp_schedule_single_event( time() + $retry_time, 'sophi_retry_get_curated_data' );
+		wp_schedule_single_event( time() + $retry_time, 'sophi_retry_get_curated_data', [ $this->page, $this->section ] );
+	}
+
+	/**
+	 * Cron call back.
+	 *
+	 * @param string $page Page name.
+	 * @param string $section Section name.
+	 */
+	public function do_cron( $page, $section ) {
+		$this->get( $page, $section );
 	}
 
 	/**
