@@ -65,11 +65,11 @@ class Request {
 	 * @param string $page Page name.
 	 * @param string $section Section name.
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	public function get( $page, $section ) {
 		$this->page    = $page;
-		$this->section = $page;
+		$this->section = $section;
 
 		$this->status = $this->get_status();
 		$curator_data = get_option( "sophi_curator_data_{$page}_{$section}" );
@@ -80,20 +80,27 @@ class Request {
 
 		$response = $this->request();
 
-		if ( $response ) {
-			$this->set_status( [ 'success' => true ] );
-			return $this->process( $response );
+		if ( is_wp_error( $response ) ) {
+			error_log( print_r( $response, true ) );
+
+			$this->set_status(
+				[
+					'success' => false,
+					'message' => $response->get_error_message(),
+				]
+			);
+
+			$this->retry();
+
+			if ( $curator_data ) {
+				return $curator_data;
+			} else {
+				return [];
+			}
 		}
 
-		$this->set_status( [ 'success' => false ] );
-		$this->process( $response );
-		$this->retry();
-
-		if ( $curator_data ) {
-			return $curator_data;
-		}
-
-		return [];
+		$this->set_status( [ 'success' => true ] );
+		return $this->process( $response );
 	}
 
 	/**
@@ -150,12 +157,20 @@ class Request {
 
 	/**
 	 * Get curated data from Sophi Curator API.
+	 *
+	 * return
 	 */
 	private function request() {
+		$access_token = $this->auth->get_access_token();
+
+		if ( is_wp_error( $access_token ) ) {
+			return $access_token;
+		}
+
 		$args = [
 			'headers' => [
 				'Content-Type'  => 'application/json',
-				'Authorization' => 'Bearer ' . $this->auth->get_access_token(),
+				'Authorization' => 'Bearer ' . $access_token,
 			],
 			'body'    => [
 				'page'   => $this->page,
@@ -169,13 +184,16 @@ class Request {
 			$request = wp_remote_get( $this->api_url, $args );
 		}
 
-		if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
-			error_log( print_r( $request, true ) );
-			// todo: return error message here for logging.
-			return false;
+		if ( is_wp_error( $request ) ) {
+			return $request;
 		}
 
-		return wp_remote_retrieve_body( $request );
+		if ( wp_remote_retrieve_response_code( $request ) != 200 ) {
+			error_log( print_r( $request, true ) );
+			return new \WP_Error( $request['response']['code'], $request['response']['message'] );
+		}
+
+		return json_decode( wp_remote_retrieve_body( $request ), true );
 	}
 
 	/**

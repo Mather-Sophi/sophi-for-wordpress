@@ -18,12 +18,12 @@ class Auth {
 	 *
 	 * @var string $auth_url
 	 */
-	private $auth_url = 'https://sophi-qa.auth0.com/oauth/token';
+	private $auth_url = 'https://dv-sophi.auth0.com/oauth/token';
 
 	/**
 	 * Get cached access_token.
 	 *
-	 * @return string
+	 * @return string|\WP_Error
 	 */
 	public function get_access_token() {
 		$access_token = get_transient( 'sophi_curator_access_token' );
@@ -38,34 +38,34 @@ class Auth {
 	/**
 	 * Request a new access_token.
 	 *
-	 * @return string
+	 * @return string|\WP_Error
 	 */
 	private function request_access_token() {
+		$body    = [
+			'client_id'     => get_sophi_settings( 'sophi_client_id' ),
+			'client_secret' => get_sophi_settings( 'sophi_client_secret' ),
+			'audience'      => 'https://10.1.10.1',
+			'grant_type'    => 'client_credentials',
+		];
 		$request = wp_remote_post(
 			$this->auth_url,
 			[
 				'headers' => [ 'Content-Type' => 'application/json' ],
-				'body'    => [
-					'client_id'     => get_sophi_settings( 'sophi_client_id' ),
-					'client_secret' => get_sophi_settings( 'sophi_client_secret' ),
-					'audience'      => 'https://curator.sophi.works.qa/',
-					'grant_type'    => 'client_credentials',
-				],
+				'body'    => wp_json_encode( $body ),
 			]
 		);
 
-		// todo: error handling for failed cases
-		if ( is_wp_error( $request ) || 200 !== wp_remote_retrieve_response_code( $request ) ) {
+		if ( is_wp_error( $request ) ) {
+			return $request;
+		}
+
+		if ( 200 !== wp_remote_retrieve_response_code( $request ) ) {
 			error_log( print_r( $request, true ) );
-			return false;
+			return new \WP_Error( $request['response']['code'], $request['response']['message'] );
 		}
 
 		$response = wp_remote_retrieve_body( $request );
-
-		if ( empty( $response['access_token'] ) ) {
-			error_log( 'Failed to request access token: ' . print_r( $response, true ) );
-			return false;
-		}
+		$response = json_decode( $response, true );
 
 		set_transient( 'sophi_curator_access_token', $response['access_token'], $response['expires_in'] );
 
