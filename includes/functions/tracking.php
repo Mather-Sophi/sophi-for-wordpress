@@ -201,7 +201,7 @@ function get_custom_contexts() {
 	}
 
 	if ( is_singular() ) {
-		$content_data['contentId'] = $post->ID;
+		$content_data['contentId'] = strval( $post->ID );
 	}
 
 		$context = sprintf(
