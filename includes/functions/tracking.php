@@ -152,11 +152,11 @@ function get_amp_tracking_data() {
 					'immediate'      => false,
 					'startSpec'      => [
 						'on'       => 'visible',
-						'selector' => 'root',
+						'selector' => ':root',
 					],
 					'stopSpec'       => [
 						'on'       => 'hidden',
-						'selector' => 'root',
+						'selector' => ':root',
 					],
 				],
 			],
@@ -169,11 +169,11 @@ function get_amp_tracking_data() {
 					'immediate'      => false,
 					'startSpec'      => [
 						'on'       => 'visible',
-						'selector' => 'root',
+						'selector' => ':root',
 					],
 					'stopSpec'       => [
 						'on'       => 'hidden',
-						'selector' => 'root',
+						'selector' => ':root',
 					],
 				],
 			],
