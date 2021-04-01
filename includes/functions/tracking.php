@@ -90,7 +90,7 @@ function get_tracking_data() {
 			'plugin'            => [
 				'adblock' => false,
 				'private' => false,
-				'video'   => false,
+				'video'   => true,
 			],
 		],
 
@@ -189,20 +189,17 @@ function get_amp_tracking_data() {
 function get_custom_contexts() {
 	global $post;
 
-	$section      = get_section_name();
 	$page_data    = [
-		'type'       => 'article',
+		'type'       => is_singular() ? 'article' : 'section',
 		'breadcrumb' => get_breadcrumb(),
+		'sectionName' => get_section_name(),
 	];
-	$content_data = [ 'type' => 'article' ];
-
-	if ( $section ) {
-		$page_data['sectionName'] = $section;
-	}
 
 	if ( is_singular() ) {
-		$content_data['contentId'] = strval( $post->ID );
-	}
+		$content_data = [
+			'type' => 'article',
+			'contentId' => strval( $post->ID ),
+		];
 
 		$context = sprintf(
 			'%s,%s,%s',
@@ -228,13 +225,34 @@ function get_custom_contexts() {
 				]
 			)
 		);
-
-		// We need this indirect way to prevent the url encode two times.
-		return str_replace(
-			[ '__environment_schama_url__', '__page_schama_url__', '__content_schama_url__' ],
-			[ 'iglu:com.globeandmail/environment/jsonschema/1-0-9', 'iglu:com.globeandmail/page/jsonschema/1-0-10', 'iglu:com.globeandmail/content/jsonschema/1-0-12' ],
-			$context
+	} else {
+		$context = sprintf(
+			'%s,%s',
+			wp_json_encode(
+				[
+					'schema' => '__environment_schama_url__',
+					'data'   => [
+						'client'      => get_domain(),
+						'environment' => get_sophi_settings( 'environment' ),
+					],
+				]
+			),
+			wp_json_encode(
+				[
+					'schema' => '__page_schama_url__',
+					'data'   => $page_data,
+				]
+			),
 		);
+	}
+
+
+	// We need this indirect way to prevent the url encode two times.
+	return str_replace(
+		[ '__environment_schama_url__', '__page_schama_url__', '__content_schama_url__' ],
+		[ 'iglu:com.globeandmail/environment/jsonschema/1-0-9', 'iglu:com.globeandmail/page/jsonschema/1-0-10', 'iglu:com.globeandmail/content/jsonschema/1-0-12' ],
+		$context
+	);
 }
 
 /**
