@@ -18,7 +18,7 @@ class Auth {
 	 *
 	 * @var string $auth_url
 	 */
-	private $auth_url = 'https://dv-sophi.auth0.com/oauth/token';
+	private $auth_url = 'https://login.sophi.io/oauth/token';
 
 	/**
 	 * Get cached access_token.
@@ -44,7 +44,7 @@ class Auth {
 		$body    = [
 			'client_id'     => get_sophi_settings( 'sophi_client_id' ),
 			'client_secret' => get_sophi_settings( 'sophi_client_secret' ),
-			'audience'      => 'https://10.1.10.1',
+			'audience'      => 'https://curator-api.sophi.io',
 			'grant_type'    => 'client_credentials',
 		];
 		$request = wp_remote_post(
