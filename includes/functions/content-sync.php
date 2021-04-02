@@ -7,6 +7,8 @@
 
 namespace SophiWP\ContentSync;
 
+use WP_Error;
+
 use function SophiWP\Settings\get_sophi_settings;
 use function SophiWP\Core\get_supported_post_types;
 use SophiWP\Utils;
@@ -34,17 +36,22 @@ function setup() {
  * @param string  $new_status New post status.
  * @param string  $old_status Old post status.
  * @param WP_Post $post       Post object.
+ *
+ * @return null|WP_Error
  */
 function track_event( $new_status, $old_status, $post ) {
 	$tracker = init_tracker();
 	$action  = '';
 
 	if ( ! in_array( $post->post_type, get_supported_post_types(), true ) ) {
-		return;
+		return new WP_Error(
+			'sophi_unsupported_post_type',
+			'This post type is not supported.'
+		);
 	}
 
-	if ( ! $tracker ) {
-		return false;
+	if ( is_wp_error( $tracker ) ) {
+		return $tracker;
 	}
 
 	// publish, update, delete or unpublish
@@ -60,7 +67,10 @@ function track_event( $new_status, $old_status, $post ) {
 	}
 
 	if ( ! $action ) {
-		return false;
+		return new WP_Error(
+			'sophi_invalid_action',
+			'The publishing action is invalid.'
+		);
 	}
 
 	$data           = get_post_data( $post );
@@ -72,9 +82,12 @@ function track_event( $new_status, $old_status, $post ) {
 			'data'   => $data,
 		],
 		[
-			'schema' => 'iglu:com.globeandmail/environment/jsonschema/1-0-9',
-			'data'   => [
-				'environment' => get_sophi_settings( 'environment' ),
+			[
+				'schema' => 'iglu:com.globeandmail/environment/jsonschema/1-0-9',
+				'data'   => [
+					'environment' => get_sophi_settings( 'environment' ),
+					'client'      => Utils\get_domain(),
+				],
 			],
 		]
 	);
@@ -83,12 +96,15 @@ function track_event( $new_status, $old_status, $post ) {
 /**
  * Initialize Snowplow tracker.
  *
- * @return Tracker
+ * @return Tracker|WP_Error
  */
 function init_tracker() {
 	$collector_url = get_sophi_settings( 'collector_url' );
 	if ( ! $collector_url ) {
-		return false;
+		return new WP_Error(
+			'sophi_missing_collector_url',
+			'The collector URL is missing.'
+		);
 	}
 
 	$app_id  = get_sophi_settings( 'cms_updates_app_id' );

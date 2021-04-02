@@ -50,6 +50,14 @@ add_action(
 			SophiWP\Tracking\setup();
 			SophiWP\Blocks\setup();
 			( new SophiWP\Curator\Services() )->register();
+
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				try {
+					\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
+				} catch ( \Exception $e ) {
+					error_log( $e->getMessage() ); // phpcs:ignore
+				}
+			}
 		} else {
 			add_action(
 				'admin_notices',
