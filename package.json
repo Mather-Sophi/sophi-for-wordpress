@@ -1,10 +1,10 @@
 {
-  "name": "@10up/sophi-wp",
+  "name": "@globeandmail/sophi-wp",
   "version": "0.1.0",
   "description": "WordPress VIP-compatible plugin for the Sophi.io Curator service.",
-  "homepage": "https://github.com/10up/sophi-for-wordpress",
+  "homepage": "https://github.com/globeandmail/sophi-for-wordpress",
   "bugs": {
-    "url": "https://github.com/10up/sophi-for-wordpress/issues"
+    "url": "https://github.com/globeandmail/sophi-for-wordpress/issues"
   },
   "license": "GPL-2.0-or-later",
   "author": {
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/10up/sophi-for-wordpress"
+    "url": "https://github.com/globeandmail/sophi-for-wordpress"
   },
   "scripts": {
     "test": "phpunit",
