@@ -60,7 +60,6 @@ class Auth {
 		}
 
 		if ( 200 !== wp_remote_retrieve_response_code( $request ) ) {
-			error_log( print_r( $request, true ) );
 			return new \WP_Error( $request['response']['code'], $request['response']['message'] );
 		}
 

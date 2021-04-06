@@ -36,11 +36,11 @@ class Request {
 	private $page;
 
 	/**
-	 * Section name for curator request.
+	 * Widget name for curator request.
 	 *
-	 * @var string $section
+	 * @var string $widget
 	 */
-	private $section;
+	private $widget;
 
 	/**
 	 * Status of latest curator request.
@@ -56,7 +56,6 @@ class Request {
 	 */
 	public function __construct( $auth ) {
 		$this->auth    = $auth;
-		$this->api_url = $this->prepare_api_url();
 
 		add_action(
 			'sophi_retry_get_curated_data',
@@ -70,16 +69,17 @@ class Request {
 	 * Get (cached) curated posts.
 	 *
 	 * @param string $page Page name.
-	 * @param string $section Section name.
+	 * @param string $widget Widget name.
 	 *
 	 * @return array|null
 	 */
-	public function get( $page, $section ) {
+	public function get( $page, $widget ) {
 		$this->page    = $page;
-		$this->section = $section;
+		$this->widget  = $widget;
+		$this->api_url = $this->set_api_url( $page, $widget );
 
 		$this->status = $this->get_status();
-		$curator_data = get_option( "sophi_curator_data_{$page}_{$section}" );
+		$curator_data = get_option( "sophi_curator_data_{$page}_{$widget}" );
 
 		if ( ! empty( $this->status['success'] ) && $curator_data ) {
 			return $curator_data;
@@ -88,8 +88,6 @@ class Request {
 		$response = $this->request();
 
 		if ( is_wp_error( $response ) ) {
-			error_log( print_r( $response, true ) );
-
 			$this->set_status(
 				[
 					'success' => false,
@@ -99,6 +97,7 @@ class Request {
 
 			$this->retry();
 
+			// If we have stale data, use it.
 			if ( $curator_data ) {
 				return $curator_data;
 			} else {
@@ -118,17 +117,21 @@ class Request {
 
 		$retry_time = $this->status['retry'] < 20 ? 5 * MINUTE_IN_SECONDS : HOUR_IN_SECONDS;
 
-		wp_schedule_single_event( time() + $retry_time, 'sophi_retry_get_curated_data', [ $this->page, $this->section ] );
+		if ( $this->status['retry'] > 50 ) {
+			return;
+		}
+
+		wp_schedule_single_event( time() + $retry_time, 'sophi_retry_get_curated_data', [ $this->page, $this->widget ] );
 	}
 
 	/**
 	 * Cron call back.
 	 *
 	 * @param string $page Page name.
-	 * @param string $section Section name.
+	 * @param string $widget Widget name.
 	 */
-	public function do_cron( $page, $section ) {
-		$this->get( $page, $section );
+	public function do_cron( $page, $widget ) {
+		$this->get( $page, $widget );
 	}
 
 	/**
@@ -137,7 +140,7 @@ class Request {
 	 * @return array
 	 */
 	private function get_status() {
-		return get_transient( "sophi_curator_status_{$this->page}_{$this->section}" );
+		return get_transient( "sophi_curator_status_{$this->page}_{$this->widget}" );
 	}
 
 	/**
@@ -162,7 +165,7 @@ class Request {
 		}
 
 		$this->status = $data;
-		set_transient( "sophi_curator_status_{$this->page}_{$this->section}", $data, $this->get_cache_duration() );
+		set_transient( "sophi_curator_status_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
 	}
 
 	/**
@@ -181,11 +184,7 @@ class Request {
 			'headers' => [
 				'Content-Type'  => 'application/json',
 				'Authorization' => 'Bearer ' . $access_token,
-			],
-			'body'    => [
-				'page'   => $this->page,
-				'widget' => $this->section,
-			],
+			]
 		];
 
 		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
@@ -199,8 +198,7 @@ class Request {
 		}
 
 		if ( wp_remote_retrieve_response_code( $request ) != 200 ) {
-			error_log( print_r( $request, true ) );
-			return new \WP_Error( $request['response']['code'], $request['response']['message'] );
+			return new \WP_Error( wp_remote_retrieve_response_code( $request ), $request['response']['message'] );
 		}
 
 		return json_decode( wp_remote_retrieve_body( $request ), true );
@@ -220,20 +218,23 @@ class Request {
 
 		// todo: get id from response.
 
-		update_option( "sophi_curator_data_{$this->page}_{$this->section}", $response );
+		update_option( "sophi_curator_data_{$this->page}_{$this->widget}", $response );
 		return $response;
 	}
 
 	/**
 	 * Prepare curator API URL
 	 *
+	 * @param string $page Page name.
+	 * @param string $widget Widget name.
+	 *
 	 * @return string
 	 */
-	private function prepare_api_url() {
+	private function set_api_url( $page, $widget ) {
 		$curator_url = get_sophi_settings( 'sophi_curator_url' );
 		$curator_url = untrailingslashit( $curator_url );
 
-		return sprintf( '%1$s/curator', $curator_url );
+		return sprintf( '%1$s/curatedPages/%2$s/widgets/%3$s/contents', $curator_url, $page, $widget );
 	}
 
 	/**

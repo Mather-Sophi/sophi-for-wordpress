@@ -70,6 +70,8 @@ class Integration {
 				break;
 		}
 
+		$new_posts = array_filter( $new_posts );
+
 		if ( ! empty( $new_posts ) ) {
 			return $new_posts;
 		}
