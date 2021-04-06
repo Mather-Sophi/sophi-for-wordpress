@@ -27,6 +27,7 @@
     "start": "10up-scripts start",
     "watch": "10up-scripts watch",
     "build": "10up-scripts build",
+    "build:docs": "rm -rf docs && jsdoc -c hookdoc-conf.json sophi-for-wordpress.php includes",
     "format-js": "10up-scripts format-js",
     "lint-js": "10up-scripts lint-js",
     "lint-style": "10up-scripts lint-style",
@@ -34,7 +35,9 @@
   },
   "devDependencies": {
     "@10up/scripts": "^1.3.1",
-    "prop-types": "^15.7.2"
+    "jsdoc": "~3.6.3",
+    "prop-types": "^15.7.2",
+    "wp-hookdoc": "^0.2.0"    
   },
   "engines": {
     "node": ">=12.0.0"
