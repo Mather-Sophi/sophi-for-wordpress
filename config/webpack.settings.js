@@ -5,6 +5,7 @@ module.exports = {
 		admin: './assets/js/admin/admin.js',
 		frontend: './assets/js/frontend/frontend.js',
 		shared: './assets/js/shared/shared.js',
+		'sophi-tag': './assets/js/frontend/sophi-tag.js',
 
 		// CSS files.
 		'admin-style': './assets/css/admin/admin-style.css',
@@ -51,7 +52,7 @@ module.exports = {
 	BrowserSyncConfig: {
 		host: 'localhost',
 		port: 3000,
-		proxy: 'http://tenup-scaffold.test',
+		proxy: 'http://sophi-wp.test',
 		open: false,
 		files: [
 			'**/*.php',

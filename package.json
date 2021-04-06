@@ -1,14 +1,28 @@
 {
-  "name": "plugin-scaffold",
-  "version": "1.0.0",
-  "description": "10up Plugin Scaffold",
-  "author": {
-    "name": "10up",
-    "email": "info@10up.com",
-    "url": "https://10up.com",
-    "role": "developer"
+  "name": "@10up/sophi-wp",
+  "version": "0.1.0",
+  "description": "WordPress VIP-compatible plugin for the Sophi.io Curator service.",
+  "homepage": "https://github.com/10up/sophi-for-wordpress",
+  "bugs": {
+    "url": "https://github.com/10up/sophi-for-wordpress/issues"
   },
   "license": "GPL-2.0-or-later",
+  "author": {
+    "name": "10up",
+    "email": "opensource@10up.com",
+    "url": "https://10up.com"
+  },
+  "contributors": [
+    {
+      "name": "The Globe and Mail",
+      "email": "info@sophi.io",
+      "url": "https://www.sophi.io"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/10up/sophi-for-wordpress"
+  },
   "scripts": {
     "test": "phpunit",
     "start": "composer install && npm install && npm run build",
@@ -22,28 +36,10 @@
     "lint-php": "composer run lint",
     "format-js": "eslint --fix assets/js",
     "lint": "npm run lint-css && npm run lint-js && npm run lint-php",
-    "format": "npm run format-js"
+    "format": "npm run format-js",
+    "build:docs": "rm -rf docs && jsdoc -c hookdoc-conf.json sophi-for-wordpress.php includes"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.css": [
-      "stylelint"
-    ],
-    "*.js": [
-      "eslint"
-    ],
-    "*.php": [
-      "./vendor/bin/phpcs --extensions=php --warning-severity=8 -s"
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/10up/plugin-scaffold"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@10up/babel-preset-default": "^1.0.0",
     "@10up/eslint-config": "^2.0.0",
@@ -76,6 +72,7 @@
     "eslint-plugin-react-hooks": "^2.5.0",
     "husky": "^3.1.0",
     "imagemin-webpack-plugin": "^2.4.2",
+    "jsdoc": "~3.6.3",
     "lint-staged": "^9.5.0",
     "mini-css-extract-plugin": "^0.9.0",
     "postcss-import": "^12.0.1",
@@ -92,12 +89,26 @@
     "webpack-cli": "^3.3.10",
     "webpack-fix-style-only-entries": "^0.4.0",
     "webpack-merge": "^4.2.2",
-    "webpackbar": "^4.0.0"
+    "webpackbar": "^4.0.0",
+    "wp-hookdoc": "^0.2.0"
   },
   "engines": {
     "node": ">=12.0.0"
   },
-  "dependencies": {
-    "normalize.css": "^8.0.1"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.css": [
+      "stylelint"
+    ],
+    "*.js": [
+      "eslint"
+    ],
+    "*.php": [
+      "./vendor/bin/phpcs --extensions=php --warning-severity=8 -s"
+    ]
   }
 }

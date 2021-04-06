@@ -1,6 +1,6 @@
 <?php
 
-namespace TenUpScaffold;
+namespace SophiWP;
 
 use PHPUnit\Framework\TestResult;
 use Text_Template;

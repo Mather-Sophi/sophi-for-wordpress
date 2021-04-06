@@ -2,11 +2,13 @@ node_modules
 bower_components
 release
 vendor
+languages
 .idea
 *.log
 
 # Project Files
 dist
+docs
 
 # Editors
 *.esproj
