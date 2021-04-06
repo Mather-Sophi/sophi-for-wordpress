@@ -1,6 +1,6 @@
-=== 10up Plugin Scaffold ===
+=== Sophi for WordPress ===
 Contributors:      10up
-Tags:              Sophi, Curator, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
+Tags:              Sophi, Curator, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Requires at least: 5.6
 Tested up to:      5.6
 Requires PHP:      7.4
@@ -32,7 +32,7 @@ stable.
 = Manual Installation =
 
 1. Upload the entire `/sophi-wp` directory to the `/wp-content/plugins/` directory.
-2. Activate 10up Scaffold through the 'Plugins' menu in WordPress.
+2. Activate Sophi for WordPress through the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
 
