@@ -11,6 +11,7 @@ use function SophiWP\Settings\get_sophi_settings;
 use function SophiWP\Utils\get_domain;
 use function SophiWP\Utils\get_section_name;
 use function SophiWP\Utils\get_breadcrumb;
+use function SophiWP\Core\script_url;
 
 /**
  * Default setup routine
@@ -34,7 +35,14 @@ function enqueue_scripts() {
 		return;
 	}
 
-	wp_enqueue_script( 'sophi-tag', SOPHI_WP_URL . '/dist/js/sophi-tag.js', [], SOPHI_WP_VERSION, true );
+	wp_enqueue_script(
+		'sophi-tag',
+		script_url( 'sophi-tag', 'frontend' ),
+		[],
+		SOPHI_WP_VERSION,
+		true
+	);
+
 	wp_localize_script(
 		'sophi-tag',
 		'SOPHIDATA',
