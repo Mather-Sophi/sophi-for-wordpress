@@ -40,24 +40,41 @@ register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
 register_deactivation_hook( __FILE__, '\SophiWP\Core\deactivate' );
 
 add_action(
+	'sophi_loaded',
+	function() {
+		SophiWP\Settings\setup();
+		SophiWP\ContentSync\setup();
+		SophiWP\Tracking\setup();
+		SophiWP\Blocks\setup();
+		( new SophiWP\Curator\Services() )->register();
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			try {
+				\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
+			} catch ( \Exception $e ) {
+				error_log( $e->getMessage() ); // phpcs:ignore
+			}
+		}
+	}
+);
+
+add_action(
 	'init',
 	function() {
+		/**
+		 * Filter whether Sophi is available for the current site.
+		 * By default, Sophi is only available for site with HTTPS enabled.
+		 *
+		 * @since 1.0.0
+		 * @hook sophi_available
+		 *
+		 * @param {bool} $available Whether Sophi should be enabled.
+		 *
+		 * @return {bool} Whether Sophi should be enabled.
+		 */
 		if ( apply_filters( 'sophi_available', is_ssl() ) ) {
 			// Bootstrap.
 			SophiWP\Core\setup();
-			SophiWP\Settings\setup();
-			SophiWP\ContentSync\setup();
-			SophiWP\Tracking\setup();
-			SophiWP\Blocks\setup();
-			( new SophiWP\Curator\Services() )->register();
-
-			if ( defined( 'WP_CLI' ) && WP_CLI ) {
-				try {
-					\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
-				} catch ( \Exception $e ) {
-					error_log( $e->getMessage() ); // phpcs:ignore
-				}
-			}
 		} else {
 			add_action(
 				'admin_notices',

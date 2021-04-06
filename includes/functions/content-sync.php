@@ -141,6 +141,15 @@ function get_post_data( $post ) {
 
 	// Remove empty key.
 	$data = array_filter( $data );
-
+	/**
+	 * Filter post data for content sync events (CMS updates).
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_post_data
+	 *
+	 * @param {array} $post_data Formatted post data.
+	 *
+	 * @return {array} Formatted post data.
+	 */
 	return apply_filters( 'sophi_post_data', $data );
 }
