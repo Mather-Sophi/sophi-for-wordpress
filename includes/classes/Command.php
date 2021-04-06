@@ -63,6 +63,17 @@ class Command extends \WPCOM_VIP_CLI_Command {
 		}
 
 		if ( ! empty( $assoc_args['per_page'] ) ) {
+			/**
+			 * The maximum post per page CLI can process each batch.
+			 * Default to 100.
+			 *
+			 * @since 1.0.0
+			 * @hook sophi_cli_per_page_limit
+			 *
+			 * @param {integer} $limit Posts per page limit.
+			 *
+			 * @return {integer} Posts per page limit.
+			 */
 			$per_page_limit = apply_filters( 'sophi_cli_per_page_limit', 100 );
 			$_per_page      = intval( $assoc_args['per_page'] );
 			if ( $_per_page ) {
