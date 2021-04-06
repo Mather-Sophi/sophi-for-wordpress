@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Sophi for WordPress
- * Plugin URI:        https://github.com/10up/sophi-for-wordpress
+ * Plugin URI:        https://github.com/globeandmail/sophi-for-wordpress
  * Description:       WordPress VIP-compatible plugin for the Sophi.io Curator service.
  * Version:           0.1.0
  * Requires at least: 5.6
@@ -33,6 +33,7 @@ require_once SOPHI_WP_INC . 'functions/core.php';
 require_once SOPHI_WP_INC . 'functions/settings.php';
 require_once SOPHI_WP_INC . 'functions/tracking.php';
 require_once SOPHI_WP_INC . 'functions/content-sync.php';
+require_once SOPHI_WP_INC . 'functions/blocks.php';
 
 // Activation/Deactivation.
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
@@ -47,12 +48,14 @@ add_action(
 			SophiWP\Settings\setup();
 			SophiWP\ContentSync\setup();
 			SophiWP\Tracking\setup();
+			SophiWP\Blocks\setup();
+			( new SophiWP\Curator\Services() )->register();
 
 			if ( defined( 'WP_CLI' ) && WP_CLI ) {
 				try {
 					\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
 				} catch ( \Exception $e ) {
-					error_log( $e->getMessage() );
+					error_log( $e->getMessage() ); // phpcs:ignore
 				}
 			}
 		} else {
