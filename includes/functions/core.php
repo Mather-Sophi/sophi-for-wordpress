@@ -20,12 +20,17 @@ function setup() {
 	};
 
 	add_action( 'init', $n( 'i18n' ) );
-	add_action( 'init', $n( 'init' ) );
 
 	// Hook to allow async or defer on asset loading.
 	add_filter( 'script_loader_tag', $n( 'script_loader_tag' ), 10, 2 );
 
-	do_action( 'sophi_wp_loaded' );
+	/**
+	 * Fires after Sophi has been loaded.
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_loaded
+	 */
+	do_action( 'sophi_loaded' );
 }
 
 /**
@@ -37,15 +42,6 @@ function i18n() {
 	$locale = apply_filters( 'plugin_locale', get_locale(), 'sophi-wp' );
 	load_textdomain( 'sophi-wp', WP_LANG_DIR . '/sophi-wp/sophi-wp-' . $locale . '.mo' );
 	load_plugin_textdomain( 'sophi-wp', false, plugin_basename( SOPHI_WP_PATH ) . '/languages/' );
-}
-
-/**
- * Initializes the plugin and fires an action other plugins can hook into.
- *
- * @return void
- */
-function init() {
-	do_action( 'sophi_wp_init' );
 }
 
 /**
@@ -157,6 +153,14 @@ function script_loader_tag( $tag, $handle ) {
 function get_supported_post_types() {
 	/**
 	 * Filter supported post types.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @hook sophi_supported_post_types
+	 *
+	 * @param {array} $post_types Supported post types.
+	 *
+	 * @return {array} Supported post types.
 	 */
 	return apply_filters( 'sophi_supported_post_types', [ 'post', 'page' ] );
 }

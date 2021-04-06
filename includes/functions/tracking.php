@@ -128,6 +128,16 @@ function get_tracking_data() {
 		$data['settings']['stagingEndpoint'] = get_sophi_settings( 'collector_url' );
 	}
 
+	/**
+	 * Filter JS tracking data sent to collector.
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_tracking_data
+	 *
+	 * @param {array} $data JS tracking data.
+	 *
+	 * @return {array} JS tracking data.
+	 */
 	return apply_filters( 'sophi_tracking_data', $data );
 }
 
@@ -188,6 +198,16 @@ function get_amp_tracking_data() {
 		],
 	];
 
+	/**
+	 * Filter AMP tracking data sent to collector.
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_amp_tracking_data
+	 *
+	 * @param {array} $data AMP tracking data.
+	 *
+	 * @return {array} AMP tracking data.
+	 */
 	return apply_filters( 'sophi_amp_tracking_data', $data );
 }
 
@@ -269,6 +289,16 @@ function get_custom_contexts() {
  * @return bool
  */
 function page_need_tracking() {
+	/**
+	 * Filter the type of page that needs tracking.
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_page_need_tracking
+	 *
+	 * @param {bool} $need_tracking Whether tracking should be enabled.
+	 *
+	 * @return {boold} Whether tracking should be enabled.
+	 */
 	return apply_filters(
 		'sophi_page_need_tracking',
 		is_tax() || is_tag() || is_category() || is_singular() || is_front_page() || is_home()
