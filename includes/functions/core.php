@@ -25,12 +25,12 @@ function setup() {
 	add_filter( 'script_loader_tag', $n( 'script_loader_tag' ), 10, 2 );
 
 	/**
-	 * Fires after Sophi has been loaded.
+	 * Fires when starting the initialization.
 	 *
 	 * @since 1.0.0
-	 * @hook sophi_loaded
+	 * @hook sophi_init
 	 */
-	do_action( 'sophi_loaded' );
+	do_action( 'sophi_init' );
 }
 
 /**
@@ -50,8 +50,6 @@ function i18n() {
  * @return void
  */
 function activate() {
-	// First load the init scripts in case any rewrite functionality is being loaded
-	init();
 }
 
 /**
@@ -62,7 +60,6 @@ function activate() {
  * @return void
  */
 function deactivate() {
-
 }
 
 
