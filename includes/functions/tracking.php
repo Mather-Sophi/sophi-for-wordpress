@@ -91,8 +91,8 @@ function get_tracking_data() {
 			],
 		],
 		'settings' => [
-			'client'            => get_domain(),
-			'appId'             => get_sophi_settings( 'website_app_id' ),
+			'client'            => get_sophi_settings( 'tracker_client_id' ),
+			'appId'             => sprintf( '%s-website', get_sophi_settings( 'tracker_client_id' ) ),
 			'collectorEndpoint' => get_sophi_settings( 'collector_url' ),
 			'linkedDomains'     => [ get_domain() ],
 			'plugin'            => [
@@ -148,7 +148,7 @@ function get_amp_tracking_data() {
 	$data = [
 		'vars'     => [
 			'collectorHost'  => 'collector.sophi.io',
-			'appId'          => sprintf( '%s-amp', get_domain() ),
+			'appId'          => sprintf( '%s-amp', get_sophi_settings( 'tracker_client_id' ) ),
 			'customContexts' => get_custom_contexts(),
 		],
 		'linkers'  => [
@@ -235,7 +235,7 @@ function get_custom_contexts() {
 				[
 					'schema' => '__environment_schama_url__',
 					'data'   => [
-						'client'      => get_domain(),
+						'client'      => get_sophi_settings( 'tracker_client_id' ),
 						'environment' => get_sophi_settings( 'environment' ),
 					],
 				]
@@ -260,7 +260,7 @@ function get_custom_contexts() {
 				[
 					'schema' => '__environment_schama_url__',
 					'data'   => [
-						'client'      => get_domain(),
+						'client'      => get_sophi_settings( 'tracker_client_id' ),
 						'environment' => get_sophi_settings( 'environment' ),
 					],
 				]

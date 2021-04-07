@@ -86,7 +86,7 @@ function track_event( $new_status, $old_status, $post ) {
 				'schema' => 'iglu:com.globeandmail/environment/jsonschema/1-0-9',
 				'data'   => [
 					'environment' => get_sophi_settings( 'environment' ),
-					'client'      => Utils\get_domain(),
+					'client'      => get_sophi_settings( 'tracker_client_id' ),
 				],
 			],
 		]
@@ -107,7 +107,7 @@ function init_tracker() {
 		);
 	}
 
-	$app_id  = get_sophi_settings( 'cms_updates_app_id' );
+	$app_id  = sprintf( '%s-cms', get_sophi_settings( 'tracker_client_id' ) );
 	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
