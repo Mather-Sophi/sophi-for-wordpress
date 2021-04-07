@@ -7,7 +7,10 @@
 
 namespace SophiWP\Settings;
 
+use SophiWP\Curator\Auth;
 use function SophiWP\Utils\get_domain;
+
+const SETTINGS_GROUP = 'sophi_settings';
 
 /**
  * Default setup routine
@@ -20,7 +23,7 @@ function setup() {
 	};
 
 	add_action( 'admin_menu', $n( 'settings_page' ) );
-	add_action( 'admin_menu', $n( 'fields_setup' ) );
+	add_action( 'admin_init', $n( 'fields_setup' ) );
 }
 
 /**
@@ -45,8 +48,8 @@ function render_settings_page() {
 	<h1>Sophi Settings</h1>
 		<form method="post" action="options.php">
 			<?php
-			settings_fields( 'sophi' );
-			do_settings_sections( 'sophi' );
+			settings_fields( SETTINGS_GROUP );
+			do_settings_sections( SETTINGS_GROUP );
 			submit_button();
 			?>
 		</form>
@@ -60,13 +63,9 @@ function render_settings_page() {
 function fields_setup() {
 	// Register the main settings.
 	register_setting(
-		'sophi',
-		'sophi',
-		[
-			'type'              => 'array',
-			'sanitize_callback' => __NAMESPACE__ . '\sanitize_settings',
-			'default'           => [],
-		]
+		SETTINGS_GROUP,
+		SETTINGS_GROUP,
+		__NAMESPACE__ . '\sanitize_settings'
 	);
 
 	// Add settings section
@@ -74,14 +73,14 @@ function fields_setup() {
 		'environment',
 		__( 'Environment settings', 'sophi-wp' ),
 		'',
-		'sophi'
+		SETTINGS_GROUP
 	);
 
 	add_settings_field(
 		'environment',
 		__( 'Environment', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_select',
-		'sophi',
+		SETTINGS_GROUP,
 		'environment',
 		[
 			'label_for'  => 'environment',
@@ -100,17 +99,18 @@ function fields_setup() {
 		'collector_settings',
 		__( 'Collector settings', 'sophi-wp' ),
 		'',
-		'sophi'
+		SETTINGS_GROUP
 	);
 
 	add_settings_field(
 		'collector_url',
 		__( 'Collector URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'collector_settings',
 		[
 			'label_for' => 'collector_url',
+			'description' => __( 'Please use URL without http(s) scheme.', 'sophi-wp' ),
 		]
 	);
 
@@ -118,7 +118,7 @@ function fields_setup() {
 		'tracker_client_id',
 		__( 'Tracker Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'collector_settings',
 		[
 			'label_for' => 'tracker_client_id',
@@ -130,14 +130,14 @@ function fields_setup() {
 		'sophi_api',
 		__( 'Sophi API settings', 'sophi-wp' ),
 		'',
-		'sophi'
+		SETTINGS_GROUP
 	);
 
 	add_settings_field(
 		'sophi_client_id',
 		__( 'Sophi Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'sophi_api',
 		[
 			'label_for' => 'sophi_client_id',
@@ -148,7 +148,7 @@ function fields_setup() {
 		'sophi_client_secret',
 		__( 'Sophi Client Secret', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'sophi_api',
 		[
 			'label_for' => 'sophi_client_secret',
@@ -159,7 +159,7 @@ function fields_setup() {
 		'sophi_curator_url',
 		__( 'Sophi Curator URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'sophi_api',
 		[
 			'label_for' => 'sophi_curator_url',
@@ -170,7 +170,7 @@ function fields_setup() {
 		'query_integration',
 		__( 'Query Integration', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'sophi_api',
 		[
 			'label_for'   => 'query_integration',
@@ -189,10 +189,10 @@ function get_default_settings( $key = '' ) {
 	$default = [
 		'environment'         => 'prod',
 		'collector_url'       => 'https://collector.sophi.io',
+		'tracker_client_id'   => get_domain(),
 		'sophi_client_id'     => '',
 		'sophi_client_secret' => '',
 		'sophi_curator_url'   => '',
-		'tracker_client_id'   => get_domain(),
 		'query_integration'   => 1,
 	];
 
@@ -216,6 +216,52 @@ function sanitize_settings( $settings ) {
 	if ( empty( $settings['query_integration'] ) ) {
 		$settings['query_integration'] = 0;
 	}
+
+	if ( ! empty( $settings['sophi_client_id'] && ! empty( $settings['sophi_client_secret'] ) ) ) {
+		$auth = new Auth();
+		$response = $auth->request_access_token( $settings['sophi_client_id'], $settings['sophi_client_secret'] );
+		if ( is_wp_error( $response ) ) {
+			add_settings_error(
+				SETTINGS_GROUP,
+				SETTINGS_GROUP,
+				$response->get_error_message()
+			);
+		}
+	} else {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Both client ID and client secret are required for Curator integration!', 'sophi-wp' )
+		);
+	}
+
+	if ( empty( $settings['sophi_curator_url']) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Client URL is required for Curator integration!', 'sophi-wp' )
+		);
+	} else if ( ! filter_var( $settings['sophi_curator_url'], FILTER_VALIDATE_URL ) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Sophi Curator URL is invalid!', 'sophi-wp' )
+		);
+	}
+
+	if ( empty( $settings['collector_url']) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Collector URL can not be empty.', 'sophi-wp' )
+		);
+	} else {
+		$url = str_replace( 'http://', '', $settings['collector_url'] );
+		$url = str_replace( 'https://', '', $url );
+
+		$settings['collector_url'] = $url;
+	}
+
 	return $settings;
 }
 
@@ -226,7 +272,7 @@ function sanitize_settings( $settings ) {
  */
 function get_sophi_settings( $key = '' ) {
 	$defaults = get_default_settings();
-	$settings = get_option( 'sophi', [] );
+	$settings = get_option( SETTINGS_GROUP, [] );
 	$settings = wp_parse_args( $settings, $defaults );
 
 	if ( $key && isset( $settings[ $key ] ) ) {
@@ -270,7 +316,7 @@ function render_input( $args ) {
 		type="<?php echo esc_attr( $type ); ?>"
 		id="sophi-settings-<?php echo esc_attr( $args['label_for'] ); ?>"
 		class="<?php echo esc_attr( $class ); ?>"
-		name="sophi[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		name="<?php echo esc_attr( SETTINGS_GROUP ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
 		<?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
 	<?php
 	if ( ! empty( $args['description'] ) ) {
@@ -297,7 +343,7 @@ function render_select( $args ) {
 	?>
 	<select
 		id="sophi-settings-<?php echo esc_attr( $args['label_for'] ); ?>"
-		name="sophi[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		name="<?php echo esc_attr( SETTINGS_GROUP ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
 	>
 		<?php
 		foreach ( $options as $option_value => $label ) {
