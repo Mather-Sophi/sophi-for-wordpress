@@ -32,7 +32,7 @@ Sophi-driven pages outperform human curated pages by a significant margin and fr
 == Installation ==
 
 1a. Download plugin ZIP file and upload to your site.
-You can upload and install the [archived (zip) plugin](https://github.com/globeandmail/sophi-for-wordpress/archive/trunk.zip) via the WordPress dashboard (`Plugins` > `Add New` -> `Upload Plugin`) or manually inside of the `wp-content/plugins` directory, and activate on the Plugins dashboard.
+You can upload and install the [archived (zip) plugin](https://github.com/globeandmail/sophi-for-wordpress/archive/stable.zip) via the WordPress dashboard (`Plugins` > `Add New` -> `Upload Plugin`) or manually inside of the `wp-content/plugins` directory, and activate on the Plugins dashboard.
 
 1b. Download or Clone this repo, install dependencies, and build.
 - `git clone https://github.com/globeandmail/sophi-for-wordpress.git && cd sophi-for-wordpress`
