@@ -5,10 +5,8 @@ All notable changes to this project will be documented in this file, per [the Ke
 ## [Unreleased] - TBD
 
 ## [1.0.0] - TBD
-
-## [0.1.0] - TBD
-- First release
+- Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
-[1.0.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/0.1.0...1.0.0
-[0.1.0]: https://github.com/globeandmail/sophi-for-wordpress/tree/COMMIT-HASH-HERE
+[1.1.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.0...1.1.0
+[1.0.0]: https://github.com/globeandmail/sophi-for-wordpress/tree/COMMIT-HASH-HERE
