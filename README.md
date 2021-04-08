@@ -11,6 +11,7 @@
 * [Highlights](#highlights)
 * [Requirements](#requirements)
 * [Installation](#installation)
+* [Using the plugin](#usage)
 * [Documentation](#documentation)
 * [Developers](#developers)
   * [Dependencies](#dependencies)
@@ -27,7 +28,7 @@
 
 Sophi-driven pages outperform human curated pages by a significant margin and free up publisher resources so that they can focus on finding the next story that matters. Invisible, automated curation of your home and section pages to streamline your team’s workflow. Continuously optimize the performance characteristics of the site based on demand and your brand, so the content is always the right fit.
 
-## Highlights
+## Highlights of Sophi.io service
 
 * An automation platform capable of transforming your business.
 * State of the art natural language processing to enable prediction and optimization.
@@ -59,7 +60,15 @@ Click the `Activate` link after installing the plugin.
 ### 3. Configure plugin settings
 Go to `Settings` > `Sophi` in the WordPress Admin and enter your Sophi Collector and Curator credentials supplied by the [Sophi.io](https://www.sophi.io/contact/) team.  Click `Save Changes` button to validate and save your credentials.
 
+<img src="/.wordpress-org/screenshot-1.png" alt="Sophi.io Collector and Curator settings page." width="600">
+
 Once your credentials are validated and saved, your site is officially supercharged by the Sophi.io Site Automation service.  You also have access to Sophi for WordPress' powerful WP_Query parameters and custom Sophi Curator block, which enables you to utilize Curator to power the content curation on your site.
+
+## Usage
+
+You can utilize the Curator Block, configure the Curator page and widget name, and adjust block content and meta settings to display Curator content on your site or for more technical and in-depth integrations you can utilize `get_curated_posts` to inject Sophi Curator data into `WP_Query` using the `sophi_curated_page` and `sophi_curated_widget` query variables.
+
+<img src="/.wordpress-org/screenshot-2.png" alt="Sophi Curator block." width="600">
 
 ## Documentation
 

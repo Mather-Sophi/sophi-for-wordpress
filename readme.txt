@@ -18,7 +18,7 @@ Sophi-driven pages outperform human curated pages by a significant margin and fr
 
 **Note that a [Sophi.io account](https://www.sophi.io/contact/) and related credentials are required in order to authorize and authenticate access within the plugin settings.**
 
-== Highlights ==
+== Highlights of Sophi.io service ==
 
 * An automation platform capable of transforming your business.
 * State of the art natural language processing to enable prediction and optimization.
