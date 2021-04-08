@@ -1,0 +1,33 @@
+name: Build Release
+
+on:
+  push:
+    branches:
+    - trunk
+
+jobs:
+  release:
+    name: Push (merge) to trunk
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set Node.js 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: npm install and build
+      run: |
+        npm install
+        npm run build
+    - name: Release to Stable
+      uses: ./.github/action-release/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build hookdocs
+      run: npm run build:docs
+    - name: Deploy docs update
+      uses: maxheld83/ghpages@v0.3.0
+      env:
+        BUILD_DIR: 'docs/'
+        GH_PAT: ${{ secrets.GH_PAT }}
