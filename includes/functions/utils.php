@@ -169,3 +169,23 @@ function get_domain() {
 	$urlparts = wp_parse_url( home_url() );
 	return $urlparts['host'];
 }
+
+/**
+ * Get supported post types.
+ *
+ * @return array
+ */
+function get_supported_post_types() {
+	/**
+	 * Filter supported post types.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @hook sophi_supported_post_types
+	 *
+	 * @param {array} $post_types Supported post types.
+	 *
+	 * @return {array} Supported post types.
+	 */
+	return apply_filters( 'sophi_supported_post_types', [ 'post', 'page' ] );
+}

@@ -10,7 +10,7 @@ namespace SophiWP\ContentSync;
 use WP_Error;
 
 use function SophiWP\Settings\get_sophi_settings;
-use function SophiWP\Core\get_supported_post_types;
+use function SophiWP\Utils\get_supported_post_types;
 use SophiWP\Utils;
 
 use Snowplow\Tracker\Tracker;

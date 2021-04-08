@@ -7,7 +7,7 @@
 
 namespace SophiWP\Blocks;
 
-use function SophiWP\Core\get_supported_post_types;
+use function SophiWP\Utils\get_supported_post_types;
 
 /**
  * Set up blocks
