@@ -102,7 +102,6 @@ const CuratorBlockEdit = ({
 					</p>
 				</Placeholder>
 			)}
-			{/* todo: use React and REST API instead of ServerSideRender */}
 			{pageName && widgetName && (
 				<ServerSideRender
 					block="sophi/curator-block"
