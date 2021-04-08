@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Sophi for WordPress
  * Plugin URI:        https://github.com/globeandmail/sophi-for-wordpress
- * Description:       WordPress VIP-compatible plugin for the Sophi.io Curator service.
+ * Description:       WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
  * Version:           0.1.0
  * Requires at least: 5.6
  * Requires PHP:      7.4
