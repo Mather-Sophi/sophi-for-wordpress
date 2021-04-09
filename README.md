@@ -115,7 +115,7 @@ If you're looking to contribute to or extend the Sophi for WordPress plugin, the
 
 `$ wp sophi sync [--post_types=<string>] [--limit=<number>] [--per_page=<number>] [--include=<number>]`
 
-Sync all existing content to Sophi Collector.
+Sync all supported content to Sophi Collector, firing off update events for all of them.  The expected use case with the Sophi for WordPress plugin is that someone will install it on an existing site and instead of having to manually update each piece of content to ensure that it makes it to the Collector, they can run this script to handle that all at once.
 
 #### Options
 
