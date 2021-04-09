@@ -78,7 +78,7 @@ function track_event( $new_status, $old_status, $post ) {
 
 	$tracker->trackUnstructEvent(
 		[
-			'schema' => 'iglu:com.sophi/content_update/jsonschema/1-0-3',
+			'schema' => 'iglu:com.sophi/content_update/jsonschema/1-0-4',
 			'data'   => $data,
 		],
 		[
