@@ -32,7 +32,7 @@ function setup() {
 function settings_page() {
 	add_options_page(
 		__( 'Sophi Settings', 'sophi-wp' ),
-		__( 'Sophi Settings', 'sophi-wp' ),
+		__( 'Sophi', 'sophi-wp' ),
 		'manage_options',
 		'sophi',
 		__NAMESPACE__ . '\render_settings_page'
@@ -128,14 +128,14 @@ function fields_setup() {
 	// Add settings section
 	add_settings_section(
 		'sophi_api',
-		__( 'Sophi API settings', 'sophi-wp' ),
+		__( 'Curator settings', 'sophi-wp' ),
 		'',
 		SETTINGS_GROUP
 	);
 
 	add_settings_field(
 		'sophi_client_id',
-		__( 'Sophi Client ID', 'sophi-wp' ),
+		__( 'Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
@@ -146,7 +146,7 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_client_secret',
-		__( 'Sophi Client Secret', 'sophi-wp' ),
+		__( 'Client Secret', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
@@ -157,7 +157,7 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_curator_url',
-		__( 'Sophi Curator URL', 'sophi-wp' ),
+		__( 'Curator URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
