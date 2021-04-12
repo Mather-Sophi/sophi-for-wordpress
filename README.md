@@ -66,9 +66,36 @@ Once your credentials are validated and saved, your site is officially superchar
 
 ## Usage
 
-You can utilize the Curator Block, configure the Curator page and widget name, and adjust block content and meta settings to display Curator content on your site or for more technical and in-depth integrations you can utilize `get_curated_posts` to inject Sophi Curator data into `WP_Query` using the `sophi_curated_page` and `sophi_curated_widget` query variables.
+
+### Curator block
+
+You can utilize the Curator Block, configure the Curator page and widget name, and adjust block content and meta settings to display Curator content on your site.
 
 <img src="/.wordpress-org/screenshot-2.png" alt="Sophi Curator block." width="600">
+
+The Curator block comes with a barebone HTML output and styling. It's made to be filtered using `sophi_curator_block_output`.
+```php
+add_filter(
+	'sophi_curator_block_output',
+	function( $output, $curated_posts, $attributes, $content, $block ) {
+		// ...
+		return $new_output;
+	},
+	10,
+	5
+);
+```
+
+### Query integration
+
+Curator block uses query integration under the hood. You can query for Sophi curated articles by passing `sophi_curated_page` and `sophi_curated_widget` to your WP_Query queries.
+
+```php
+$the_query = new WP_Query( [
+	'sophi_curated_page'   => 'page-name',
+	'sophi_curated_widget' => 'widget-name',
+] );
+```
 
 ## Documentation
 
