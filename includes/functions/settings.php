@@ -24,6 +24,7 @@ function setup() {
 
 	add_action( 'admin_menu', $n( 'settings_page' ) );
 	add_action( 'admin_init', $n( 'fields_setup' ) );
+	add_filter( 'plugin_action_links_' . plugin_basename( SOPHI_WP_PATH . '/sophi-for-wordpress.php' ), $n( 'add_action_links' ) );
 }
 
 /**
@@ -360,4 +361,20 @@ function render_select( $args ) {
 	if ( ! empty( $args['description'] ) ) {
 		echo '<br /><span class="description">' . wp_kses_post( $args['description'] ) . '</span>';
 	}
+}
+
+/**
+ * Add setting page to plugin action links.
+ *
+ * @param array $actions Plugin actions.
+ *
+ * @return array
+ */
+function add_action_links ( $actions ) {
+	return array_merge(
+		[
+			'<a href="' . admin_url('options-general.php?page=sophi') . '">' . __('Set up your Sophi.io account', 'sophi-wp') . '</a>',
+		],
+		$actions
+	);
 }
