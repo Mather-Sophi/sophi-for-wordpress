@@ -12,6 +12,8 @@
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Using the plugin](#usage)
+  * [Curator block](#curator-block)
+  * [Query integration](#query-integration)
 * [Documentation](#documentation)
 * [Developers](#developers)
   * [Dependencies](#dependencies)
@@ -47,6 +49,8 @@ Sophi-driven pages outperform human curated pages by a significant margin and fr
 
 ## Installation
 
+*Note that if you are on the [WordPress VIP](https://wpvip.com/) platform that you will not be able to upload a plugin in the WordPress Admin so you will need to follow steps in 1b.*
+
 ### 1a. Download plugin ZIP file and upload to your site.
 You can upload and install the [archived (zip) plugin](https://github.com/globeandmail/sophi-for-wordpress/archive/stable.zip) via the WordPress dashboard (`Plugins` > `Add New` -> `Upload Plugin`) or manually inside of the `wp-content/plugins` directory, and activate on the Plugins dashboard.
 
@@ -66,6 +70,7 @@ Once your credentials are validated and saved, your site is officially superchar
 
 ## Usage
 
+There are two ways that Sophi Curator results can be included in a WordPress site, via a Curator block and a direct integration with WP_Query.  More details on each of these options are described below.
 
 ### Curator block
 
@@ -140,7 +145,7 @@ If you're looking to contribute to or extend the Sophi for WordPress plugin, the
 
 `$ wp sophi sync [--post_types=<string>] [--limit=<number>] [--per_page=<number>] [--include=<number>]`
 
-Sync all existing content to Sophi Collector.
+Sync all supported content to Sophi Collector, firing off update events for all of them.  The expected use case with the Sophi for WordPress plugin is that someone will install it on an existing site and instead of having to manually update each piece of content to ensure that it makes it to the Collector, they can run this script to handle that all at once.
 
 #### Options
 

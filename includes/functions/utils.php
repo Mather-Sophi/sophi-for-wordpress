@@ -177,7 +177,7 @@ function get_domain() {
  */
 function get_supported_post_types() {
 	/**
-	 * Filter supported post types.
+	 * Filter supported post types, the plugin supports Posts and Pages by default.  If you have Custom Post Types that should be sent to Collector, then this filter will need to be used to add those.
 	 *
 	 * @since 1.0.0
 	 *

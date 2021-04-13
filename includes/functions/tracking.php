@@ -129,7 +129,7 @@ function get_tracking_data() {
 	}
 
 	/**
-	 * Filter JS tracking data sent to collector.
+	 * Filter JS tracking data sent to Sophi Collector that gets generated on normal (non-AMP) pageviews.  If you have a unique need and the default data doesn't match those needs, then you can utilize this filter to modify that data as needed.
 	 *
 	 * @since 1.0.0
 	 * @hook sophi_tracking_data
@@ -199,7 +199,7 @@ function get_amp_tracking_data() {
 	];
 
 	/**
-	 * Filter AMP tracking data sent to collector.
+	 * Filter AMP tracking data sent to Sophi Collector that gets generated on AMP pageviews.  If you have a unique need and the default data doesn't match those needs, then you can utilize this filter to modify that data as needed.
 	 *
 	 * @since 1.0.0
 	 * @hook sophi_amp_tracking_data
@@ -284,7 +284,7 @@ function get_custom_contexts() {
 }
 
 /**
- * Check if current page needs tracking.
+ * Check if current page needs JS tracking.  By default this will show on most every page (things like the 404 page will be excluded and if a site has a search page it will be excluded as well).  If you have certain pages that you don't want tracked or pages that need to be tracked that aren't part of the default then this filter can be used to modify the default behavior.
  *
  * @return bool
  */
