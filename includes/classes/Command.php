@@ -16,10 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
-	return;
-}
-
 /**
  * Class: Sophi CLI Command.
  */
