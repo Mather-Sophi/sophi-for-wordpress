@@ -1,0 +1,30 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - develop
+      - trunk
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set PHP version
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        coverage: none
+
+    - name: Install dependencies
+      run: composer install --ignore-platform-reqs
+
+    - name: PHPUnit
+      run: './vendor/bin/phpunit'
