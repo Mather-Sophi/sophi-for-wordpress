@@ -135,9 +135,8 @@ If you're looking to contribute to or extend the Sophi for WordPress plugin, the
 
 ### Composer Commands
 
-`composer lint` (lint PHP files)
-
-`composer lint-fix` (lint PHP files and automatically correct coding standard violations)
+- `composer lint` (lint PHP files)
+- `composer lint-fix` (lint PHP files and automatically correct coding standard violations)
 
 ### WP-CLI Commands
 

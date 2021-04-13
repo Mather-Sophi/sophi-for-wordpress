@@ -33,24 +33,139 @@ Sophi-driven pages outperform human curated pages by a significant margin and fr
 
 *Note that if you are on the [WordPress VIP](https://wpvip.com/) platform that you will not be able to upload a plugin in the WordPress Admin so you will need to follow steps in 1b.*
 
-1a. Download plugin ZIP file and upload to your site.
+1a Download plugin ZIP file and upload to your site.
 You can upload and install the [archived (zip) plugin](https://github.com/globeandmail/sophi-for-wordpress/archive/stable.zip) via the WordPress dashboard (`Plugins` > `Add New` -> `Upload Plugin`) or manually inside of the `wp-content/plugins` directory, and activate on the Plugins dashboard.
 
-1b. Download or Clone this repo, install dependencies, and build.
+1b Download or Clone this repo, install dependencies, and build.
 - `git clone https://github.com/globeandmail/sophi-for-wordpress.git && cd sophi-for-wordpress`
 - `composer install && npm install && npm run build`
 
-2. Activate Plugin
+2 Activate Plugin
 Click the `Activate` link after installing the plugin.
 
-3. Configure plugin settings
+3 Configure plugin settings
 Go to `Settings` > `Sophi` in the WordPress Admin and enter your Sophi Collector and Curator credentials supplied by the [Sophi.io](https://www.sophi.io/contact/) team.  Click `Save Changes` button to validate and save your credentials.
 
+![Sophi.io Collector and Curator settings page.](https://github.com/globeandmail/sophi-for-wordpress/.wordpress-org/screenshot-1.png)
+
 Once your credentials are validated and saved, your site is officially supercharged by the Sophi.io Site Automation service.  You also have access to Sophi for WordPress' powerful WP_Query parameters and custom Sophi Curator block, which enables you to utilize Curator to power the content curation on your site.
+
+== Usage ==
+
+There are two ways that Sophi Curator results can be included in a WordPress site, via a Curator block and a direct integration with WP_Query.  More details on each of these options are described below.
+
+= Curator block =
+
+You can utilize the Curator Block, configure the Curator page and widget name, and adjust block content and meta settings to display Curator content on your site.
+
+![Sophi Curator block.](https://github.com/globeandmail/sophi-for-wordpress/.wordpress-org/screenshot-2.png)
+
+The Curator block comes with a barebone HTML output and styling. It's made to be filtered using `sophi_curator_block_output`.
+
+`
+add_filter(
+	'sophi_curator_block_output',
+	function( $output, $curated_posts, $attributes, $content, $block ) {
+		// ...
+		return $new_output;
+	},
+	10,
+	5
+);
+`
+
+= Query integration =
+
+Curator block uses query integration under the hood. You can query for Sophi curated articles by passing `sophi_curated_page` and `sophi_curated_widget` to your WP_Query queries.
+
+`
+$the_query = new WP_Query( [
+	'sophi_curated_page'   => 'page-name',
+	'sophi_curated_widget' => 'widget-name',
+] );
+`
 
 == Documentation ==
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the hook docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
+
+== Developers ==
+
+If you're looking to contribute to or extend the Sophi for WordPress plugin, then the following sub-sections are things to be aware of in terms of how the plugin is architected.
+
+= Dependencies =
+
+1. [Node >= 8.11 & NPM](https://www.npmjs.com/get-npm) - Build packages and 3rd party dependencies are managed through NPM, so you will need that installed globally.
+2. [Webpack](https://webpack.js.org/) - Webpack is used to process the JavaScript, CSS, and other assets.
+3. [Composer](https://getcomposer.org/) - Composer is used to manage PHP.
+
+= NPM Commands =
+
+- `npm run test` (runs phpunit)
+- `npm run start` (install dependencies)
+- `npm run watch` (watch)
+- `npm run build` (build all files)
+- `npm run build-release` (build all files for release)
+- `npm run dev` (build all files for development)
+- `npm run lint-release` (install dependencies and run linting)
+- `npm run lint-css` (lint CSS)
+- `npm run lint-js` (lint JS)
+- `npm run lint-php` (lint PHP)
+- `npm run lint` (run all lints)
+- `npm run format-js` (format JS using eslint)
+- `npm run format` (alias for `npm run format-js`)
+- `npm run test-a11y` (run accessibility tests)
+
+= Composer Commands =
+
+- `composer lint` (lint PHP files)
+- `composer lint-fix` (lint PHP files and automatically correct coding standard violations)
+
+= WP-CLI Commands =
+
+**Sync content to Sophi Collector**
+
+`$ wp sophi sync [--post_types=<string>] [--limit=<number>] [--per_page=<number>] [--include=<number>]`
+
+Sync all supported content to Sophi Collector, firing off update events for all of them.  The expected use case with the Sophi for WordPress plugin is that someone will install it on an existing site and instead of having to manually update each piece of content to ensure that it makes it to the Collector, they can run this script to handle that all at once.
+
+*Options*
+
+**`--post_types=<string>`**
+
+Post types to be processed. Comma separated for passing multiple post types.
+
+default: `false`
+options:
+- any post type name
+- `false`
+
+**`--limit=<number>`**
+
+Limit the amount of posts to be synced.
+
+default: `false`
+options:
+- `false`, no limit
+- `N`, max number of posts to sync
+
+**`--per_page=<number>`**
+
+Number of posts to process each batch.
+
+default: `false`
+options:
+- `false`, no limit
+- `N`, max number of posts to sync each batch
+
+**`--include=<number>`**
+
+Post IDs to process. Comma separated for passing multiple item.
+
+default: `false`
+options:
+- `false`, no limit
+- `N`, Post IDs to sync
 
 == Frequently Asked Questions ==
 
