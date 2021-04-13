@@ -252,7 +252,7 @@ function sanitize_settings( $settings ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
-			__( 'Both client ID and client secret are required for Curator integration!', 'sophi-wp' )
+			__( 'Both Client ID and Client Secret are required for Curator integration.', 'sophi-wp' )
 		);
 	}
 
@@ -260,13 +260,13 @@ function sanitize_settings( $settings ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
-			__( 'Client URL is required for Curator integration!', 'sophi-wp' )
+			__( 'Curator URL is required for Curator integration.', 'sophi-wp' )
 		);
 	} else if ( ! filter_var( $settings['sophi_curator_url'], FILTER_VALIDATE_URL ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
-			__( 'Sophi Curator URL is invalid!', 'sophi-wp' )
+			__( 'Curator URL is invalid.', 'sophi-wp' )
 		);
 	}
 

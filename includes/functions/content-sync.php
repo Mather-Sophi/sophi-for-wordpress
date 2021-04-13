@@ -142,7 +142,7 @@ function get_post_data( $post ) {
 	// Remove empty key.
 	$data = array_filter( $data );
 	/**
-	 * Filter post data for content sync events (CMS updates).
+	 * Filter post data for content sync events (aka "CMS updates" in Sophi.io terms) sent to Sophi Collector.  This allows control over data before it is sent to Collector in case it needs to be modified for unique site needs.  Note that if you add, change, or remove any fields with this that those changes will need to be coordinated with the Sophi.io team to ensure content is appropriately received by Collector.
 	 *
 	 * @since 1.0.0
 	 * @hook sophi_post_data
