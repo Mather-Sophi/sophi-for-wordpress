@@ -56,7 +56,7 @@ function blocks_categories( $categories, $post ) {
 		array(
 			array(
 				'slug'  => 'sophi-blocks',
-				'title' => __( 'Sophi Blocks', 'sophi-wp' ),
+				'title' => __( 'Sophi.io', 'sophi-wp' ),
 			),
 		)
 	);

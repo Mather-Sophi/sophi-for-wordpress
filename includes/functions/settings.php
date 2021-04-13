@@ -32,8 +32,8 @@ function setup() {
  */
 function settings_page() {
 	add_options_page(
-		__( 'Sophi Settings', 'sophi-wp' ),
-		__( 'Sophi', 'sophi-wp' ),
+		__( 'Sophi.io Settings', 'sophi-wp' ),
+		__( 'Sophi.io', 'sophi-wp' ),
 		'manage_options',
 		'sophi',
 		__NAMESPACE__ . '\render_settings_page'
@@ -46,7 +46,7 @@ function settings_page() {
 function render_settings_page() {
 	?>
 	<div class="wrap">
-		<h1><?php esc_html_e( 'Sophi Settings', 'sophi-wp' ); ?></h1>
+		<h1><?php esc_html_e( 'Sophi.io Settings', 'sophi-wp' ); ?></h1>
 		<div class="sophi-settings">
 			<form method="post" action="options.php">
 				<?php

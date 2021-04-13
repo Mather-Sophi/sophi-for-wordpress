@@ -24,7 +24,7 @@ import { ReactComponent as icon } from './icon.svg';
  * Register block
  */
 registerBlockType(block.name, {
-	title: __('Curator Block', 'sophi-wp'),
+	title: __('Curator', 'sophi-wp'),
 	description: __('Display curated content by Sophi', 'sophi-wp'),
 	edit,
 	save,
