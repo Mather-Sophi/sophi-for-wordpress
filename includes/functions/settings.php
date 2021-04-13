@@ -46,14 +46,34 @@ function settings_page() {
 function render_settings_page() {
 	?>
 	<div class="wrap">
-	<h1>Sophi Settings</h1>
-		<form method="post" action="options.php">
-			<?php
-			settings_fields( SETTINGS_GROUP );
-			do_settings_sections( SETTINGS_GROUP );
-			submit_button();
-			?>
-		</form>
+		<h1><?php esc_html_e( 'Sophi Settings', 'sophi-wp' ); ?></h1>
+		<div class="sophi-settings">
+			<form method="post" action="options.php">
+				<?php
+				settings_fields( SETTINGS_GROUP );
+				do_settings_sections( SETTINGS_GROUP );
+				submit_button();
+				?>
+			</form>
+			<div class="brand">
+				<a href="https://sophi.io" class="logo" title="<?php esc_attr_e( 'Sophi', 'sophi-wp' ); ?>">
+					<img src="<?php echo esc_url( trailingslashit( SOPHI_WP_URL ) . 'dist/images/logo.png' ); ?>" alt="<?php esc_attr_e( 'Sophi logo', 'sophi-wp' ); ?>" />
+				</a>
+				<p>
+					<strong>
+						<?php echo esc_html__( 'Sophi for WordPress', 'sophi-wp' ) . ' ' . esc_html__( 'by', 'sophi-wp' ); ?> <a href="https://10up.com" title="<?php esc_attr_e( '10up', 'sophi-wp' ); ?>"><?php esc_html_e( '10up', 'sophi-wp' ); ?></a>
+					</strong>
+				</p>
+				<nav>
+					<a href="https://github.com/globeandmail/sophi-for-wordpress#frequently-asked-questions" target="_blank" title="<?php esc_attr_e( 'FAQs', 'sophi-wp' ); ?>">
+						<?php esc_html_e( 'FAQs', 'sophi-wp' ); ?><span class="dashicons dashicons-external"></span>
+					</a>
+					<a href="https://github.com/globeandmail/sophi-for-wordpress/issues" target="_blank" title="<?php esc_attr_e( 'Support', 'sophi-wp' ); ?>">
+						<?php esc_html_e( 'Support', 'sophi-wp' ); ?><span class="dashicons dashicons-external"></span>
+					</a>
+				</nav>
+			</div>
+		</div>
 	</div>
 	<?php
 }
