@@ -12,6 +12,8 @@
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Using the plugin](#usage)
+  * [Curator block](#curator-block)
+  * [Query integration](#query-integration)
 * [Documentation](#documentation)
 * [Developers](#developers)
   * [Dependencies](#dependencies)
@@ -68,6 +70,7 @@ Once your credentials are validated and saved, your site is officially superchar
 
 ## Usage
 
+There are two ways that Sophi Curator results can be included in a WordPress site, via a Curator block and a direct integration with WP_Query.  More details on each of these options are described below.
 
 ### Curator block
 
