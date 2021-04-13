@@ -24,6 +24,8 @@ function setup() {
 	// Hook to allow async or defer on asset loading.
 	add_filter( 'script_loader_tag', $n( 'script_loader_tag' ), 10, 2 );
 
+	add_action( 'admin_enqueue_scripts', $n( 'admin_styles' ) );
+
 	/**
 	 * Fires when starting the initialization.
 	 *
@@ -140,4 +142,20 @@ function script_loader_tag( $tag, $handle ) {
 	}
 
 	return $tag;
+}
+
+/**
+ * Enqueue styles for admin.
+ *
+ * @return void
+ */
+function admin_styles() {
+
+	wp_enqueue_style(
+		'sophi-admin',
+		style_url( 'admin-style', 'admin' ),
+		[],
+		SOPHI_WP_VERSION
+	);
+
 }

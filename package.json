@@ -61,6 +61,7 @@
   "@10up/scripts": {
     "entry": {
       "sophi-tag": "./assets/js/frontend/sophi-tag.js",
+      "admin-style": "./assets/css/admin/admin-style.css",
       "curator-block": "./includes/blocks/curator-block/index.js"
     }
   }

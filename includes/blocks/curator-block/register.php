@@ -51,6 +51,19 @@ function render_block_callback( $attributes, $content, $block ) {
 	ob_start();
 	include __DIR__ . '/markup.php';
 
+	/**
+	 * Filter the output of curator block.
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_curator_block_output
+	 *
+	 * @param {string} $output HTML output of curator block.
+	 * @param {array} $curated_posts Array of curated posts. This is an array of WP_Post objects.
+	 * @param {array} $attributes Block attributes.
+	 * @param {array} $block Block context.
+	 *
+	 * @return {string} HTML output of curator block.
+	 */
 	return apply_filters(
 		'sophi_curator_block_output',
 		ob_get_clean(),

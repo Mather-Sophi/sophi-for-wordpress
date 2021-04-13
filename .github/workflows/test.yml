@@ -1,4 +1,4 @@
-name: PHPCS Linting
+name: PHPUnit Testing
 
 on:
   push:
@@ -10,20 +10,21 @@ on:
       - develop
 
 jobs:
-  phpcs:
-    name: phpcs
+  phpunit:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
     - name: Set PHP version
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
         coverage: none
-    - name: composer install
-      run: composer install
-    - name: PHPCS check
-      uses: chekalsky/phpcs-action@v1
-      with:
-        phpcs_bin_path: './vendor/bin/phpcs'
+
+    - name: Install dependencies
+      run: composer install --ignore-platform-reqs
+
+    - name: PHPUnit
+      run: './vendor/bin/phpunit'
