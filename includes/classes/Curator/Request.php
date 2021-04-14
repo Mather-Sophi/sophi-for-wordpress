@@ -5,7 +5,7 @@
  * @package SophiWP
  */
 
-namespace SophiWP\Curator;
+namespace SophiWP\SiteAutomation;
 
 use function SophiWP\Settings\get_sophi_settings;
 
@@ -22,28 +22,28 @@ class Request {
 	private $auth;
 
 	/**
-	 * Curator API URL.
+	 * Site Automation API URL.
 	 *
 	 * @var string $api_url
 	 */
 	private $api_url;
 
 	/**
-	 * Page name for curator request.
+	 * Page name for Site Automation request.
 	 *
 	 * @var string $page
 	 */
 	private $page;
 
 	/**
-	 * Widget name for curator request.
+	 * Widget name for Site Automation request.
 	 *
 	 * @var string $widget
 	 */
 	private $widget;
 
 	/**
-	 * Status of latest curator request.
+	 * Status of latest Site Automation request.
 	 *
 	 * @var array $status
 	 */
@@ -79,10 +79,10 @@ class Request {
 		$this->api_url = $this->set_api_url( $page, $widget );
 
 		$this->status = $this->get_status();
-		$curator_data = get_option( "sophi_curator_data_{$page}_{$widget}" );
+		$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
 
-		if ( ! empty( $this->status['success'] ) && $curator_data ) {
-			return $curator_data;
+		if ( ! empty( $this->status['success'] ) && $site_automation_data ) {
+			return $site_automation_data;
 		}
 
 		$response = $this->request();
@@ -98,8 +98,8 @@ class Request {
 			$this->retry();
 
 			// If we have stale data, use it.
-			if ( $curator_data ) {
-				return $curator_data;
+			if ( $site_automation_data ) {
+				return $site_automation_data;
 			} else {
 				return [];
 			}
@@ -138,7 +138,7 @@ class Request {
 	 * @return array
 	 */
 	private function get_status() {
-		return get_transient( "sophi_curator_status_{$this->page}_{$this->widget}" );
+		return get_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}" );
 	}
 
 	/**
@@ -163,11 +163,11 @@ class Request {
 		}
 
 		$this->status = $data;
-		set_transient( "sophi_curator_status_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
+		set_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
 	}
 
 	/**
-	 * Get curated data from Sophi Curator API.
+	 * Get curated data from Sophi Site Automation API.
 	 *
 	 * return
 	 */
@@ -205,7 +205,7 @@ class Request {
 	/**
 	 * Process response from Sophi.
 	 *
-	 * @param array $response Response of Curator API.
+	 * @param array $response Response of Site Automation API.
 	 *
 	 * @return array
 	 */
@@ -214,12 +214,12 @@ class Request {
 			return [];
 		}
 
-		update_option( "sophi_curator_data_{$this->page}_{$this->widget}", $response );
+		update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
 		return $response;
 	}
 
 	/**
-	 * Prepare curator API URL
+	 * Prepare Site Automation API URL
 	 *
 	 * @param string $page Page name.
 	 * @param string $widget Widget name.
@@ -227,10 +227,10 @@ class Request {
 	 * @return string
 	 */
 	private function set_api_url( $page, $widget ) {
-		$curator_url = get_sophi_settings( 'sophi_curator_url' );
-		$curator_url = untrailingslashit( $curator_url );
+		$site_automation_url = get_sophi_settings( 'sophi_site_automation_url' );
+		$site_automation_url = untrailingslashit( $site_automation_url );
 
-		return sprintf( '%1$s/curatedPages/%2$s/widgets/%3$s/contents', $curator_url, $page, $widget );
+		return sprintf( '%1$s/curatedPages/%2$s/widgets/%3$s/contents', $site_automation_url, $page, $widget );
 	}
 
 	/**
