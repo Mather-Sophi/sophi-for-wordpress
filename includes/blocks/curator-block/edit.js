@@ -17,8 +17,8 @@ import { editPropsShape } from './props-shape';
  *
  * @param {Object}   props                                   The block props.
  * @param {Object}   props.attributes                        Block attributes.
- * @param {string}   props.attributes.pageName               Page name for curator request.
- * @param {string}   props.attributes.widgetName             Widget name for curator request.
+ * @param {string}   props.attributes.pageName               Page name for Site Automation request.
+ * @param {string}   props.attributes.widgetName             Widget name for Site Automation request.
  * @param {boolean}  props.attributes.displayPostExcept      Whether to display post excerpt.
  * @param {boolean}  props.attributes.displayAuthor          Whether to display post author.
  * @param {boolean}  props.attributes.displayPostDate        Whether to display post date.
