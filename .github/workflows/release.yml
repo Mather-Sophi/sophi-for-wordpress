@@ -16,6 +16,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - name: composer install
+      run: composer install --no-dev
     - name: npm install and build
       run: |
         npm install
