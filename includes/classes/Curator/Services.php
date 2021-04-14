@@ -1,25 +1,25 @@
 <?php
 /**
- * Curator services.
+ * Site Automation services.
  *
  * @package SophiWP
  */
 
-namespace SophiWP\Curator;
+namespace SophiWP\SiteAutomation;
 
 /**
  * Simple service container.
  */
 class Services {
 	/**
-	 * Curator services.
+	 * Site Automation services.
 	 *
 	 * @var array $services.
 	 */
 	private $services;
 
 	/**
-	 * Register services needs for Curator.
+	 * Register services needs for Site Automation.
 	 */
 	public function register() {
 		$this->auth        = new Auth();
