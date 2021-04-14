@@ -15,15 +15,21 @@ import { editPropsShape } from './props-shape';
  * Edit component.
  * See https://wordpress.org/gutenberg/handbook/designers-developers/developers/block-api/block-edit-save/#edit
  *
- * @param {Object}   props                        The block props.
- * @param {Object}   props.attributes             Block attributes.
- * @param {string}   props.attributes.pageName    Page name for curator request.
- * @param {string}   props.attributes.widgetName  Widget name for curator request.
- * @param {string}   props.className              Class name for the block.
- * @param {Function} props.setAttributes          Sets the value for block attributes.
+ * @param {Object}   props                                   The block props.
+ * @param {Object}   props.attributes                        Block attributes.
+ * @param {string}   props.attributes.pageName               Page name for Site Automation request.
+ * @param {string}   props.attributes.widgetName             Widget name for Site Automation request.
+ * @param {boolean}  props.attributes.displayPostExcept      Whether to display post excerpt.
+ * @param {boolean}  props.attributes.displayAuthor          Whether to display post author.
+ * @param {boolean}  props.attributes.displayPostDate        Whether to display post date.
+ * @param {boolean}  props.attributes.displayFeaturedImage   Whether to display featured image.
+ * @param {boolean}  props.attributes.addLinkToFeaturedImage Whether to add post permalink to featured image.
+ * @param {string}   props.className                         Class name for the block.
+ * @param {Function} props.setAttributes                     Sets the value for block attributes.
+ *
  * @return {Function} Render the edit screen
  */
-const CuratorBlockEdit = ({
+const SiteAutomationBlockEdit = ({
 	attributes: {
 		pageName,
 		widgetName,
@@ -39,7 +45,7 @@ const CuratorBlockEdit = ({
 	return (
 		<div className={className}>
 			<InspectorControls>
-				<PanelBody title={__('Curator settings', 'sophi-wp')}>
+				<PanelBody title={__('Site Automation settings', 'sophi-wp')}>
 					<TextControl
 						label={__('Page name', 'sophi-wp')}
 						value={pageName}
@@ -93,10 +99,10 @@ const CuratorBlockEdit = ({
 			</InspectorControls>
 
 			{!(pageName && widgetName) && (
-				<Placeholder label={__('Sophi.io Curator', 'sophi-wp')}>
+				<Placeholder label={__('Sophi.io Site Automation', 'sophi-wp')}>
 					<p>
 						{__(
-							'Please set page and widget name for this curator block on the sidebar settings.',
+							'Please set page and widget name for this Site Automation block on the sidebar settings.',
 							'sophi-wp',
 						)}
 					</p>
@@ -104,7 +110,7 @@ const CuratorBlockEdit = ({
 			)}
 			{pageName && widgetName && (
 				<ServerSideRender
-					block="sophi/curator-block"
+					block="sophi/site-automation-block"
 					attributes={{
 						pageName,
 						widgetName,
@@ -120,6 +126,6 @@ const CuratorBlockEdit = ({
 	);
 };
 // Set the propTypes
-CuratorBlockEdit.propTypes = editPropsShape;
+SiteAutomationBlockEdit.propTypes = editPropsShape;
 
-export default CuratorBlockEdit;
+export default SiteAutomationBlockEdit;

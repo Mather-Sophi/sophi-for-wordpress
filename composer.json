@@ -1,6 +1,6 @@
 {
   "name": "globeandmail/sophi-wp",
-  "description": "WordPress VIP-compatible plugin for the Sophi.io Curator service.",
+  "description": "WordPress VIP-compatible plugin for the Sophi.io Site Automation service.",
   "type": "wordpress-plugin",
   "homepage": "https://github.com/globeandmail/sophi-for-wordpress",
   "readme": "https://github.com/globeandmail/sophi-for-wordpress/blob/develop/README.md",

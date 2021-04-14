@@ -3,6 +3,6 @@
  *
  * @return {null} Dynamic blocks do not save the HTML.
  */
-const CuratorBlockSave = () => null;
+const SiteAutomationBlockSave = () => null;
 
-export default CuratorBlockSave;
+export default SiteAutomationBlockSave;

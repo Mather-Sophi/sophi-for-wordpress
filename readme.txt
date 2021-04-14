@@ -1,6 +1,6 @@
 === Sophi for WordPress ===
 Contributors:      10up
-Tags:              Sophi, Curator, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
+Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Requires at least: 5.6
 Tested up to:      5.6
 Requires PHP:      7.4
@@ -44,27 +44,27 @@ You can upload and install the [archived (zip) plugin](https://github.com/globea
 Click the `Activate` link after installing the plugin.
 
 3 Configure plugin settings
-Go to `Settings` > `Sophi` in the WordPress Admin and enter your Sophi Collector and Curator credentials supplied by the [Sophi.io](https://www.sophi.io/contact/) team.  Click `Save Changes` button to validate and save your credentials.
+Go to `Settings` > `Sophi` in the WordPress Admin and enter your Sophi Collector and Site Automation credentials supplied by the [Sophi.io](https://www.sophi.io/contact/) team.  Click `Save Changes` button to validate and save your credentials.
 
-![Sophi.io Collector and Curator settings page.](https://github.com/globeandmail/sophi-for-wordpress/.wordpress-org/screenshot-1.png)
+![Sophi.io Collector and Site Automation settings page.](https://github.com/globeandmail/sophi-for-wordpress/.wordpress-org/screenshot-1.png)
 
-Once your credentials are validated and saved, your site is officially supercharged by the Sophi.io Site Automation service.  You also have access to Sophi for WordPress' powerful WP_Query parameters and custom Sophi Curator block, which enables you to utilize Curator to power the content curation on your site.
+Once your credentials are validated and saved, your site is officially supercharged by the Sophi.io Site Automation service.  You also have access to Sophi for WordPress' powerful WP_Query parameters and custom Sophi Site Automation block, which enables you to utilize Site Automation to power the content curation on your site.
 
 == Usage ==
 
-There are two ways that Sophi Curator results can be included in a WordPress site, via a Curator block and a direct integration with WP_Query.  More details on each of these options are described below.
+There are two ways that Sophi Site Automation results can be included in a WordPress site, via a Site Automation block and a direct integration with WP_Query.  More details on each of these options are described below.
 
-= Curator block =
+= Site Automation block =
 
-You can utilize the Curator Block, configure the Curator page and widget name, and adjust block content and meta settings to display Curator content on your site.
+You can utilize the Site Automation Block, configure the Site Automation page and widget name, and adjust block content and meta settings to display Site Automation content on your site.
 
-![Sophi Curator block.](https://github.com/globeandmail/sophi-for-wordpress/.wordpress-org/screenshot-2.png)
+![Sophi Site Automation block.](https://github.com/globeandmail/sophi-for-wordpress/.wordpress-org/screenshot-2.png)
 
-The Curator block comes with a barebone HTML output and styling. It's made to be filtered using `sophi_curator_block_output`.
+The Site Automation block comes with a barebone HTML output and styling. It's made to be filtered using `sophi_site_automation_block_output`.
 
 `
 add_filter(
-	'sophi_curator_block_output',
+	'sophi_site_automation_block_output',
 	function( $output, $curated_posts, $attributes, $content, $block ) {
 		// ...
 		return $new_output;
@@ -76,7 +76,7 @@ add_filter(
 
 = Query integration =
 
-Curator block uses query integration under the hood. You can query for Sophi curated articles by passing `sophi_curated_page` and `sophi_curated_widget` to your WP_Query queries.
+The Site Automation block uses query integration under the hood. You can query for Sophi curated articles by passing `sophi_curated_page` and `sophi_curated_widget` to your WP_Query queries.
 
 `
 $the_query = new WP_Query( [
@@ -188,8 +188,8 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Screenshots ==
 
-1. Sophi.io Collector and Curator settings page.
-2. Sophi Curator block.
+1. Sophi.io Collector and Site Automation settings page.
+2. Sophi Site Automation block.
 
 == Changelog ==
 
