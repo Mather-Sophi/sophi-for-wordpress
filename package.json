@@ -1,7 +1,7 @@
 {
   "name": "@globeandmail/sophi-wp",
   "version": "0.1.0",
-  "description": "WordPress VIP-compatible plugin for the Sophi.io Curator service.",
+  "description": "WordPress VIP-compatible plugin for the Sophi.io Site Automation service.",
   "homepage": "https://github.com/globeandmail/sophi-for-wordpress",
   "bugs": {
     "url": "https://github.com/globeandmail/sophi-for-wordpress/issues"
@@ -62,7 +62,7 @@
     "entry": {
       "sophi-tag": "./assets/js/frontend/sophi-tag.js",
       "admin-style": "./assets/css/admin/admin-style.css",
-      "curator-block": "./includes/blocks/curator-block/index.js"
+      "site-automation-block": "./includes/blocks/site-automation-block/index.js"
     }
   }
 }
