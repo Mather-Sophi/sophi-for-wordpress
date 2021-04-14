@@ -1,11 +1,11 @@
 <?php
 /**
- * Curator Integration: Hook into WP_Query or block to replace WordPress content with Sophi curated.
+ * Site Automation Integration: Hook into WP_Query or block to replace WordPress content with Sophi curated.
  *
  * @package SophiWP
  */
 
-namespace SophiWP\Curator;
+namespace SophiWP\SiteAutomation;
 
 use function SophiWP\Settings\get_sophi_settings;
 
