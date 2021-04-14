@@ -9,15 +9,11 @@ namespace SophiWP;
 
 use WP_CLI;
 
-use function SophiWP\Core\get_supported_post_types;
+use function SophiWP\Utils\get_supported_post_types;
 use function SophiWP\ContentSync\track_event;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
-}
-
-if ( ! class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
-	return;
 }
 
 /**

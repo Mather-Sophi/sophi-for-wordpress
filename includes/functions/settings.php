@@ -7,7 +7,10 @@
 
 namespace SophiWP\Settings;
 
+use SophiWP\Curator\Auth;
 use function SophiWP\Utils\get_domain;
+
+const SETTINGS_GROUP = 'sophi_settings';
 
 /**
  * Default setup routine
@@ -20,7 +23,8 @@ function setup() {
 	};
 
 	add_action( 'admin_menu', $n( 'settings_page' ) );
-	add_action( 'admin_menu', $n( 'fields_setup' ) );
+	add_action( 'admin_init', $n( 'fields_setup' ) );
+	add_filter( 'plugin_action_links_' . plugin_basename( SOPHI_WP_PATH . '/sophi-for-wordpress.php' ), $n( 'add_action_links' ) );
 }
 
 /**
@@ -28,8 +32,8 @@ function setup() {
  */
 function settings_page() {
 	add_options_page(
-		__( 'Sophi Settings', 'sophi-wp' ),
-		__( 'Sophi Settings', 'sophi-wp' ),
+		__( 'Sophi.io Settings', 'sophi-wp' ),
+		__( 'Sophi.io', 'sophi-wp' ),
 		'manage_options',
 		'sophi',
 		__NAMESPACE__ . '\render_settings_page'
@@ -42,14 +46,34 @@ function settings_page() {
 function render_settings_page() {
 	?>
 	<div class="wrap">
-	<h1>Sophi Settings</h1>
-		<form method="post" action="options.php">
-			<?php
-			settings_fields( 'sophi' );
-			do_settings_sections( 'sophi' );
-			submit_button();
-			?>
-		</form>
+		<h1><?php esc_html_e( 'Sophi.io Settings', 'sophi-wp' ); ?></h1>
+		<div class="sophi-settings">
+			<form method="post" action="options.php">
+				<?php
+				settings_fields( SETTINGS_GROUP );
+				do_settings_sections( SETTINGS_GROUP );
+				submit_button();
+				?>
+			</form>
+			<div class="brand">
+				<a href="https://sophi.io" class="logo" title="<?php esc_attr_e( 'Sophi', 'sophi-wp' ); ?>">
+					<img src="<?php echo esc_url( trailingslashit( SOPHI_WP_URL ) . 'dist/images/logo.png' ); ?>" alt="<?php esc_attr_e( 'Sophi logo', 'sophi-wp' ); ?>" />
+				</a>
+				<p>
+					<strong>
+						<?php echo esc_html__( 'Sophi for WordPress', 'sophi-wp' ) . ' ' . esc_html__( 'by', 'sophi-wp' ); ?> <a href="https://10up.com" title="<?php esc_attr_e( '10up', 'sophi-wp' ); ?>"><?php esc_html_e( '10up', 'sophi-wp' ); ?></a>
+					</strong>
+				</p>
+				<nav>
+					<a href="https://github.com/globeandmail/sophi-for-wordpress#frequently-asked-questions" target="_blank" title="<?php esc_attr_e( 'FAQs', 'sophi-wp' ); ?>">
+						<?php esc_html_e( 'FAQs', 'sophi-wp' ); ?><span class="dashicons dashicons-external"></span>
+					</a>
+					<a href="https://github.com/globeandmail/sophi-for-wordpress/issues" target="_blank" title="<?php esc_attr_e( 'Support', 'sophi-wp' ); ?>">
+						<?php esc_html_e( 'Support', 'sophi-wp' ); ?><span class="dashicons dashicons-external"></span>
+					</a>
+				</nav>
+			</div>
+		</div>
 	</div>
 	<?php
 }
@@ -60,13 +84,9 @@ function render_settings_page() {
 function fields_setup() {
 	// Register the main settings.
 	register_setting(
-		'sophi',
-		'sophi',
-		[
-			'type'              => 'array',
-			'sanitize_callback' => __NAMESPACE__ . '\sanitize_settings',
-			'default'           => [],
-		]
+		SETTINGS_GROUP,
+		SETTINGS_GROUP,
+		__NAMESPACE__ . '\sanitize_settings'
 	);
 
 	// Add settings section
@@ -74,14 +94,14 @@ function fields_setup() {
 		'environment',
 		__( 'Environment settings', 'sophi-wp' ),
 		'',
-		'sophi'
+		SETTINGS_GROUP
 	);
 
 	add_settings_field(
 		'environment',
 		__( 'Environment', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_select',
-		'sophi',
+		SETTINGS_GROUP,
 		'environment',
 		[
 			'label_for'  => 'environment',
@@ -100,17 +120,18 @@ function fields_setup() {
 		'collector_settings',
 		__( 'Collector settings', 'sophi-wp' ),
 		'',
-		'sophi'
+		SETTINGS_GROUP
 	);
 
 	add_settings_field(
 		'collector_url',
 		__( 'Collector URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'collector_settings',
 		[
 			'label_for' => 'collector_url',
+			'description' => __( 'Please use URL without http(s) scheme.', 'sophi-wp' ),
 		]
 	);
 
@@ -118,7 +139,7 @@ function fields_setup() {
 		'tracker_client_id',
 		__( 'Tracker Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'collector_settings',
 		[
 			'label_for' => 'tracker_client_id',
@@ -128,16 +149,16 @@ function fields_setup() {
 	// Add settings section
 	add_settings_section(
 		'sophi_api',
-		__( 'Sophi API settings', 'sophi-wp' ),
+		__( 'Curator settings', 'sophi-wp' ),
 		'',
-		'sophi'
+		SETTINGS_GROUP
 	);
 
 	add_settings_field(
 		'sophi_client_id',
-		__( 'Sophi Client ID', 'sophi-wp' ),
+		__( 'Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'sophi_api',
 		[
 			'label_for' => 'sophi_client_id',
@@ -146,9 +167,9 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_client_secret',
-		__( 'Sophi Client Secret', 'sophi-wp' ),
+		__( 'Client Secret', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'sophi_api',
 		[
 			'label_for' => 'sophi_client_secret',
@@ -157,9 +178,9 @@ function fields_setup() {
 
 	add_settings_field(
 		'sophi_curator_url',
-		__( 'Sophi Curator URL', 'sophi-wp' ),
+		__( 'Curator URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'sophi_api',
 		[
 			'label_for' => 'sophi_curator_url',
@@ -170,7 +191,7 @@ function fields_setup() {
 		'query_integration',
 		__( 'Query Integration', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
-		'sophi',
+		SETTINGS_GROUP,
 		'sophi_api',
 		[
 			'label_for'   => 'query_integration',
@@ -189,10 +210,10 @@ function get_default_settings( $key = '' ) {
 	$default = [
 		'environment'         => 'prod',
 		'collector_url'       => 'https://collector.sophi.io',
+		'tracker_client_id'   => get_domain(),
 		'sophi_client_id'     => '',
 		'sophi_client_secret' => '',
 		'sophi_curator_url'   => '',
-		'tracker_client_id'   => get_domain(),
 		'query_integration'   => 1,
 	];
 
@@ -216,6 +237,52 @@ function sanitize_settings( $settings ) {
 	if ( empty( $settings['query_integration'] ) ) {
 		$settings['query_integration'] = 0;
 	}
+
+	if ( ! empty( $settings['sophi_client_id'] && ! empty( $settings['sophi_client_secret'] ) ) ) {
+		$auth = new Auth();
+		$response = $auth->request_access_token( $settings['sophi_client_id'], $settings['sophi_client_secret'] );
+		if ( is_wp_error( $response ) ) {
+			add_settings_error(
+				SETTINGS_GROUP,
+				SETTINGS_GROUP,
+				$response->get_error_message()
+			);
+		}
+	} else {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Both Client ID and Client Secret are required for Curator integration.', 'sophi-wp' )
+		);
+	}
+
+	if ( empty( $settings['sophi_curator_url']) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Curator URL is required for Curator integration.', 'sophi-wp' )
+		);
+	} else if ( ! filter_var( $settings['sophi_curator_url'], FILTER_VALIDATE_URL ) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Curator URL is invalid.', 'sophi-wp' )
+		);
+	}
+
+	if ( empty( $settings['collector_url']) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Collector URL can not be empty.', 'sophi-wp' )
+		);
+	} else {
+		$url = str_replace( 'http://', '', $settings['collector_url'] );
+		$url = str_replace( 'https://', '', $url );
+
+		$settings['collector_url'] = $url;
+	}
+
 	return $settings;
 }
 
@@ -226,7 +293,7 @@ function sanitize_settings( $settings ) {
  */
 function get_sophi_settings( $key = '' ) {
 	$defaults = get_default_settings();
-	$settings = get_option( 'sophi', [] );
+	$settings = get_option( SETTINGS_GROUP, [] );
 	$settings = wp_parse_args( $settings, $defaults );
 
 	if ( $key && isset( $settings[ $key ] ) ) {
@@ -270,7 +337,7 @@ function render_input( $args ) {
 		type="<?php echo esc_attr( $type ); ?>"
 		id="sophi-settings-<?php echo esc_attr( $args['label_for'] ); ?>"
 		class="<?php echo esc_attr( $class ); ?>"
-		name="sophi[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		name="<?php echo esc_attr( SETTINGS_GROUP ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
 		<?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
 	<?php
 	if ( ! empty( $args['description'] ) ) {
@@ -297,7 +364,7 @@ function render_select( $args ) {
 	?>
 	<select
 		id="sophi-settings-<?php echo esc_attr( $args['label_for'] ); ?>"
-		name="sophi[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		name="<?php echo esc_attr( SETTINGS_GROUP ); ?>[<?php echo esc_attr( $args['label_for'] ); ?>]"
 	>
 		<?php
 		foreach ( $options as $option_value => $label ) {
@@ -314,4 +381,20 @@ function render_select( $args ) {
 	if ( ! empty( $args['description'] ) ) {
 		echo '<br /><span class="description">' . wp_kses_post( $args['description'] ) . '</span>';
 	}
+}
+
+/**
+ * Add setting page to plugin action links.
+ *
+ * @param array $actions Plugin actions.
+ *
+ * @return array
+ */
+function add_action_links ( $actions ) {
+	return array_merge(
+		[
+			'<a href="' . admin_url('options-general.php?page=sophi') . '">' . __('Set up your Sophi.io account', 'sophi-wp') . '</a>',
+		],
+		$actions
+	);
 }

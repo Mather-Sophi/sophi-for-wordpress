@@ -24,13 +24,15 @@ function setup() {
 	// Hook to allow async or defer on asset loading.
 	add_filter( 'script_loader_tag', $n( 'script_loader_tag' ), 10, 2 );
 
+	add_action( 'admin_enqueue_scripts', $n( 'admin_styles' ) );
+
 	/**
-	 * Fires after Sophi has been loaded.
+	 * Fires when starting the initialization.
 	 *
 	 * @since 1.0.0
-	 * @hook sophi_loaded
+	 * @hook sophi_init
 	 */
-	do_action( 'sophi_loaded' );
+	do_action( 'sophi_init' );
 }
 
 /**
@@ -50,8 +52,6 @@ function i18n() {
  * @return void
  */
 function activate() {
-	// First load the init scripts in case any rewrite functionality is being loaded
-	init();
 }
 
 /**
@@ -62,7 +62,6 @@ function activate() {
  * @return void
  */
 function deactivate() {
-
 }
 
 
@@ -146,21 +145,17 @@ function script_loader_tag( $tag, $handle ) {
 }
 
 /**
- * Get supported post types.
+ * Enqueue styles for admin.
  *
- * @return array
+ * @return void
  */
-function get_supported_post_types() {
-	/**
-	 * Filter supported post types.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @hook sophi_supported_post_types
-	 *
-	 * @param {array} $post_types Supported post types.
-	 *
-	 * @return {array} Supported post types.
-	 */
-	return apply_filters( 'sophi_supported_post_types', [ 'post', 'page' ] );
+function admin_styles() {
+
+	wp_enqueue_style(
+		'sophi-admin',
+		style_url( 'admin-style', 'admin' ),
+		[],
+		SOPHI_WP_VERSION
+	);
+
 }

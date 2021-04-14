@@ -93,7 +93,7 @@ const CuratorBlockEdit = ({
 			</InspectorControls>
 
 			{!(pageName && widgetName) && (
-				<Placeholder label={__('Sophi Curator', 'sophi-wp')}>
+				<Placeholder label={__('Sophi.io Curator', 'sophi-wp')}>
 					<p>
 						{__(
 							'Please set page and widget name for this curator block on the sidebar settings.',
@@ -102,7 +102,6 @@ const CuratorBlockEdit = ({
 					</p>
 				</Placeholder>
 			)}
-			{/* todo: use React and REST API instead of ServerSideRender */}
 			{pageName && widgetName && (
 				<ServerSideRender
 					block="sophi/curator-block"

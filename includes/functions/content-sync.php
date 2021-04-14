@@ -10,7 +10,7 @@ namespace SophiWP\ContentSync;
 use WP_Error;
 
 use function SophiWP\Settings\get_sophi_settings;
-use function SophiWP\Core\get_supported_post_types;
+use function SophiWP\Utils\get_supported_post_types;
 use SophiWP\Utils;
 
 use Snowplow\Tracker\Tracker;
@@ -78,7 +78,7 @@ function track_event( $new_status, $old_status, $post ) {
 
 	$tracker->trackUnstructEvent(
 		[
-			'schema' => 'iglu:com.sophi/content_update/jsonschema/1-0-3',
+			'schema' => 'iglu:com.sophi/content_update/jsonschema/1-0-4',
 			'data'   => $data,
 		],
 		[
@@ -142,7 +142,7 @@ function get_post_data( $post ) {
 	// Remove empty key.
 	$data = array_filter( $data );
 	/**
-	 * Filter post data for content sync events (CMS updates).
+	 * Filter post data for content sync events (aka "CMS updates" in Sophi.io terms) sent to Sophi Collector.  This allows control over data before it is sent to Collector in case it needs to be modified for unique site needs.  Note that if you add, change, or remove any fields with this that those changes will need to be coordinated with the Sophi.io team to ensure content is appropriately received by Collector.
 	 *
 	 * @since 1.0.0
 	 * @hook sophi_post_data
