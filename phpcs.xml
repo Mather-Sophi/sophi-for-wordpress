@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="Sophi PHPCS">
-	<file>includes/</file>
-	<file>tests/</file>
-	<file>sophi-for-wordpress.php</file>
-	<rule ref="WordPress-VIP-Go" />
-</ruleset>
