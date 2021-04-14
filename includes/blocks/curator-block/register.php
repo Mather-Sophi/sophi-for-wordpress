@@ -5,7 +5,7 @@
  * @package TenUpTheme\Blocks\Example
  */
 
-namespace SophiWP\Blocks\CuratorBlock;
+namespace SophiWP\Blocks\SiteAutomationBlock;
 
 /**
  * Register the block
@@ -16,7 +16,7 @@ function register() {
 	};
 	// Register the block.
 	register_block_type_from_metadata(
-		SOPHI_WP_INC . '/blocks/curator-block', // this is the directory where the block.json is found.
+		SOPHI_WP_INC . '/blocks/site-automation-block', // this is the directory where the block.json is found.
 		[
 			'render_callback' => $n( 'render_block_callback' ),
 		]
@@ -52,20 +52,20 @@ function render_block_callback( $attributes, $content, $block ) {
 	include __DIR__ . '/markup.php';
 
 	/**
-	 * Filter the output of curator block.
+	 * Filter the output of the Site Automation block.
 	 *
 	 * @since 1.0.0
-	 * @hook sophi_curator_block_output
+	 * @hook sophi_site_automation_block_output
 	 *
-	 * @param {string} $output HTML output of curator block.
+	 * @param {string} $output HTML output of the Site Automation block.
 	 * @param {array} $curated_posts Array of curated posts. This is an array of WP_Post objects.
 	 * @param {array} $attributes Block attributes.
 	 * @param {array} $block Block context.
 	 *
-	 * @return {string} HTML output of curator block.
+	 * @return {string} HTML output of the Site Automation block.
 	 */
 	return apply_filters(
-		'sophi_curator_block_output',
+		'sophi_site_automation_block_output',
 		ob_get_clean(),
 		$curated_posts,
 		$attributes,
