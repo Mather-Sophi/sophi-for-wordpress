@@ -19,4 +19,5 @@ RUN apt-get update \
 	&& git config --global user.name "10upbot on GitHub"
 
 COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
