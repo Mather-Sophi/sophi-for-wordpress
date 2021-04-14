@@ -1,0 +1,58 @@
+Version 0.4.0 (2021-03-02)
+--------------------------
+Required parameters after optional parameters deprecated in PHP 8.0 (closes #97)
+Lock Mountebank to v2.4.0 (#67)
+Remove deprecated errcontext from custom error handler (#95)
+Switch to version 4 UUIDs (#94)
+Remove rmccue/requests library as it is only used for Synchronous emitter (#42)
+Make clearer to users that the optional timestamp argument should be provided in milliseconds (#71)
+Add support for dvce_sent_tstamp (#56)
+Remove use of chdir() in FileEmitter (#81)
+Make optional timestamp argument set 'true timestamp' rather than 'device created timestamp' (#59)
+Review schema versions in Constants.php (#83)
+Add Snyk Integration (#93)
+
+Version 0.3.1 (2021-02-18)
+--------------------------
+Update copyright notices to 2021 (#92)
+Fix expected hash in Dockerfile (#90)
+Migrate to GitHub actions (#88)
+Upgrade ramsey/uuid version constraint to allow v3 or v4 (#87)
+
+Version 0.3.0 (2019-06-06)
+--------------------------
+Fix coverall setup (#79)
+Add setPageUrl & setRefr to Subject (#78)
+Remove VersionEye from README (#77)
+Add License button to README (#45)
+Update copyright notices to 2014-2019 (#37)
+Fix typo POST_REQ_SCEHMA (#34)
+Fix markdown alignment in README (#76)
+Flesh out predicates in Mountebank stubs (#66)
+Bump PHP version to 7.2 & update dependencies (#74)
+
+Version 0.2.1 (2015-02-09)
+--------------------------
+Fixed uniqid not generating valid UUID, thanks @mlively! (#39)
+Fixed infinite loop issue in Curl Emitter, thanks @mlively! (#43)
+Bumped PHPUnit version to 4.5.0 (#44)
+
+Version 0.2.0 (2015-01-05)
+--------------------------
+Added CHANGELOG (#22)
+Added Versioneye version checker button to README (#13)
+Updated PHPUnit dependency to 4.2.* (#19)
+Updated payload_data schema to 1-0-2 (#32)
+Updated contexts schema to 1-0-1 (#27)
+Added setDomainUserId to Subject class (#23)
+Added setNetworkUserId to Subject class (#21)
+Added setUseragent to Subject class (#17)
+Added setIpAddress to Subject class (#16)
+Added Socket Emitter as Emitter option for Tracker (#10)
+Added File-Based Emitter as Emitter option for Tracker (#9)
+Added Asynchronous Curl Emitter as Emitter option for Tracker (#8)
+Added Mountebank testing of tracker payload and collector response (#15)
+
+Version 0.1.0 (2014-09-30)
+--------------------------
+Initial release
