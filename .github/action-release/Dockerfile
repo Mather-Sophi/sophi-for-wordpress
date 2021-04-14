@@ -9,6 +9,8 @@ LABEL maintainer="10up <opensource@10up.com>"
 LABEL version="1.0.0"
 LABEL repository="http://github.com/globeandmail/sophi-for-wordpress/.github/action-release"
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update \
 	&& apt-get install -y rsync git \
 	&& apt-get clean -y \
