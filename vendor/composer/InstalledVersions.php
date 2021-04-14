@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '8a542e1d1e1da77c077029963aae63f2672adf84',
+    'reference' => '9265d4de0a9eab23cd484674f492d19bc56054ed',
     'name' => 'globeandmail/sophi-wp',
   ),
   'versions' => 
@@ -51,7 +51,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '8a542e1d1e1da77c077029963aae63f2672adf84',
+      'reference' => '9265d4de0a9eab23cd484674f492d19bc56054ed',
     ),
     'ramsey/collection' => 
     array (

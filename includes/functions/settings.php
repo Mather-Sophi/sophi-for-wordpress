@@ -7,7 +7,7 @@
 
 namespace SophiWP\Settings;
 
-use SophiWP\Curator\Auth;
+use SophiWP\SiteAutomation\Auth;
 use function SophiWP\Utils\get_domain;
 
 const SETTINGS_GROUP = 'sophi_settings';
@@ -149,41 +149,41 @@ function fields_setup() {
 	// Add settings section
 	add_settings_section(
 		'sophi_api',
-		__( 'Curator settings', 'sophi-wp' ),
+		__( 'Site Automation settings', 'sophi-wp' ),
 		'',
 		SETTINGS_GROUP
 	);
 
 	add_settings_field(
-		'sophi_client_id',
+		'client_id',
 		__( 'Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
 		[
-			'label_for' => 'sophi_client_id',
+			'label_for' => 'client_id',
 		]
 	);
 
 	add_settings_field(
-		'sophi_client_secret',
+		'client_secret',
 		__( 'Client Secret', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
 		[
-			'label_for' => 'sophi_client_secret',
+			'label_for' => 'client_secret',
 		]
 	);
 
 	add_settings_field(
-		'sophi_curator_url',
-		__( 'Curator URL', 'sophi-wp' ),
+		'site_automation_url',
+		__( 'Site Automation URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
 		[
-			'label_for' => 'sophi_curator_url',
+			'label_for' => 'site_automation_url',
 		]
 	);
 
@@ -211,9 +211,9 @@ function get_default_settings( $key = '' ) {
 		'environment'         => 'prod',
 		'collector_url'       => 'https://collector.sophi.io',
 		'tracker_client_id'   => get_domain(),
-		'sophi_client_id'     => '',
-		'sophi_client_secret' => '',
-		'sophi_curator_url'   => '',
+		'client_id'           => '',
+		'client_secret'       => '',
+		'site_automation_url' => '',
 		'query_integration'   => 1,
 	];
 
@@ -238,9 +238,9 @@ function sanitize_settings( $settings ) {
 		$settings['query_integration'] = 0;
 	}
 
-	if ( ! empty( $settings['sophi_client_id'] && ! empty( $settings['sophi_client_secret'] ) ) ) {
+	if ( ! empty( $settings['client_id'] && ! empty( $settings['client_secret'] ) ) ) {
 		$auth = new Auth();
-		$response = $auth->request_access_token( $settings['sophi_client_id'], $settings['sophi_client_secret'] );
+		$response = $auth->request_access_token( $settings['client_id'], $settings['client_secret'] );
 		if ( is_wp_error( $response ) ) {
 			add_settings_error(
 				SETTINGS_GROUP,
@@ -252,21 +252,21 @@ function sanitize_settings( $settings ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
-			__( 'Both Client ID and Client Secret are required for Curator integration.', 'sophi-wp' )
+			__( 'Both Client ID and Client Secret are required for Site Automation integration.', 'sophi-wp' )
 		);
 	}
 
-	if ( empty( $settings['sophi_curator_url']) ) {
+	if ( empty( $settings['site_automation_url']) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
-			__( 'Curator URL is required for Curator integration.', 'sophi-wp' )
+			__( 'Site Automation URL is required for Site Automation integration.', 'sophi-wp' )
 		);
-	} else if ( ! filter_var( $settings['sophi_curator_url'], FILTER_VALIDATE_URL ) ) {
+	} else if ( ! filter_var( $settings['site_automation_url'], FILTER_VALIDATE_URL ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
-			__( 'Curator URL is invalid.', 'sophi-wp' )
+			__( 'Site Automation URL is invalid.', 'sophi-wp' )
 		);
 	}
 

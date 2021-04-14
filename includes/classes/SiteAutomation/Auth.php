@@ -5,7 +5,7 @@
  * @package SophiWP
  */
 
-namespace SophiWP\Curator;
+namespace SophiWP\SiteAutomation;
 
 use function SophiWP\Settings\get_sophi_settings;
 
@@ -26,7 +26,7 @@ class Auth {
 	 * @return string|\WP_Error
 	 */
 	public function get_access_token() {
-		$access_token = get_transient( 'sophi_curator_access_token' );
+		$access_token = get_transient( 'sophi_site_automation_access_token' );
 
 		if ( $access_token ) {
 			return $access_token;
@@ -42,15 +42,15 @@ class Auth {
 	 */
 	public function refresh_access_token() {
 		$response = $this->request_access_token(
-			get_sophi_settings( 'sophi_client_id' ),
-			get_sophi_settings( 'sophi_client_secret' )
+			get_sophi_settings( 'client_id' ),
+			get_sophi_settings( 'client_secret' )
 		);
 
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
 
-		set_transient( 'sophi_curator_access_token', $response['access_token'], $response['expires_in'] );
+		set_transient( 'sophi_site_automation_access_token', $response['access_token'], $response['expires_in'] );
 
 		return $response['access_token'];
 	}

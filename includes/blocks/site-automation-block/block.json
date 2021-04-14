@@ -1,7 +1,7 @@
 {
-	"title": "Curator",
+	"title": "Site Automation",
 	"text-domain": "sophi-wp",
-	"name": "sophi/curator-block",
+	"name": "sophi/site-automation-block",
   "category": "sophi-blocks",
 	"attributes":{
 		"customTitle": {
@@ -29,5 +29,5 @@
 			"type" : "boolean"
 		}
   },
-	"editorScript": "file:../../../dist/blocks/curator-block/editor.js"
+	"editorScript": "file:../../../dist/blocks/site-automation-block/editor.js"
 }

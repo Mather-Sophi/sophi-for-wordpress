@@ -60,7 +60,7 @@ add_action(
 			SophiWP\ContentSync\setup();
 			SophiWP\Tracking\setup();
 			SophiWP\Blocks\setup();
-			( new SophiWP\Curator\Services() )->register();
+			( new SophiWP\SiteAutomation\Services() )->register();
 
 			if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
 				try {
