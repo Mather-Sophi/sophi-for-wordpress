@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Sophi for WordPress
  * Plugin URI:        https://github.com/globeandmail/sophi-for-wordpress
- * Description:       WordPress VIP-compatible plugin for the Sophi.io Curator service.
+ * Description:       WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
  * Version:           0.1.0
  * Requires at least: 5.6
  * Requires PHP:      7.4
@@ -40,25 +40,6 @@ register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
 register_deactivation_hook( __FILE__, '\SophiWP\Core\deactivate' );
 
 add_action(
-	'sophi_loaded',
-	function() {
-		SophiWP\Settings\setup();
-		SophiWP\ContentSync\setup();
-		SophiWP\Tracking\setup();
-		SophiWP\Blocks\setup();
-		( new SophiWP\Curator\Services() )->register();
-
-		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			try {
-				\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
-			} catch ( \Exception $e ) {
-				error_log( $e->getMessage() ); // phpcs:ignore
-			}
-		}
-	}
-);
-
-add_action(
 	'init',
 	function() {
 		/**
@@ -75,6 +56,27 @@ add_action(
 		if ( apply_filters( 'sophi_available', is_ssl() ) ) {
 			// Bootstrap.
 			SophiWP\Core\setup();
+			SophiWP\Settings\setup();
+			SophiWP\ContentSync\setup();
+			SophiWP\Tracking\setup();
+			SophiWP\Blocks\setup();
+			( new SophiWP\Curator\Services() )->register();
+
+			if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+				try {
+					\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
+				} catch ( \Exception $e ) {
+					error_log( $e->getMessage() ); // phpcs:ignore
+				}
+			}
+
+			/**
+			 * Fires after Sophi has been loaded.
+			 *
+			 * @since 1.0.0
+			 * @hook sophi_loaded
+			 */
+			do_action( 'sophi_loaded' );
 		} else {
 			add_action(
 				'admin_notices',

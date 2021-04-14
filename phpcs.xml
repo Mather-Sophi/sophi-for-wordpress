@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <ruleset name="Sophi PHPCS">
+	<file>assets/js/</file>
 	<file>includes/</file>
 	<file>tests/</file>
 	<file>sophi-for-wordpress.php</file>
+	<exclude-pattern>assets/js/frontend/sophi-tag.js</exclude-pattern>
 	<rule ref="WordPress-VIP-Go" />
 </ruleset>

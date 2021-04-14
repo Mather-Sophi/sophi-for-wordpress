@@ -32,18 +32,41 @@ class Auth {
 			return $access_token;
 		}
 
-		return $this->request_access_token();
+		return $this->refresh_access_token();
 	}
 
 	/**
-	 * Request a new access_token.
+	 * Refresh the access_token and save it to the database.
 	 *
 	 * @return string|\WP_Error
 	 */
-	private function request_access_token() {
+	public function refresh_access_token() {
+		$response = $this->request_access_token(
+			get_sophi_settings( 'sophi_client_id' ),
+			get_sophi_settings( 'sophi_client_secret' )
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		set_transient( 'sophi_curator_access_token', $response['access_token'], $response['expires_in'] );
+
+		return $response['access_token'];
+	}
+
+	/**
+	 * Request a new access token.
+	 *
+	 * @param string $client_id Client ID.
+	 * @param string $client_secret Client Secret.
+	 *
+	 * @return array|\WP_Error
+	 */
+	public function request_access_token( $client_id, $client_secret ) {
 		$body    = [
-			'client_id'     => get_sophi_settings( 'sophi_client_id' ),
-			'client_secret' => get_sophi_settings( 'sophi_client_secret' ),
+			'client_id'     => $client_id,
+			'client_secret' => $client_secret,
 			'audience'      => 'https://curator-api.sophi.io',
 			'grant_type'    => 'client_credentials',
 		];
@@ -59,6 +82,10 @@ class Auth {
 			return $request;
 		}
 
+		if ( 401 === wp_remote_retrieve_response_code( $request ) ) {
+			return new \WP_Error( 401, __( 'Invalid credentials! Please confirm your client ID and secret then try again.', 'sophi-wp' ) );
+		}
+
 		if ( 200 !== wp_remote_retrieve_response_code( $request ) ) {
 			return new \WP_Error( $request['response']['code'], $request['response']['message'] );
 		}
@@ -66,8 +93,6 @@ class Auth {
 		$response = wp_remote_retrieve_body( $request );
 		$response = json_decode( $response, true );
 
-		set_transient( 'sophi_curator_access_token', $response['access_token'], $response['expires_in'] );
-
-		return $response['access_token'];
+		return $response;
 	}
 }

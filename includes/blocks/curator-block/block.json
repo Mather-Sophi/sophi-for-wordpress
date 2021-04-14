@@ -1,8 +1,7 @@
 {
-	"title": "Curator Block",
+	"title": "Curator",
 	"text-domain": "sophi-wp",
 	"name": "sophi/curator-block",
-  "icon": "feedback",
   "category": "sophi-blocks",
 	"attributes":{
 		"customTitle": {

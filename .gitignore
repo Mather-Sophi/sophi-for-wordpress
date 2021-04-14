@@ -5,6 +5,7 @@ vendor
 languages
 .idea
 *.log
+*.cache
 
 # Project Files
 dist

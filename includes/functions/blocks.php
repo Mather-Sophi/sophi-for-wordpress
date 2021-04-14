@@ -7,7 +7,7 @@
 
 namespace SophiWP\Blocks;
 
-use function SophiWP\Core\get_supported_post_types;
+use function SophiWP\Utils\get_supported_post_types;
 
 /**
  * Set up blocks
@@ -56,7 +56,7 @@ function blocks_categories( $categories, $post ) {
 		array(
 			array(
 				'slug'  => 'sophi-blocks',
-				'title' => __( 'Sophi Blocks', 'sophi-wp' ),
+				'title' => __( 'Sophi.io', 'sophi-wp' ),
 			),
 		)
 	);

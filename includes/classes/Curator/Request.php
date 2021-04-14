@@ -113,8 +113,6 @@ class Request {
 	 * Retry getting curated data if error occurred.
 	 */
 	private function retry() {
-		// todo check if we need refresh access_token
-
 		$retry_time = $this->status['retry'] < 20 ? 5 * MINUTE_IN_SECONDS : HOUR_IN_SECONDS;
 
 		if ( $this->status['retry'] > 50 ) {
@@ -190,7 +188,7 @@ class Request {
 		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
 			$request = vip_safe_wp_remote_get( $this->api_url, false, 3, 1, 20, $args );
 		} else {
-			$request = wp_remote_get( $this->api_url, $args );
+			$request = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
 		}
 
 		if ( is_wp_error( $request ) ) {
@@ -215,8 +213,6 @@ class Request {
 		if ( ! $response ) {
 			return [];
 		}
-
-		// todo: get id from response.
 
 		update_option( "sophi_curator_data_{$this->page}_{$this->widget}", $response );
 		return $response;

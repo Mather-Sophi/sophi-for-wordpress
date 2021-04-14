@@ -27,8 +27,7 @@ class Core_Tests extends Base\TestCase {
 	public function test_setup() {
 		// Setup
 		\WP_Mock::expectActionAdded( 'init', 'SophiWP\Core\i18n' );
-		\WP_Mock::expectActionAdded( 'init', 'SophiWP\Core\init' );
-		\WP_Mock::expectAction( 'sophi_wp_loaded' );
+		\WP_Mock::expectAction( 'sophi_init' );
 
 		// Act
 		setup();
@@ -70,27 +69,10 @@ class Core_Tests extends Base\TestCase {
 	}
 
 	/**
-	 * Test initialization method.
-	 */
-	public function test_init() {
-		// Setup
-		\WP_Mock::expectAction( 'sophi_wp_init' );
-
-		// Act
-		init();
-
-		// Verify
-		$this->assertConditionsMet();
-	}
-
-	/**
 	 * Test activation routine.
 	 */
 	public function test_activate() {
 		// Setup
-		\WP_Mock::userFunction( 'flush_rewrite_rules', array(
-			'times' => 1
-		) );
 
 		// Act
 		activate();
