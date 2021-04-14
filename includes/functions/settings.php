@@ -155,35 +155,35 @@ function fields_setup() {
 	);
 
 	add_settings_field(
-		'sophi_client_id',
+		'client_id',
 		__( 'Client ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
 		[
-			'label_for' => 'sophi_client_id',
+			'label_for' => 'client_id',
 		]
 	);
 
 	add_settings_field(
-		'sophi_client_secret',
+		'client_secret',
 		__( 'Client Secret', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
 		[
-			'label_for' => 'sophi_client_secret',
+			'label_for' => 'client_secret',
 		]
 	);
 
 	add_settings_field(
-		'sophi_site_automation_url',
+		'site_automation_url',
 		__( 'Site Automation URL', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
 		[
-			'label_for' => 'sophi_site_automation_url',
+			'label_for' => 'site_automation_url',
 		]
 	);
 
@@ -208,13 +208,13 @@ function fields_setup() {
  */
 function get_default_settings( $key = '' ) {
 	$default = [
-		'environment'                 => 'prod',
-		'collector_url'               => 'https://collector.sophi.io',
-		'tracker_client_id'           => get_domain(),
-		'sophi_client_id'             => '',
-		'sophi_client_secret'         => '',
-		'sophi_site_automation_url'   => '',
-		'query_integration'           => 1,
+		'environment'         => 'prod',
+		'collector_url'       => 'https://collector.sophi.io',
+		'tracker_client_id'   => get_domain(),
+		'client_id'           => '',
+		'client_secret'       => '',
+		'site_automation_url' => '',
+		'query_integration'   => 1,
 	];
 
 	if ( ! $key ) {
@@ -238,9 +238,9 @@ function sanitize_settings( $settings ) {
 		$settings['query_integration'] = 0;
 	}
 
-	if ( ! empty( $settings['sophi_client_id'] && ! empty( $settings['sophi_client_secret'] ) ) ) {
+	if ( ! empty( $settings['client_id'] && ! empty( $settings['client_secret'] ) ) ) {
 		$auth = new Auth();
-		$response = $auth->request_access_token( $settings['sophi_client_id'], $settings['sophi_client_secret'] );
+		$response = $auth->request_access_token( $settings['client_id'], $settings['client_secret'] );
 		if ( is_wp_error( $response ) ) {
 			add_settings_error(
 				SETTINGS_GROUP,
@@ -256,13 +256,13 @@ function sanitize_settings( $settings ) {
 		);
 	}
 
-	if ( empty( $settings['sophi_site_automation_url']) ) {
+	if ( empty( $settings['site_automation_url']) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
 			__( 'Site Automation URL is required for Site Automation integration.', 'sophi-wp' )
 		);
-	} else if ( ! filter_var( $settings['sophi_site_automation_url'], FILTER_VALIDATE_URL ) ) {
+	} else if ( ! filter_var( $settings['site_automation_url'], FILTER_VALIDATE_URL ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,

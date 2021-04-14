@@ -42,8 +42,8 @@ class Auth {
 	 */
 	public function refresh_access_token() {
 		$response = $this->request_access_token(
-			get_sophi_settings( 'sophi_client_id' ),
-			get_sophi_settings( 'sophi_client_secret' )
+			get_sophi_settings( 'client_id' ),
+			get_sophi_settings( 'client_secret' )
 		);
 
 		if ( is_wp_error( $response ) ) {

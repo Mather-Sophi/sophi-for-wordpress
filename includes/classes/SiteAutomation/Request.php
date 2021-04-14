@@ -227,7 +227,7 @@ class Request {
 	 * @return string
 	 */
 	private function set_api_url( $page, $widget ) {
-		$site_automation_url = get_sophi_settings( 'sophi_site_automation_url' );
+		$site_automation_url = get_sophi_settings( 'site_automation_url' );
 		$site_automation_url = untrailingslashit( $site_automation_url );
 
 		return sprintf( '%1$s/curatedPages/%2$s/widgets/%3$s/contents', $site_automation_url, $page, $widget );
