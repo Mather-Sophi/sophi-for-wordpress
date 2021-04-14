@@ -1,12 +1,12 @@
 - /.git/
 - /.github/
 - /bin/
+- /assets/
 - /docs/
+- /config/
 - /node_modules/
 - /release/
-- /src/
 - /tests/
-- /vendor/
 - .DS_Store
 - .editorconfig
 - .eslintignore
