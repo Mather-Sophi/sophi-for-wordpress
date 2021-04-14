@@ -42,6 +42,7 @@ cp -a "$TMP/.git" release/
 
 echo "ℹ︎ Committing files"
 cd release
+ls
 
 # Explicit add command because -a doesn't pick up new files
 git add .
