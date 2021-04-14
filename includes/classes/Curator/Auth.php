@@ -5,7 +5,7 @@
  * @package SophiWP
  */
 
-namespace SophiWP\Curator;
+namespace SophiWP\SiteAutomation;
 
 use function SophiWP\Settings\get_sophi_settings;
 
@@ -26,7 +26,7 @@ class Auth {
 	 * @return string|\WP_Error
 	 */
 	public function get_access_token() {
-		$access_token = get_transient( 'sophi_curator_access_token' );
+		$access_token = get_transient( 'sophi_site_automation_access_token' );
 
 		if ( $access_token ) {
 			return $access_token;
@@ -50,7 +50,7 @@ class Auth {
 			return $response;
 		}
 
-		set_transient( 'sophi_curator_access_token', $response['access_token'], $response['expires_in'] );
+		set_transient( 'sophi_site_automation_access_token', $response['access_token'], $response['expires_in'] );
 
 		return $response['access_token'];
 	}
@@ -67,7 +67,7 @@ class Auth {
 		$body    = [
 			'client_id'     => $client_id,
 			'client_secret' => $client_secret,
-			'audience'      => 'https://curator-api.sophi.io',
+			'audience'      => 'https://site-automation-api.sophi.io',
 			'grant_type'    => 'client_credentials',
 		];
 		$request = wp_remote_post(
