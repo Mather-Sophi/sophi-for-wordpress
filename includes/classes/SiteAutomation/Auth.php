@@ -67,7 +67,7 @@ class Auth {
 		$body    = [
 			'client_id'     => $client_id,
 			'client_secret' => $client_secret,
-			'audience'      => 'https://site-automation-api.sophi.io',
+			'audience'      => 'https://curator-api.sophi.io',
 			'grant_type'    => 'client_credentials',
 		];
 		$request = wp_remote_post(
