@@ -16,10 +16,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+	class Base_CLI_Command extends \WPCOM_VIP_CLI_Command {}
+} else {
+	class Base_CLI_Command extends \WP_CLI_Command {} // phpcs:ignore
+}
+
 /**
  * Class: Sophi CLI Command.
  */
-class Command extends \WPCOM_VIP_CLI_Command {
+class Command extends Base_CLI_Command {
 
 	/**
 	 * Sync all existing content to Sophi Collector.
@@ -36,11 +42,16 @@ class Command extends \WPCOM_VIP_CLI_Command {
 	 * [--include=<number>]
 	 * : Post IDs to process. Comma separated for passing multiple item.
 	 *
+	 * [--dry-run=<boolean>]
+	 * : Whether to run command in the dry run mode. Default to true.
+	 *
 	 * @param array $args       Arguments.
 	 * @param array $assoc_args Options.
 	 */
 	public function sync( $args, $assoc_args ) {
-		$this->start_bulk_operation();
+		if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+			$this->start_bulk_operation();
+		}
 
 		$per_page    = 50;
 		$limit       = 0;
@@ -168,8 +179,10 @@ class Command extends \WPCOM_VIP_CLI_Command {
 			WP_CLI::line( 'Preparing for the next batch...' );
 			sleep( 3 );
 
-			// Free up memory.
-			$this->stop_the_insanity();
+			if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+				// Free up memory.
+				$this->stop_the_insanity();
+			}
 
 			$paged++;
 
@@ -183,6 +196,10 @@ class Command extends \WPCOM_VIP_CLI_Command {
 			}
 		} else {
 			WP_CLI::success( sprintf( '%d posts will be synced to Sophi Collector.', $count ) );
+		}
+
+		if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+			$this->end_bulk_operation();
 		}
 	}
 }
