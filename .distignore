@@ -2,14 +2,15 @@
 /.git
 /.github
 /.wordpress-org
-/node_modules
-/tests
 /assets
 /config
+/node_modules
+/tests
 # DO NOT EXCLUDE /vendor
 
 # Files
 .distignore
+.editorconfig
 .eslintignore
 .eslintrc.json
 .gitignore
