@@ -1,0 +1,29 @@
+# Directories
+/.git
+/.github
+/.wordpress-org
+/assets
+/config
+/node_modules
+/tests
+# DO NOT EXCLUDE /vendor
+
+# Files
+.distignore
+.editorconfig
+.eslintignore
+.eslintrc.json
+.gitignore
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+composer.json
+composer.lock
+CONTRIBUTING.md
+CREDITS.md
+hookdoc-conf.json
+LICENSE.md
+package-lock.json
+package.json
+phpcs.xml
+phpunit.xml
+README.md
