@@ -95,6 +95,7 @@ function get_tracking_data() {
 			'appId'             => sprintf( '%s-website', get_sophi_settings( 'tracker_client_id' ) ),
 			'collectorEndpoint' => get_sophi_settings( 'collector_url' ),
 			'linkedDomains'     => [ get_domain() ],
+			'noConfigFile'      => true,
 			'plugin'            => [
 				'adblock' => false,
 				'private' => false,
