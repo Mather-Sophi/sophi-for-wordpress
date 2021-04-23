@@ -195,7 +195,7 @@ class Request {
 			return $request;
 		}
 
-		if ( wp_remote_retrieve_response_code( $request ) != 200 ) {
+		if ( wp_remote_retrieve_response_code( $request ) !== 200 ) {
 			return new \WP_Error( wp_remote_retrieve_response_code( $request ), $request['response']['message'] );
 		}
 

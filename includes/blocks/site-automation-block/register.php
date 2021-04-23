@@ -37,10 +37,12 @@ function render_block_callback( $attributes, $content, $block ) {
 		return '';
 	}
 
+	// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 	$curated_posts = get_posts(
 		[
 			'sophi_curated_page'   => $attributes['pageName'],
 			'sophi_curated_widget' => $attributes['widgetName'],
+			'suppress_filters'     => false,
 		]
 	);
 
