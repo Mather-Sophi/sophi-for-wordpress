@@ -2,9 +2,9 @@
 Contributors:      10up
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Requires at least: 5.6
-Tested up to:      5.6
+Tested up to:      5.7
 Requires PHP:      7.4
-Stable tag:        1.0.0
+Stable tag:        1.0.1
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,6 +192,12 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.0.1 =
+* **Added:** `noConfigFile` setting (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Added:** GitHub Actions to deploy releases and update readme/asset changes for WordPress.org (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Changed:** Renamed plugin from `Sophi for WordPress` to `Sophi` (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/)).
+* **Fixed:** Minor fixes from WordPress VIP code scan (props [@dkotter](https://profiles.wordpress.org/dkotter/)).
 
 = 1.0.0 =
 * Initial public release! 🎉
