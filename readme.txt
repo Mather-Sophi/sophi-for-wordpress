@@ -1,5 +1,5 @@
 === Sophi ===
-Contributors:      10up
+Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Requires at least: 5.6
 Tested up to:      5.7
