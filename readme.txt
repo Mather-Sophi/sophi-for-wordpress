@@ -1,4 +1,4 @@
-=== Sophi for WordPress ===
+=== Sophi ===
 Contributors:      10up
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Requires at least: 5.6

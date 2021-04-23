@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Sophi for WordPress
+ * Plugin Name:       Sophi
  * Plugin URI:        https://github.com/globeandmail/sophi-for-wordpress
  * Description:       WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
  * Version:           1.0.1-dev
