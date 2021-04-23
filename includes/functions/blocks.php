@@ -32,7 +32,7 @@ function setup() {
 function register_blocks() {
 
 	// Require custom blocks.
-	require_once SOPHI_WP_INC . '/blocks/site-automation-block/register.php';
+	require_once SOPHI_WP_INC . '/blocks/site-automation-block/register.php'; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
 	// Call block register functions for each block.
 	SiteAutomationBlock\register();
