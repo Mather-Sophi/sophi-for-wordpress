@@ -30,8 +30,8 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'd99d5ef7d4e48a1afbaa15208c026d43f5523b77',
-    'name' => 'globeandmail/sophi-wp',
+    'reference' => '8174865f2273bec9abdf191242851a67cf11d378',
+    'name' => 'globeandmail/sophi-for-wordpress',
   ),
   'versions' => 
   array (
@@ -44,14 +44,14 @@ private static $installed = array (
       ),
       'reference' => 'dff976c2f3487d42c1db75a3b180e2b9f0e72ce0',
     ),
-    'globeandmail/sophi-wp' => 
+    'globeandmail/sophi-for-wordpress' => 
     array (
       'pretty_version' => 'dev-trunk',
       'version' => 'dev-trunk',
       'aliases' => 
       array (
       ),
-      'reference' => 'd99d5ef7d4e48a1afbaa15208c026d43f5523b77',
+      'reference' => '8174865f2273bec9abdf191242851a67cf11d378',
     ),
     'ramsey/collection' => 
     array (

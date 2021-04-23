@@ -24,7 +24,7 @@ function setup() {
 
 	add_action( 'admin_menu', $n( 'settings_page' ) );
 	add_action( 'admin_init', $n( 'fields_setup' ) );
-	add_filter( 'plugin_action_links_' . plugin_basename( SOPHI_WP_PATH . '/sophi-for-wordpress.php' ), $n( 'add_action_links' ) );
+	add_filter( 'plugin_action_links_' . plugin_basename( SOPHI_WP_PATH . '/sophi.php' ), $n( 'add_action_links' ) );
 }
 
 /**
