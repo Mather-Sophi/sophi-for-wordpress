@@ -19,7 +19,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
 	class Base_CLI_Command extends \WPCOM_VIP_CLI_Command {}
 } else {
-	class Base_CLI_Command extends \WP_CLI_Command {} // phpcs:ignore
+	class Base_CLI_Command extends \WP_CLI_Command { // phpcs:ignore
+
+		/**
+		 *  Clear all of the caches for memory management
+		 */
+		protected function stop_the_insanity() {
+			global $wpdb, $wp_object_cache;
+
+			/**
+			 * Reset the WordPress DB query log
+			 */
+			$wpdb->queries = array();
+
+
+			/**
+			 * Reset the local WordPress object cache
+			 *
+			 * This only cleans the local cache in WP_Object_Cache, without
+			 * affecting memcache
+			 */
+			if ( ! is_object( $wp_object_cache ) ) {
+				return;
+			}
+
+			$wp_object_cache->group_ops = array();
+			$wp_object_cache->memcache_debug = array();
+			$wp_object_cache->cache = array();
+
+			if ( is_callable( $wp_object_cache, '__remoteset' ) ) {
+				$wp_object_cache->__remoteset(); // important
+			}
+		}
+	}
 }
 
 /**
@@ -179,10 +211,8 @@ class Command extends Base_CLI_Command {
 			WP_CLI::line( 'Preparing for the next batch...' );
 			sleep( 3 );
 
-			if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
-				// Free up memory.
-				$this->stop_the_insanity();
-			}
+			// Free up memory.
+			$this->stop_the_insanity();
 
 			$paged++;
 
