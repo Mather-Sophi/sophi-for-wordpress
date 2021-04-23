@@ -127,6 +127,7 @@ class Command extends \WPCOM_VIP_CLI_Command {
 		do {
 
 			if ( ! empty( $include ) ) {
+				// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 				$posts = get_posts(
 					array(
 						'posts_per_page'      => $per_page,
@@ -135,9 +136,11 @@ class Command extends \WPCOM_VIP_CLI_Command {
 						'post_status'         => 'publish',
 						'post__in'            => $include,
 						'ignore_sticky_posts' => true,
+						'suppress_filters'    => false,
 					)
 				);
 			} else {
+				// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 				$posts = get_posts(
 					array(
 						'posts_per_page'      => $per_page,
@@ -145,6 +148,7 @@ class Command extends \WPCOM_VIP_CLI_Command {
 						'paged'               => $paged,
 						'post_status'         => 'publish',
 						'ignore_sticky_posts' => true,
+						'suppress_filters'    => false,
 					)
 				);
 			}

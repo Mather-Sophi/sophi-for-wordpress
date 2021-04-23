@@ -29,7 +29,7 @@ The `develop` branch is the development branch which means it contains the next 
 ## Release instructions
 
 1. Branch: Starting from `develop`, cut a release branch named `release/X.Y.Z` for your changes.
-1. Version bump: Bump the version number in `sophi-for-wordpress.php`, `package.json`, and `readme.txt` if it does not already reflect the version being released.  Update both the plugin "Version:" property and the plugin `SOPHI_WP_VERSION` constant in `sophi-for-wordpress.php`.
+1. Version bump: Bump the version number in `sophi.php`, `package.json`, and `readme.txt` if it does not already reflect the version being released.  Update both the plugin "Version:" property and the plugin `SOPHI_WP_VERSION` constant in `sophi.php`.
 1. Changelog: Add/update the changelog in `CHANGELOG.md` and `readme.txt`.
 1. Props: update `CREDITS.md` with any new contributors, confirm maintainers are accurate.
 1. Readme updates: Make any other readme changes as necessary.  `README.md` is geared toward GitHub and `readme.txt` contains WordPress.org-specific content.  The two are slightly different.
@@ -42,4 +42,4 @@ The `develop` branch is the development branch which means it contains the next 
 1. Release: Create a [new release](https://github.com/globeandmail/sophi-for-wordpress/releases/new), naming the tag and the release with the new version number, and **targeting the `stable` branch**.  Paste the changelog from `CHANGELOG.md` into the body of the release and include a link to the [closed issues on the milestone](https://github.com/globeandmail/sophi-for-wordpress/milestone/#?closed=1).
 1. Close the milestone: Edit the [milestone](https://github.com/globeandmail/sophi-for-wordpress/milestone/#) with release date (in the `Due date (optional)` field) and link to GitHub release (in the `Description` field), then close the milestone.
 1. Punt incomplete items: If any open issues or PRs which were milestoned for `X.Y.Z` do not make it into the release, update their milestone to `X+1.0.0`, `X.Y+1.0`, `X.Y.Z+1`, or `Future Release`.
-1. Version bump (again): In the `develop` branch (`cd ../ && git checkout develop`) bump the version number in `sophi-for-wordpress.php` to `X.Y.(Z+1)-dev`.  It's okay if the next release might be a different version number; that change can be handled right before release in the first step, as might also be the case with ``@since` annotations.
+1. Version bump (again): In the `develop` branch (`cd ../ && git checkout develop`) bump the version number in `sophi.php` to `X.Y.(Z+1)-dev`.  It's okay if the next release might be a different version number; that change can be handled right before release in the first step, as might also be the case with ``@since` annotations.
