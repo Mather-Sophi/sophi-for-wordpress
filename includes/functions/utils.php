@@ -13,8 +13,6 @@ namespace SophiWP\Utils;
  * @return string Breadcrumbs.
  */
 function get_breadcrumb() {
-	global $wp;
-
 	if ( is_front_page() ) {
 		return 'homepage';
 	}

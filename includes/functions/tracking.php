@@ -72,7 +72,7 @@ function amp_tracking( $analytics_entries ) {
  * Prepare data for JS tracking.
  */
 function get_tracking_data() {
-	global $wp, $post;
+	global $post;
 
 	$env = get_sophi_settings( 'environment' );
 
