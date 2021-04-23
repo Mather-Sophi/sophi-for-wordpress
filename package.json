@@ -1,5 +1,5 @@
 {
-  "name": "@globeandmail/sophi-wp",
+  "name": "@globeandmail/sophi-for-wordpress",
   "version": "1.0.0",
   "description": "WordPress VIP-compatible plugin for the Sophi.io Site Automation service.",
   "homepage": "https://github.com/globeandmail/sophi-for-wordpress",
@@ -27,7 +27,7 @@
     "start": "10up-scripts start",
     "watch": "10up-scripts watch",
     "build": "10up-scripts build",
-    "build:docs": "rm -rf docs && jsdoc -c hookdoc-conf.json sophi-for-wordpress.php includes",
+    "build:docs": "rm -rf docs && jsdoc -c hookdoc-conf.json sophi.php includes",
     "format-js": "10up-scripts format-js",
     "lint-js": "10up-scripts lint-js",
     "lint-style": "10up-scripts lint-style",
