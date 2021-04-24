@@ -3,11 +3,14 @@
  * Site Automation block markup.
  *
  * @package SophiWP
+ *
+ * @var array $attributes The blocks attributes.
+ * @var array $curated_posts Curated content from Sophi.
  */
 
 ?>
-<ul class="sophi-site-automation-block" id="<?php printf( 'sophi-site-automation-%1$s-%2$s', esc_attr( $attributes['pageName'] ), esc_attr( $attributes['widgetName'] ) ); ?>">
-	<?php foreach ( $curated_posts as $curated_post ) : ?>
+<ul class="sophi-site-automation-block" id="<?php printf( 'sophi-site-automation-%1$s-%2$s', esc_attr( $attributes['pageName'] ), esc_attr( $attributes['widgetName'] ) ); // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable ?>">
+	<?php foreach ( $curated_posts as $curated_post ) : // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable ?>
 		<li class="curated-item">
 			<?php if ( ! empty( $attributes['displayFeaturedImage'] ) && has_post_thumbnail( $curated_post ) ) : ?>
 				<?php if ( ! empty( $attributes['addLinkToFeaturedImage'] ) ) : ?>

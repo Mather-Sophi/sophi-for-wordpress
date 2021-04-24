@@ -7,6 +7,7 @@
 - /node_modules/
 - /release/
 - /tests/
+- .distignore
 - .DS_Store
 - .editorconfig
 - .eslintignore

@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       Sophi for WordPress
+ * Plugin Name:       Sophi
  * Plugin URI:        https://github.com/globeandmail/sophi-for-wordpress
  * Description:       WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
- * Version:           1.0.1-dev
+ * Version:           1.0.2-dev
  * Requires at least: 5.6
  * Requires PHP:      7.4
  * Author:            10up
@@ -17,10 +17,12 @@
  */
 
 // Useful global constants.
-define( 'SOPHI_WP_VERSION', '1.0.1-dev' );
+define( 'SOPHI_WP_VERSION', '1.0.2-dev' );
 define( 'SOPHI_WP_URL', plugin_dir_url( __FILE__ ) );
 define( 'SOPHI_WP_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SOPHI_WP_INC', SOPHI_WP_PATH . 'includes/' );
+
+// phpcs:disable WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
 // Require Composer autoloader if it exists.
 if ( file_exists( SOPHI_WP_PATH . 'vendor/autoload.php' ) ) {
@@ -34,6 +36,8 @@ require_once SOPHI_WP_INC . 'functions/settings.php';
 require_once SOPHI_WP_INC . 'functions/tracking.php';
 require_once SOPHI_WP_INC . 'functions/content-sync.php';
 require_once SOPHI_WP_INC . 'functions/blocks.php';
+
+// phpcs:enable WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
 // Activation/Deactivation.
 register_activation_hook( __FILE__, '\SophiWP\Core\activate' );
