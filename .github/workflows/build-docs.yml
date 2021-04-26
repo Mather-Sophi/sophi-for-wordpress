@@ -1,4 +1,4 @@
-name: Build Release
+name: Build Hook Docs
 
 on:
   push:
@@ -22,10 +22,6 @@ jobs:
       run: |
         npm install
         npm run build
-    - name: Release to Stable
-      uses: ./.github/action-release/
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Build hookdocs
       run: npm run build:docs
     - name: Deploy docs update
