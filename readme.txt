@@ -1,10 +1,10 @@
 === Sophi ===
-Contributors:      10up
+Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Requires at least: 5.6
 Tested up to:      5.7
 Requires PHP:      7.4
-Stable tag:        1.0.1
+Stable tag:        1.0.2
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,6 +192,10 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.0.2 =
+* **Changed:** Bump `vipwpcs` from 2.2.0 to 2.3.0 and `php_codesniffer` from 3.5.8 to 3.6.0 (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/)).
+* **Fixed:** WP-CLI command now supports both WordPress VIP and non-VIP environments (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/)).
 
 = 1.0.1 =
 * **Added:** `noConfigFile` setting (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).

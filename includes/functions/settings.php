@@ -370,7 +370,7 @@ function render_select( $args ) {
 		foreach ( $options as $option_value => $label ) {
 			printf(
 				'<option value="%1$s" %3$s>%2$s</option>',
-				esc_attr( $option_value ),
+				$option_value,
 				esc_html( $label ),
 				$option_value === $value ? 'selected="selected"' : ''
 			);

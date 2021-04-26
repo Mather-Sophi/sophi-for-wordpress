@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '8174865f2273bec9abdf191242851a67cf11d378',
+    'reference' => '9da80aa55f65ad35e925a162f0c3f1f557f7c130',
     'name' => 'globeandmail/sophi-for-wordpress',
   ),
   'versions' => 
@@ -27,7 +27,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '8174865f2273bec9abdf191242851a67cf11d378',
+      'reference' => '9da80aa55f65ad35e925a162f0c3f1f557f7c130',
     ),
     'ramsey/collection' => 
     array (
