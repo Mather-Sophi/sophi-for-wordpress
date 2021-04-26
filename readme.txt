@@ -34,7 +34,7 @@ Sophi-driven pages outperform human curated pages by a significant margin and fr
 *Note that if you are on the [WordPress VIP](https://wpvip.com/) platform that you will not be able to upload a plugin in the WordPress Admin so you will need to follow steps in 1b.*
 
 1a Download plugin ZIP file and upload to your site.
-You can upload and install the [archived (zip) plugin](https://github.com/globeandmail/sophi-for-wordpress/archive/stable.zip) via the WordPress dashboard (`Plugins` > `Add New` -> `Upload Plugin`) or manually inside of the `wp-content/plugins` directory, and activate on the Plugins dashboard.
+You can upload and install the [plugin ZIP file](https://downloads.wordpress.org/plugin/sophi.zip) via the WordPress dashboard (`Plugins` > `Add New` -> `Upload Plugin`) or manually inside of the `wp-content/plugins` directory, and activate on the Plugins dashboard.
 
 1b Download or Clone this repo, install dependencies, and build.
 - `git clone https://github.com/globeandmail/sophi-for-wordpress.git && cd sophi-for-wordpress`
