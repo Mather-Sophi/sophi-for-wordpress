@@ -16,10 +16,48 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+	class Base_CLI_Command extends \WPCOM_VIP_CLI_Command {}
+} else {
+	class Base_CLI_Command extends \WP_CLI_Command { // phpcs:ignore
+
+		/**
+		 *  Clear all of the caches for memory management
+		 */
+		protected function stop_the_insanity() {
+			global $wpdb, $wp_object_cache;
+
+			/**
+			 * Reset the WordPress DB query log
+			 */
+			$wpdb->queries = array();
+
+
+			/**
+			 * Reset the local WordPress object cache
+			 *
+			 * This only cleans the local cache in WP_Object_Cache, without
+			 * affecting memcache
+			 */
+			if ( ! is_object( $wp_object_cache ) ) {
+				return;
+			}
+
+			$wp_object_cache->group_ops = array();
+			$wp_object_cache->memcache_debug = array();
+			$wp_object_cache->cache = array();
+
+			if ( is_callable( $wp_object_cache, '__remoteset' ) ) {
+				$wp_object_cache->__remoteset(); // important
+			}
+		}
+	}
+}
+
 /**
  * Class: Sophi CLI Command.
  */
-class Command extends \WPCOM_VIP_CLI_Command {
+class Command extends Base_CLI_Command {
 
 	/**
 	 * Sync all existing content to Sophi Collector.
@@ -36,11 +74,16 @@ class Command extends \WPCOM_VIP_CLI_Command {
 	 * [--include=<number>]
 	 * : Post IDs to process. Comma separated for passing multiple item.
 	 *
+	 * [--dry-run=<boolean>]
+	 * : Whether to run command in the dry run mode. Default to true.
+	 *
 	 * @param array $args       Arguments.
 	 * @param array $assoc_args Options.
 	 */
 	public function sync( $args, $assoc_args ) {
-		$this->start_bulk_operation();
+		if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+			$this->start_bulk_operation();
+		}
 
 		$per_page    = 50;
 		$limit       = 0;
@@ -187,6 +230,10 @@ class Command extends \WPCOM_VIP_CLI_Command {
 			}
 		} else {
 			WP_CLI::success( sprintf( '%d posts will be synced to Sophi Collector.', $count ) );
+		}
+
+		if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+			$this->end_bulk_operation();
 		}
 	}
 }

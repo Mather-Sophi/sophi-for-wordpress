@@ -66,7 +66,7 @@ add_action(
 			SophiWP\Blocks\setup();
 			( new SophiWP\SiteAutomation\Services() )->register();
 
-			if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
 				try {
 					\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
 				} catch ( \Exception $e ) {
