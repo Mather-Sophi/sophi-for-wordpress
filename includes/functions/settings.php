@@ -209,7 +209,7 @@ function fields_setup() {
 function get_default_settings( $key = '' ) {
 	$default = [
 		'environment'         => 'prod',
-		'collector_url'       => 'https://collector.sophi.io',
+		'collector_url'       => 'collector.sophi.io',
 		'tracker_client_id'   => get_domain(),
 		'client_id'           => '',
 		'client_secret'       => '',
