@@ -7,6 +7,8 @@
 
 namespace SophiWP\Utils;
 
+use function SophiWP\Settings\get_sophi_settings;
+
 /**
  * Get breadcrumbs from the post URL.
  *
@@ -186,4 +188,24 @@ function get_supported_post_types() {
 	 * @return {array} Supported post types.
 	 */
 	return apply_filters( 'sophi_supported_post_types', [ 'post', 'page' ] );
+}
+
+function is_configured() {
+	$settings = get_sophi_settings();
+
+	unset( $settings['environment'] );
+	unset( $settings['query_integration'] );
+
+	$settings = array_filter(
+		$settings,
+		function( $item ) {
+			return empty( $item );
+		}
+	);
+
+	if ( count( $settings ) > 0 ) {
+		return false;
+	} else {
+		return true;
+	}
 }
