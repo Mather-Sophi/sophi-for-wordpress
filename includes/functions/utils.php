@@ -190,6 +190,11 @@ function get_supported_post_types() {
 	return apply_filters( 'sophi_supported_post_types', [ 'post', 'page' ] );
 }
 
+/**
+ * Check if Sophi is configured or not.
+ *
+ * @return bool
+ */
 function is_configured() {
 	$settings = get_sophi_settings();
 
