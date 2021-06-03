@@ -99,7 +99,9 @@ function track_event( $new_status, $old_status, $post ) {
  * @return Tracker|WP_Error
  */
 function init_tracker() {
-	$collector_url = get_sophi_settings( 'collector_url' );
+	$collector_url     = get_sophi_settings( 'collector_url' );
+	$tracker_client_id = get_sophi_settings( 'tracker_client_id' );
+
 	if ( ! $collector_url ) {
 		return new WP_Error(
 			'sophi_missing_collector_url',
@@ -107,7 +109,14 @@ function init_tracker() {
 		);
 	}
 
-	$app_id  = sprintf( '%s-cms', get_sophi_settings( 'tracker_client_id' ) );
+	if ( ! $tracker_client_id ) {
+		return new WP_Error(
+			'sophi_missing_tracker_client_id',
+			'The Tracker Client ID is missing.'
+		);
+	}
+
+	$app_id  = sprintf( '%s-cms', $tracker_client_id );
 	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
