@@ -75,7 +75,7 @@ class Command extends Base_CLI_Command {
 	 * : Post IDs to process. Comma separated for passing multiple item.
 	 *
 	 * [--dry-run=<boolean>]
-	 * : Whether to run command in the dry run mode. Default to true.
+	 * : Whether to run command in the dry run mode. Default to false.
 	 *
 	 * @param array $args       Arguments.
 	 * @param array $assoc_args Options.
@@ -90,7 +90,7 @@ class Command extends Base_CLI_Command {
 		$paged       = 1;
 		$count       = 0;
 		$error_count = 0;
-		$dry_run     = true;
+		$dry_run     = false;
 		$post_types  = get_supported_post_types();
 		$include     = [];
 
