@@ -8,8 +8,11 @@
  * @var array $curated_posts Curated content from Sophi.
  */
 
+$page_name   = preg_replace( '/\s+/', '-', strtolower( $attributes['pageName'] ) ); // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
+$widget_name = preg_replace( '/\s+/', '-', strtolower( $attributes['widgetName'] ) ); // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
+
 ?>
-<ul class="sophi-site-automation-block" id="<?php printf( 'sophi-site-automation-%1$s-%2$s', esc_attr( $attributes['pageName'] ), esc_attr( $attributes['widgetName'] ) ); // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable ?>">
+<ul class="sophi-site-automation-block" id="<?php printf( 'sophi-site-automation-%1$s-%2$s', esc_attr( $page_name ), esc_attr( $widget_name ) ); ?>" data-sophi-feature="<?php esc_attr_e( $widget_name ); ?>">
 	<?php foreach ( $curated_posts as $curated_post ) : // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable ?>
 		<li class="curated-item">
 			<?php if ( ! empty( $attributes['displayFeaturedImage'] ) && has_post_thumbnail( $curated_post ) ) : ?>
