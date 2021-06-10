@@ -133,19 +133,28 @@ function get_post_data( $post ) {
 	$content = apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$content = str_replace( ']]>', ']]&gt;', $content );
 
+	$type = get_post_format( $post );
+
+	if ( ! in_array( $type, [ 'video', 'audio', 'image'], true ) ) {
+		$type = 'article';
+	}
+
 	$data = [
 		'contentId'      => strval( $post->ID ),
 		'headline'       => get_the_title( $post ),
 		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
 		'accessCategory' => 'free access',
-		'datePublished'  => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
+		'publishedAt'    => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
 		'plainText'      => wp_strip_all_tags( $content ),
 		'contentSize'    => str_word_count( wp_strip_all_tags( $content ) ),
 		'sectionName'    => Utils\get_section_name( Utils\get_breadcrumb( $post ) ),
-		// Optional fields
-		'dateModified'   => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
+		'sectionNames'   => Utils\get_section_names( Utils\get_breadcrumb( $post ) ),
+		'modifiedAt'     => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'           => Utils\get_post_tags( $post ),
-		'canonicalURL'   => wp_get_canonical_url( $post ),
+		'url'            => get_permalink( $post ),
+		'type'           => $type,
+		'isCanonical'    => untrailingslashit( wp_get_canonical_url( $post ) ) === untrailingslashit( get_permalink( $post ) ),
+		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
 	];
 
 	// Remove empty key.
