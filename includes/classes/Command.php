@@ -75,7 +75,7 @@ class Command extends Base_CLI_Command {
 	 * : Post IDs to process. Comma separated for passing multiple item.
 	 *
 	 * [--dry-run=<boolean>]
-	 * : Whether to run command in the dry run mode. Default to true.
+	 * : Whether to run command in the dry run mode. Default to false.
 	 *
 	 * @param array $args       Arguments.
 	 * @param array $assoc_args Options.
@@ -90,7 +90,7 @@ class Command extends Base_CLI_Command {
 		$paged       = 1;
 		$count       = 0;
 		$error_count = 0;
-		$dry_run     = true;
+		$dry_run     = false;
 		$post_types  = get_supported_post_types();
 		$include     = [];
 
@@ -161,12 +161,33 @@ class Command extends Base_CLI_Command {
 			}
 		}
 
+		// Counting posts to process.
+		if ( ! $limit ) {
+			$query_args = array(
+				'posts_per_page'      => $per_page,
+				'post_type'           => $post_types,
+				'post_status'         => 'publish',
+				'ignore_sticky_posts' => true,
+				'suppress_filters'    => false,
+			);
+			if ( ! empty( $include ) ) {
+				$query_args['post__in'] = $include;
+			}
+
+			$limit = ( new \WP_Query( $query_args ) )->found_posts;
+		}
+
+		if ( ! $limit ) {
+			WP_CLI::error( 'No post found.' );
+		}
+
 		if ( $dry_run ) {
 			WP_CLI::line( 'Running in dry-run mode.' );
 		} else {
 			WP_CLI::line( 'Running in live mode.' );
 		}
 
+		$progress = \WP_CLI\Utils\make_progress_bar( 'Syncing posts to Sophi', $limit );
 		do {
 
 			if ( ! empty( $include ) ) {
@@ -174,7 +195,7 @@ class Command extends Base_CLI_Command {
 				$posts = get_posts(
 					array(
 						'posts_per_page'      => $per_page,
-						'post_type'           => get_supported_post_types(),
+						'post_type'           => $post_types,
 						'paged'               => $paged,
 						'post_status'         => 'publish',
 						'post__in'            => $include,
@@ -187,7 +208,7 @@ class Command extends Base_CLI_Command {
 				$posts = get_posts(
 					array(
 						'posts_per_page'      => $per_page,
-						'post_type'           => get_supported_post_types(),
+						'post_type'           => $post_types,
 						'paged'               => $paged,
 						'post_status'         => 'publish',
 						'ignore_sticky_posts' => true,
@@ -197,7 +218,7 @@ class Command extends Base_CLI_Command {
 			}
 
 			foreach ( $posts as $post ) {
-				if ( 0 === $limit || $count < $limit ) {
+				if ( $count < $limit ) {
 					if ( ! $dry_run ) {
 						$response = track_event( 'publish', 'publish', $post );
 						if ( is_wp_error( $response ) ) {
@@ -211,25 +232,29 @@ class Command extends Base_CLI_Command {
 				}
 			}
 
-			// Pause.
-			WP_CLI::line( 'Preparing for the next batch...' );
-			sleep( 3 );
+			$progress->tick( count( $posts ) );
+			sleep(1);
 
 			// Free up memory.
 			$this->stop_the_insanity();
 
 			$paged++;
 
-			$continue = count( $posts ) === $per_page && ( $limit > 0 || $count < $limit );
+			$continue = count( $posts ) === $per_page && $count < $limit;
 		} while ( $continue );
+
+		$progress->finish();
 
 		if ( false === $dry_run ) {
 			WP_CLI::success( sprintf( '%d posts have successfully been synced to Sophi Collector.', $count ) );
 			if ( $error_count ) {
-				WP_CLI::warning( sprintf( '%d posts have issues.', $count ) );
+				WP_CLI::warning( sprintf( '%d posts have issues.', $error_count ) );
 			}
 		} else {
 			WP_CLI::success( sprintf( '%d posts will be synced to Sophi Collector.', $count ) );
+			if ( $error_count ) {
+				WP_CLI::warning( sprintf( '%d posts have issues.', $error_count ) );
+			}
 		}
 
 		if ( class_exists( 'WPCOM_VIP_CLI_Command' ) ) {
