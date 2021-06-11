@@ -37,11 +37,14 @@ function render_block_callback( $attributes, $content, $block ) {
 		return '';
 	}
 
+	$page_name   = sanitize_title( $attributes['pageName'] );
+	$widget_name = sanitize_title( $attributes['widgetName'] );
+
 	// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 	$curated_posts = get_posts(
 		[
-			'sophi_curated_page'   => $attributes['pageName'],
-			'sophi_curated_widget' => $attributes['widgetName'],
+			'sophi_curated_page'   => $page_name,
+			'sophi_curated_widget' => $widget_name,
 			'suppress_filters'     => false,
 		]
 	);
@@ -66,12 +69,18 @@ function render_block_callback( $attributes, $content, $block ) {
 	 *
 	 * @return {string} HTML output of the Site Automation block.
 	 */
-	return apply_filters(
+	$output = apply_filters(
 		'sophi_site_automation_block_output',
 		ob_get_clean(),
 		$curated_posts,
 		$attributes,
 		$content,
 		$block
+	);
+	return sprintf(
+		'<div class="sophi-site-automation-block" id="sophi-%1$s-%2$s" data-sophi-feature="%2$s">%3$s</div>',
+		$page_name,
+		$widget_name,
+		$output
 	);
 }
