@@ -133,7 +133,18 @@ function get_post_data( $post ) {
 	$content = apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$content = str_replace( ']]>', ']]&gt;', $content );
 
-	$type = get_post_format( $post );
+	/**
+	 * Filter data type of the given post.
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_post_data_type
+	 *
+	 * @param {string}  $type Post data type, one of article|video|audio|image
+	 * @param {WP_Post} $post WP_Post object.
+	 *
+	 * @return {string} Post data type.
+	 */
+	$type = apply_filters( 'sophi_post_data_type', get_post_format( $post ), $post );
 
 	if ( ! in_array( $type, [ 'video', 'audio', 'image'], true ) ) {
 		$type = 'article';
