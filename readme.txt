@@ -193,6 +193,14 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.0.3 =
+* **Added:** Data attributes to Site Automation widgets/blocks (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Changed:** Revisions to tracking data collected to improve Site Automation results (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Changed:** Update default Collector URL helper text (props [@barryceelen](https://profiles.wordpress.org/barryceelen/)).
+* **Changed:** Set default environment according to `wp_get_environment_type()` (props [@barryceelen](https://profiles.wordpress.org/barryceelen/)).
+* **Fixed:** Only load Snowplow analytics once Sophi plugin is configured (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/), [@barryceelen](https://profiles.wordpress.org/barryceelen/)).
+* **Fixed:** VIP CLI dry-run mode defaults to `false`, corrects sync limiting, adds progress bar (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@barryceelen](https://profiles.wordpress.org/barryceelen/)).
+
 = 1.0.2 =
 * **Changed:** Bump `vipwpcs` from 2.2.0 to 2.3.0 and `php_codesniffer` from 3.5.8 to 3.6.0 (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/)).
 * **Fixed:** WP-CLI command now supports both WordPress VIP and non-VIP environments (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/)).
