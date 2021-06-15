@@ -4,7 +4,7 @@ Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence
 Requires at least: 5.6
 Tested up to:      5.7
 Requires PHP:      7.4
-Stable tag:        1.0.2
+Stable tag:        1.0.3
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,14 @@ $the_query = new WP_Query( [
 	'sophi_curated_widget' => 'widget-name',
 ] );
 `
+
+Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div of your post for Sophi to capture your widget better.
+
+```html
+<div class="posts-wrapper" data-sophi-feature="trending">
+	<!-- Post lists -->
+</div>
+```
 
 == Documentation ==
 
@@ -192,6 +200,14 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.0.3 =
+* **Added:** Data attributes to Site Automation widgets/blocks (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Changed:** Revisions to tracking data collected to improve Site Automation results (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Changed:** Update default Collector URL helper text (props [@barryceelen](https://profiles.wordpress.org/barryceelen/)).
+* **Changed:** Set default environment according to `wp_get_environment_type()` (props [@barryceelen](https://profiles.wordpress.org/barryceelen/)).
+* **Fixed:** Only load Snowplow analytics once Sophi plugin is configured (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/), [@barryceelen](https://profiles.wordpress.org/barryceelen/)).
+* **Fixed:** VIP CLI dry-run mode defaults to `false`, corrects sync limiting, adds progress bar (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@barryceelen](https://profiles.wordpress.org/barryceelen/)).
 
 = 1.0.2 =
 * **Changed:** Bump `vipwpcs` from 2.2.0 to 2.3.0 and `php_codesniffer` from 3.5.8 to 3.6.0 (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/)).
