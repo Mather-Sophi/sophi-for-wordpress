@@ -79,6 +79,7 @@ You can utilize the Site Automation Block, configure the Site Automation page an
 <img src="/.wordpress-org/screenshot-2.png" alt="Sophi Site Automation block." width="600">
 
 The Site Automation block comes with a barebone HTML output and styling. It's made to be filtered using `sophi_site_automation_block_output`.
+
 ```php
 add_filter(
 	'sophi_site_automation_block_output',
