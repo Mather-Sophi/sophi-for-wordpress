@@ -7,6 +7,8 @@
 
 namespace SophiWP\Utils;
 
+use function SophiWP\Settings\get_sophi_settings;
+
 /**
  * Get breadcrumbs from the post URL.
  *
@@ -122,6 +124,24 @@ function get_term_breadcrumb( $term ) {
  * @return string Section name.
  */
 function get_section_name( $path = '' ) {
+	$parts = get_section_names( $path );
+
+	if ( 0 === count( $parts ) ) {
+		return '';
+	}
+
+	return $parts[0];
+}
+
+/**
+ * Get section names from the post URL.
+ * For example, example.com/news/politics/article-slug, this function would return ['news', 'politics'].
+ *
+ * @param string $path URL path.
+ *
+ * @return array Section names.
+ */
+function get_section_names( $path = '' ) {
 	if ( ! $path ) {
 		$path = get_breadcrumb();
 	}
@@ -131,10 +151,10 @@ function get_section_name( $path = '' ) {
 	$parts = array_filter( $parts );
 
 	if ( 0 === count( $parts ) ) {
-		return '';
+		return [];
 	}
 
-	return $parts[0];
+	return $parts;
 }
 
 /**
@@ -186,4 +206,29 @@ function get_supported_post_types() {
 	 * @return {array} Supported post types.
 	 */
 	return apply_filters( 'sophi_supported_post_types', [ 'post', 'page' ] );
+}
+
+/**
+ * Check if Sophi is configured or not.
+ *
+ * @return bool
+ */
+function is_configured() {
+	$settings = get_sophi_settings();
+
+	unset( $settings['environment'] );
+	unset( $settings['query_integration'] );
+
+	$settings = array_filter(
+		$settings,
+		function( $item ) {
+			return empty( $item );
+		}
+	);
+
+	if ( count( $settings ) > 0 ) {
+		return false;
+	} else {
+		return true;
+	}
 }

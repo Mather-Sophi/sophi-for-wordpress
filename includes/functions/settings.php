@@ -9,6 +9,7 @@ namespace SophiWP\Settings;
 
 use SophiWP\SiteAutomation\Auth;
 use function SophiWP\Utils\get_domain;
+use function SophiWP\Utils\is_configured;
 
 const SETTINGS_GROUP = 'sophi_settings';
 
@@ -207,9 +208,29 @@ function fields_setup() {
  * @param string $key Setting to retrieve.
  */
 function get_default_settings( $key = '' ) {
+
+	$default_environment = 'prod';
+
+	if ( function_exists( 'wp_get_environment_type' ) ) {
+
+		$environment_type = wp_get_environment_type();
+
+		switch ( $environment_type ) {
+			case 'local':
+			case 'development':
+				$default_environment = 'dev';
+				break;
+			case 'staging':
+				$default_environment = 'stg';
+				break;
+			default:
+				$default_environment = 'prod';
+		}
+	}
+
 	$default = [
-		'environment'         => 'prod',
-		'collector_url'       => 'https://collector.sophi.io',
+		'environment'         => $default_environment,
+		'collector_url'       => 'collector.sophi.io',
 		'tracker_client_id'   => get_domain(),
 		'client_id'           => '',
 		'client_secret'       => '',
@@ -391,9 +412,14 @@ function render_select( $args ) {
  * @return array
  */
 function add_action_links ( $actions ) {
+	if ( ! is_configured() ) {
+		$action_label = __('Set up your Sophi.io account', 'sophi-wp');
+	} else {
+		$action_label = __('Settings', 'sophi-wp');
+	}
 	return array_merge(
 		[
-			'<a href="' . admin_url('options-general.php?page=sophi') . '">' . __('Set up your Sophi.io account', 'sophi-wp') . '</a>',
+			'<a href="' . admin_url('options-general.php?page=sophi') . '">' . $action_label . '</a>',
 		],
 		$actions
 	);

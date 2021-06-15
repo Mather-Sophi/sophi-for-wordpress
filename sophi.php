@@ -3,7 +3,7 @@
  * Plugin Name:       Sophi
  * Plugin URI:        https://github.com/globeandmail/sophi-for-wordpress
  * Description:       WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
- * Version:           1.0.2
+ * Version:           1.0.3-dev
  * Requires at least: 5.6
  * Requires PHP:      7.4
  * Author:            10up
@@ -17,7 +17,7 @@
  */
 
 // Useful global constants.
-define( 'SOPHI_WP_VERSION', '1.0.2' );
+define( 'SOPHI_WP_VERSION', '1.0.3-dev' );
 define( 'SOPHI_WP_URL', plugin_dir_url( __FILE__ ) );
 define( 'SOPHI_WP_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SOPHI_WP_INC', SOPHI_WP_PATH . 'includes/' );
@@ -61,6 +61,11 @@ add_action(
 			// Bootstrap.
 			SophiWP\Core\setup();
 			SophiWP\Settings\setup();
+
+			if ( ! SophiWP\Utils\is_configured() ) {
+				return add_action( 'admin_notices', 'sophi_setup_notice' );
+			}
+
 			SophiWP\ContentSync\setup();
 			SophiWP\Tracking\setup();
 			SophiWP\Blocks\setup();
@@ -82,16 +87,39 @@ add_action(
 			 */
 			do_action( 'sophi_loaded' );
 		} else {
-			add_action(
-				'admin_notices',
-				function() {
-					?>
-				<div class="notice notice-error">
-						<p><?php esc_html_e( 'Sophi requires HTTPS. Please install SSL to your site and try again.', 'sophi-wp' ); ?></p>
-				</div>
-					<?php
-				}
-			);
+			add_action( 'admin_notices', 'sophi_https_notice' );
 		}
 	}
 );
+
+/**
+ * Sophi HTTPS notice.
+ */
+function sophi_https_notice() {
+	$screen = get_current_screen();
+	if ( 'plugins' !== $screen->id ) {
+		return;
+	}
+	?>
+		<div class="notice notice-error">
+			<p><?php esc_html_e( 'Sophi requires HTTPS. Please install SSL to your site and try again.', 'sophi-wp' ); ?></p>
+		</div>
+	<?php
+}
+
+
+/**
+ * Sophi setup notice.
+ */
+function sophi_setup_notice() {
+	$screen = get_current_screen();
+	if ( 'plugins' !== $screen->id ) {
+		return;
+	}
+	?>
+		<div class="notice notice-error">
+				<p><?php echo wp_kses_post( sprintf( __( 'Please set up your Sophi.io account in Settings > <a href="%s">Sophi.io</a>', 'sophi-wp' ), admin_url( 'options-general.php?page=sophi' ) ) ); ?></p>
+		</div>
+	<?php
+
+}

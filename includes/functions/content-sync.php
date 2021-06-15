@@ -99,7 +99,9 @@ function track_event( $new_status, $old_status, $post ) {
  * @return Tracker|WP_Error
  */
 function init_tracker() {
-	$collector_url = get_sophi_settings( 'collector_url' );
+	$collector_url     = get_sophi_settings( 'collector_url' );
+	$tracker_client_id = get_sophi_settings( 'tracker_client_id' );
+
 	if ( ! $collector_url ) {
 		return new WP_Error(
 			'sophi_missing_collector_url',
@@ -107,7 +109,14 @@ function init_tracker() {
 		);
 	}
 
-	$app_id  = sprintf( '%s-cms', get_sophi_settings( 'tracker_client_id' ) );
+	if ( ! $tracker_client_id ) {
+		return new WP_Error(
+			'sophi_missing_tracker_client_id',
+			'The Tracker Client ID is missing.'
+		);
+	}
+
+	$app_id  = sprintf( '%s-cms', $tracker_client_id );
 	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
@@ -124,19 +133,38 @@ function get_post_data( $post ) {
 	$content = apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$content = str_replace( ']]>', ']]&gt;', $content );
 
+	/**
+	 * Filter data type of the given post.
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_post_data_type
+	 *
+	 * @param {string}  $type Post data type, one of article|video|audio|image
+	 * @param {WP_Post} $post WP_Post object.
+	 *
+	 * @return {string} Post data type.
+	 */
+	$type = apply_filters( 'sophi_post_data_type', get_post_format( $post ), $post );
+
+	if ( ! in_array( $type, [ 'video', 'audio', 'image'], true ) ) {
+		$type = 'article';
+	}
+
 	$data = [
 		'contentId'      => strval( $post->ID ),
 		'headline'       => get_the_title( $post ),
 		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
 		'accessCategory' => 'free access',
-		'datePublished'  => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
+		'publishedAt'    => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
 		'plainText'      => wp_strip_all_tags( $content ),
 		'contentSize'    => str_word_count( wp_strip_all_tags( $content ) ),
-		'sectionName'    => Utils\get_section_name( Utils\get_breadcrumb( $post ) ),
-		// Optional fields
-		'dateModified'   => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
+		'sectionNames'   => Utils\get_section_names( Utils\get_breadcrumb( $post ) ),
+		'modifiedAt'     => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'           => Utils\get_post_tags( $post ),
-		'canonicalURL'   => wp_get_canonical_url( $post ),
+		'url'            => get_permalink( $post ),
+		'type'           => $type,
+		'isCanonical'    => untrailingslashit( wp_get_canonical_url( $post ) ) === untrailingslashit( get_permalink( $post ) ),
+		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
 	];
 
 	// Remove empty key.
