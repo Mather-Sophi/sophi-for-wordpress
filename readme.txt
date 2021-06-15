@@ -85,6 +85,14 @@ $the_query = new WP_Query( [
 ] );
 `
 
+Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div of your post for Sophi to capture your widget better.
+
+```html
+<div class="posts-wrapper" data-sophi-feature="trending">
+	<!-- Post lists -->
+</div>
+```
+
 == Documentation ==
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the hook docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
