@@ -87,11 +87,11 @@ $the_query = new WP_Query( [
 
 Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div of your post for Sophi to capture your widget better.
 
-```html
+`
 <div class="posts-wrapper" data-sophi-feature="trending">
 	<!-- Post lists -->
 </div>
-```
+`
 
 == Documentation ==
 
