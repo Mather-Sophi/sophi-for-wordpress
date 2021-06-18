@@ -224,7 +224,6 @@ function get_supported_post_types() {
  * @return bool
  */
 function is_configured() {
-	return true;
 	$settings = get_sophi_settings();
 
 	unset( $settings['environment'] );
