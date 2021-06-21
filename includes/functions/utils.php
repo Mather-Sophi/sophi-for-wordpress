@@ -21,65 +21,7 @@ function get_breadcrumb() {
 
 	if ( is_singular() ) {
 		$post = get_post();
-
-		// If current post is hierarchical, we use page ancestors for breadcrumb.
-		if ( is_post_type_hierarchical( $post->post_type ) ) {
-			$ancestors = array_map(
-				function( $parent ) {
-					$post_object = get_post( $parent );
-					return $post_object->post_name;
-				},
-				get_post_ancestors( $post )
-			);
-
-			if ( count( $ancestors ) > 0 ) {
-				return implode(
-					':',
-					array_reverse( $ancestors )
-				);
-			}
-		}
-
-		// If the current post isn't hierarchical, we use taxonomy.
-		$taxonomies = array_filter(
-			get_object_taxonomies( $post ),
-			'is_taxonomy_hierarchical'
-		);
-
-		if ( count( $taxonomies ) > 0 ) {
-			$terms = get_the_terms( $post, $taxonomies[0] );
-
-			if ( count( $terms ) > 0 ) {
-				return get_term_breadcrumb( $terms[0] );
-			}
-		} else { // Just return the current term if it's not hierarchical.
-			$non_hierarchial_taxonomies = array_filter(
-				get_object_taxonomies( $post ),
-				function( $taxonomy ) {
-					return ! is_taxonomy_hierarchical( $taxonomy );
-				}
-			);
-			if ( count( $non_hierarchial_taxonomies ) > 0 ) {
-				$terms = get_the_terms( $post, $non_hierarchial_taxonomies[0] );
-
-				if ( count( $terms ) > 0 ) {
-					return $terms[0]->slug;
-				}
-			}
-		}
-
-		// Use post type archive as the fallback.
-		$post_type_obj = get_post_type_object( $post->post_type );
-
-		if ( ! $post_type_obj->has_archive ) {
-			return '';
-		}
-
-		if ( get_option( 'permalink_structure' ) && is_array( $post_type_obj->rewrite ) ) {
-			return $post_type_obj->rewrite['slug'];
-		}
-
-		return $post_type_obj->post_type;
+		return get_post_breadcrumb( $post );
 	}
 
 	if ( is_tax() || is_tag() || is_category() ) {
@@ -88,6 +30,74 @@ function get_breadcrumb() {
 	}
 
 	return '';
+}
+
+/**
+ * Get post breadcrumb.
+ *
+ * @param WP_Post $post Post object.
+ *
+ * @return string
+ */
+function get_post_breadcrumb( $post ) {
+	// If current post is hierarchical, we use page ancestors for breadcrumb.
+	if ( is_post_type_hierarchical( $post->post_type ) ) {
+		$ancestors = array_map(
+			function( $parent ) {
+				$post_object = get_post( $parent );
+				return $post_object->post_name;
+			},
+			get_post_ancestors( $post )
+		);
+
+		if ( count( $ancestors ) > 0 ) {
+			return implode(
+				':',
+				array_reverse( $ancestors )
+			);
+		}
+	}
+
+	// If the current post isn't hierarchical, we use taxonomy.
+	$taxonomies = array_filter(
+		get_object_taxonomies( $post ),
+		'is_taxonomy_hierarchical'
+	);
+
+	if ( count( $taxonomies ) > 0 ) {
+		$terms = get_the_terms( $post, $taxonomies[0] );
+
+		if ( count( $terms ) > 0 ) {
+			return get_term_breadcrumb( $terms[0] );
+		}
+	} else { // Just return the current term if it's not hierarchical.
+		$non_hierarchial_taxonomies = array_filter(
+			get_object_taxonomies( $post ),
+			function( $taxonomy ) {
+				return ! is_taxonomy_hierarchical( $taxonomy );
+			}
+		);
+		if ( count( $non_hierarchial_taxonomies ) > 0 ) {
+			$terms = get_the_terms( $post, $non_hierarchial_taxonomies[0] );
+
+			if ( count( $terms ) > 0 ) {
+				return $terms[0]->slug;
+			}
+		}
+	}
+
+	// Use post type archive as the fallback.
+	$post_type_obj = get_post_type_object( $post->post_type );
+
+	if ( ! $post_type_obj->has_archive ) {
+		return '';
+	}
+
+	if ( get_option( 'permalink_structure' ) && is_array( $post_type_obj->rewrite ) ) {
+		return $post_type_obj->rewrite['slug'];
+	}
+
+	return $post_type_obj->post_type;
 }
 
 /**
