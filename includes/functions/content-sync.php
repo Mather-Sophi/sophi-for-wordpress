@@ -146,9 +146,32 @@ function get_post_data( $post ) {
 	 */
 	$type = apply_filters( 'sophi_post_data_type', get_post_format( $post ), $post );
 
-	if ( ! in_array( $type, [ 'video', 'audio', 'image'], true ) ) {
+	if ( ! in_array( $type, [ 'video', 'audio', 'image' ], true ) ) {
 		$type = 'article';
 	}
+
+	$canonical_url = wp_get_canonical_url( $post );
+
+	// Support Yoast SEO canonical URL.
+	if ( class_exists( 'WPSEO_Options' ) ) {
+		$yoast_canonical = get_post_meta( $post->ID, '_yoast_wpseo_canonical', true );
+		if ( $yoast_canonical ) {
+			$canonical_url = $yoast_canonical;
+		}
+	}
+
+	/**
+	 * Filter canonical URL of the given post.
+	 *
+	 * @since 1.0.4
+	 * @hook sophi_post_canonical_url
+	 *
+	 * @param {string}  $canonical_url Canonical URL of given post.
+	 * @param {WP_Post} $post WP_Post object.
+	 *
+	 * @return {string} Canonical URL.
+	 */
+	$canonical_url = apply_filters( 'sophi_post_canonical_url', $canonical_url, $post );
 
 	$data = [
 		'contentId'      => strval( $post->ID ),
@@ -163,7 +186,7 @@ function get_post_data( $post ) {
 		'tags'           => Utils\get_post_tags( $post ),
 		'url'            => get_permalink( $post ),
 		'type'           => $type,
-		'isCanonical'    => untrailingslashit( wp_get_canonical_url( $post ) ) === untrailingslashit( get_permalink( $post ) ),
+		'isCanonical'    => untrailingslashit( $canonical_url ) === untrailingslashit( get_permalink( $post ) ),
 		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
 	];
 
