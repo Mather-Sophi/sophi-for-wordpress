@@ -160,19 +160,6 @@ function get_post_data( $post ) {
 		}
 	}
 
-	/**
-	 * Filter canonical URL of the given post.
-	 *
-	 * @since 1.0.4
-	 * @hook sophi_post_canonical_url
-	 *
-	 * @param {string}  $canonical_url Canonical URL of given post.
-	 * @param {WP_Post} $post WP_Post object.
-	 *
-	 * @return {string} Canonical URL.
-	 */
-	$canonical_url = apply_filters( 'sophi_post_canonical_url', $canonical_url, $post );
-
 	$data = [
 		'contentId'      => strval( $post->ID ),
 		'headline'       => get_the_title( $post ),
