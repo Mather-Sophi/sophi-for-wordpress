@@ -111,6 +111,28 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 </div>
 ```
 
+### Post content type
+
+By default, Sophi for WordPress uses post format as the content type. This plugin uses `content_type` internally to distinguish between WordPress post type and Sophi type.
+
+Sophi accepts 4 types: article, video, audio, and image. The default type is `article`. Any other types that are not included above will be treated as `article`.
+
+If you're not using post format for content type, you can utilize `sophi_post_content_type` to set the content type.
+
+```php
+add_filter( 'sophi_post_content_type', function( $type, $post ) {
+	// You logic here.
+
+	return $new_type;
+} );
+```
+
+### Canonical URL
+
+Sophi for WordPress uses `wp_get_canonical_url` function introduced in WordPress 4.6 to get the canonical URL for given post. The plugin compares this canonical URL to post permalink to set the `isCanonical` attribute.
+
+WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugins and custom implementations, [`get_canonical_url`](https://developer.wordpress.org/reference/functions/wp_get_canonical_url/) filter can be used to change the canonical URL.
+
 ## Documentation
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the hook docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
