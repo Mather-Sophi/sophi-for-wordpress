@@ -11,7 +11,7 @@ use function SophiWP\Settings\get_sophi_settings;
 use function SophiWP\Utils\get_domain;
 use function SophiWP\Utils\get_section_name;
 use function SophiWP\Utils\get_breadcrumb;
-use function SophiWP\Utils\get_post_data_type;
+use function SophiWP\Utils\get_post_content_type;
 use function SophiWP\Core\script_url;
 
 /**
@@ -84,11 +84,11 @@ function get_tracking_data() {
 				'version'     => get_bloginfo( 'version' ),
 			],
 			'page'        => [
-				'type'       => is_singular() ? get_post_data_type( $post ) : 'section',
+				'type'       => is_singular() ? get_post_content_type( $post ) : 'section',
 				'breadcrumb' => get_breadcrumb(),
 			],
 			'content'     => [
-				'type' => get_post_data_type( $post ),
+				'type' => get_post_content_type( $post ),
 			],
 		],
 		'settings' => [
@@ -220,14 +220,14 @@ function get_custom_contexts() {
 	global $post;
 
 	$page_data    = [
-		'type'       => is_singular() ? get_post_data_type( $post ) : 'section',
+		'type'       => is_singular() ? get_post_content_type( $post ) : 'section',
 		'breadcrumb' => get_breadcrumb(),
 		'sectionName' => get_section_name(),
 	];
 
 	if ( is_singular() ) {
 		$content_data = [
-			'type' => get_post_data_type( $post ),
+			'type' => get_post_content_type( $post ),
 			'contentId' => strval( $post->ID ),
 		];
 

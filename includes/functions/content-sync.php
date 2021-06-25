@@ -173,7 +173,7 @@ function get_post_data( $post ) {
 		'modifiedAt'     => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'           => Utils\get_post_tags( $post ),
 		'url'            => get_permalink( $post ),
-		'type'           => Utils\get_post_data_type( $post ),
+		'type'           => Utils\get_post_content_type( $post ),
 		'isCanonical'    => untrailingslashit( $canonical_url ) === untrailingslashit( get_permalink( $post ) ),
 		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
 	];

@@ -252,20 +252,20 @@ function is_configured() {
  *
  * @return string Post data type, can be article|video|audio|image
  */
-function get_post_data_type( $post ) {
+function get_post_content_type( $post ) {
 
 	/**
 	 * Filter data type of the given post.
 	 *
 	 * @since 1.0.0
-	 * @hook sophi_post_data_type
+	 * @hook sophi_post_content_type
 	 *
 	 * @param {string}  $type Post data type, one of article|video|audio|image
 	 * @param {WP_Post} $post WP_Post object.
 	 *
 	 * @return {string} Post data type.
 	 */
-	$type = apply_filters( 'sophi_post_data_type', get_post_format( $post ), $post );
+	$type = apply_filters( 'sophi_post_content_type', get_post_format( $post ), $post );
 
 	if ( ! in_array( $type, [ 'video', 'audio', 'image' ], true ) ) {
 		$type = 'article';
