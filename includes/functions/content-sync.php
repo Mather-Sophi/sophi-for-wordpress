@@ -149,26 +149,8 @@ function init_tracker() {
  * @return array
  */
 function get_post_data( $post ) {
-	$content = apply_filters( 'the_content', get_the_content( null, false, $post ) );
-	$content = str_replace( ']]>', ']]&gt;', $content );
-
-	/**
-	 * Filter data type of the given post.
-	 *
-	 * @since 1.0.0
-	 * @hook sophi_post_data_type
-	 *
-	 * @param {string}  $type Post data type, one of article|video|audio|image
-	 * @param {WP_Post} $post WP_Post object.
-	 *
-	 * @return {string} Post data type.
-	 */
-	$type = apply_filters( 'sophi_post_data_type', get_post_format( $post ), $post );
-
-	if ( ! in_array( $type, [ 'video', 'audio', 'image' ], true ) ) {
-		$type = 'article';
-	}
-
+	$content       = apply_filters( 'the_content', get_the_content( null, false, $post ) );
+	$content       = str_replace( ']]>', ']]&gt;', $content );
 	$canonical_url = wp_get_canonical_url( $post );
 
 	// Support Yoast SEO canonical URL.
@@ -191,7 +173,7 @@ function get_post_data( $post ) {
 		'modifiedAt'     => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'           => Utils\get_post_tags( $post ),
 		'url'            => get_permalink( $post ),
-		'type'           => $type,
+		'type'           => Utils\get_post_data_type( $post ),
 		'isCanonical'    => untrailingslashit( $canonical_url ) === untrailingslashit( get_permalink( $post ) ),
 		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
 	];
