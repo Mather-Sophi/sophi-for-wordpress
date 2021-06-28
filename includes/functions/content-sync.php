@@ -73,6 +73,25 @@ function track_event( $new_status, $old_status, $post ) {
 		);
 	}
 
+	if ( class_exists( 'WPSEO_Meta' ) ) {
+		return add_action( 'wpseo_saved_postdata', function() use ( $tracker, $post, $action ) {
+			send_track_event( $tracker, $post, $action );
+		} );
+	}
+
+	send_track_event( $tracker, $post, $action );
+}
+
+/**
+ * Send the track event to Sophi SnowPlow server.
+ *
+ * @since 1.0.4
+ *
+ * @param Tracker $tracker Tracker object.
+ * @param WP_Post $post    WP_Post object.
+ * @param string  $action  Publishing action.
+ */
+function send_track_event( $tracker, $post, $action ) {
 	$data           = get_post_data( $post );
 	$data['action'] = $action;
 
@@ -130,30 +149,12 @@ function init_tracker() {
  * @return array
  */
 function get_post_data( $post ) {
-	$content = apply_filters( 'the_content', get_the_content( null, false, $post ) );
-	$content = str_replace( ']]>', ']]&gt;', $content );
-
-	/**
-	 * Filter data type of the given post.
-	 *
-	 * @since 1.0.0
-	 * @hook sophi_post_data_type
-	 *
-	 * @param {string}  $type Post data type, one of article|video|audio|image
-	 * @param {WP_Post} $post WP_Post object.
-	 *
-	 * @return {string} Post data type.
-	 */
-	$type = apply_filters( 'sophi_post_data_type', get_post_format( $post ), $post );
-
-	if ( ! in_array( $type, [ 'video', 'audio', 'image' ], true ) ) {
-		$type = 'article';
-	}
-
+	$content       = apply_filters( 'the_content', get_the_content( null, false, $post ) );
+	$content       = str_replace( ']]>', ']]&gt;', $content );
 	$canonical_url = wp_get_canonical_url( $post );
 
 	// Support Yoast SEO canonical URL.
-	if ( class_exists( 'WPSEO_Options' ) ) {
+	if ( class_exists( 'WPSEO_Meta' ) ) {
 		$yoast_canonical = get_post_meta( $post->ID, '_yoast_wpseo_canonical', true );
 		if ( $yoast_canonical ) {
 			$canonical_url = $yoast_canonical;
@@ -167,18 +168,24 @@ function get_post_data( $post ) {
 		'accessCategory' => 'free access',
 		'publishedAt'    => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
 		'plainText'      => wp_strip_all_tags( $content ),
-		'contentSize'    => str_word_count( wp_strip_all_tags( $content ) ),
+		'size'           => str_word_count( wp_strip_all_tags( $content ) ),
 		'sectionNames'   => Utils\get_section_names( Utils\get_post_breadcrumb( $post ) ),
 		'modifiedAt'     => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'           => Utils\get_post_tags( $post ),
 		'url'            => get_permalink( $post ),
-		'type'           => $type,
+		'type'           => Utils\get_post_content_type( $post ),
 		'isCanonical'    => untrailingslashit( $canonical_url ) === untrailingslashit( get_permalink( $post ) ),
 		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
 	];
 
-	// Remove empty key.
-	$data = array_filter( $data );
+	// Remove empty key, not false ones.
+	$data = array_filter(
+		$data,
+		function( $item ) {
+			return '' !== $item;
+		}
+	);
+
 	/**
 	 * Filter post data for content sync events (aka "CMS updates" in Sophi.io terms) sent to Sophi Collector.  This allows control over data before it is sent to Collector in case it needs to be modified for unique site needs.  Note that if you add, change, or remove any fields with this that those changes will need to be coordinated with the Sophi.io team to ensure content is appropriately received by Collector.
 	 *
