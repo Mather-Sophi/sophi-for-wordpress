@@ -74,7 +74,7 @@ There are two ways that Sophi Site Automation results can be included in a WordP
 
 ### Site Automation block
 
-You can utilize the Site Automation Block, configure the Site Automation page and widget name, and adjust block content and meta settings to display Site Automation content on your site.
+You can utilize the Site Automation block by configuring the Site Automation page and widget names and adjusting block content and post meta settings to display Site Automation content on your site.
 
 <img src="/.wordpress-org/screenshot-2.png" alt="Sophi Site Automation block." width="600">
 
@@ -91,6 +91,8 @@ add_filter(
 	5
 );
 ```
+
+The Site Automation block will automatically add a `data-sophi-feature=<widget_name>` attribute for the rendered HTML content so Sophi can understand what content section is rendered on your site.
 
 ### Query integration
 
