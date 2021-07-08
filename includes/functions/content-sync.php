@@ -174,17 +174,13 @@ function get_post_data( $post ) {
 		'tags'           => Utils\get_post_tags( $post ),
 		'url'            => get_permalink( $post ),
 		'type'           => Utils\get_post_content_type( $post ),
-		'isCanonical'    => untrailingslashit( $canonical_url ) === untrailingslashit( get_permalink( $post ) ),
 		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
 	];
 
-	// Remove empty key, not false ones.
-	$data = array_filter(
-		$data,
-		function( $item ) {
-			return '' !== $item;
-		}
-	);
+	$data = array_filter( $data );
+
+	// Add canonical after filtering the falsy items.
+	$data['isCanonical'] = untrailingslashit( $canonical_url ) === untrailingslashit( get_permalink( $post ) );
 
 	/**
 	 * Filter post data for content sync events (aka "CMS updates" in Sophi.io terms) sent to Sophi Collector.  This allows control over data before it is sent to Collector in case it needs to be modified for unique site needs.  Note that if you add, change, or remove any fields with this that those changes will need to be coordinated with the Sophi.io team to ensure content is appropriately received by Collector.
