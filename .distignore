@@ -14,6 +14,7 @@
 .eslintignore
 .eslintrc.json
 .gitignore
+.whitesource
 CHANGELOG.md
 CODE_OF_CONDUCT.md
 composer.json
