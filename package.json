@@ -34,10 +34,10 @@
     "test": "10up-toolkit test-unit-jest"
   },
   "devDependencies": {
-    "10up-toolkit": "^1.0.9",
-    "jsdoc": "~3.6.3",
-    "prop-types": "^15.7.2",
-    "wp-hookdoc": "^0.2.0"
+    "10up-toolkit": "1.0.9",
+    "jsdoc": "3.6.7",
+    "prop-types": "15.7.2",
+    "wp-hookdoc": "0.2.0"
   },
   "engines": {
     "node": ">=12.0.0"

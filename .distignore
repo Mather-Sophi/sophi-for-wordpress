@@ -28,3 +28,4 @@ package.json
 phpcs.xml
 phpunit.xml
 README.md
+renovate.json
