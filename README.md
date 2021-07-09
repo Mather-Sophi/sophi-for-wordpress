@@ -122,11 +122,16 @@ Sophi accepts 4 types: article, video, audio, and image. The default type is `ar
 If you're not using post format for content type, you can utilize `sophi_post_content_type` to set the content type.
 
 ```php
-add_filter( 'sophi_post_content_type', function( $type, $post ) {
-	// You logic here.
+add_filter(
+	'sophi_post_content_type',
+	function( $type, $post ) {
+		// You logic here.
 
-	return $new_type;
-} );
+		return $new_type;
+	},
+	10,
+	2
+);
 ```
 
 ### Canonical URL
