@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "787f306eeb604d8a906f4e930fbd2cb2",
+    "content-hash": "f4bbeaf855c462c3b1c448b5a4f9be5f",
     "packages": [
         {
             "name": "brick/math",
@@ -460,16 +460,16 @@
         },
         {
             "name": "automattic/vipwpcs",
-            "version": "2.3.0",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/VIP-Coding-Standards.git",
-                "reference": "a2eef7f48e31a8c35305ed4bf576ef7a484d9f3c"
+                "reference": "efacebef421334d54b99afa92fb8fa645336a8a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/VIP-Coding-Standards/zipball/a2eef7f48e31a8c35305ed4bf576ef7a484d9f3c",
-                "reference": "a2eef7f48e31a8c35305ed4bf576ef7a484d9f3c",
+                "url": "https://api.github.com/repos/Automattic/VIP-Coding-Standards/zipball/efacebef421334d54b99afa92fb8fa645336a8a7",
+                "reference": "efacebef421334d54b99afa92fb8fa645336a8a7",
                 "shasum": ""
             },
             "require": {
@@ -508,7 +508,7 @@
                 "source": "https://github.com/Automattic/VIP-Coding-Standards",
                 "wiki": "https://github.com/Automattic/VIP-Coding-Standards/wiki"
             },
-            "time": "2021-04-19T16:40:16+00:00"
+            "time": "2021-04-28T16:41:50+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
