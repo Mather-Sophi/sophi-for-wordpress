@@ -230,6 +230,19 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.0.4 =
+* **Added:** Support for Yoast canonical URL (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Added:** Configure WhiteSource Bolt and Renovate integrations (props [@whitesource-bolt](https://github.com/marketplace/whitesource-bolt), [@renovate](https://github.com/marketplace/renovate)).
+* **Changed:** Updated AMP and JS tracking data, changed post data type to post content type (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Changed:** Update documentation, dependencies, and pin dependencies (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@renovate](https://github.com/marketplace/renovate)).
+* **Fixed:** Issue with empty `sectionNames` (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Fixed:** Set `jsonschema` to 2.0.0 (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Fixed:** Corrected variable name from `contentSize` to `size` (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Security:** Update dependency `@10up/scripts` from 1.3.1 to 1.3.4 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `automattic/vipwpcs` from 2.3.0 to 2.3.2 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `phpunit/phpunit` from 8.5.15 to 8.5.17 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update `actions/setup-node` action from v1 to v2 (props [@renovate](https://github.com/marketplace/renovate)).
+
 = 1.0.3 =
 * **Added:** Data attributes to Site Automation widgets/blocks (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
 * **Changed:** Revisions to tracking data collected to improve Site Automation results (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
