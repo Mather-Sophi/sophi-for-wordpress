@@ -40,6 +40,12 @@ function setup() {
  * @return null|WP_Error
  */
 function track_event( $new_status, $old_status, $post ) {
+
+	// Don't send any event when creating new article.
+	if ( 'auto-draft' === $new_status || 'inherit' === $new_status ) {
+		return;
+	}
+
 	$tracker = init_tracker();
 	$action  = '';
 
@@ -55,7 +61,6 @@ function track_event( $new_status, $old_status, $post ) {
 	}
 
 	// publish, update, delete or unpublish
-
 	if ( 'publish' === $new_status && 'publish' !== $old_status ) {
 		$action = 'publish';
 	} elseif ( 'publish' === $new_status && 'publish' === $old_status ) {
@@ -74,6 +79,13 @@ function track_event( $new_status, $old_status, $post ) {
 	}
 
 	if ( class_exists( 'WPSEO_Meta' ) ) {
+		$pending_action = get_transient( 'sophi_content_sync_pending_' . $post->ID );
+
+		// Only set temporary action when publishing content
+		if ( ! $pending_action && 'publish' === $action ) {
+			set_transient( 'sophi_content_sync_pending_' . $post->ID, $action, MINUTE_IN_SECONDS );
+		}
+
 		return add_action( 'wpseo_saved_postdata', function() use ( $tracker, $post, $action ) {
 			send_track_event( $tracker, $post, $action );
 		} );
@@ -92,8 +104,14 @@ function track_event( $new_status, $old_status, $post ) {
  * @param string  $action  Publishing action.
  */
 function send_track_event( $tracker, $post, $action ) {
+	$pending_action = get_transient( 'sophi_content_sync_pending_' . $post->ID );
 	$data           = get_post_data( $post );
 	$data['action'] = $action;
+
+	if ( $pending_action ) {
+		$data['action'] = $pending_action;
+		delete_transient( 'sophi_content_sync_pending_' . $post->ID );
+	}
 
 	$tracker->trackUnstructEvent(
 		[

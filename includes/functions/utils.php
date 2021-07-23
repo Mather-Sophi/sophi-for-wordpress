@@ -61,11 +61,28 @@ function get_post_breadcrumb( $post ) {
 	// If the current post isn't hierarchical, we use taxonomy.
 	$taxonomies = array_filter(
 		get_object_taxonomies( $post ),
-		'is_taxonomy_hierarchical'
+		function( $taxonomy ) {
+			$taxonomy_object = get_taxonomy( $taxonomy );
+			return $taxonomy_object->hierarchical && $taxonomy_object->public && $taxonomy_object->publicly_queryable;
+		}
 	);
 
 	if ( count( $taxonomies ) > 0 ) {
-		$terms = get_the_terms( $post, $taxonomies[0] );
+		/**
+		 * Filter the hierarchial taxonomy to use to create breadcrumb. Default to the first
+		 * public and hierarchial taxonomy attached to the post.
+		 *
+		 * @since 1.0.4
+		 *
+		 * @hook sophi_hierarchial_taxonomy_for_breadcrumb
+		 *
+		 * @param {string}  $taxonomy Taxonomy used for breadcrumb.
+		 * @param {WP_Post} $post     Post object.
+		 *
+		 * @return {string} Taxonomy used for breadcrumb..
+		 */
+		$taxonomy = apply_filters( 'sophi_hierarchial_taxonomy_for_breadcrumb', $taxonomies[0], $post );
+		$terms    = get_the_terms( $post, $taxonomy );
 
 		if ( count( $terms ) > 0 ) {
 			return get_term_breadcrumb( $terms[0] );
@@ -74,11 +91,27 @@ function get_post_breadcrumb( $post ) {
 		$non_hierarchial_taxonomies = array_filter(
 			get_object_taxonomies( $post ),
 			function( $taxonomy ) {
-				return ! is_taxonomy_hierarchical( $taxonomy );
+				$taxonomy_object = get_taxonomy( $taxonomy );
+				return ! $taxonomy_object->hierarchical && $taxonomy_object->public && $taxonomy_object->publicly_queryable;
 			}
 		);
+
 		if ( count( $non_hierarchial_taxonomies ) > 0 ) {
-			$terms = get_the_terms( $post, $non_hierarchial_taxonomies[0] );
+			/**
+			 * Filter the non hierarchial taxonomy to use to create breadcrumb. Default to the first
+			 * public and non hierarchial taxonomy attached to the post.
+			 *
+			 * @since 1.0.4
+			 *
+			 * @hook sophi_non_hierarchial_taxonomy_for_breadcrumb
+			 *
+			 * @param {string}  $taxonomy Taxonomy used for breadcrumb.
+			 * @param {WP_Post} $post     Post object.
+			 *
+			 * @return {string} Taxonomy used for breadcrumb..
+			 */
+			$taxonomy = apply_filters( 'sophi_non_hierarchial_taxonomy_for_breadcrumb', $non_hierarchial_taxonomies[0], $post );
+			$terms    = get_the_terms( $post, $taxonomy );
 
 			if ( count( $terms ) > 0 ) {
 				return $terms[0]->slug;
