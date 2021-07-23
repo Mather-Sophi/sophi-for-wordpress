@@ -17,11 +17,13 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Issue with empty `sectionNames` (props [@dinhtungdu](https://github.com/dinhtungdu), [@dkotter](https://github.com/dkotter) via [#69](https://github.com/globeandmail/sophi-for-wordpress/pull/69)).
 - Set `jsonschema` to 2.0.0 (props [@dinhtungdu](https://github.com/dinhtungdu), [@dkotter](https://github.com/dkotter) via [#69](https://github.com/globeandmail/sophi-for-wordpress/pull/69)).
 - Corrected variable name from `contentSize` to `size` (props [@dinhtungdu](https://github.com/dinhtungdu) via [#71](https://github.com/globeandmail/sophi-for-wordpress/pull/71)).
+- Sending publish events when Yoast SEO is activated (props [@dinhtungdu](https://github.com/dinhtungdu) via [#107](https://github.com/globeandmail/sophi-for-wordpress/pull/107)).
+- Only use public taxonomies to build post breadcrumb (props [@dinhtungdu](https://github.com/dinhtungdu) via [#109](https://github.com/globeandmail/sophi-for-wordpress/pull/109)).
 
 ### Security
 - Update dependency `@10up/scripts` from 1.3.1 to 1.3.4 (props [@renovate](https://github.com/marketplace/renovate) via [#99](https://github.com/globeandmail/sophi-for-wordpress/pull/99)).
 - Update dependency `automattic/vipwpcs` from 2.3.0 to 2.3.2 (props [@renovate](https://github.com/marketplace/renovate) via [#100](https://github.com/globeandmail/sophi-for-wordpress/pull/100)).
-- Update dependency `phpunit/phpunit` from 8.5.15 to 8.5.17 (props [@renovate](https://github.com/marketplace/renovate) via [#101](https://github.com/globeandmail/sophi-for-wordpress/pull/101)).
+- Update dependency `phpunit/phpunit` from 8.5.15 to 8.5.18 (props [@renovate](https://github.com/marketplace/renovate) via [#101](https://github.com/globeandmail/sophi-for-wordpress/pull/101), [#108](https://github.com/globeandmail/sophi-for-wordpress/pull/108)).
 - Update `actions/setup-node` action from v1 to v2 (props [@renovate](https://github.com/marketplace/renovate) via [#102](https://github.com/globeandmail/sophi-for-wordpress/pull/102)).
 
 ## [1.0.3] - 2021-06-15
@@ -59,6 +61,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.4]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.0...1.0.1
