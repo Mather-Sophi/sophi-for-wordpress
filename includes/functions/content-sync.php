@@ -79,7 +79,7 @@ function track_event( $new_status, $old_status, $post ) {
 	}
 
 	if ( class_exists( 'WPSEO_Meta' ) ) {
-		// Detech if the current request comes from Quick Edit.
+		// Detect if the current request comes from Quick Edit.
 		if (
 			! empty( $_POST['_inline_edit'] )
 			&& wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' )
