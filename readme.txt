@@ -238,6 +238,7 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 * **Fixed:** Corrected variable name from `contentSize` to `size` (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
 * **Fixed:** Sending publish events when Yoast SEO is activated (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
 * **Fixed:** Only use public taxonomies to build post breadcrumb (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Fixed:** Update events via Quick Edit are now sent to Sophi when Yoast SEO is activated (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
 * **Security:** Update dependency `@10up/scripts` from 1.3.1 to 1.3.4 (props [@renovate](https://github.com/marketplace/renovate)).
 * **Security:** Update dependency `automattic/vipwpcs` from 2.3.0 to 2.3.2 (props [@renovate](https://github.com/marketplace/renovate)).
 * **Security:** Update dependency `phpunit/phpunit` from 8.5.15 to 8.5.18 (props [@renovate](https://github.com/marketplace/renovate)).
