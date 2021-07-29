@@ -79,6 +79,16 @@ function track_event( $new_status, $old_status, $post ) {
 	}
 
 	if ( class_exists( 'WPSEO_Meta' ) ) {
+		// Detect if the current request comes from Quick Edit.
+		if (
+			! empty( $_POST['_inline_edit'] )
+			&& wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' )
+			&& ! empty( $_POST['action'] )
+			&& 'inline-save' === $_POST['action']
+		) {
+			return send_track_event( $tracker, $post, $action );
+		}
+
 		$pending_action = get_transient( 'sophi_content_sync_pending_' . $post->ID );
 
 		// Only set temporary action when publishing content
