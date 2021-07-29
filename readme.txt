@@ -243,6 +243,7 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 * **Security:** Update dependency `automattic/vipwpcs` from 2.3.0 to 2.3.2 (props [@renovate](https://github.com/marketplace/renovate)).
 * **Security:** Update dependency `phpunit/phpunit` from 8.5.15 to 8.5.18 (props [@renovate](https://github.com/marketplace/renovate)).
 * **Security:** Update `actions/setup-node` action from v1 to v2 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `10up-toolkit` from 1.0.9 to 1.0.10 (props [@renovate](https://github.com/marketplace/renovate)).
 
 = 1.0.3 =
 * **Added:** Data attributes to Site Automation widgets/blocks (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
