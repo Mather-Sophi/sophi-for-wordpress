@@ -1,10 +1,8 @@
 === Sophi ===
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
-Requires at least: 5.6
 Tested up to:      5.7
-Requires PHP:      7.4
-Stable tag:        1.0.3
+Stable tag:        1.0.4
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,7 +54,7 @@ There are two ways that Sophi Site Automation results can be included in a WordP
 
 = Site Automation block =
 
-You can utilize the Site Automation Block, configure the Site Automation page and widget name, and adjust block content and meta settings to display Site Automation content on your site.
+You can utilize the Site Automation block by configuring the Site Automation page and widget names and adjusting block content and post meta settings to display Site Automation content on your site.
 
 ![Sophi Site Automation block.](https://github.com/globeandmail/sophi-for-wordpress/.wordpress-org/screenshot-2.png)
 
@@ -73,6 +71,8 @@ add_filter(
 	5
 );
 `
+
+The Site Automation block will automatically add a `data-sophi-feature=<widget_name>` attribute for the rendered HTML content so Sophi can understand what content section is rendered on your site.
 
 = Query integration =
 
@@ -92,6 +92,33 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 	<!-- Post lists -->
 </div>
 `
+
+= Post content type =
+
+By default, Sophi for WordPress uses post format as the content type. This plugin uses `content_type` internally to distinguish between WordPress post type and Sophi type.
+
+Sophi accepts 4 types: article, video, audio, and image. The default type is `article`. Any other types that are not included above will be treated as `article`.
+
+If you're not using post format for content type, you can utilize `sophi_post_content_type` to set the content type.
+
+`
+add_filter(
+	'sophi_post_content_type',
+	function( $type, $post ) {
+		// You logic here.
+
+		return $new_type;
+	},
+	10,
+	2
+);
+`
+
+= Canonical URL =
+
+Sophi for WordPress uses `wp_get_canonical_url` function introduced in WordPress 4.6 to get the canonical URL for given post. The plugin compares this canonical URL to post permalink to set the `isCanonical` attribute.
+
+WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugins and custom implementations, [`get_canonical_url`](https://developer.wordpress.org/reference/functions/wp_get_canonical_url/) filter can be used to change the canonical URL.
 
 == Documentation ==
 
@@ -200,6 +227,23 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.0.4 =
+* **Added:** Support for Yoast canonical URL (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Added:** Configure WhiteSource Bolt and Renovate integrations (props [@whitesource-bolt](https://github.com/marketplace/whitesource-bolt), [@renovate](https://github.com/marketplace/renovate)).
+* **Changed:** Updated AMP and JS tracking data, changed post data type to post content type (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Changed:** Update documentation, dependencies, and pin dependencies (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@renovate](https://github.com/marketplace/renovate)).
+* **Fixed:** Issue with empty `sectionNames` (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Fixed:** Set `jsonschema` to 2.0.0 (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
+* **Fixed:** Corrected variable name from `contentSize` to `size` (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Fixed:** Sending publish events when Yoast SEO is activated (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Fixed:** Only use public taxonomies to build post breadcrumb (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Fixed:** Update events via Quick Edit are now sent to Sophi when Yoast SEO is activated (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Security:** Update dependency `@10up/scripts` from 1.3.1 to 1.3.4 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `automattic/vipwpcs` from 2.3.0 to 2.3.2 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `phpunit/phpunit` from 8.5.15 to 8.5.18 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update `actions/setup-node` action from v1 to v2 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `10up-toolkit` from 1.0.9 to 1.0.10 (props [@renovate](https://github.com/marketplace/renovate)).
 
 = 1.0.3 =
 * **Added:** Data attributes to Site Automation widgets/blocks (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).

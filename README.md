@@ -74,7 +74,7 @@ There are two ways that Sophi Site Automation results can be included in a WordP
 
 ### Site Automation block
 
-You can utilize the Site Automation Block, configure the Site Automation page and widget name, and adjust block content and meta settings to display Site Automation content on your site.
+You can utilize the Site Automation block by configuring the Site Automation page and widget names and adjusting block content and post meta settings to display Site Automation content on your site.
 
 <img src="/.wordpress-org/screenshot-2.png" alt="Sophi Site Automation block." width="600">
 
@@ -91,6 +91,8 @@ add_filter(
 	5
 );
 ```
+
+The Site Automation block will automatically add a `data-sophi-feature=<widget_name>` attribute for the rendered HTML content so Sophi can understand what content section is rendered on your site.
 
 ### Query integration
 
@@ -110,6 +112,33 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 	<!-- Post lists -->
 </div>
 ```
+
+### Post content type
+
+By default, Sophi for WordPress uses post format as the content type. This plugin uses `content_type` internally to distinguish between WordPress post type and Sophi type.
+
+Sophi accepts 4 types: article, video, audio, and image. The default type is `article`. Any other types that are not included above will be treated as `article`.
+
+If you're not using post format for content type, you can utilize `sophi_post_content_type` to set the content type.
+
+```php
+add_filter(
+	'sophi_post_content_type',
+	function( $type, $post ) {
+		// You logic here.
+
+		return $new_type;
+	},
+	10,
+	2
+);
+```
+
+### Canonical URL
+
+Sophi for WordPress uses `wp_get_canonical_url` function introduced in WordPress 4.6 to get the canonical URL for given post. The plugin compares this canonical URL to post permalink to set the `isCanonical` attribute.
+
+WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugins and custom implementations, [`get_canonical_url`](https://developer.wordpress.org/reference/functions/wp_get_canonical_url/) filter can be used to change the canonical URL.
 
 ## Documentation
 
