@@ -180,6 +180,7 @@ function get_post_data( $post ) {
 	$content       = apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$content       = str_replace( ']]>', ']]&gt;', $content );
 	$canonical_url = wp_get_canonical_url( $post );
+	$keywords      = '';
 
 	// Support Yoast SEO canonical URL.
 	if ( class_exists( 'WPSEO_Meta' ) ) {
@@ -188,7 +189,7 @@ function get_post_data( $post ) {
 			$canonical_url = $yoast_canonical;
 		}
 
-		$yoast_keyphrase = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
+		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
 	}
 
 	$data = [
@@ -211,7 +212,7 @@ function get_post_data( $post ) {
 		'collectionName'      => '',
 		'isSponsored'         => false,
 		'promoPlainText'      => '',
-		'keywords'            => ! empty( $yoast_keyphrase ) ? [ $yoast_keyphrase ] : '',
+		'keywords'            => $keywords,
 		'creditLine'          => '',
 		'ownership'           => '',
 		'editorialAccessName' => '',
