@@ -306,3 +306,24 @@ function get_post_content_type( $post ) {
 
 	return $type;
 }
+
+/**
+ * Get the number of embedded images in a post content.
+ *
+ * @since 1.0.5
+ *
+ * @param string $post_content Post content.
+ *
+ * @return int|false Number of embedded images or false on failure.
+ */
+function get_number_of_embedded_images( $post_content ) {
+	$dom = new \DOMDocument();
+
+	if ( @$dom->loadHTML(strip_tags( $post_content, '<img>' ) ) ) {
+		$images = $dom->getElementsByTagName('img');
+
+		return $images->count();
+	}
+
+	return false;
+}
