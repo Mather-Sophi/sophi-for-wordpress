@@ -188,7 +188,7 @@ function get_post_data( $post ) {
 			$canonical_url = $yoast_canonical;
 		}
 
-		$yoast_keyphrase = get_post_meta( '_yoast_wpseo_focuskw', true );
+		$yoast_keyphrase = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
 	}
 
 	$data = [
@@ -211,7 +211,7 @@ function get_post_data( $post ) {
 		'collectionName'      => '',
 		'isSponsored'         => false,
 		'promoPlainText'      => '',
-		'keywords'            => $yoast_keyphrase ? [ $yoast_keyphrase ] : '',
+		'keywords'            => ! empty( $yoast_keyphrase ) ? [ $yoast_keyphrase ] : '',
 		'creditLine'          => '',
 		'ownership'           => '',
 		'editorialAccessName' => '',
