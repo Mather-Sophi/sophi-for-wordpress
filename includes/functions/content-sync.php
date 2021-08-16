@@ -187,6 +187,8 @@ function get_post_data( $post ) {
 		if ( $yoast_canonical ) {
 			$canonical_url = $yoast_canonical;
 		}
+
+		$yoast_keyphrase = get_post_meta( '_yoast_wpseo_focuskw', true );
 	}
 
 	$data = [
@@ -207,9 +209,9 @@ function get_post_data( $post ) {
 		'embeddedImagesCount' => Utils\get_number_of_embedded_images( $content ),
 		'classificationCode'  => '',
 		'collectionName'      => '',
-		'isSponsored'         => '',
+		'isSponsored'         => false,
 		'promoPlainText'      => '',
-		'keywords'            => '',
+		'keywords'            => $yoast_keyphrase ? [ $yoast_keyphrase ] : '',
 		'creditLine'          => '',
 		'ownership'           => '',
 		'editorialAccessName' => '',
