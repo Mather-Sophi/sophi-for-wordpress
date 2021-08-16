@@ -204,7 +204,7 @@ function get_post_data( $post ) {
 		'type'                => Utils\get_post_content_type( $post ),
 		'promoImageUri'       => '',
 		'thumbnailImageUri'   => get_the_post_thumbnail_url( $post, 'full' ),
-		'embeddedImagesCount' => '',
+		'embeddedImagesCount' => Utils\get_number_of_embedded_images( $content ),
 		'classificationCode'  => '',
 		'collectionName'      => '',
 		'isSponsored'         => '',
