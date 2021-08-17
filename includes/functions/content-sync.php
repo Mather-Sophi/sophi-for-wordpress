@@ -163,7 +163,7 @@ function init_tracker() {
 		);
 	}
 
-	$app_id  = sprintf( '%s-cms', $tracker_client_id );
+	$app_id  = sprintf( '%s:cms', $tracker_client_id );
 	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );

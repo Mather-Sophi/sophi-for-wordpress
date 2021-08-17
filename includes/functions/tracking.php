@@ -93,7 +93,7 @@ function get_tracking_data() {
 		],
 		'settings' => [
 			'client'            => get_sophi_settings( 'tracker_client_id' ),
-			'appId'             => sprintf( '%s-website', get_sophi_settings( 'tracker_client_id' ) ),
+			'appId'             => sprintf( '%s:website', get_sophi_settings( 'tracker_client_id' ) ),
 			'collectorEndpoint' => get_sophi_settings( 'collector_url' ),
 			'linkedDomains'     => [ get_domain() ],
 			'noConfigFile'      => true,
@@ -150,7 +150,7 @@ function get_amp_tracking_data() {
 	$data = [
 		'vars'     => [
 			'collectorHost'  => 'collector.sophi.io',
-			'appId'          => sprintf( '%s-amp', get_sophi_settings( 'tracker_client_id' ) ),
+			'appId'          => sprintf( '%s:amp', get_sophi_settings( 'tracker_client_id' ) ),
 			'customContexts' => get_custom_contexts(),
 		],
 		'linkers'  => [
