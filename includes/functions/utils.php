@@ -310,7 +310,7 @@ function get_post_content_type( $post ) {
 /**
  * Get the number of embedded images in a post content.
  *
- * @since 1.0.5
+ * @since 1.1.0
  *
  * @param string $post_content Post content.
  *
