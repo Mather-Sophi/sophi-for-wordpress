@@ -182,7 +182,7 @@ function get_post_data( $post ) {
 	$canonical_url = wp_get_canonical_url( $post );
 	$keywords      = '';
 
-	// Support Yoast SEO canonical URL.
+	// Support Yoast SEO canonical URL and focus keyphrase.
 	if ( class_exists( 'WPSEO_Meta' ) ) {
 		$yoast_canonical = get_post_meta( $post->ID, '_yoast_wpseo_canonical', true );
 		if ( $yoast_canonical ) {
