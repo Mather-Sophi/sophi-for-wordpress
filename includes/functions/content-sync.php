@@ -180,29 +180,44 @@ function get_post_data( $post ) {
 	$content       = apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$content       = str_replace( ']]>', ']]&gt;', $content );
 	$canonical_url = wp_get_canonical_url( $post );
+	$keywords      = '';
 
-	// Support Yoast SEO canonical URL.
+	// Support Yoast SEO canonical URL and focus keyphrase.
 	if ( class_exists( 'WPSEO_Meta' ) ) {
 		$yoast_canonical = get_post_meta( $post->ID, '_yoast_wpseo_canonical', true );
 		if ( $yoast_canonical ) {
 			$canonical_url = $yoast_canonical;
 		}
+
+		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
 	}
 
 	$data = [
-		'contentId'      => strval( $post->ID ),
-		'headline'       => get_the_title( $post ),
-		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
-		'accessCategory' => 'free access',
-		'publishedAt'    => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
-		'plainText'      => wp_strip_all_tags( $content ),
-		'size'           => str_word_count( wp_strip_all_tags( $content ) ),
-		'sectionNames'   => Utils\get_section_names( Utils\get_post_breadcrumb( $post ) ),
-		'modifiedAt'     => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
-		'tags'           => Utils\get_post_tags( $post ),
-		'url'            => get_permalink( $post ),
-		'type'           => Utils\get_post_content_type( $post ),
-		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
+		'contentId'           => strval( $post->ID ),
+		'headline'            => get_the_title( $post ),
+		'byline'              => [ get_the_author_meta( 'display_name', $post->post_author ) ],
+		'accessCategory'      => 'free access',
+		'publishedAt'         => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
+		'plainText'           => wp_strip_all_tags( $content ),
+		'size'                => str_word_count( wp_strip_all_tags( $content ) ),
+		'sectionNames'        => Utils\get_section_names( Utils\get_post_breadcrumb( $post ) ),
+		'modifiedAt'          => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
+		'tags'                => Utils\get_post_tags( $post ),
+		'url'                 => get_permalink( $post ),
+		'type'                => Utils\get_post_content_type( $post ),
+		'promoImageUri'       => '',
+		'thumbnailImageUri'   => get_the_post_thumbnail_url( $post, 'full' ),
+		'embeddedImagesCount' => Utils\get_number_of_embedded_images( $content ),
+		'classificationCode'  => '',
+		'collectionName'      => '',
+		'isSponsored'         => false,
+		'promoPlainText'      => '',
+		'keywords'            => $keywords,
+		'creditLine'          => '',
+		'ownership'           => '',
+		'editorialAccessName' => '',
+		'subtype'             => '',
+		'redirectToUrl'       => '',
 	];
 
 	$data = array_filter( $data );
