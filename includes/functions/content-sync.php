@@ -192,7 +192,7 @@ function get_post_data( $post ) {
 		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
 	}
 
-	$post_categories = wp_get_post_categories( $post->ID, [ 'fields' => 'slugs' ] );
+	$post_categories = wp_get_post_categories( $post->ID, [ 'fields' => 'names' ] );
 
 	$data = [
 		'contentId'           => strval( $post->ID ),
