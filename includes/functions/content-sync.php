@@ -27,19 +27,24 @@ function setup() {
 		return __NAMESPACE__ . "\\$function";
 	};
 
-	add_action( 'transition_post_status', $n( 'track_event' ), 10, 3 );
+	add_action( 'wp_after_insert_post', $n( 'track_event' ), 10, 4 );
 }
 
 /**
  * Sending data to SnowPlow.
  *
- * @param string  $new_status New post status.
- * @param string  $old_status Old post status.
- * @param WP_Post $post       Post object.
+ * @param int          $post_id     Post ID.
+ * @param WP_Post      $post        Post object.
+ * @param bool         $update      Whether this is an existing post being updated.
+ * @param null|WP_Post $post_before Null for new posts, the WP_Post object prior
+ *                                  to the update for updated posts.
  *
  * @return null|WP_Error
  */
-function track_event( $new_status, $old_status, $post ) {
+function track_event( $post_id, $post, $update, $post_before ) {
+
+	$new_status = $post->post_status;
+	$old_status = $post_before ? $post_before->post_status : '';
 
 	// Don't send any event when creating new article.
 	if ( 'auto-draft' === $new_status || 'inherit' === $new_status ) {
