@@ -46,6 +46,11 @@ function track_event( $post_id, $post, $update, $post_before ) {
 	$new_status = $post->post_status;
 	$old_status = $post_before ? $post_before->post_status : '';
 
+	// Don't send any event if the page is assigned to the front page or posts page
+	if ( $post_id === (int) get_option( 'page_on_front' ) || $post_id === (int) get_option( 'page_for_posts' ) ) {
+		return;
+	}
+
 	// Don't send any event when creating new article.
 	if ( 'auto-draft' === $new_status || 'inherit' === $new_status ) {
 		return;
