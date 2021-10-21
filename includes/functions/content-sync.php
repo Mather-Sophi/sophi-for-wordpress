@@ -101,9 +101,7 @@ function track_event( $post_id, $post, $update, $post_before ) {
 			set_transient( 'sophi_content_sync_pending_' . $post->ID, $action, MINUTE_IN_SECONDS );
 		}
 
-		return add_action( 'wpseo_saved_postdata', function() use ( $tracker, $post, $action ) {
-			send_track_event( $tracker, $post, $action );
-		} );
+		return send_track_event( $tracker, $post, $action );
 	}
 
 	send_track_event( $tracker, $post, $action );
