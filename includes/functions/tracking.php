@@ -116,10 +116,11 @@ function get_tracking_data() {
 		$data['data']['content']['contentId'] = strval( $post->ID );
 	}
 
-	if ( is_front_page() ) {
+	if ( is_front_page() || is_home() ) {
 		$data['data']['page']['breadcrumb']  = 'homepage';
 		$data['data']['page']['sectionName'] = 'homepage';
 		$data['data']['page']['type']        = 'section';
+		$data['data']['content']['type']     = 'section';
 	}
 
 	if ( 'prod' === $env ) {
