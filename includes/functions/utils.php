@@ -328,6 +328,7 @@ function get_number_of_embedded_images( $post_content ) {
 	return false;
 }
 
+
 /**
  * Get the post categories preserving the hierarchical order
  *
@@ -351,13 +352,13 @@ function get_post_categories( $post_id ) {
 	 * @param WP_Term $category
 	 * @return array
 	 */
-	function map_termid_name_parent( $category ) {
+	$map_termid_name_parent = function ( $category ) {
 		return [
 			'term_id' => $category->term_id,
 			'name'    => $category->name,
 			'parent'  => $category->parent,
 		];
-	}
+	};
 
 	/**
 	 * Order by term_id
@@ -366,7 +367,7 @@ function get_post_categories( $post_id ) {
 	 * @param WP_Term $category_b
 	 * @return int
 	 */
-	function order_by_term_id( $category_a, $category_b ) {
+	$order_by_term_id = function ( $category_a, $category_b ) {
 		$term_id_a = $category_a->term_id;
 		$term_id_b = $category_b->term_id;
 
@@ -375,7 +376,7 @@ function get_post_categories( $post_id ) {
 		}
 
 		return ( $term_id_a < $term_id_b ) ? -1 : 1;
-	}
+	};
 
 	$cached_categories = get_transient( $transient_key );
 
@@ -386,9 +387,9 @@ function get_post_categories( $post_id ) {
 		! empty ( $cached_categories['formatted'] ) &&
 		! empty( $cached_categories['term_id_name_parent_serialized'] )
 	) {
-		$categories_termid_name_parent   = array_map( 'map_termid_name_parent', $categories );
+		$categories_termid_name_parent   = array_map( $map_termid_name_parent, $categories );
 
-		usort( $categories_termid_name_parent, 'order_by_term_id' );
+		usort( $categories_termid_name_parent, $order_by_term_id );
 
 		$categories_termid_name_parent = serialize( $categories_termid_name_parent );
 
@@ -493,9 +494,9 @@ function get_post_categories( $post_id ) {
 
 	$categories_formatted = get_categories_hierarchical( $categories_tree );
 
-	$categories_termid_name_parent = array_map( 'map_termid_name_parent', $categories );
+	$categories_termid_name_parent = array_map( $map_termid_name_parent, $categories );
 
-	usort( $categories_termid_name_parent, 'order_by_term_id' );
+	usort( $categories_termid_name_parent, $order_by_term_id );
 
 	set_transient( $transient_key,
 		[
