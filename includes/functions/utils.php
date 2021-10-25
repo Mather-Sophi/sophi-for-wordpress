@@ -417,16 +417,17 @@ function get_post_categories( $post_id ) {
 	 * 		[...]
 	 * ]
 	 *
-	 * @param array $categories_tree  Array used to hold the categories (passed by reference)
-	 * @param WP_Term $child_category Child category
-	 * @param array $ancestors The ancestors ids of child category from highest to lowest in the hierarchy
-	 * @param integer $key Position in the hierarchy of ancestors
+	 * @param array   $categories_tree  Array used to hold the categories (passed by reference)
+	 * @param WP_Term $child_category   Child category
+	 * @param array   $ancestors        The ancestors ids of child category from highest to lowest in the hierarchy
+	 * @param integer $key              Position in the hierarchy of ancestors
+	 * @param integer $depth_level      Check how depth we are to avoid an infinite loop
 	 * @return void
 	 */
-	function build_category_tree( &$categories_tree, $child_category, $ancestors, $key = 0 ) {
+	function build_category_tree( &$categories_tree, $child_category, $ancestors, $key = 0, $depth_level = 0 ) {
 		$count = count( $ancestors );
 
-		if ( $key < $count ) {
+		if ( $key < $count && 200 > $depth_level ) {
 			// If the category is not on the category tree, add it.
 			if ( ! array_key_exists( $ancestors[ $key ], $categories_tree ) ) {
 				$categories_tree[ $ancestors[ $key ] ]['children'] = [];
@@ -438,7 +439,7 @@ function get_post_categories( $post_id ) {
 			}
 
 			// Go to the next level of hierarchy
-			build_category_tree( $categories_tree[ $ancestors[ $key ] ]['children'], $child_category, $ancestors, $key + 1 );
+			build_category_tree( $categories_tree[ $ancestors[ $key ] ]['children'], $child_category, $ancestors, $key + 1, $depth_level + 1 );
 		}
 
 	}
