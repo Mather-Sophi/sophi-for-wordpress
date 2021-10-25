@@ -200,8 +200,6 @@ function get_post_data( $post ) {
 		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
 	}
 
-	$post_categories = wp_get_post_categories( $post->ID, [ 'fields' => 'names' ] );
-
 	$data = [
 		'contentId'           => strval( $post->ID ),
 		'headline'            => get_the_title( $post ),
@@ -210,7 +208,7 @@ function get_post_data( $post ) {
 		'publishedAt'         => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
 		'plainText'           => wp_strip_all_tags( $content ),
 		'size'                => str_word_count( wp_strip_all_tags( $content ) ),
-		'sectionNames'        => is_wp_error( $post_categories ) ? [] : $post_categories,
+		'sectionNames'        => Utils\get_post_categories( $post->ID ),
 		'modifiedAt'          => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'                => Utils\get_post_tags( $post ),
 		'url'                 => get_permalink( $post ),
