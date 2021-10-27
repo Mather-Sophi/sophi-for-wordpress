@@ -228,6 +228,17 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.0.5 =
+* **Changed:** Added new fields to be sent to the API: thumbnailImageUri, embeddedImagesCount, and keywords (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia), [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Changed:** Updated name convention for appId (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia), [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Changed:** Updated to send WordPress categories in sectionNames field (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia)).
+* **Changed:** Changed the tracking of the homepage on the Dashboard (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia)).
+* **Changed:** Updated the audience URL (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@jeffpaul](https://github.com/jeffpaul)).
+* **Fixed:** Issue with the tracking of the homepage on the frontend (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia)).
+* **Security:** Update dependency `10up-toolkit` from 1.0.10 to 1.0.13 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `phpunit/phpunit` from 8.5.18 to 8.5.21 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `automattic/vipwpcs` from 2.3.2 to 2.3.3 (props [@renovate](https://github.com/marketplace/renovate)).
+
 = 1.0.4 =
 * **Added:** Support for Yoast canonical URL (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
 * **Added:** Configure WhiteSource Bolt and Renovate integrations (props [@whitesource-bolt](https://github.com/marketplace/whitesource-bolt), [@renovate](https://github.com/marketplace/renovate)).
