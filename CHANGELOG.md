@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.0.5] - 2021-10-28
+### Added
+- New content fields sent to Sophi `thumbnailImageUri`, `embeddedImagesCount`, and `keywords` (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@dinhtungdu](https://github.com/dinhtungdu) via [#116](https://github.com/globeandmail/sophi-for-wordpress/pull/116)).
+
+### Changed
+- Updated name convention for `appId` (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@dinhtungdu](https://github.com/dinhtungdu) via [#117](https://github.com/globeandmail/sophi-for-wordpress/pull/117)).
+- Send WordPress Categories to Sophi in `sectionNames` field (props [@Rahmon](https://github.com/Rahmon), [@jeffpaul](https://github.com/jeffpaul), [@felipeelia](https://github.com/felipeelia), [@tott](https://github.com/tott) via [#135](https://github.com/globeandmail/sophi-for-wordpress/pull/135), [#138](https://github.com/globeandmail/sophi-for-wordpress/pull/138), [#140](https://github.com/globeandmail/sophi-for-wordpress/pull/140), [#142](https://github.com/globeandmail/sophi-for-wordpress/pull/142), [#144](https://github.com/globeandmail/sophi-for-wordpress/pull/144)).
+- Updated JS tracking of the homepage from `article` to `section` content type (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@jeffpaul](https://github.com/jeffpaul) via [#139](https://github.com/globeandmail/sophi-for-wordpress/pull/139), [#140](https://github.com/globeandmail/sophi-for-wordpress/pull/140), [#142](https://github.com/globeandmail/sophi-for-wordpress/pull/142)).
+- Updated `audience` URL (props [@Rahmon](https://github.com/Rahmon), [@jeffpaul](https://github.com/jeffpaul) via [#143](https://github.com/globeandmail/sophi-for-wordpress/pull/143)).
+- Bump WordPress version "tested up to" 5.8 (props [@Rahmon](https://github.com/Rahmon), [@jeffpaul](https://github.com/jeffpaul) via [#146](https://github.com/globeandmail/sophi-for-wordpress/pull/146)).
+- Documentation (props [@dkotter](https://github.com/dkotter) via [#113](https://github.com/globeandmail/sophi-for-wordpress/pull/113)).
+
+### Fixed
+- Stopped sending homepage (aka "page on front" or "page for posts") content updates to Sophi (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@jeffpaul](https://github.com/jeffpaul) via [#139](https://github.com/globeandmail/sophi-for-wordpress/pull/139), [#140](https://github.com/globeandmail/sophi-for-wordpress/pull/140), [#142](https://github.com/globeandmail/sophi-for-wordpress/pull/142)).
+
+### Security
+- Update dependency `10up-toolkit` from 1.0.9 to 1.0.13 (props [@renovate](https://github.com/marketplace/renovate) via [#111](https://github.com/globeandmail/sophi-for-wordpress/pull/111), [#115](https://github.com/globeandmail/sophi-for-wordpress/pull/115), [#129](https://github.com/globeandmail/sophi-for-wordpress/pull/129), [#145](https://github.com/globeandmail/sophi-for-wordpress/pull/145)).
+- Update dependency `phpunit/phpunit` from 8.5.18 to 8.5.21 (props [@renovate](https://github.com/marketplace/renovate) via [#114](https://github.com/globeandmail/sophi-for-wordpress/pull/114), [#120](https://github.com/globeandmail/sophi-for-wordpress/pull/120), [#132](https://github.com/globeandmail/sophi-for-wordpress/pull/132)).
+- Update dependency `automattic/vipwpcs` from 2.3.2 to 2.3.3 (props [@renovate](https://github.com/marketplace/renovate) via [#133](https://github.com/globeandmail/sophi-for-wordpress/pull/133)).
+
 ## [1.0.4] - 2021-07-29
 ### Added
 - Support for Yoast canonical URL (props [@dinhtungdu](https://github.com/dinhtungdu), [@dkotter](https://github.com/dkotter) via [#70](https://github.com/globeandmail/sophi-for-wordpress/pull/70), [#71](https://github.com/globeandmail/sophi-for-wordpress/pull/71), [#72](https://github.com/globeandmail/sophi-for-wordpress/pull/72)).
@@ -63,6 +83,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.5]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.4...1.0.5
 [1.0.4]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.1...1.0.2

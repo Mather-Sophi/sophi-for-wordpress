@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      5.8
-Stable tag:        1.0.4
+Stable tag:        1.0.5
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -227,6 +227,19 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.0.5 =
+* **Added:** New content fields sent to Sophi `thumbnailImageUri`, `embeddedImagesCount`, and `keywords` (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia), [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Changed:** Updated name convention for `appId` (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia), [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/)).
+* **Changed:** Send WordPress Categories to Sophi in `sectionNames` field (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul), [@felipeelia](https://profiles.wordpress.org/felipeelia), [@tott](https://profiles.wordpress.org/tott)).
+* **Changed:** Updated JS tracking of the homepage from `article` to `section` content type (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia), [@jeffpaul](https://profiles.wordpress.org/jeffpaul)).
+* **Changed:** Updated `audience` URL (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@jeffpaul](https://github.com/jeffpaul)).
+* **Changed:** Bump WordPress version "tested up to" 5.8 (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@jeffpaul](https://github.com/jeffpaul)).
+* **Changed:** Documentation (props [@dkotter](https://profiles.wordpress.org/dkotter)).
+* **Fixed:** Stopped sending homepage (aka "page on front" or "page for posts") content updates to Sophi (props [@rahmohn](https://profiles.wordpress.org/rahmohn/), [@felipeelia](https://profiles.wordpress.org/felipeelia), [@jeffpaul](https://github.com/jeffpaul)).
+* **Security:** Update dependency `10up-toolkit` from 1.0.9 to 1.0.13 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `phpunit/phpunit` from 8.5.18 to 8.5.21 (props [@renovate](https://github.com/marketplace/renovate)).
+* **Security:** Update dependency `automattic/vipwpcs` from 2.3.2 to 2.3.3 (props [@renovate](https://github.com/marketplace/renovate)).
 
 = 1.0.4 =
 * **Added:** Support for Yoast canonical URL (props [@dinhtungdu](https://profiles.wordpress.org/dinhtungdu/), [@dkotter](https://profiles.wordpress.org/dkotter/)).
