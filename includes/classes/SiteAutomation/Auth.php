@@ -14,11 +14,11 @@ use function SophiWP\Settings\get_sophi_settings;
  */
 class Auth {
 	/**
-	 * API URL to get access_token.
+	 * API URL to get access_token. This is hardcoded to the Sophi Production auth URL as it is expected that whether Production, Staging, or Development is selected as the Environment in the plugin settings that this auth URL should always be used.
 	 *
 	 * @var string $auth_url
 	 */
-	private $auth_url = 'https://login.sophi.io/oauth/token';
+	private $auth_url = 'https://sophi-prod.auth0.com/oauth/token';
 
 	/**
 	 * Get cached access_token.
