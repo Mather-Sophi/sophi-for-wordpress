@@ -4,7 +4,10 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
-## [1.0.5] - 2021-10-28
+## [1.0.6] - 2021-10-27
+**Note: this was a hotfix release to fix an issue with deploys to WordPress.org.**
+
+## [1.0.5] - 2021-10-27
 ### Added
 - New content fields sent to Sophi `thumbnailImageUri`, `embeddedImagesCount`, and `keywords` (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@dinhtungdu](https://github.com/dinhtungdu) via [#116](https://github.com/globeandmail/sophi-for-wordpress/pull/116)).
 
@@ -83,6 +86,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.6]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.5...1.0.6
 [1.0.5]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.4...1.0.5
 [1.0.4]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.2...1.0.3
