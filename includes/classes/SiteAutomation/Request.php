@@ -230,7 +230,9 @@ class Request {
 		$site_automation_url = get_sophi_settings( 'site_automation_url' );
 		$site_automation_url = untrailingslashit( $site_automation_url );
 
-		return sprintf( '%1$s/curatedPages/%2$s/widgets/%3$s/contents', $site_automation_url, $page, $widget );
+		$host = parse_url( get_home_url(), PHP_URL_HOST );
+
+		return sprintf( '%1$s/curatedHosts/%2$s/curator?page=%3$s&widget=%4$s', $site_automation_url, $host, $page, $widget );
 	}
 
 	/**
