@@ -306,3 +306,205 @@ function get_post_content_type( $post ) {
 
 	return $type;
 }
+
+/**
+ * Get the number of embedded images in a post content.
+ *
+ * @since 1.1.0
+ *
+ * @param string $post_content Post content.
+ *
+ * @return int|false Number of embedded images or false on failure.
+ */
+function get_number_of_embedded_images( $post_content ) {
+	$dom = new \DOMDocument();
+
+	if ( @$dom->loadHTML(strip_tags( $post_content, '<img>' ) ) ) {
+		$images = $dom->getElementsByTagName('img');
+
+		return $images->count();
+	}
+
+	return false;
+}
+
+
+/**
+ * Get the post categories preserving the hierarchical order
+ *
+ * @param int $post_id
+ * @return array
+ */
+function get_post_categories( $post_id ) {
+
+	$categories    = get_the_category( $post_id );
+	$transient_key = 'sophi-post-' . $post_id . '-categories';
+
+	if ( empty( $categories ) ) {
+		delete_transient( $transient_key );
+
+		return [];
+	}
+
+	/**
+	 * Return an array with term_id, name and parent
+	 *
+	 * @param WP_Term $category
+	 * @return array
+	 */
+	$map_termid_name_parent = function ( $category ) {
+		return [
+			'term_id' => $category->term_id,
+			'name'    => $category->name,
+			'parent'  => $category->parent,
+		];
+	};
+
+	/**
+	 * Order by term_id
+	 *
+	 * @param WP_Term $category_a
+	 * @param WP_Term $category_b
+	 * @return int
+	 */
+	$order_by_term_id = function ( $category_a, $category_b ) {
+		$term_id_a = $category_a->term_id;
+		$term_id_b = $category_b->term_id;
+
+		if ( $term_id_a == $term_id_b ) {
+			return 0;
+		}
+
+		return ( $term_id_a < $term_id_b ) ? -1 : 1;
+	};
+
+	$cached_categories = get_transient( $transient_key );
+
+	// If categories don't change, we'll return a cached value.
+	if (
+		false !== $cached_categories &&
+		is_array( $cached_categories ) &&
+		! empty ( $cached_categories['formatted'] ) &&
+		! empty( $cached_categories['term_id_name_parent_serialized'] )
+	) {
+		$categories_termid_name_parent   = array_map( $map_termid_name_parent, $categories );
+
+		usort( $categories_termid_name_parent, $order_by_term_id );
+
+		$categories_termid_name_parent = serialize( $categories_termid_name_parent );
+
+		if ( $categories_termid_name_parent === $cached_categories['term_id_name_parent_serialized'] ) {
+			return $cached_categories['formatted'];
+		}
+	}
+
+	/**
+	 * Build the category tree
+	 *
+	 * This function returns an array with the following structure
+	 *
+	 * [
+	 *  	[parent_term_id] => [
+	 * 			[children] => [
+	 * 				[child_term_id] => [
+	 * 					[name]     => 'child_term_name',
+	 * 					[children] => [
+	 * 						[...]
+	 * 					]
+	 * 				]
+	 * 			]
+	 * 		]
+	 * 		[...]
+	 * ]
+	 *
+	 * @param array   $categories_tree  Array used to hold the categories (passed by reference)
+	 * @param WP_Term $child_category   Child category
+	 * @param array   $ancestors        The ancestors ids of child category from highest to lowest in the hierarchy
+	 * @param integer $key              Position in the hierarchy of ancestors
+	 * @param integer $depth_level      Check how depth we are to avoid an infinite loop
+	 * @return void
+	 */
+	function build_category_tree( &$categories_tree, $child_category, $ancestors, $key = 0, $depth_level = 0 ) {
+		$count = count( $ancestors );
+
+		if ( $key < $count && 200 > $depth_level ) {
+			// If the category is not on the category tree, add it.
+			if ( ! array_key_exists( $ancestors[ $key ], $categories_tree ) ) {
+				$categories_tree[ $ancestors[ $key ] ]['children'] = [];
+			}
+
+			// Fill with child category name
+			if ( $ancestors[ $key ] === $child_category->parent ) {
+				$categories_tree[ $ancestors[ $key ] ]['children'][ $child_category->term_id ]['name'] = $child_category->name;
+			}
+
+			// Go to the next level of hierarchy
+			build_category_tree( $categories_tree[ $ancestors[ $key ] ]['children'], $child_category, $ancestors, $key + 1, $depth_level + 1 );
+		}
+
+	}
+
+	/**
+	 * Return the categories in a flat array preserving the hierarchical order
+	 *
+	 * @param array $categories_tree The categories tree with the structure used by build_category_tree().
+	 * @return array
+	 */
+	function get_categories_hierarchical( $categories_tree ) {
+		global $arr;
+
+		foreach ( $categories_tree as $category ) {
+			if ( ! empty( $category['name'] ) ) {
+				$arr[] = $category['name'];
+			}
+
+			if ( ! empty( $category['children'] ) ) {
+				get_categories_hierarchical( $category['children'] );
+			}
+
+		}
+
+		return $arr;
+	}
+
+	$root_categories     = [];
+	$children_categories = [];
+
+	// Separete root and children categories
+	foreach ( $categories as $category ) {
+		if ( 0 === $category->parent ) {
+			$root_categories[ $category->term_id ] = $category;
+			$root_categories_id[]                  = $category->term_id;
+		} else {
+			$children_categories[] = $category;
+		}
+	}
+
+	$categories_tree = [];
+	// Build the category tree with all levels
+	foreach ( $children_categories as $children_category ) {
+		$ancestors = array_reverse( get_ancestors( $children_category->term_id, 'category', 'taxonomy' ) );
+
+		build_category_tree( $categories_tree, $children_category, $ancestors );
+	}
+
+	// Fill the category tree with the information of root categories
+	foreach ( $root_categories as $root_category ) {
+		$categories_tree[ $root_category->term_id ]['name'] = $root_category->name;
+	}
+
+	$categories_formatted = get_categories_hierarchical( $categories_tree );
+
+	$categories_termid_name_parent = array_map( $map_termid_name_parent, $categories );
+
+	usort( $categories_termid_name_parent, $order_by_term_id );
+
+	set_transient( $transient_key,
+		[
+			'term_id_name_parent_serialized' => serialize( $categories_termid_name_parent ),
+			'formatted'                      => $categories_formatted
+		]
+	);
+
+	return $categories_formatted;
+}

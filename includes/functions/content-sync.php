@@ -27,19 +27,29 @@ function setup() {
 		return __NAMESPACE__ . "\\$function";
 	};
 
-	add_action( 'transition_post_status', $n( 'track_event' ), 10, 3 );
+	add_action( 'wp_after_insert_post', $n( 'track_event' ), 10, 4 );
 }
 
 /**
  * Sending data to SnowPlow.
  *
- * @param string  $new_status New post status.
- * @param string  $old_status Old post status.
- * @param WP_Post $post       Post object.
+ * @param int          $post_id     Post ID.
+ * @param WP_Post      $post        Post object.
+ * @param bool         $update      Whether this is an existing post being updated.
+ * @param null|WP_Post $post_before Null for new posts, the WP_Post object prior
+ *                                  to the update for updated posts.
  *
  * @return null|WP_Error
  */
-function track_event( $new_status, $old_status, $post ) {
+function track_event( $post_id, $post, $update, $post_before ) {
+
+	$new_status = $post->post_status;
+	$old_status = $post_before ? $post_before->post_status : '';
+
+	// Don't send any event if the page is assigned to the front page or posts page
+	if ( $post_id === (int) get_option( 'page_on_front' ) || $post_id === (int) get_option( 'page_for_posts' ) ) {
+		return;
+	}
 
 	// Don't send any event when creating new article.
 	if ( 'auto-draft' === $new_status || 'inherit' === $new_status ) {
@@ -96,9 +106,7 @@ function track_event( $new_status, $old_status, $post ) {
 			set_transient( 'sophi_content_sync_pending_' . $post->ID, $action, MINUTE_IN_SECONDS );
 		}
 
-		return add_action( 'wpseo_saved_postdata', function() use ( $tracker, $post, $action ) {
-			send_track_event( $tracker, $post, $action );
-		} );
+		return send_track_event( $tracker, $post, $action );
 	}
 
 	send_track_event( $tracker, $post, $action );
@@ -163,7 +171,7 @@ function init_tracker() {
 		);
 	}
 
-	$app_id  = sprintf( '%s-cms', $tracker_client_id );
+	$app_id  = sprintf( '%s:cms', $tracker_client_id );
 	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
@@ -180,29 +188,44 @@ function get_post_data( $post ) {
 	$content       = apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$content       = str_replace( ']]>', ']]&gt;', $content );
 	$canonical_url = wp_get_canonical_url( $post );
+	$keywords      = '';
 
-	// Support Yoast SEO canonical URL.
+	// Support Yoast SEO canonical URL and focus keyphrase.
 	if ( class_exists( 'WPSEO_Meta' ) ) {
 		$yoast_canonical = get_post_meta( $post->ID, '_yoast_wpseo_canonical', true );
 		if ( $yoast_canonical ) {
 			$canonical_url = $yoast_canonical;
 		}
+
+		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
 	}
 
 	$data = [
-		'contentId'      => strval( $post->ID ),
-		'headline'       => get_the_title( $post ),
-		'byline'         => [ get_the_author_meta( 'display_name', $post->post_author ) ],
-		'accessCategory' => 'free access',
-		'publishedAt'    => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
-		'plainText'      => wp_strip_all_tags( $content ),
-		'size'           => str_word_count( wp_strip_all_tags( $content ) ),
-		'sectionNames'   => Utils\get_section_names( Utils\get_post_breadcrumb( $post ) ),
-		'modifiedAt'     => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
-		'tags'           => Utils\get_post_tags( $post ),
-		'url'            => get_permalink( $post ),
-		'type'           => Utils\get_post_content_type( $post ),
-		'promoImageUri'  => get_the_post_thumbnail_url( $post, 'full' ),
+		'contentId'           => strval( $post->ID ),
+		'headline'            => get_the_title( $post ),
+		'byline'              => [ get_the_author_meta( 'display_name', $post->post_author ) ],
+		'accessCategory'      => 'free access',
+		'publishedAt'         => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
+		'plainText'           => wp_strip_all_tags( $content ),
+		'size'                => str_word_count( wp_strip_all_tags( $content ) ),
+		'sectionNames'        => Utils\get_post_categories( $post->ID ),
+		'modifiedAt'          => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
+		'tags'                => Utils\get_post_tags( $post ),
+		'url'                 => get_permalink( $post ),
+		'type'                => Utils\get_post_content_type( $post ),
+		'promoImageUri'       => '',
+		'thumbnailImageUri'   => get_the_post_thumbnail_url( $post, 'full' ),
+		'embeddedImagesCount' => Utils\get_number_of_embedded_images( $content ),
+		'classificationCode'  => '',
+		'collectionName'      => '',
+		'isSponsored'         => false,
+		'promoPlainText'      => '',
+		'keywords'            => $keywords,
+		'creditLine'          => '',
+		'ownership'           => '',
+		'editorialAccessName' => '',
+		'subtype'             => '',
+		'redirectToUrl'       => '',
 	];
 
 	$data = array_filter( $data );
