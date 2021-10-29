@@ -3,7 +3,7 @@
  * Plugin Name:       Sophi
  * Plugin URI:        https://github.com/globeandmail/sophi-for-wordpress
  * Description:       WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
- * Version:           1.0.7
+ * Version:           1.0.8-dev
  * Requires at least: 5.6
  * Requires PHP:      7.4
  * Author:            10up
