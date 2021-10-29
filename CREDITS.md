@@ -6,13 +6,13 @@ The following acknowledges the Maintainers for this repository, those who have C
 
 The following individuals are responsible for curating the list of issues, responding to pull requests, and ensuring regular releases happen.
 
-[Darin Kotter (@dkotter)](https://github.com/dkotter), [Tung Du (@dinhtungdu)](https://github.com/dinhtungdu), and [Jeffrey Paul (@jeffpaul)](https://github.com/jeffpaul).
+[Jeffrey Paul (@jeffpaul)](https://github.com/jeffpaul), [Ramon Ahnert (@Rahmon)](https://github.com/Rahmon), [Felipe Elia (@felipeelia)](https://github.com/felipeelia).
 
 ## Contributors
 
 Thank you to all the people who have already contributed to this repository via bug reports, code, design, ideas, project management, translation, testing, etc.
 
-[Jeffrey Paul (@jeffpaul)](https://github.com/jeffpaul), [Tung Du (@dinhtungdu)](https://github.com/dinhtungdu), [Darin Kotter (@dkotter)](https://github.com/dkotter), [Helen Hou-Sandí (@helen)](https://github.com/helen), [Diana Padron (@dianapadron)](https://profiles.wordpress.org/dianapadron), [Jozsef Kozo (@kojraai)](https://github.com/kojraai), [Barry Ceelen (@barryceelen)](https://github.com/barryceelen), [Ramon Ahnert (@Rahmon)](https://github.com/Rahmon), [Felipe Elia (@felipeelia)](https://github.com/felipeelia), [Thorsten Ott (@tott)](https://github.com/tott).
+[Jeffrey Paul (@jeffpaul)](https://github.com/jeffpaul), [Tung Du (@dinhtungdu)](https://github.com/dinhtungdu), [Darin Kotter (@dkotter)](https://github.com/dkotter), [Helen Hou-Sandí (@helen)](https://github.com/helen), [Diana Padron (@dianapadron)](https://profiles.wordpress.org/dianapadron), [Jozsef Kozo (@kojraai)](https://github.com/kojraai), [Barry Ceelen (@barryceelen)](https://github.com/barryceelen), [Ramon Ahnert (@Rahmon)](https://github.com/Rahmon), [Felipe Elia (@felipeelia)](https://github.com/felipeelia), [Thorsten Ott (@tott)](https://github.com/tott), [Alasdair McKie (@amckie)](https://github.com/amckie).
 
 ## Libraries
 
