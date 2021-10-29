@@ -14,11 +14,11 @@ use function SophiWP\Settings\get_sophi_settings;
  */
 class Auth {
 	/**
-	 * API URL to get access_token.
+	 * API URL to get access_token. This is hardcoded to the Sophi Production auth URL as it is expected that whether Production, Staging, or Development is selected as the Environment in the plugin settings that this auth URL should always be used.
 	 *
 	 * @var string $auth_url
 	 */
-	private $auth_url = 'https://login.sophi.io/oauth/token';
+	private $auth_url = 'https://sophi-prod.auth0.com/oauth/token';
 
 	/**
 	 * Get cached access_token.
@@ -67,7 +67,7 @@ class Auth {
 		$body    = [
 			'client_id'     => $client_id,
 			'client_secret' => $client_secret,
-			'audience'      => 'https://site-automation-api.ml.sophi.io',
+			'audience'      => 'https://api.sophi.io',
 			'grant_type'    => 'client_credentials',
 		];
 		$request = wp_remote_post(
