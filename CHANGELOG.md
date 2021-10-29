@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 ### Changed
 - Sophi Auth URL value used for Production, Staging, and Development (props [@jeffpaul](https://github.com/jeffpaul), [@barryceelen](https://github.com/barryceelen), [@amckie](https://github.com/amckie) via [#148](https://github.com/globeandmail/sophi-for-wordpress/pull/148)).
 - Sophi Site Automation API URL structure (props [@Rahmon](https://github.com/Rahmon) via [#149](https://github.com/globeandmail/sophi-for-wordpress/pull/149)).
-- Sophi Audience URL used in authorization (props [Rahmon](https://github.com/Rahmon) via [#150](https://github.com/globeandmail/sophi-for-wordpress/pull/150)).
+- Sophi Audience URL used in authorization (props [@Rahmon](https://github.com/Rahmon) via [#150](https://github.com/globeandmail/sophi-for-wordpress/pull/150)).
 
 ## [1.0.6] - 2021-10-27
 **Note: this was a hotfix release to fix an issue with deploys to WordPress.org.**
