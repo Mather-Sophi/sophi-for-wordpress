@@ -259,8 +259,16 @@ function sanitize_settings( $settings ) {
 		$settings['query_integration'] = 0;
 	}
 
+	$prev_settings = get_option( SETTINGS_GROUP );
+
+	// Delete the option that holds the access token when the environment is changed
+	if ( ! empty( $prev_settings['environment'] ) && ! empty( $settings['environment'] ) && $prev_settings['environment'] !== $settings['environment'] ) {
+		delete_option( 'sophi_site_automation_access_token' );
+	}
+
 	if ( ! empty( $settings['client_id'] && ! empty( $settings['client_secret'] ) ) ) {
 		$auth = new Auth();
+		$auth->set_environment( $settings['environment'] );
 		$response = $auth->request_access_token( $settings['client_id'], $settings['client_secret'] );
 		if ( is_wp_error( $response ) ) {
 			add_settings_error(
