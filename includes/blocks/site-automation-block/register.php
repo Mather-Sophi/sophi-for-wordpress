@@ -42,7 +42,9 @@ function render_block_callback( $attributes, $content, $block ) {
 
 	$curated_posts_transient_key = 'sophi_curated_posts_' . $page_name . '_' . $widget_name;
 
-	if ( false === ( $curated_posts = get_transient( $curated_posts_transient_key ) ) ) {
+	$curated_posts = get_transient( $curated_posts_transient_key );
+
+	if ( false === $curated_posts ) {
 		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 		$curated_posts = get_posts(
 			[
