@@ -229,9 +229,10 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 == Changelog ==
 
 = 1.0.8 =
-* **Changed:** the API URL and audience parameter to get the access token in staging/dev environment (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia) via [#152](https://github.com/globeandmail/sophi-for-wordpress/pull/152)).
-* **Fixed:** duplication content issue when more than one block is added in a page (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@jeffpaul](https://github.com/jeffpaul), [@dinhtungdu](https://github.com/dinhtungdu) via [#157](https://github.com/globeandmail/sophi-for-wordpress/pull/157)).
-* **Security:** update dependency `prop-types` from 15.7.2 to 15.8.0 (props [@renovate](https://github.com/marketplace/renovate) via [#158](https://github.com/globeandmail/sophi-for-wordpress/pull/158)).
+* **Changed:** Updated `auth_url` and `audience` parameters to get respective Staging and Development environment access tokens (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia)).
+* **Fixed:** Issue where multiple Sophi blocks on the same page had duplicated content (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@jeffpaul](https://github.com/jeffpaul), [@dinhtungdu](https://github.com/dinhtungdu)).
+* **Fixed:** Testing environment deploy process (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia)).
+* **Security:** update dependency `prop-types` from 15.7.2 to 15.8.0 (props [@renovate](https://github.com/marketplace/renovate)).
 
 = 1.0.7 =
 * **Changed:** Sophi Auth URL value used for Production, Staging, and Development (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@barryceelen](https://github.com/barryceelen), [@amckie](https://github.com/amckie)).
