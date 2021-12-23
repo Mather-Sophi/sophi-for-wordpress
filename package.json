@@ -36,7 +36,7 @@
   "devDependencies": {
     "10up-toolkit": "1.0.13",
     "jsdoc": "3.6.7",
-    "prop-types": "15.7.2",
+    "prop-types": "15.8.0",
     "wp-hookdoc": "0.2.0"
   },
   "engines": {
