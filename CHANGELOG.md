@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.0.8] - 2021-12-23
+### Changed
+- Updated `auth_url` and `audience` parameters to get respective Staging and Development environment access tokens (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia) via [#152](https://github.com/globeandmail/sophi-for-wordpress/pull/152)).
+
+### Fixed
+- Issue where multiple Sophi blocks on the same page had duplicated content (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@jeffpaul](https://github.com/jeffpaul), [@dinhtungdu](https://github.com/dinhtungdu) via [#157](https://github.com/globeandmail/sophi-for-wordpress/pull/157)).
+- Testing environment deploy process (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia) via [#155](https://github.com/globeandmail/sophi-for-wordpress/pull/155)).
+
+### Security
+- Update dependency `prop-types` from 15.7.2 to 15.8.0 (props [@renovate](https://github.com/marketplace/renovate) via [#158](https://github.com/globeandmail/sophi-for-wordpress/pull/158)).
+
 ## [1.0.7] - 2021-10-29
 ### Changed
 - Sophi Auth URL value used for Production, Staging, and Development (props [@jeffpaul](https://github.com/jeffpaul), [@barryceelen](https://github.com/barryceelen), [@amckie](https://github.com/amckie) via [#148](https://github.com/globeandmail/sophi-for-wordpress/pull/148)).
@@ -92,6 +103,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.8]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.7...1.0.8
 [1.0.7]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.6...1.0.7
 [1.0.6]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.5...1.0.6
 [1.0.5]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.4...1.0.5
