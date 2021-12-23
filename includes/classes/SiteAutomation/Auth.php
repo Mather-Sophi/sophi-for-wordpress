@@ -14,11 +14,11 @@ use function SophiWP\Settings\get_sophi_settings;
  */
 class Auth {
 	/**
-	 * API URL to get access_token. This is hardcoded to the Sophi Production auth URL as it is expected that whether Production, Staging, or Development is selected as the Environment in the plugin settings that this auth URL should always be used.
-	 *
-	 * @var string $auth_url
+	 * Class constructor.
 	 */
-	private $auth_url = 'https://sophi-prod.auth0.com/oauth/token';
+	public function __construct() {
+		$this->environment = get_sophi_settings( 'environment' );
+	}
 
 	/**
 	 * Get cached access_token.
@@ -67,11 +67,11 @@ class Auth {
 		$body    = [
 			'client_id'     => $client_id,
 			'client_secret' => $client_secret,
-			'audience'      => 'https://api.sophi.io',
+			'audience'      => $this->get_audience(),
 			'grant_type'    => 'client_credentials',
 		];
 		$request = wp_remote_post(
-			$this->auth_url,
+			$this->get_auth_url(),
 			[
 				'headers' => [ 'Content-Type' => 'application/json' ],
 				'body'    => wp_json_encode( $body ),
@@ -94,5 +94,36 @@ class Auth {
 		$response = json_decode( $response, true );
 
 		return $response;
+	}
+
+	/**
+	 * Set the environment to be used.
+	 *
+	 * @since 1.0.8
+	 * @param string $environment Could be 'prod', 'stg' or 'dev'
+	 * @return void
+	 */
+	public function set_environment( $environment ) {
+		$this->environment = $environment;
+	}
+
+	/**
+	 * Get the API URL to get access_token
+	 *
+	 * @since 1.0.8
+	 * @return string
+	 */
+	protected function get_auth_url() {
+		return 'prod' === $this->environment ? 'https://sophi-prod.auth0.com/oauth/token' : 'https://sophi-works.auth0.com/oauth/token';
+	}
+
+	/**
+	 * Get the audience parameter to get access_token
+	 *
+	 * @since 1.0.8
+	 * @return string
+	 */
+	protected function get_audience() {
+		return 'prod' === $this->environment ? 'https://api.sophi.io' : 'https://api.sophi.works';
 	}
 }
