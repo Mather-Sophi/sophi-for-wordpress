@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: includes/blocks/site-automation-block/register.php - Sophi for WordPress Hook Docs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:300,400|Playfair+Display:900&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles-10up.css">
+</head>
+
+<body>
+
+<div id="main">
+
+	
+    <h1 class="page-title">Source: includes/blocks/site-automation-block/register.php</h1>
+	
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;?php
+/**
+ * Gutenberg Blocks setup
+ *
+ * @package TenUpTheme\Blocks\Example
+ */
+
+namespace SophiWP\Blocks\SiteAutomationBlock;
+
+/**
+ * Register the block
+ */
+function register() {
+	$n = function( $function ) {
+		return __NAMESPACE__ . "\\$function";
+	};
+	// Register the block.
+	register_block_type_from_metadata(
+		SOPHI_WP_INC . '/blocks/site-automation-block', // this is the directory where the block.json is found.
+		[
+			'render_callback' => $n( 'render_block_callback' ),
+		]
+	);
+}
+
+/**
+ * Render callback method for the block
+ *
+ * @param array  $attributes The blocks attributes
+ * @param string $content    Data returned from InnerBlocks.Content
+ * @param array  $block      Block information such as context.
+ *
+ * @return string The rendered block markup.
+ */
+function render_block_callback( $attributes, $content, $block ) {
+	if ( empty( $attributes['pageName'] ) || empty( $attributes['widgetName'] ) ) {
+		return '';
+	}
+
+	$page_name   = sanitize_title( $attributes['pageName'] );
+	$widget_name = sanitize_title( $attributes['widgetName'] );
+
+	$curated_posts_transient_key = 'sophi_curated_posts_' . $page_name . '_' . $widget_name;
+
+	$curated_posts = get_transient( $curated_posts_transient_key );
+
+	if ( false === $curated_posts ) {
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
+		$curated_posts = get_posts(
+			[
+				'sophi_curated_page'   => $page_name,
+				'sophi_curated_widget' => $widget_name,
+			]
+		);
+
+		if ( empty( $curated_posts ) ) {
+			return '';
+		}
+
+		set_transient( $curated_posts_transient_key, $curated_posts, 5 * MINUTE_IN_SECONDS );
+	}
+
+	ob_start();
+	include __DIR__ . '/markup.php';
+
+	/**
+	 * Filter the output of the Site Automation block.
+	 *
+	 * @since 1.0.0
+	 * @hook sophi_site_automation_block_output
+	 *
+	 * @param {string} $output HTML output of the Site Automation block.
+	 * @param {array} $curated_posts Array of curated posts. This is an array of WP_Post objects.
+	 * @param {array} $attributes Block attributes.
+	 * @param {array} $block Block context.
+	 *
+	 * @return {string} HTML output of the Site Automation block.
+	 */
+	$output = apply_filters(
+		'sophi_site_automation_block_output',
+		ob_get_clean(),
+		$curated_posts,
+		$attributes,
+		$content,
+		$block
+	);
+	return sprintf(
+		'&lt;div class="sophi-site-automation-block" id="sophi-%1$s-%2$s" data-sophi-feature="%2$s">%3$s&lt;/div>',
+		$page_name,
+		$widget_name,
+		$output
+	);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+    <footer>
+		<a href="https://sophi.io/">Sophi.io</a> &bull;
+		<a href="https://github.com/globeandmail/sophi-for-wordpress/">Sophi for WordPress on GitHub</a> &bull;
+    <a href="https://wordpress.org/plugins/sophi/">Sophi on WordPress.org</a> &bull;
+		<a href="https://www.sophi.io/careers/">Careers at Sophi</a>
+	</footer>
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="sophi_init.html">sophi_init</a></li><li><a href="sophi_loaded.html">sophi_loaded</a></li></ul><h3>Filters</h3><ul><li><a href="sophi_amp_tracking_data.html">sophi_amp_tracking_data</a></li><li><a href="sophi_available.html">sophi_available</a></li><li><a href="sophi_cli_per_page_limit.html">sophi_cli_per_page_limit</a></li><li><a href="sophi_hierarchial_taxonomy_for_breadcrumb.html">sophi_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_non_hierarchial_taxonomy_for_breadcrumb.html">sophi_non_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_page_need_tracking.html">sophi_page_need_tracking</a></li><li><a href="sophi_post_content_type.html">sophi_post_content_type</a></li><li><a href="sophi_post_data.html">sophi_post_data</a></li><li><a href="sophi_site_automation_block_output.html">sophi_site_automation_block_output</a></li><li><a href="sophi_supported_post_types.html">sophi_supported_post_types</a></li><li><a href="sophi_tracking_data.html">sophi_tracking_data</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
