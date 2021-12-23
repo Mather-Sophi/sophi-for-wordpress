@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      5.8
-Stable tag:        1.0.7
+Stable tag:        1.0.8
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,7 +228,12 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
-= 1.0.7=
+= 1.0.8 =
+* **Changed:** the API URL and audience parameter to get the access token in staging/dev environment (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia) via [#152](https://github.com/globeandmail/sophi-for-wordpress/pull/152)).
+* **Fixed:** duplication content issue when more than one block is added in a page (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia), [@jeffpaul](https://github.com/jeffpaul), [@dinhtungdu](https://github.com/dinhtungdu) via [#157](https://github.com/globeandmail/sophi-for-wordpress/pull/157)).
+* **Security:** update dependency `prop-types` from 15.7.2 to 15.8.0 (props [@renovate](https://github.com/marketplace/renovate) via [#158](https://github.com/globeandmail/sophi-for-wordpress/pull/158)).
+
+= 1.0.7 =
 * **Changed:** Sophi Auth URL value used for Production, Staging, and Development (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@barryceelen](https://github.com/barryceelen), [@amckie](https://github.com/amckie)).
 * **Changed:** Sophi Site Automation API URL structure (props [@rahmohn](https://profiles.wordpress.org/rahmohn/)).
 * **Changed:** Sophi Audience URL used in authorization (props [@rahmohn](https://profiles.wordpress.org/rahmohn/)).
