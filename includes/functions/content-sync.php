@@ -133,7 +133,7 @@ function send_track_event( $tracker, $post, $action ) {
 
 	$tracker->trackUnstructEvent(
 		[
-			'schema' => 'iglu:com.sophi/content_update/jsonschema/2-0-0',
+			'schema' => 'iglu:com.sophi/content_update/jsonschema/2-0-3',
 			'data'   => $data,
 		],
 		[
