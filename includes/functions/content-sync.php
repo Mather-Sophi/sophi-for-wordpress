@@ -200,6 +200,10 @@ function get_post_data( $post ) {
 		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
 	}
 
+	$parsed_url = parse_url( $canonical_url );
+	$hostname   = $parsed_url['host'] ?? '';
+	$path       = $parsed_url['path'] ?? '';
+
 	$data = [
 		'contentId'           => strval( $post->ID ),
 		'headline'            => get_the_title( $post ),
@@ -226,6 +230,8 @@ function get_post_data( $post ) {
 		'editorialAccessName' => '',
 		'subtype'             => '',
 		'redirectToUrl'       => '',
+		'hostname'            => $hostname,
+		'path'                => $path,
 	];
 
 	$data = array_filter( $data );
