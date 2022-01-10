@@ -189,6 +189,7 @@ function get_post_data( $post ) {
 	$content       = str_replace( ']]>', ']]&gt;', $content );
 	$canonical_url = wp_get_canonical_url( $post );
 	$keywords      = '';
+	$permalink     = get_permalink( $post );
 
 	// Support Yoast SEO canonical URL and focus keyphrase.
 	if ( class_exists( 'WPSEO_Meta' ) ) {
@@ -200,7 +201,7 @@ function get_post_data( $post ) {
 		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
 	}
 
-	$parsed_url = wp_parse_url( $canonical_url );
+	$parsed_url = wp_parse_url( $permalink );
 	$hostname   = $parsed_url['host'] ?? '';
 	$path       = $parsed_url['path'] ?? '';
 
@@ -215,7 +216,7 @@ function get_post_data( $post ) {
 		'sectionNames'        => Utils\get_post_categories( $post->ID ),
 		'modifiedAt'          => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'                => Utils\get_post_tags( $post ),
-		'url'                 => get_permalink( $post ),
+		'url'                 => $permalink,
 		'type'                => Utils\get_post_content_type( $post ),
 		'promoImageUri'       => '',
 		'thumbnailImageUri'   => get_the_post_thumbnail_url( $post, 'full' ),
@@ -237,7 +238,7 @@ function get_post_data( $post ) {
 	$data = array_filter( $data );
 
 	// Add canonical after filtering the falsy items.
-	$data['isCanonical'] = untrailingslashit( $canonical_url ) === untrailingslashit( get_permalink( $post ) );
+	$data['isCanonical'] = untrailingslashit( $canonical_url ) === untrailingslashit( $permalink );
 
 	/**
 	 * Filter post data for content sync events (aka "CMS updates" in Sophi.io terms) sent to Sophi Collector.  This allows control over data before it is sent to Collector in case it needs to be modified for unique site needs.  Note that if you add, change, or remove any fields with this that those changes will need to be coordinated with the Sophi.io team to ensure content is appropriately received by Collector.
