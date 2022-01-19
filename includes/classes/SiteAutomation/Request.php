@@ -50,6 +50,13 @@ class Request {
 	private $status;
 
 	/**
+	 * Post ID for Site Automation request.
+	 *
+	 * @var string $post_id
+	 */
+	protected $post_id;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param Auth $auth Authentication object.
@@ -77,9 +84,12 @@ class Request {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
+		$this->post_id = get_the_ID();
 
 		$this->status = $this->get_status();
-		$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+
+		$meta_key             = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
+		$site_automation_data = get_post_meta( $this->post_id, $meta_key, true );
 
 		if ( ! empty( $this->status['success'] ) && $site_automation_data ) {
 			return $site_automation_data;
@@ -138,7 +148,7 @@ class Request {
 	 * @return array
 	 */
 	private function get_status() {
-		return get_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}" );
+		return get_transient( "sophi_site_automation_status_{$this->post_id}_{$this->page}_{$this->widget}" );
 	}
 
 	/**
@@ -163,7 +173,10 @@ class Request {
 		}
 
 		$this->status = $data;
-		set_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
+
+		if ( ! empty( $this->post_id ) ) {
+			set_transient( "sophi_site_automation_status_{$this->post_id}_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
+		}
 	}
 
 	/**
@@ -214,7 +227,20 @@ class Request {
 			return [];
 		}
 
-		update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+		$post = get_post();
+
+		if ( ! $post || wp_is_post_revision( $post ) ) {
+			return $response;
+		}
+
+		$meta_key   = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
+		$created_at = date_create( 'now', wp_timezone() );
+
+		if ( $created_at ) {
+			update_post_meta( $post->ID, $meta_key, $response );
+			update_post_meta( $post->ID, $meta_key . '_created_at', $created_at->getTimestamp() );
+		}
+
 		return $response;
 	}
 
