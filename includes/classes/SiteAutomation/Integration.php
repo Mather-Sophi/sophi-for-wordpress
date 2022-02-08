@@ -40,7 +40,7 @@ class Integration {
 	 * @return int Found posts.
 	 */
 	public function found_posts( $found_posts, $query ) {
-		if ( ( isset( $query->sophi_curated_post_list_success ) && $query->sophi_curated_post_list_success ) ) {
+		if ( isset( $query->sophi_curated_post_list_success ) && $query->sophi_curated_post_list_success ) {
 			return $query->num_posts;
 		}
 
