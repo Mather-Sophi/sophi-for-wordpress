@@ -29,6 +29,22 @@ class Integration {
 		$this->request = $request;
 
 		add_filter( 'posts_pre_query', [ $this, 'get_curated_posts' ], 10, 2 );
+		add_filter( 'found_posts', array( $this, 'found_posts' ), 10, 2 );
+	}
+
+	/**
+	 * Change the found_posts variable on WP_Query.
+	 *
+	 * @param int      $found_posts Number of found posts
+	 * @param WP_Query $query Query object
+	 * @return int Found posts.
+	 */
+	public function found_posts( $found_posts, $query ) {
+		if ( ( isset( $query->sophi_curated_post_list_success ) && $query->sophi_curated_post_list_success ) ) {
+			return $query->num_posts;
+		}
+
+		return $found_posts;
 	}
 
 	/**
@@ -52,28 +68,43 @@ class Integration {
 		}
 
 		$curated_response = $this->request->get( $query_vars['sophi_curated_page'], $query_vars['sophi_curated_widget'] );
+		$request_status   = $this->request->get_status();
 
-		// Determine how we should format the results  based on the fields parameter.
-		$fields = $query->get( 'fields', '' );
+		if ( $request_status['success'] ) {
+			$query->sophi_curated_post_list_success = true;
+			$query->num_posts = count( $curated_response );
 
-		switch ( $fields ) {
-			case 'ids':
-				$new_posts = $this->format_hits_as_ids( $curated_response );
-				break;
+			// Determine how we should format the results  based on the fields parameter.
+			$fields = $query->get( 'fields', '' );
 
-			case 'id=>parent':
-				$new_posts = $this->format_hits_as_id_parents( $curated_response );
-				break;
+			switch ( $fields ) {
+				case 'ids':
+					$new_posts = $this->format_hits_as_ids( $curated_response );
+					break;
 
-			default:
-				$new_posts = $this->format_hits_as_posts( $curated_response );
-				break;
-		}
+				case 'id=>parent':
+					$new_posts = $this->format_hits_as_id_parents( $curated_response );
+					break;
 
-		$new_posts = array_filter( $new_posts );
+				default:
+					$new_posts = $this->format_hits_as_posts( $curated_response );
+					break;
+			}
 
-		if ( ! empty( $new_posts ) ) {
-			return $new_posts;
+			/**
+			 * The curated post list result that is injected to WP_Query.
+			 *
+			 * @since 1.0.9
+			 * @hook sophi_curated_post_list
+			 *
+			 * @param {array} $new_posts Post list.
+			 * @param {string} $query_vars['sophi_curated_page'] Sophi curated page param.
+			 * @param {string} $query_vars['sophi_curated_widget'] Sophi curated widget param.
+			 * @param {object} $query Original query.
+			 *
+			 * @return {integer} Posts per page limit.
+			 */
+			return apply_filters( 'sophi_curated_post_list', array_filter( $new_posts ), $query_vars['sophi_curated_page'], $query_vars['sophi_curated_widget'], $query );
 		}
 
 		return $posts;

@@ -81,7 +81,7 @@ class Request {
 		$this->status = $this->get_status();
 		$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
 
-		if ( ! empty( $this->status['success'] ) && $site_automation_data ) {
+		if ( ! empty( $this->status['success'] ) && $site_automation_data && ( defined( 'SOPHI_BYPASS_CACHE' ) && ! SOPHI_BYPASS_CACHE ) ) {
 			return $site_automation_data;
 		}
 
@@ -137,7 +137,7 @@ class Request {
 	 *
 	 * @return array
 	 */
-	private function get_status() {
+	public function get_status() {
 		return get_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}" );
 	}
 
