@@ -90,24 +90,27 @@ class Integration {
 					$new_posts = $this->format_hits_as_posts( $curated_response );
 					break;
 			}
-
-			/**
-			 * The curated post list result that is injected to WP_Query.
-			 *
-			 * @since 1.0.9
-			 * @hook sophi_curated_post_list
-			 *
-			 * @param {array} $new_posts Post list.
-			 * @param {string} $query_vars['sophi_curated_page'] Sophi curated page param.
-			 * @param {string} $query_vars['sophi_curated_widget'] Sophi curated widget param.
-			 * @param {object} $query Original query.
-			 *
-			 * @return {integer} Posts per page limit.
-			 */
-			return apply_filters( 'sophi_curated_post_list', array_filter( $new_posts ), $query_vars['sophi_curated_page'], $query_vars['sophi_curated_widget'], $query );
 		}
 
-		return $posts;
+		if ( ! empty( $new_posts ) ) {
+			$posts = array_filter( $new_posts );
+		}
+
+		/**
+		 * The curated post list result that is injected to WP_Query.
+		 *
+		 * @since 1.0.9
+		 * @hook sophi_curated_post_list
+		 *
+		 * @param {array} $posts Post list.
+		 * @param {string} $query_vars['sophi_curated_page'] Sophi curated page param.
+		 * @param {string} $query_vars['sophi_curated_widget'] Sophi curated widget param.
+		 * @param {array}  $request_status The request status, whether it was successful or not.
+		 * @param {object} $query Original query.
+		 *
+		 * @return {array} Post list.
+		 */
+		return apply_filters( 'sophi_curated_post_list', $posts, $query_vars['sophi_curated_page'], $query_vars['sophi_curated_widget'], $request_status, $query );
 	}
 
 	/**
