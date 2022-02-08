@@ -79,9 +79,13 @@ class Request {
 		$this->api_url = $this->set_api_url( $page, $widget );
 
 		$this->status = $this->get_status();
-		$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+		$site_automation_data = false;
 
-		if ( ! empty( $this->status['success'] ) && $site_automation_data && ( defined( 'SOPHI_BYPASS_CACHE' ) && ! SOPHI_BYPASS_CACHE ) ) {
+		if ( ! defined( 'SOPHI_BYPASS_CACHE' ) || ! SOPHI_BYPASS_CACHE ) {
+			$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+		}
+
+		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
 			return $site_automation_data;
 		}
 
