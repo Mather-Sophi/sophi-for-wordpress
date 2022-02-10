@@ -71,7 +71,7 @@ class Request {
 	 * @param string $page Page name.
 	 * @param string $widget Widget name.
 	 *
-	 * @return array|null
+	 * @return array|bool
 	 */
 	public function get( $page, $widget ) {
 		$this->page    = $page;
