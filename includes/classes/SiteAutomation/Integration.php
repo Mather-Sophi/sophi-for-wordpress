@@ -70,7 +70,7 @@ class Integration {
 		$curated_response = $this->request->get( $query_vars['sophi_curated_page'], $query_vars['sophi_curated_widget'] );
 		$request_status   = $this->request->get_status();
 
-		if ( $request_status['success'] ) {
+		if ( ! empty ( $request_status['success'] ) ) {
 			$query->sophi_curated_post_list_success = true;
 			$query->num_posts = count( $curated_response );
 
