@@ -106,7 +106,7 @@ class Integration {
 		 * @param {string} $query_vars['sophi_curated_page'] Sophi curated page param.
 		 * @param {string} $query_vars['sophi_curated_widget'] Sophi curated widget param.
 		 * @param {array}  $request_status The request status, whether it was successful or not.
-		 * @param {object} $query Original query.
+		 * @param {WP_Query} $query Original query.
 		 *
 		 * @return {array} Post list.
 		 */
