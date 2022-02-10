@@ -71,17 +71,35 @@ class Request {
 	 * @param string $page Page name.
 	 * @param string $widget Widget name.
 	 *
-	 * @return array|null
+	 * @return array|bool
 	 */
 	public function get( $page, $widget ) {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
 
-		$this->status = $this->get_status();
-		$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+		$this->status         = $this->get_status();
+		$site_automation_data = false;
 
-		if ( ! empty( $this->status['success'] ) && $site_automation_data ) {
+		/**
+		 * Whether to bypass caching.
+		 *
+		 * @since 1.0.9
+		 * @hook sophi_bypass_get_cache
+		 *
+		 * @param {bool} $bypass_cache True or false.
+		 * @param {bool} $page Page name.
+		 * @param {bool} $widget Widget name.
+		 *
+		 * @return {bool} Whether to bypass cache.
+		 */
+		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
+
+		if ( ! $bypass_cache ) {
+			$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+		}
+
+		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
 			return $site_automation_data;
 		}
 
@@ -106,7 +124,7 @@ class Request {
 		}
 
 		$this->set_status( [ 'success' => true ] );
-		return $this->process( $response );
+		return $this->process( $response, $bypass_cache );
 	}
 
 	/**
@@ -137,7 +155,7 @@ class Request {
 	 *
 	 * @return array
 	 */
-	private function get_status() {
+	public function get_status() {
 		return get_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}" );
 	}
 
@@ -206,15 +224,18 @@ class Request {
 	 * Process response from Sophi.
 	 *
 	 * @param array $response Response of Site Automation API.
+	 * @param bool  $bypass_cache Whether to bypass cache or not.
 	 *
 	 * @return array
 	 */
-	private function process( $response ) {
+	private function process( $response, $bypass_cache ) {
 		if ( ! $response ) {
 			return [];
 		}
 
-		update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+		if ( ! $bypass_cache ) {
+			update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+		}
 		return $response;
 	}
 
