@@ -58,7 +58,7 @@ function render_settings_page() {
 			</form>
 			<div class="brand">
 				<a href="https://sophi.io" class="logo" title="<?php esc_attr_e( 'Sophi', 'sophi-wp' ); ?>">
-					<img src="<?php echo esc_url( trailingslashit( SOPHI_WP_URL ) . 'dist/images/logo.png' ); ?>" alt="<?php esc_attr_e( 'Sophi logo', 'sophi-wp' ); ?>" />
+					<img src="<?php echo esc_url( trailingslashit( SOPHI_WP_URL ) . 'assets/images/logo.png' ); ?>" alt="<?php esc_attr_e( 'Sophi logo', 'sophi-wp' ); ?>" />
 				</a>
 				<p>
 					<strong>
