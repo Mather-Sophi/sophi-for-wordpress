@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.0.9] - 2022-02-18
+### Added
+- `hostname` and `path` fields to schema (props [@Rahmon](https://github.com/Rahmon), [@dinhtungdu](https://github.com/dinhtungdu) via [#164](https://github.com/globeandmail/sophi-for-wordpress/pull/164)).
+
+### Fixed
+- Return empty post list from Sophi response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia) via [#183](https://github.com/globeandmail/sophi-for-wordpress/pull/183)).
+
+### Security
+- Update dependency `phpunit/phpunit` from 8.5.21 to 8.5.23 (props [@renovate](https://github.com/apps/renovate) via [#160](https://github.com/globeandmail/sophi-for-wordpress/pull/160)).
+- Update dependency `prop-types` from 15.8.0 to 15.8.1 (props [@renovate](https://github.com/apps/renovate) via [#161](https://github.com/globeandmail/sophi-for-wordpress/pull/161)).
+- Update dependency `10up-toolkit` from `1.0.13` to `2.1.1` (props [@renovate](https://github.com/apps/renovate), [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul) via [#169](https://github.com/globeandmail/sophi-for-wordpress/pull/169), [#189](https://github.com/globeandmail/sophi-for-wordpress/pull/189)).
+- Update dependency `marked` from 2.1.3 to 4.0.10 (props [@renovate](https://github.com/apps/renovate) via [#176](https://github.com/globeandmail/sophi-for-wordpress/pull/176)).
+- Update dependency `jsdoc` from 3.6.8 to 3.6.10 (props [@renovate](https://github.com/apps/renovate) via [#177](https://github.com/globeandmail/sophi-for-wordpress/pull/177)).
+- Update dependency `dealerdirect/phpcodesniffer-composer-installer` from 0.7.1 to 0.7.2 (props [@renovate](https://github.com/apps/renovate) via [#182](https://github.com/globeandmail/sophi-for-wordpress/pull/182)).
+
 ## [1.0.8] - 2021-12-23
 ### Changed
 - Updated `auth_url` and `audience` parameters to get respective Staging and Development environment access tokens (props [@Rahmon](https://github.com/Rahmon), [@felipeelia](https://github.com/felipeelia) via [#152](https://github.com/globeandmail/sophi-for-wordpress/pull/152)).
@@ -103,6 +118,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.9]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.8...1.0.9
 [1.0.8]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.7...1.0.8
 [1.0.7]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.6...1.0.7
 [1.0.6]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.5...1.0.6
