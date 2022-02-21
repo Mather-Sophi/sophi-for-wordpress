@@ -70,10 +70,11 @@ class Request {
 	 *
 	 * @param string $page Page name.
 	 * @param string $widget Widget name.
+	 * @param float  $timeout The request timeout value.
 	 *
 	 * @return array|bool
 	 */
-	public function get( $page, $widget ) {
+	public function get( $page, $widget, $timeout = 10 ) {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
@@ -103,7 +104,7 @@ class Request {
 			return $site_automation_data;
 		}
 
-		$response = $this->request();
+		$response = $this->request( $timeout );
 
 		if ( is_wp_error( $response ) ) {
 			$this->set_status(
@@ -147,7 +148,7 @@ class Request {
 	 * @param string $widget Widget name.
 	 */
 	public function do_cron( $page, $widget ) {
-		$this->get( $page, $widget );
+		$this->get( $page, $widget, 20 );
 	}
 
 	/**
@@ -187,9 +188,11 @@ class Request {
 	/**
 	 * Get curated data from Sophi Site Automation API.
 	 *
-	 * return
+	 * @param float $timeout The request timeout value.
+	 *
+	 * @return mixed WP_Error on failure or body request on success.
 	 */
-	private function request() {
+	private function request( $timeout ) {
 		$access_token = $this->auth->get_access_token();
 
 		if ( is_wp_error( $access_token ) ) {
@@ -200,13 +203,14 @@ class Request {
 			'headers' => [
 				'Content-Type'  => 'application/json',
 				'Authorization' => 'Bearer ' . $access_token,
-			]
+			],
 		];
 
 		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
-			$request = vip_safe_wp_remote_get( $this->api_url, false, 3, 1, 20, $args );
+			$request = vip_safe_wp_remote_get( $this->api_url, '', 3, $timeout, 20, $args );
 		} else {
-			$request = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
+			$args['timeout'] = $timeout;
+			$request         = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
 		}
 
 		if ( is_wp_error( $request ) ) {
