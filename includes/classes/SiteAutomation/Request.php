@@ -74,7 +74,7 @@ class Request {
 	 *
 	 * @return array|bool
 	 */
-	public function get( $page, $widget, $timeout = 10 ) {
+	public function get( $page, $widget, $timeout = 3 ) {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
@@ -148,7 +148,7 @@ class Request {
 	 * @param string $widget Widget name.
 	 */
 	public function do_cron( $page, $widget ) {
-		$this->get( $page, $widget, 20 );
+		$this->get( $page, $widget, 3 );
 	}
 
 	/**
