@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.0.10] - 2022-02-28
+### Changed
+- Sets the default timeout of the first Sophi request and the cron request to 3 seconds (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia), [@tott](https://github.com/tott) via [#198](https://github.com/globeandmail/sophi-for-wordpress/pull/198)).
+
+### Security
+- Update dependency `snowplow/snowplow-tracker` from 0.4.0 to 0.5.0 (props [@renovate](https://github.com/apps/renovate) via [#186](https://github.com/globeandmail/sophi-for-wordpress/pull/186)).
+
 ## [1.0.9] - 2022-02-18
 ### Added
 - `hostname` and `path` fields to schema (props [@Rahmon](https://github.com/Rahmon), [@dinhtungdu](https://github.com/dinhtungdu) via [#164](https://github.com/globeandmail/sophi-for-wordpress/pull/164)).
