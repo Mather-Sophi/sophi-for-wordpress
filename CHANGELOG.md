@@ -125,6 +125,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.10]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.9...1.0.10
 [1.0.9]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.8...1.0.9
 [1.0.8]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.7...1.0.8
 [1.0.7]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.6...1.0.7
