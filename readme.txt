@@ -228,6 +228,12 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.0.11 - 2022-03-03 =
+* **Changed:** Update `package-lock.json` (props [@jeffpaul](https://github.com/jeffpaul)).
+* **Security:** Update `actions/setup-node` action from v2 to v3 (props [@renovate](https://github.com/apps/renovate)).
+* **Security:** Update `actions/checkout` action from v2 to v3 (props [@renovate](https://github.com/apps/renovate)).
+* **Security:** Update dependency `10up-toolkit` from 2.1.1 to 3.0.2 (props [@renovate](https://github.com/apps/renovate)).
+
 = 1.0.10 - 2022-02-28 =
 * **Changed:** Sets the default timeout of the first Sophi request and the cron request to 3 seconds (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia), [@tott](https://github.com/tott)).
 * **Security:** Update dependency `snowplow/snowplow-tracker` from 0.4.0 to 0.5.0 (props [@renovate](https://github.com/apps/renovate)).
