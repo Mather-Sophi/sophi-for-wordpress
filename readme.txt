@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      5.8
-Stable tag:        1.0.10
+Stable tag:        1.0.11
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -227,6 +227,12 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.0.11 - 2022-03-03 =
+* **Changed:** Update `package-lock.json` (props [@jeffpaul](https://github.com/jeffpaul)).
+* **Security:** Update `actions/setup-node` action from v2 to v3 (props [@renovate](https://github.com/apps/renovate)).
+* **Security:** Update `actions/checkout` action from v2 to v3 (props [@renovate](https://github.com/apps/renovate)).
+* **Security:** Update dependency `10up-toolkit` from 2.1.1 to 3.0.2 (props [@renovate](https://github.com/apps/renovate)).
 
 = 1.0.10 - 2022-02-28 =
 * **Changed:** Sets the default timeout of the first Sophi request and the cron request to 3 seconds (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia), [@tott](https://github.com/tott)).

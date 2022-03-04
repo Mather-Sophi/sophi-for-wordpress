@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.0.11] - 2022-03-03
+### Changed
+- Update `package-lock.json` (props [@jeffpaul](https://github.com/jeffpaul) via [#197](https://github.com/globeandmail/sophi-for-wordpress/pull/197)).
+
+### Security
+- Update `actions/setup-node` action from v2 to v3 (props [@renovate](https://github.com/apps/renovate) via [#199](https://github.com/globeandmail/sophi-for-wordpress/pull/199)).
+- Update `actions/checkout` action from v2 to v3 (props [@renovate](https://github.com/apps/renovate) via [#202](https://github.com/globeandmail/sophi-for-wordpress/pull/202)).
+- Update dependency `10up-toolkit` from 2.1.1 to 3.0.2 (props [@renovate](https://github.com/apps/renovate) via [#203](https://github.com/globeandmail/sophi-for-wordpress/pull/203), [#210](https://github.com/globeandmail/sophi-for-wordpress/pull/210)).
+
 ## [1.0.10] - 2022-02-28
 ### Changed
 - Sets the default timeout of the first Sophi request and the cron request to 3 seconds (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia), [@tott](https://github.com/tott) via [#198](https://github.com/globeandmail/sophi-for-wordpress/pull/198)).
@@ -125,6 +134,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.11]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.10...1.0.11
 [1.0.10]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.9...1.0.10
 [1.0.9]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.8...1.0.9
 [1.0.8]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.7...1.0.8
