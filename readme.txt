@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      5.8
-Stable tag:        1.0.11
+Stable tag:        1.0.12
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -227,6 +227,11 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.0.12 - 2022-03-23 =
+* **Fixed:** PHP fatal error when duplicating posts across sites (props [@YMufleh](https://github.com/YMufleh)).
+* **Security:** Update dependency `phpunit/phpunit` from 8.5.23 to 8.5.25 (props [@renovate](https://github.com/apps/renovate)).
+* **Security:** Update dependency `10up-toolkit` from 3.0.2 to 3.0.3 (props [@renovate](https://github.com/apps/renovate)).
 
 = 1.0.11 - 2022-03-03 =
 * **Changed:** Update `package-lock.json` (props [@jeffpaul](https://github.com/jeffpaul)).
