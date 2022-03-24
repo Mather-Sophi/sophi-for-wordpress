@@ -228,6 +228,11 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.0.12 - 2022-03-23 =
+* **Fixed:** PHP fatal error when duplicating posts across sites (props [@YMufleh](https://github.com/YMufleh)).
+* **Security:** Update dependency `phpunit/phpunit` from 8.5.23 to 8.5.25 (props [@renovate](https://github.com/apps/renovate)).
+* **Security:** Update dependency `10up-toolkit` from 3.0.2 to 3.0.3 (props [@renovate](https://github.com/apps/renovate)).
+
 = 1.0.11 - 2022-03-03 =
 * **Changed:** Update `package-lock.json` (props [@jeffpaul](https://github.com/jeffpaul)).
 * **Security:** Update `actions/setup-node` action from v2 to v3 (props [@renovate](https://github.com/apps/renovate)).
