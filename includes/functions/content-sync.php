@@ -198,7 +198,11 @@ function get_post_data( $post ) {
 			$canonical_url = $yoast_canonical;
 		}
 
-		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
+		$yoast_focuskw = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
+		if ( ! empty( $yoast_focuskw ) ) {
+			// Limit focus keyphrase to max length of 128.
+			$keywords = [ substr( $yoast_focuskw, 0, 128 ) ];
+		}
 	}
 
 	$parsed_url = wp_parse_url( $permalink );
