@@ -188,7 +188,7 @@ function get_post_data( $post ) {
 	$content       = apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$content       = str_replace( ']]>', ']]&gt;', $content );
 	$canonical_url = wp_get_canonical_url( $post );
-	$keywords      = '';
+	$keywords      = [];
 	$permalink     = get_permalink( $post );
 
 	// Support Yoast SEO canonical URL and focus keyphrase.
