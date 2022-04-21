@@ -114,7 +114,8 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 ```
 
 #### Caveats
-While the above query integration works just fine, it has been observed that on VIP infrastructures, `WP_Query` returns latest posts instead of the posts curated by Sophi. A workaround for this is to use [get_posts](https://developer.wordpress.org/reference/functions/get_posts/) instead.
+
+While the above query integration works just fine, it has been observed on [WordPress VIP](https://wpvip.com/) infrastructure that `WP_Query` may return latest posts instead of the posts curated by Sophi. A workaround for this is to use [`get_posts()`](https://developer.wordpress.org/reference/functions/get_posts/) instead.
 
 ### Post content type
 
