@@ -6,7 +6,7 @@ The following acknowledges the Maintainers for this repository, those who have C
 
 The following individuals are responsible for curating the list of issues, responding to pull requests, and ensuring regular releases happen.
 
-[Jeffrey Paul (@jeffpaul)](https://github.com/jeffpaul), [Ramon Ahnert (@Rahmon)](https://github.com/Rahmon), [Felipe Elia (@felipeelia)](https://github.com/felipeelia).
+[Jeffrey Paul (@jeffpaul)](https://github.com/jeffpaul), [Oscar Sanchez S. (@oscarssanchez)](https://github.com/oscarssanchez), [Felipe Elia (@felipeelia)](https://github.com/felipeelia).
 
 ## Contributors
 
