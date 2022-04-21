@@ -1,6 +1,6 @@
 === Sophi ===
 Contributors:      10up, sophidev
-Tags:              Sophi, Site Automation, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
+Tags:              Sophi, Site Automation, Curator, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      5.8
 Stable tag:        1.0.13
 License:           GPLv2 or later
