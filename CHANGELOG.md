@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.0.13] - 2022-04-20
+### Changed
+- `keywords` data type from string to array (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez), [@YMufleh](https://github.com/YMufleh) via [#233](https://github.com/globeandmail/sophi-for-wordpress/pull/233)).
+
+### Security
+- Bump `node-forge` from 1.2.1 to 1.3.0 (props [@dependabot](https://github.com/apps/dependabot) via [#228](https://github.com/globeandmail/sophi-for-wordpress/pull/228)).
+- Bump `minimist` from 1.2.5 to 1.2.6 (props [@dependabot](https://github.com/apps/dependabot) via [#229](https://github.com/globeandmail/sophi-for-wordpress/pull/229)).
+- Update dependency `10up-toolkit` from 3.0.3 to 3.1.2 (props [@renovate](https://github.com/apps/renovate) via [#230](https://github.com/globeandmail/sophi-for-wordpress/pull/230), [#234](https://github.com/globeandmail/sophi-for-wordpress/pull/234)).
+- Update dependency `phpunit/phpunit` from 8.5.25 to 8.5.26 (props [@renovate](https://github.com/apps/renovate) via [#231](https://github.com/globeandmail/sophi-for-wordpress/pull/231)).
+- Bump `async` from 2.6.3 to 2.6.4 (props [@dependabot](https://github.com/apps/dependabot) via [#235](https://github.com/globeandmail/sophi-for-wordpress/pull/235)).
+
+## [1.0.12] - 2022-03-23
+### Fixed
+- PHP fatal error when duplicating posts across sites (props [@YMufleh](https://github.com/YMufleh) via [#218](https://github.com/globeandmail/sophi-for-wordpress/pull/218)).
+
+### Security
+- Update dependency `phpunit/phpunit` from 8.5.23 to 8.5.25 (props [@renovate](https://github.com/apps/renovate) via [#214](https://github.com/globeandmail/sophi-for-wordpress/pull/214), [#220](https://github.com/globeandmail/sophi-for-wordpress/pull/220)).
+- Update dependency `10up-toolkit` from 3.0.2 to 3.0.3 (props [@renovate](https://github.com/apps/renovate) via [#217](https://github.com/globeandmail/sophi-for-wordpress/pull/217)).
+
 ## [1.0.11] - 2022-03-03
 ### Changed
 - Update `package-lock.json` (props [@jeffpaul](https://github.com/jeffpaul) via [#197](https://github.com/globeandmail/sophi-for-wordpress/pull/197)).
@@ -134,6 +153,8 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.13]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.12...1.0.13
+[1.0.12]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.11...1.0.12
 [1.0.11]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.10...1.0.11
 [1.0.10]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.9...1.0.10
 [1.0.9]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.8...1.0.9
