@@ -113,6 +113,9 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 </div>
 ```
 
+#### Caveats
+While the above query integration works just fine, it has been observed that on VIP infrastructures, `WP_Query` returns latest posts instead of the posts curated by Sophi. A workaround for this is to use [get_posts](https://developer.wordpress.org/reference/functions/get_posts/) instead.
+
 ### Post content type
 
 By default, Sophi for WordPress uses post format as the content type. This plugin uses `content_type` internally to distinguish between WordPress post type and Sophi type.
