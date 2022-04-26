@@ -220,7 +220,7 @@ class Command extends Base_CLI_Command {
 			foreach ( $posts as $post ) {
 				if ( $count < $limit ) {
 					if ( ! $dry_run ) {
-						$response = track_event( 'publish', 'publish', $post );
+						$response = track_event( $post->ID, $post, true, null );
 						if ( is_wp_error( $response ) ) {
 							$error_count++;
 						} else {
