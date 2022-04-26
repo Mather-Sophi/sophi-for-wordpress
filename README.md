@@ -70,7 +70,20 @@ Once your credentials are validated and saved, your site is officially superchar
 
 ## Usage
 
-There are two ways that Sophi Site Automation results can be included in a WordPress site, via a Site Automation block and a direct integration with WP_Query.  More details on each of these options are described below.
+There are two ways that Sophi Site Automation results can be included in a WordPress site, via a Site Automation block and a direct integration with WP_Query.  More details on each of these options are described below.  If you are not certain on the best integration approach, considering the following:
+
+Reasons to use the Site Automation block:
+- No additional development effort needed for initial Sophi integration
+- Immediate integration with Sophi Site Automation API and page/widget settings
+- Basic block display settings allow for basic configurations (show/hide post excerpt, author name, post date, featured image)
+- Supports advanced CSS for further custom styling
+
+Reasons to use the Query integration:
+- Can implement more custom caching and content fallback options
+- Can implement support into non-block editor setups
+- Likely more flexible for headless setups
+- Block editor is not in-use within your WordPress environment
+- Blocks are not available on category/taxonomy pages
 
 ### Site Automation block
 
