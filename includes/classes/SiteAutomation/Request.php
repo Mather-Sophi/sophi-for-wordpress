@@ -105,8 +105,7 @@ class Request {
 		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
 		if ( ! $bypass_cache ) {
-			$meta_key             = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
-			$site_automation_data = get_post_meta( $this->post_id, $meta_key, true );
+			$site_automation_data = get_post_meta( $this->post_id, "_sophi_site_automation_data_{$this->page}_{$this->widget}", true );
 		}
 
 		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
