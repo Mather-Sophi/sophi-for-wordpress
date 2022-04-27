@@ -84,7 +84,7 @@ function get_post_breadcrumb( $post ) {
 		$taxonomy = apply_filters( 'sophi_hierarchial_taxonomy_for_breadcrumb', $taxonomies[0], $post );
 		$terms    = get_the_terms( $post, $taxonomy );
 
-		if ( count( $terms ) > 0 ) {
+		if ( is_array( $terms ) && count( $terms ) > 0 ) {
 			return get_term_breadcrumb( $terms[0] );
 		}
 	} else { // Just return the current term if it's not hierarchical.
@@ -113,7 +113,7 @@ function get_post_breadcrumb( $post ) {
 			$taxonomy = apply_filters( 'sophi_non_hierarchial_taxonomy_for_breadcrumb', $non_hierarchial_taxonomies[0], $post );
 			$terms    = get_the_terms( $post, $taxonomy );
 
-			if ( count( $terms ) > 0 ) {
+			if ( is_array( $terms ) && count( $terms ) > 0 ) {
 				return $terms[0]->slug;
 			}
 		}
@@ -328,6 +328,74 @@ function get_number_of_embedded_images( $post_content ) {
 	return false;
 }
 
+/**
+ * Build the category tree
+ *
+ * This function returns an array with the following structure
+ *
+ * [
+ *  	[parent_term_id] => [
+ * 			[children] => [
+ * 				[child_term_id] => [
+ * 					[name]     => 'child_term_name',
+ * 					[children] => [
+ * 						[...]
+ * 					]
+ * 				]
+ * 			]
+ * 		]
+ * 		[...]
+ * ]
+ *
+ * @param array   $categories_tree  Array used to hold the categories (passed by reference)
+ * @param WP_Term $child_category   Child category
+ * @param array   $ancestors        The ancestors ids of child category from highest to lowest in the hierarchy
+ * @param integer $key              Position in the hierarchy of ancestors
+ * @param integer $depth_level      Check how depth we are to avoid an infinite loop
+ * @return void
+ */
+function build_category_tree( &$categories_tree, $child_category, $ancestors, $key = 0, $depth_level = 0 ) {
+	$count = count( $ancestors );
+
+	if ( $key < $count && 200 > $depth_level ) {
+		// If the category is not on the category tree, add it.
+		if ( ! array_key_exists( $ancestors[ $key ], $categories_tree ) ) {
+			$categories_tree[ $ancestors[ $key ] ]['children'] = [];
+		}
+
+		// Fill with child category name
+		if ( $ancestors[ $key ] === $child_category->parent ) {
+			$categories_tree[ $ancestors[ $key ] ]['children'][ $child_category->term_id ]['name'] = $child_category->name;
+		}
+
+		// Go to the next level of hierarchy
+		build_category_tree( $categories_tree[ $ancestors[ $key ] ]['children'], $child_category, $ancestors, $key + 1, $depth_level + 1 );
+	}
+
+}
+
+/**
+ * Return the categories in a flat array preserving the hierarchical order
+ *
+ * @param array $categories_tree The categories tree with the structure used by build_category_tree().
+ * @return array
+ */
+function get_categories_hierarchical( $categories_tree ) {
+	global $arr;
+
+	foreach ( $categories_tree as $category ) {
+		if ( ! empty( $category['name'] ) ) {
+			$arr[] = $category['name'];
+		}
+
+		if ( ! empty( $category['children'] ) ) {
+			get_categories_hierarchical( $category['children'] );
+		}
+
+	}
+
+	return $arr;
+}
 
 /**
  * Get the post categories preserving the hierarchical order
@@ -396,75 +464,6 @@ function get_post_categories( $post_id ) {
 		if ( $categories_termid_name_parent === $cached_categories['term_id_name_parent_serialized'] ) {
 			return $cached_categories['formatted'];
 		}
-	}
-
-	/**
-	 * Build the category tree
-	 *
-	 * This function returns an array with the following structure
-	 *
-	 * [
-	 *  	[parent_term_id] => [
-	 * 			[children] => [
-	 * 				[child_term_id] => [
-	 * 					[name]     => 'child_term_name',
-	 * 					[children] => [
-	 * 						[...]
-	 * 					]
-	 * 				]
-	 * 			]
-	 * 		]
-	 * 		[...]
-	 * ]
-	 *
-	 * @param array   $categories_tree  Array used to hold the categories (passed by reference)
-	 * @param WP_Term $child_category   Child category
-	 * @param array   $ancestors        The ancestors ids of child category from highest to lowest in the hierarchy
-	 * @param integer $key              Position in the hierarchy of ancestors
-	 * @param integer $depth_level      Check how depth we are to avoid an infinite loop
-	 * @return void
-	 */
-	function build_category_tree( &$categories_tree, $child_category, $ancestors, $key = 0, $depth_level = 0 ) {
-		$count = count( $ancestors );
-
-		if ( $key < $count && 200 > $depth_level ) {
-			// If the category is not on the category tree, add it.
-			if ( ! array_key_exists( $ancestors[ $key ], $categories_tree ) ) {
-				$categories_tree[ $ancestors[ $key ] ]['children'] = [];
-			}
-
-			// Fill with child category name
-			if ( $ancestors[ $key ] === $child_category->parent ) {
-				$categories_tree[ $ancestors[ $key ] ]['children'][ $child_category->term_id ]['name'] = $child_category->name;
-			}
-
-			// Go to the next level of hierarchy
-			build_category_tree( $categories_tree[ $ancestors[ $key ] ]['children'], $child_category, $ancestors, $key + 1, $depth_level + 1 );
-		}
-
-	}
-
-	/**
-	 * Return the categories in a flat array preserving the hierarchical order
-	 *
-	 * @param array $categories_tree The categories tree with the structure used by build_category_tree().
-	 * @return array
-	 */
-	function get_categories_hierarchical( $categories_tree ) {
-		global $arr;
-
-		foreach ( $categories_tree as $category ) {
-			if ( ! empty( $category['name'] ) ) {
-				$arr[] = $category['name'];
-			}
-
-			if ( ! empty( $category['children'] ) ) {
-				get_categories_hierarchical( $category['children'] );
-			}
-
-		}
-
-		return $arr;
 	}
 
 	$root_categories     = [];

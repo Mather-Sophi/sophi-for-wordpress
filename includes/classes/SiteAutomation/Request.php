@@ -77,25 +77,43 @@ class Request {
 	 *
 	 * @param string $page Page name.
 	 * @param string $widget Widget name.
+	 * @param float  $timeout The request timeout value.
 	 *
-	 * @return array|null
+	 * @return array|bool
 	 */
-	public function get( $page, $widget ) {
+	public function get( $page, $widget, $timeout = 3 ) {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
 		$this->post_id = get_the_ID();
 
-		$this->status = $this->get_status();
+		$this->status         = $this->get_status();
+		$site_automation_data = false;
 
-		$meta_key             = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
-		$site_automation_data = get_post_meta( $this->post_id, $meta_key, true );
+		/**
+		 * Whether to bypass caching.
+		 *
+		 * @since 1.0.9
+		 * @hook sophi_bypass_get_cache
+		 *
+		 * @param {bool} $bypass_cache True or false.
+		 * @param {bool} $page Page name.
+		 * @param {bool} $widget Widget name.
+		 *
+		 * @return {bool} Whether to bypass cache.
+		 */
+		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
-		if ( ! empty( $this->status['success'] ) && $site_automation_data ) {
+		if ( ! $bypass_cache ) {
+			$meta_key             = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
+			$site_automation_data = get_post_meta( $this->post_id, $meta_key, true );
+		}
+
+		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
 			return $site_automation_data;
 		}
 
-		$response = $this->request();
+		$response = $this->request( $timeout );
 
 		if ( is_wp_error( $response ) ) {
 			$this->set_status(
@@ -116,7 +134,7 @@ class Request {
 		}
 
 		$this->set_status( [ 'success' => true ] );
-		return $this->process( $response );
+		return $this->process( $response, $bypass_cache );
 	}
 
 	/**
@@ -139,7 +157,7 @@ class Request {
 	 * @param string $widget Widget name.
 	 */
 	public function do_cron( $page, $widget ) {
-		$this->get( $page, $widget );
+		$this->get( $page, $widget, 3 );
 	}
 
 	/**
@@ -147,8 +165,8 @@ class Request {
 	 *
 	 * @return array
 	 */
-	private function get_status() {
-		return get_transient( "sophi_site_automation_status_{$this->post_id}_{$this->page}_{$this->widget}" );
+	public function get_status() {
+		return get_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}" );
 	}
 
 	/**
@@ -182,9 +200,11 @@ class Request {
 	/**
 	 * Get curated data from Sophi Site Automation API.
 	 *
-	 * return
+	 * @param float $timeout The request timeout value.
+	 *
+	 * @return mixed WP_Error on failure or body request on success.
 	 */
-	private function request() {
+	private function request( $timeout ) {
 		$access_token = $this->auth->get_access_token();
 
 		if ( is_wp_error( $access_token ) ) {
@@ -195,13 +215,14 @@ class Request {
 			'headers' => [
 				'Content-Type'  => 'application/json',
 				'Authorization' => 'Bearer ' . $access_token,
-			]
+			],
 		];
 
 		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
-			$request = vip_safe_wp_remote_get( $this->api_url, false, 3, 1, 20, $args );
+			$request = vip_safe_wp_remote_get( $this->api_url, '', 3, $timeout, 20, $args );
 		} else {
-			$request = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
+			$args['timeout'] = $timeout;
+			$request         = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
 		}
 
 		if ( is_wp_error( $request ) ) {
@@ -219,13 +240,15 @@ class Request {
 	 * Process response from Sophi.
 	 *
 	 * @param array $response Response of Site Automation API.
+	 * @param bool  $bypass_cache Whether to bypass cache or not.
 	 *
 	 * @return array
 	 */
-	private function process( $response ) {
+	private function process( $response, $bypass_cache ) {
 		if ( ! $response ) {
 			return [];
 		}
+
 
 		$post = get_post();
 
@@ -236,7 +259,7 @@ class Request {
 		$meta_key   = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
 		$created_at = date_create( 'now', wp_timezone() );
 
-		if ( $created_at ) {
+		if ( $created_at && ! $bypass_cache ) {
 			update_post_meta( $post->ID, $meta_key, $response );
 			update_post_meta( $post->ID, $meta_key . '_created_at', $created_at->getTimestamp() );
 		}

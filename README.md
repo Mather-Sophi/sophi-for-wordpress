@@ -4,7 +4,7 @@
 
 > WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![PHPUnit Testing](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml) [![PHPCS Linting](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml) [![Release Version](https://img.shields.io/github/release/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.8%20tested-success.svg) [![GPL-2.0-or-later License](https://img.shields.io/github/license/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/blob/trunk/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![PHPUnit Testing](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml) [![PHPCS Linting](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml) [![Release Version](https://img.shields.io/github/release/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/sophi?color=blue&label=WordPress&logo=WordPress) [![GPL-2.0-or-later License](https://img.shields.io/github/license/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/blob/trunk/LICENSE.md)
 
 ## Table of Contents
 * [Overview](#overview)
@@ -70,7 +70,21 @@ Once your credentials are validated and saved, your site is officially superchar
 
 ## Usage
 
-There are two ways that Sophi Site Automation results can be included in a WordPress site, via a Site Automation block and a direct integration with WP_Query.  More details on each of these options are described below.
+There are two potential ways to integrate Sophi Site Automation results with your WordPress site. The default approach includes a Sophi Site Automation block that integrates with `WP_Query` by injecting Posts IDs via the `posts_pre_query` filter that gets fetched later to return the actual Posts. In the same fashion, you can integrate Sophi results with your `WP_Query` object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
+
+More details on each of these two options are described below.  If you are not certain on the best integration approach, considering the following:
+
+Reasons to use the Site Automation block:
+- No additional development effort needed for initial Sophi integration
+- Immediate integration with Sophi Site Automation API and page/widget settings
+- Basic block display settings allow for basic configurations (show/hide post excerpt, author name, post date, featured image)
+
+Reasons to use the Query integration:
+- Can implement more custom caching and content fallback options
+- Can implement support into non-block editor setups
+- Likely more flexible for headless setups
+- Block editor is not in-use within your WordPress environment
+- You need an integration with Category/Taxonomy Pages and cannot integrate using a sidebar widget
 
 ### Site Automation block
 
@@ -112,6 +126,12 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 	<!-- Post lists -->
 </div>
 ```
+
+#### Caveats
+
+While the above query integration works just fine, it has been observed on [WordPress VIP](https://wpvip.com/) infrastructure that `WP_Query` may return latest posts instead of the posts curated by Sophi due to the [Advanced Post Cache](https://github.com/Automattic/advanced-post-cache) plugin used by the VIP platform. A workaround for this is to use [`get_posts()`](https://developer.wordpress.org/reference/functions/get_posts/) instead and as good practice to add a comment explaining the usage of it so that developers new to it don't swap it for `WP_Query`. Also remember to whitelist `get_posts` by adding the following inline comment so that PHPCS doesn't throw a warning:
+
+`phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts`
 
 ### Post content type
 

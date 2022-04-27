@@ -188,7 +188,7 @@ function get_post_data( $post ) {
 	$content       = apply_filters( 'the_content', get_the_content( null, false, $post ) );
 	$content       = str_replace( ']]>', ']]&gt;', $content );
 	$canonical_url = wp_get_canonical_url( $post );
-	$keywords      = '';
+	$keywords      = [];
 	$permalink     = get_permalink( $post );
 
 	// Support Yoast SEO canonical URL and focus keyphrase.
@@ -198,7 +198,11 @@ function get_post_data( $post ) {
 			$canonical_url = $yoast_canonical;
 		}
 
-		$keywords = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
+		$yoast_focuskw = get_post_meta( $post->ID, '_yoast_wpseo_focuskw', true );
+		if ( ! empty( $yoast_focuskw ) ) {
+			// Limit focus keyphrase to max length of 128.
+			$keywords = [ substr( $yoast_focuskw, 0, 128 ) ];
+		}
 	}
 
 	$parsed_url = wp_parse_url( $permalink );
