@@ -70,7 +70,7 @@ Once your credentials are validated and saved, your site is officially superchar
 
 ## Usage
 
-There's two potential ways to integrate Sophi automation results with your WordPress site. As default, Sophi includes a block that integrates with a WP_Query by injecting posts id's via the `posts_pre_query` filter which later get fetched to return actual posts. In the same fashion, you can integrate Sophi results with your WP_Query object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
+There are two potential ways to integrate Sophi Site Automation results with your WordPress site. The default approach includes a Sophi Site Automation block that integrates with `WP_Query` by injecting Posts IDs via the `posts_pre_query` filter that gets fetched later to return the actual Posts. In the same fashion, you can integrate Sophi results with your `WP_Query` object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
 
 More details on each of these two options are described below.  If you are not certain on the best integration approach, considering the following:
 
@@ -84,7 +84,7 @@ Reasons to use the Query integration:
 - Can implement support into non-block editor setups
 - Likely more flexible for headless setups
 - Block editor is not in-use within your WordPress environment
-- You need integration with category/taxonomy pages and can't integrate using a sidebar widget
+- You need an integration with Category/Taxonomy Pages and cannot integrate using a sidebar widget
 
 ### Site Automation block
 
