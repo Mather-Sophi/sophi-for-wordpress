@@ -95,7 +95,7 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 
 == Caveats ==
 
-While the above query integration works just fine, it has been observed on [WordPress VIP](https://wpvip.com/) infrastructure that `WP_Query` may return latest posts instead of the posts curated by Sophi. A workaround for this is to use [`get_posts()`](https://developer.wordpress.org/reference/functions/get_posts/) instead and as good practice to add a comment explaining the usage of it so that developers new to it don't swap it for `WP_Query`. Also remember to whitelist `get_posts` by adding the following inline comment so that PHPCS doesn't throw a warning:
+While the above query integration works just fine, it has been observed on [WordPress VIP](https://wpvip.com/) infrastructure that `WP_Query` may return latest posts instead of the posts curated by Sophi due to the [Advanced Post Cache](https://github.com/Automattic/advanced-post-cache) plugin used by the VIP platform. A workaround for this is to use [`get_posts()`](https://developer.wordpress.org/reference/functions/get_posts/) instead and as good practice to add a comment explaining the usage of it so that developers new to it don't swap it for `WP_Query`. Also remember to whitelist `get_posts` by adding the following inline comment so that PHPCS doesn't throw a warning:
 
 `phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts`
 
@@ -257,7 +257,7 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 * **Changed:** Sets the default timeout of the first Sophi request and the cron request to 3 seconds (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia), [@tott](https://github.com/tott)).
 * **Security:** Update dependency `snowplow/snowplow-tracker` from 0.4.0 to 0.5.0 (props [@renovate](https://github.com/apps/renovate)).
 
-= 1.0.9 - 2022-02-18 = 
+= 1.0.9 - 2022-02-18 =
 * **Added:** `hostname` and `path` fields to schema (props [@Rahmon](https://github.com/Rahmon), [@dinhtungdu](https://github.com/dinhtungdu)).
 * **Fixed:** Return empty post list from Sophi response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
 * **Security:** Update dependency `phpunit/phpunit` from 8.5.21 to 8.5.23 (props [@renovate](https://github.com/apps/renovate)).
