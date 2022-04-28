@@ -138,7 +138,7 @@ function sophi_upgrade_1_1_0( $installed ) {
 		$offset = 0;
 		$items_to_process = true;
 		while( $items_to_process ) {
-			$options = $wpdb->get_results( $wpdb->prepare( "SELECT option_name FROM $wpdb->options  WHERE option_name LIKE'%s' LIMIT 0,100",  '%sophi_site_automation%' ) );
+			$options = $wpdb->get_results( $wpdb->prepare( "SELECT option_name FROM $wpdb->options  WHERE option_name LIKE'%s' LIMIT 100 OFFSET $offset",  '%sophi_site_automation%' ) );
 
 			foreach ( $options as $option ) {
 				delete_option($option->option_name);
