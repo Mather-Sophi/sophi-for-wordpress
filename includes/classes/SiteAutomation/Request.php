@@ -206,12 +206,33 @@ class Request {
 			],
 		];
 
+		/**
+		 * Filters the arguments used in Sophi HTTP request.
+		 *
+		 * @since 1.0.14
+		 *
+		 * @param array   $args An array of HTTP request arguments.
+		 * @param string  $url  The request URL.
+		 */
+		$args = apply_filters( 'sophi_request_args', $args, $this->api_url );
+
 		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
 			$request = vip_safe_wp_remote_get( $this->api_url, '', 3, $timeout, 20, $args );
 		} else {
 			$args['timeout'] = $timeout;
 			$request         = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
 		}
+
+		/**
+		 * Filters a Sophi HTTP request immediately after the response is received.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array|WP_Error  $response HTTP response.
+		 * @param array           $args     HTTP request arguments.
+		 * @param string          $url      The request URL.
+		 */
+		$request = apply_filters( 'sophi_request_result', $request, $args, $this->api_url );
 
 		if ( is_wp_error( $request ) ) {
 			return $request;
