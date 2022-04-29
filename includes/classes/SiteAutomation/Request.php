@@ -226,7 +226,7 @@ class Request {
 		/**
 		 * Filters a Sophi HTTP request immediately after the response is received.
 		 *
-		 * @since 2.9.0
+		 * @since 1.0.14
 		 *
 		 * @param array|WP_Error  $response HTTP response.
 		 * @param array           $args     HTTP request arguments.
