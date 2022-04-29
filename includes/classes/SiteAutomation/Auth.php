@@ -64,19 +64,26 @@ class Auth {
 	 * @return array|\WP_Error
 	 */
 	public function request_access_token( $client_id, $client_secret ) {
-		$body    = [
+		$body = [
 			'client_id'     => $client_id,
 			'client_secret' => $client_secret,
 			'audience'      => $this->get_audience(),
 			'grant_type'    => 'client_credentials',
 		];
-		$request = wp_remote_post(
-			$this->get_auth_url(),
-			[
-				'headers' => [ 'Content-Type' => 'application/json' ],
-				'body'    => wp_json_encode( $body ),
-			]
-		);
+		$args = [
+			'headers' => [ 'Content-Type' => 'application/json' ],
+			'body'    => wp_json_encode( $body ),
+		];
+
+		$auth_url = $this->get_auth_url();
+
+		/** This filter is documented in includes/classes/SiteAutomation/Request.php */
+		$args = apply_filters( 'sophi_request_args', $args, $auth_url );
+
+		$request = wp_remote_post( $auth_url, $args );
+
+		/** This filter is documented in includes/classes/SiteAutomation/Request.php */
+		$request = apply_filters( 'sophi_request_result', $request, $args, $this->api_url );
 
 		if ( is_wp_error( $request ) ) {
 			return $request;
