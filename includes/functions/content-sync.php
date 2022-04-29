@@ -131,6 +131,17 @@ function send_track_event( $tracker, $post, $action ) {
 		delete_transient( 'sophi_content_sync_pending_' . $post->ID );
 	}
 
+	/**
+	 * Filters the data used in Sophi track event request.
+	 *
+	 * @since 1.0.14
+	 *
+	 * @param array   $data    Tracking data.
+	 * @param Tracker $tracker Tracker being used.
+	 * @param string  $url     Post object.
+	 * @param string  $action  Publishing action.
+	 */
+	$data = apply_filters_ref_array( 'sophi_tracking_data', array( $data, &$tracker, $post, $action ) );
 	$tracker->trackUnstructEvent(
 		[
 			'schema' => 'iglu:com.sophi/content_update/jsonschema/2-0-3',
@@ -146,6 +157,18 @@ function send_track_event( $tracker, $post, $action ) {
 			],
 		]
 	);
+
+	/**
+	 * Fires after tracker sends the request.
+	 *
+	 * @since 1.0.14
+	 *
+	 * @param array   $data    Tracked data.
+	 * @param Tracker $tracker Tracker object.
+	 * @param WP_Post $post    Post object.
+	 * @param string  $action  Publishing action.
+	 */
+	do_action_ref_array( 'sophi_tracking_result', array( $data, &$tracker, $post, $action ) );
 }
 
 /**
