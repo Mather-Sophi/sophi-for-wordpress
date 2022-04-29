@@ -1,4 +1,4 @@
-# Welcome to the Sophi for WordPress Plugin Hook Documentation
+# Welcome to the Sophi for WordPress Plugin Developer Documentation
 
 This resource is generated documentation on actions and filters found in the Sophi for WordPress plugin. Use the sidebar to browse and navigate.
 

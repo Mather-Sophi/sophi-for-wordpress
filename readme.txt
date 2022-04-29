@@ -142,7 +142,7 @@ WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugi
 
 == Documentation ==
 
-Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the hook docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
+Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
 == Developers ==
 
