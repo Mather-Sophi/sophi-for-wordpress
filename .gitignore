@@ -4,6 +4,7 @@ release
 vendor
 languages
 .idea
+.vscode
 *.log
 *.cache
 

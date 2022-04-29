@@ -15,11 +15,6 @@
   * [Site Automation block](#site-automation-block)
   * [Query integration](#query-integration)
 * [Documentation](#documentation)
-* [Developers](#developers)
-  * [Dependencies](#dependencies)
-  * [NPM Commands](#npm-commands)
-  * [Composer Commands](#composer-commands)
-  * [WP-CLI Commands](#wp-cli-commands)
 * [FAQs](#frequently-asked-questions)
 * [Changelog](#changelog)
 * [Contributing](#contributing)
@@ -162,85 +157,7 @@ WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugi
 
 ## Documentation
 
-Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the hook docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
-
-## Developers
-
-If you're looking to contribute to or extend the Sophi for WordPress plugin, then the following sub-sections are things to be aware of in terms of how the plugin is architected.
-
-### Dependencies
-
-1. [Node >= 8.11 & NPM](https://www.npmjs.com/get-npm) - Build packages and 3rd party dependencies are managed through NPM, so you will need that installed globally.
-2. [Webpack](https://webpack.js.org/) - Webpack is used to process the JavaScript, CSS, and other assets.
-3. [Composer](https://getcomposer.org/) - Composer is used to manage PHP.
-
-### NPM Commands
-
-- `npm run test` (runs phpunit)
-- `npm run start` (install dependencies)
-- `npm run watch` (watch)
-- `npm run build` (build all files)
-- `npm run build-release` (build all files for release)
-- `npm run dev` (build all files for development)
-- `npm run lint-release` (install dependencies and run linting)
-- `npm run lint-css` (lint CSS)
-- `npm run lint-js` (lint JS)
-- `npm run lint-php` (lint PHP)
-- `npm run lint` (run all lints)
-- `npm run format-js` (format JS using eslint)
-- `npm run format` (alias for `npm run format-js`)
-- `npm run test-a11y` (run accessibility tests)
-
-### Composer Commands
-
-- `composer lint` (lint PHP files)
-- `composer lint-fix` (lint PHP files and automatically correct coding standard violations)
-
-### WP-CLI Commands
-
-### Sync content to Sophi Collector
-
-`$ wp sophi sync [--post_types=<string>] [--limit=<number>] [--per_page=<number>] [--include=<number>]`
-
-Sync all supported content to Sophi Collector, firing off update events for all of them.  The expected use case with the Sophi for WordPress plugin is that someone will install it on an existing site and instead of having to manually update each piece of content to ensure that it makes it to the Collector, they can run this script to handle that all at once.
-
-#### Options
-
-**`--post_types=<string>`**
-
-Post types to be processed. Comma separated for passing multiple post types.
-
-default: `false`
-options:
-- any post type name
-- `false`
-
-**`--limit=<number>`**
-
-Limit the amount of posts to be synced.
-
-default: `false`
-options:
-- `false`, no limit
-- `N`, max number of posts to sync
-
-**`--per_page=<number>`**
-
-Number of posts to process each batch.
-
-default: `false`
-options:
-- `false`, no limit
-- `N`, max number of posts to sync each batch
-
-**`--include=<number>`**
-
-Post IDs to process. Comma separated for passing multiple item.
-
-default: `false`
-options:
-- `false`, no limit
-- `N`, Post IDs to sync
+Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
 ## Frequently Asked Questions
 
