@@ -144,7 +144,6 @@ WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugi
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
-
 == Frequently Asked Questions ==
 
 = How was Sophi created? =
@@ -170,6 +169,20 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.0.14 - 2022-04-29 =
+* **Added:** Filter `sophi_request_args` filters arguments used in Sophi HTTP request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+* **Added:** Filter `sophi_request_result` filters a Sophi HTTP request immediately after the response is received (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+* **Added:** Filter `sophi_tracking_data` filters the data used in Sophi track event request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+* **Added:** Action `sophi_tracking_result` fires after tracker sends the request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+* **Added:** Filter `sophi_tracker_emitter_debug` allows to enable debug mode in the tracking emitter (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+* **Added:** Documentation on rational for block vs. custom query integration uses and `WP_Query` caveat on WordPress VIP (props [@Sidsector9](https://github.com/Sidsector9), [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez) via [#242](https://github.com/globeandmail/sophi-for-wordpress/pull/242), [#249](https://github.com/globeandmail/sophi-for-wordpress/pull/249), [#251](https://github.com/globeandmail/sophi-for-wordpress/pull/251)).
+* **Changed:** Bump WordPress "tested up to" version 5.9 (props [@jeffpaul](https://github.com/jeffpaul) via [#248](https://github.com/globeandmail/sophi-for-wordpress/pull/248)).
+* **Changed:** Updated hookdocs site (now [Developer Docs](https://globeandmail.github.io/sophi-for-wordpress/)) to properly run on release and migrate in docs from readme (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul) via [#256](https://github.com/globeandmail/sophi-for-wordpress/pull/256)).
+* **Fixed:** Check if `$terms` is an array before using `count()` within `get_the_terms()` (props [@barryceelen](https://github.com/barryceelen), [@Sidsector9](https://github.com/Sidsector9) via [#215](https://github.com/globeandmail/sophi-for-wordpress/pull/215)).
+* **Fixed:** Update `track_event` arguments list inside `sync` WP-CLI command (props [@cadic](https://github.com/cadic), [@Sidsector9](https://github.com/Sidsector9) via [#250](https://github.com/globeandmail/sophi-for-wordpress/pull/250)).
+* **Security:** Update `actions/checkout` action to from v2.4.0 to v3.0.2 (props [@renovate](https://github.com/apps/renovate), [@iamdharmesh](https://github.com/iamdharmesh) via [#240](https://github.com/globeandmail/sophi-for-wordpress/pull/240), [#241](https://github.com/globeandmail/sophi-for-wordpress/pull/241), [#243](https://github.com/globeandmail/sophi-for-wordpress/pull/243)).
+* **Security:** Update `actions/setup-node` action from v1 to v3 (props [@renovate](https://github.com/apps/renovate), [@iamdharmesh](https://github.com/iamdharmesh) via [#244](https://github.com/globeandmail/sophi-for-wordpress/pull/244)).
 
 = 1.0.13 - 2022-04-20 =
 * **Changed:** `keywords` data type from string to array (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez), [@YMufleh](https://github.com/YMufleh)).

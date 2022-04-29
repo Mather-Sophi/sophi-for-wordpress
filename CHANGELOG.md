@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.0.14] - 2022-04-29
+### Added
+- Filter `sophi_request_args` filters arguments used in Sophi HTTP request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+- Filter `sophi_request_result` filters a Sophi HTTP request immediately after the response is received (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+- Filter `sophi_tracking_data` filters the data used in Sophi track event request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+- Action `sophi_tracking_result` fires after tracker sends the request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+- Filter `sophi_tracker_emitter_debug` allows to enable debug mode in the tracking emitter (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
+- Documentation on rational for block vs. custom query integration uses and `WP_Query` caveat on WordPress VIP (props [@Sidsector9](https://github.com/Sidsector9), [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez) via [#242](https://github.com/globeandmail/sophi-for-wordpress/pull/242), [#249](https://github.com/globeandmail/sophi-for-wordpress/pull/249), [#251](https://github.com/globeandmail/sophi-for-wordpress/pull/251)).
+
+### Changed
+- Bump WordPress "tested up to" version 5.9 (props [@jeffpaul](https://github.com/jeffpaul) via [#248](https://github.com/globeandmail/sophi-for-wordpress/pull/248)).
+- Updated hookdocs site (now [Developer Docs](https://globeandmail.github.io/sophi-for-wordpress/)) to properly run on release and migrate in docs from readme (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul) via [#256](https://github.com/globeandmail/sophi-for-wordpress/pull/256)).
+
+### Fixed
+- Check if `$terms` is an array before using `count()` within `get_the_terms()` (props [@barryceelen](https://github.com/barryceelen), [@Sidsector9](https://github.com/Sidsector9) via [#215](https://github.com/globeandmail/sophi-for-wordpress/pull/215)).
+- Update `track_event` arguments list inside `sync` WP-CLI command (props [@cadic](https://github.com/cadic), [@Sidsector9](https://github.com/Sidsector9) via [#250](https://github.com/globeandmail/sophi-for-wordpress/pull/250)).
+
+### Security
+- Update `actions/checkout` action to from v2.4.0 to v3.0.2 (props [@renovate](https://github.com/apps/renovate), [@iamdharmesh](https://github.com/iamdharmesh) via [#240](https://github.com/globeandmail/sophi-for-wordpress/pull/240), [#241](https://github.com/globeandmail/sophi-for-wordpress/pull/241), [#243](https://github.com/globeandmail/sophi-for-wordpress/pull/243)).
+- Update `actions/setup-node` action from v1 to v3 (props [@renovate](https://github.com/apps/renovate), [@iamdharmesh](https://github.com/iamdharmesh) via [#244](https://github.com/globeandmail/sophi-for-wordpress/pull/244)).
+
 ## [1.0.13] - 2022-04-20
 ### Changed
 - `keywords` data type from string to array (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez), [@YMufleh](https://github.com/YMufleh) via [#233](https://github.com/globeandmail/sophi-for-wordpress/pull/233)).
@@ -153,6 +174,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.0.14]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.13...1.0.14
 [1.0.13]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.12...1.0.13
 [1.0.12]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.11...1.0.12
 [1.0.11]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.10...1.0.11
