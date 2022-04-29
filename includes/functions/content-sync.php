@@ -194,8 +194,17 @@ function init_tracker() {
 		);
 	}
 
+	/**
+	 * Turns on emitter debug
+	 *
+	 * @since 1.0.14
+	 * 
+	 * @param bool $debug Debug is active.
+	 */
+	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
+
 	$app_id  = sprintf( '%s:cms', $tracker_client_id );
-	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, false );
+	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, $debug );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
 }
