@@ -130,8 +130,8 @@ function sophi_setup_notice() {
  * @param $installed string The version installed.
  */
 function sophi_upgrade_1_1_0( $installed ) {
+	global $wpdb;
 	if ( $installed && version_compare( $installed, '1.1.0', '<' ) ) {
-		global $wpdb;
 
 		$options = $wpdb->get_results( $wpdb->prepare( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE'%s' LIMIT 1000",  '%sophi_site_automation_data%' ) );
 
@@ -145,7 +145,7 @@ add_action( 'sophi_upgrade', 'sophi_upgrade_1_1_0' );
 
 $installed = get_option( 'sophi_version' );
 
-if ( ! $installed || version_compare( $installed,SOPHI_WP_VERSION, '<' ) ) {
+if ( ! $installed || version_compare( $installed, SOPHI_WP_VERSION, '<' ) ) {
 	/**
 	 * Upgrader hook to
 	 *
