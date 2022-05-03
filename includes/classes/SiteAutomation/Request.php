@@ -50,6 +50,13 @@ class Request {
 	private $status;
 
 	/**
+	 * Post ID for Site Automation request.
+	 *
+	 * @var string $post_id
+	 */
+	protected $post_id;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param Auth $auth Authentication object.
@@ -78,6 +85,7 @@ class Request {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
+		$this->post_id = get_the_ID();
 
 		$this->status         = $this->get_status();
 		$site_automation_data = false;
@@ -97,7 +105,7 @@ class Request {
 		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
 		if ( ! $bypass_cache ) {
-			$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+			$site_automation_data = get_post_meta( $this->post_id, "_sophi_site_automation_data_{$this->page}_{$this->widget}", true );
 		}
 
 		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
@@ -182,7 +190,10 @@ class Request {
 		}
 
 		$this->status = $data;
-		set_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
+
+		if ( ! empty( $this->post_id ) ) {
+			set_transient( "sophi_site_automation_status_{$this->post_id}_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
+		}
 	}
 
 	/**
@@ -264,9 +275,21 @@ class Request {
 			return [];
 		}
 
-		if ( ! $bypass_cache ) {
-			update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+
+		$post = get_post();
+
+		if ( ! $post || wp_is_post_revision( $post ) ) {
+			return $response;
 		}
+
+		$meta_key   = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
+		$created_at = date_create( 'now', wp_timezone() );
+
+		if ( $created_at && ! $bypass_cache ) {
+			update_post_meta( $post->ID, $meta_key, $response );
+			update_post_meta( $post->ID, $meta_key . '_created_at', $created_at->getTimestamp() );
+		}
+
 		return $response;
 	}
 
