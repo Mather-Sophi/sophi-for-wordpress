@@ -133,22 +133,10 @@ function sophi_upgrade_1_1_0( $installed ) {
 	if ( $installed && version_compare( $installed, '1.1.0', '<' ) ) {
 		global $wpdb;
 
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(option_name) FROM $wpdb->options WHERE option_name LIKE'%s'",  '%sophi_site_automation%' ) );
+		$options = $wpdb->get_results( $wpdb->prepare( "SELECT option_name FROM $wpdb->options  WHERE option_name LIKE'%s' LIMIT 1000",  '%sophi_site_automation_data%' ) );
 
-		$offset = 0;
-		$items_to_process = true;
-		while( $items_to_process ) {
-			$options = $wpdb->get_results( $wpdb->prepare( "SELECT option_name FROM $wpdb->options  WHERE option_name LIKE'%s' LIMIT 100 OFFSET $offset",  '%sophi_site_automation%' ) );
-
-			foreach ( $options as $option ) {
-				delete_option($option->option_name);
-			}
-
-			if ( $count < $offset ){
-				$items_to_process = false;
-			}
-
-			$offset+= 100;
+		foreach ( $options as $option ) {
+			delete_option($option->option_name);
 		}
 	}
 }
