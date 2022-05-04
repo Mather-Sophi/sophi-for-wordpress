@@ -144,7 +144,7 @@ function send_track_event( $tracker, $post, $action ) {
 	 * 
 	 * @return {array} Tracking data to send.
 	 */
-	$data = apply_filters_ref_array( 'sophi_tracking_data', array( $data, &$tracker, $post, $action ) );
+	$data = apply_filters_ref_array( 'sophi_cms_tracking_request_data', array( $data, &$tracker, $post, $action ) );
 	$tracker->trackUnstructEvent(
 		[
 			'schema' => 'iglu:com.sophi/content_update/jsonschema/2-0-3',
@@ -172,7 +172,7 @@ function send_track_event( $tracker, $post, $action ) {
 	 * @param {WP_Post} $post    Post object.
 	 * @param {string}  $action  Publishing action.
 	 */
-	do_action_ref_array( 'sophi_tracking_result', array( $data, &$tracker, $post, $action ) );
+	do_action_ref_array( 'sophi_cms_tracking_result', array( $data, &$tracker, $post, $action ) );
 }
 
 /**
