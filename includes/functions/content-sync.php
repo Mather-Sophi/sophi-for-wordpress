@@ -144,7 +144,7 @@ function send_track_event( $tracker, $post, $action ) {
 	 * 
 	 * @return {array} Tracking data to send.
 	 */
-	$data = apply_filters_ref_array( 'sophi_tracking_data', array( $data, &$tracker, $post, $action ) );
+	$data = apply_filters_ref_array( 'sophi_tracking_request_data', array( $data, &$tracker, $post, $action ) );
 	$tracker->trackUnstructEvent(
 		[
 			'schema' => 'iglu:com.sophi/content_update/jsonschema/2-0-3',
