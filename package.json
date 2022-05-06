@@ -1,6 +1,6 @@
 {
   "name": "@globeandmail/sophi-for-wordpress",
-  "version": "1.0.14",
+  "version": "1.1.0",
   "description": "WordPress VIP-compatible plugin for the Sophi.io Site Automation service.",
   "homepage": "https://github.com/globeandmail/sophi-for-wordpress",
   "bugs": {
