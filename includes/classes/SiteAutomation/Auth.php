@@ -83,7 +83,7 @@ class Auth {
 		$request = wp_remote_post( $auth_url, $args );
 
 		/** This filter is documented in includes/classes/SiteAutomation/Request.php */
-		$request = apply_filters( 'sophi_request_result', $request, $args, $this->api_url );
+		$request = apply_filters( 'sophi_request_result', $request, $args, $auth_url );
 
 		if ( is_wp_error( $request ) ) {
 			return $request;
