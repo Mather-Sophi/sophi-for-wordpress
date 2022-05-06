@@ -157,6 +157,10 @@ Sophi for WordPress uses `wp_get_canonical_url` function introduced in WordPress
 
 WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugins and custom implementations, [`get_canonical_url`](https://developer.wordpress.org/reference/functions/wp_get_canonical_url/) filter can be used to change the canonical URL.
 
+### Object caching
+
+Object caching is encouraged, as the plugin saves Sophi data as a transient.  If you do not have object caching, then the data will be saved as a transient in the options table but note that these will eventually expire.
+
 ## Documentation
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
