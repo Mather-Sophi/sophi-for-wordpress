@@ -50,6 +50,13 @@ class Request {
 	private $status;
 
 	/**
+	 * Post ID for Site Automation request.
+	 *
+	 * @var string $post_id
+	 */
+	protected $post_id;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param Auth $auth Authentication object.
@@ -78,6 +85,7 @@ class Request {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
+		$this->post_id = get_the_ID();
 
 		$this->status         = $this->get_status();
 		$site_automation_data = false;
@@ -97,7 +105,7 @@ class Request {
 		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
 		if ( ! $bypass_cache ) {
-			$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+			$site_automation_data = get_post_meta( $this->post_id, "_sophi_site_automation_data_{$this->page}_{$this->widget}", true );
 		}
 
 		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
@@ -182,7 +190,10 @@ class Request {
 		}
 
 		$this->status = $data;
-		set_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
+
+		if ( ! empty( $this->post_id ) ) {
+			set_transient( "sophi_site_automation_status_{$this->post_id}_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
+		}
 	}
 
 	/**
@@ -206,12 +217,39 @@ class Request {
 			],
 		];
 
+		/**
+		 * Filters the arguments used in Sophi HTTP request.
+		 *
+		 * @since 1.0.14
+		 * @hook sophi_request_args
+		 *
+		 * @param {array}   $args HTTP request arguments.
+		 * @param {string}  $url  The request URL.
+		 * 
+		 * @return {array} HTTP request arguments.
+		 */
+		$args = apply_filters( 'sophi_request_args', $args, $this->api_url );
+
 		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
 			$request = vip_safe_wp_remote_get( $this->api_url, '', 3, $timeout, 20, $args );
 		} else {
 			$args['timeout'] = $timeout;
 			$request         = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
 		}
+
+		/**
+		 * Filters a Sophi HTTP request immediately after the response is received.
+		 *
+		 * @since 1.0.14
+		 * @hook sophi_request_result
+		 *
+		 * @param {array|WP_Error}  $request Result of HTTP request.
+		 * @param {array}           $args     HTTP request arguments.
+		 * @param {string}          $url      The request URL.
+		 * 
+		 * @return {array|WP_Error} Result of HTTP request.
+		 */
+		$request = apply_filters( 'sophi_request_result', $request, $args, $this->api_url );
 
 		if ( is_wp_error( $request ) ) {
 			return $request;
@@ -237,9 +275,21 @@ class Request {
 			return [];
 		}
 
-		if ( ! $bypass_cache ) {
-			update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+
+		$post = get_post();
+
+		if ( ! $post || wp_is_post_revision( $post ) ) {
+			return $response;
 		}
+
+		$meta_key   = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
+		$created_at = date_create( 'now', wp_timezone() );
+
+		if ( $created_at && ! $bypass_cache ) {
+			update_post_meta( $post->ID, $meta_key, $response );
+			update_post_meta( $post->ID, $meta_key . '_created_at', $created_at->getTimestamp() );
+		}
+
 		return $response;
 	}
 

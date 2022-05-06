@@ -84,7 +84,7 @@ function get_post_breadcrumb( $post ) {
 		$taxonomy = apply_filters( 'sophi_hierarchial_taxonomy_for_breadcrumb', $taxonomies[0], $post );
 		$terms    = get_the_terms( $post, $taxonomy );
 
-		if ( count( $terms ) > 0 ) {
+		if ( is_array( $terms ) && count( $terms ) > 0 ) {
 			return get_term_breadcrumb( $terms[0] );
 		}
 	} else { // Just return the current term if it's not hierarchical.
@@ -113,7 +113,7 @@ function get_post_breadcrumb( $post ) {
 			$taxonomy = apply_filters( 'sophi_non_hierarchial_taxonomy_for_breadcrumb', $non_hierarchial_taxonomies[0], $post );
 			$terms    = get_the_terms( $post, $taxonomy );
 
-			if ( count( $terms ) > 0 ) {
+			if ( is_array( $terms ) && count( $terms ) > 0 ) {
 				return $terms[0]->slug;
 			}
 		}

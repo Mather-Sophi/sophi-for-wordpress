@@ -1,4 +1,4 @@
-name: Build Hook Docs
+name: Build Developer Docs
 
 on:
   push:
@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2.4.0
-    - name: Set Node.js 10
-      uses: actions/setup-node@v1
+      uses: actions/checkout@v3.0.2
+    - name: Set Node.js 16
+      uses: actions/setup-node@v3
       with:
-        node-version: '10.x'
+        node-version: '16.x'
     - name: composer install
       run: composer install --no-dev
     - name: npm install, build, and build hookdocs
