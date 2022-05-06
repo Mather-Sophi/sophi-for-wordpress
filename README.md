@@ -4,7 +4,9 @@
 
 > WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![PHPUnit Testing](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml) [![PHPCS Linting](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml) [![Release Version](https://img.shields.io/github/release/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/sophi?color=blue&label=WordPress&logo=WordPress) [![GPL-2.0-or-later License](https://img.shields.io/github/license/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/blob/trunk/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/release/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/sophi?color=blue&label=WordPress&logo=WordPress) [![GPL-2.0-or-later License](https://img.shields.io/github/license/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/blob/trunk/LICENSE.md)
+
+[![Developer Docs](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/build-docs.yml/badge.svg?branch=trunk)](https://globeandmail.github.io/sophi-for-wordpress/) [![PHPUnit Testing](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml) [![PHPCS Linting](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml)
 
 ## Table of Contents
 * [Overview](#overview)
@@ -154,6 +156,10 @@ add_filter(
 Sophi for WordPress uses `wp_get_canonical_url` function introduced in WordPress 4.6 to get the canonical URL for given post. The plugin compares this canonical URL to post permalink to set the `isCanonical` attribute.
 
 WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugins and custom implementations, [`get_canonical_url`](https://developer.wordpress.org/reference/functions/wp_get_canonical_url/) filter can be used to change the canonical URL.
+
+### Object caching
+
+Object caching is encouraged, as the plugin saves Sophi data as a transient.  If you do not have object caching, then the data will be saved as a transient in the options table but note that these will eventually expire.
 
 ## Documentation
 

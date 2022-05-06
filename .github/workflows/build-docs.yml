@@ -1,4 +1,4 @@
-name: Build Hook Docs
+name: Build Developer Docs
 
 on:
   push:
