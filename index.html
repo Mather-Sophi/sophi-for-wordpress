@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home - Sophi for WordPress Hook Docs</title>
+    <title>Home - Sophi Plugin Developer Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -96,8 +96,74 @@
 
 
     <section>
-        <article><h1>Welcome to the Sophi for WordPress Plugin Hook Documentation</h1>
+        <article><h1>Welcome to the Sophi for WordPress Plugin Developer Documentation</h1>
 <p>This resource is generated documentation on actions and filters found in the Sophi for WordPress plugin. Use the sidebar to browse and navigate.</p>
+<p>If you're looking to contribute to or extend the Sophi for WordPress plugin, then the following sub-sections are things to be aware of in terms of how the plugin is architected.</p>
+<h3>Dependencies</h3>
+<ol>
+<li><a href="https://www.npmjs.com/get-npm">Node &gt;= 8.11 &amp; NPM</a> - Build packages and 3rd party dependencies are managed through NPM, so you will need that installed globally.</li>
+<li><a href="https://webpack.js.org/">Webpack</a> - Webpack is used to process the JavaScript, CSS, and other assets.</li>
+<li><a href="https://getcomposer.org/">Composer</a> - Composer is used to manage PHP.</li>
+</ol>
+<h3>NPM Commands</h3>
+<ul>
+<li><code>npm run test</code> (runs phpunit)</li>
+<li><code>npm run start</code> (install dependencies)</li>
+<li><code>npm run watch</code> (watch)</li>
+<li><code>npm run build</code> (build all files)</li>
+<li><code>npm run build-release</code> (build all files for release)</li>
+<li><code>npm run dev</code> (build all files for development)</li>
+<li><code>npm run lint-release</code> (install dependencies and run linting)</li>
+<li><code>npm run lint-css</code> (lint CSS)</li>
+<li><code>npm run lint-js</code> (lint JS)</li>
+<li><code>npm run lint-php</code> (lint PHP)</li>
+<li><code>npm run lint</code> (run all lints)</li>
+<li><code>npm run format-js</code> (format JS using eslint)</li>
+<li><code>npm run format</code> (alias for <code>npm run format-js</code>)</li>
+<li><code>npm run test-a11y</code> (run accessibility tests)</li>
+</ul>
+<h3>Composer Commands</h3>
+<ul>
+<li><code>composer lint</code> (lint PHP files)</li>
+<li><code>composer lint-fix</code> (lint PHP files and automatically correct coding standard violations)</li>
+</ul>
+<h3>WP-CLI Commands</h3>
+<h3>Sync content to Sophi Collector</h3>
+<p><code>$ wp sophi sync [--post_types=&lt;string&gt;] [--limit=&lt;number&gt;] [--per_page=&lt;number&gt;] [--include=&lt;number&gt;]</code></p>
+<p>Sync all supported content to Sophi Collector, firing off update events for all of them.  The expected use case with the Sophi for WordPress plugin is that someone will install it on an existing site and instead of having to manually update each piece of content to ensure that it makes it to the Collector, they can run this script to handle that all at once.</p>
+<h4>Options</h4>
+<p><strong><code>--post_types=&lt;string&gt;</code></strong></p>
+<p>Post types to be processed. Comma separated for passing multiple post types.</p>
+<p>default: <code>false</code>
+options:</p>
+<ul>
+<li>any post type name</li>
+<li><code>false</code></li>
+</ul>
+<p><strong><code>--limit=&lt;number&gt;</code></strong></p>
+<p>Limit the amount of posts to be synced.</p>
+<p>default: <code>false</code>
+options:</p>
+<ul>
+<li><code>false</code>, no limit</li>
+<li><code>N</code>, max number of posts to sync</li>
+</ul>
+<p><strong><code>--per_page=&lt;number&gt;</code></strong></p>
+<p>Number of posts to process each batch.</p>
+<p>default: <code>false</code>
+options:</p>
+<ul>
+<li><code>false</code>, no limit</li>
+<li><code>N</code>, max number of posts to sync each batch</li>
+</ul>
+<p><strong><code>--include=&lt;number&gt;</code></strong></p>
+<p>Post IDs to process. Comma separated for passing multiple item.</p>
+<p>default: <code>false</code>
+options:</p>
+<ul>
+<li><code>false</code>, no limit</li>
+<li><code>N</code>, Post IDs to sync</li>
+</ul>
 <p>For more information about using Sophi for WordPress, please see the <a href="https://sophi.io/">Sophi website</a>.</p>
 <p>To report an issue with Sophi for WordPress or contribute back to the project, please visit the <a href="https://github.com/globeandmail/sophi-for-wordpress/">GitHub repository</a>.</p>
 <p><a href="https://www.sophi.io/contact/" class="banner"><img src="https://raw.githubusercontent.com/globeandmail/sophi-for-wordpress/develop/.wordpress-org/banner-1544x500.png?token=AAVQAVOFCCNY7MWUHRZLYNTAOR6JI" width="850"></a></p></article>
@@ -120,7 +186,7 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="sophi_init.html">sophi_init</a></li><li><a href="sophi_loaded.html">sophi_loaded</a></li></ul><h3>Filters</h3><ul><li><a href="sophi_amp_tracking_data.html">sophi_amp_tracking_data</a></li><li><a href="sophi_available.html">sophi_available</a></li><li><a href="sophi_cli_per_page_limit.html">sophi_cli_per_page_limit</a></li><li><a href="sophi_hierarchial_taxonomy_for_breadcrumb.html">sophi_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_non_hierarchial_taxonomy_for_breadcrumb.html">sophi_non_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_page_need_tracking.html">sophi_page_need_tracking</a></li><li><a href="sophi_post_content_type.html">sophi_post_content_type</a></li><li><a href="sophi_post_data.html">sophi_post_data</a></li><li><a href="sophi_site_automation_block_output.html">sophi_site_automation_block_output</a></li><li><a href="sophi_supported_post_types.html">sophi_supported_post_types</a></li><li><a href="sophi_tracking_data.html">sophi_tracking_data</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="sophi_init.html">sophi_init</a></li><li><a href="sophi_loaded.html">sophi_loaded</a></li><li><a href="sophi_tracking_result.html">sophi_tracking_result</a></li></ul><h3>Filters</h3><ul><li><a href="sophi_amp_tracking_data.html">sophi_amp_tracking_data</a></li><li><a href="sophi_available.html">sophi_available</a></li><li><a href="sophi_bypass_get_cache.html">sophi_bypass_get_cache</a></li><li><a href="sophi_cli_per_page_limit.html">sophi_cli_per_page_limit</a></li><li><a href="sophi_curated_post_list.html">sophi_curated_post_list</a></li><li><a href="sophi_hierarchial_taxonomy_for_breadcrumb.html">sophi_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_non_hierarchial_taxonomy_for_breadcrumb.html">sophi_non_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_page_need_tracking.html">sophi_page_need_tracking</a></li><li><a href="sophi_post_content_type.html">sophi_post_content_type</a></li><li><a href="sophi_post_data.html">sophi_post_data</a></li><li><a href="sophi_request_args.html">sophi_request_args</a></li><li><a href="sophi_request_result.html">sophi_request_result</a></li><li><a href="sophi_site_automation_block_output.html">sophi_site_automation_block_output</a></li><li><a href="sophi_supported_post_types.html">sophi_supported_post_types</a></li><li><a href="sophi_tracker_emitter_debug.html">sophi_tracker_emitter_debug</a></li><li><a href="sophi_tracking_data.html">sophi_tracking_data</a></li></ul>
 </nav>
 
 <br class="clear">

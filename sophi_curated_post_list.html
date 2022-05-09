@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: sophi_post_data - Sophi Plugin Developer Documentation</title>
+    <title>Filter: sophi_curated_post_list - Sophi Plugin Developer Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -21,7 +21,7 @@
 <div id="main">
 
 	
-    <h1 class="page-title">Filter: sophi_post_data</h1>
+    <h1 class="page-title">Filter: sophi_curated_post_list</h1>
 	
 
     
@@ -43,14 +43,14 @@
 
     
 
-    <h4 class="name" id="sophi_post_data">apply_filters( 'sophi_post_data', <span class="signature">$post_data )</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id="sophi_curated_post_list">apply_filters( 'sophi_curated_post_list', <span class="signature">$posts, $sophi_curated_page, $sophi_curated_widget, $request_status, $query )</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter post data for content sync events (aka &quot;CMS updates&quot; in Sophi.io terms) sent to Sophi Collector.  This allows control over data before it is sent to Collector in case it needs to be modified for unique site needs.  Note that if you add, change, or remove any fields with this that those changes will need to be coordinated with the Sophi.io team to ensure content is appropriately received by Collector.</p>
+    <p>The curated post list result that is injected to WP_Query.</p>
 </div>
 
 
@@ -84,7 +84,7 @@
 
         <tr>
             
-                <td class="name"><code>$post_data</code></td>
+                <td class="name"><code>$posts</code></td>
             
 
             <td class="type">
@@ -100,7 +100,99 @@
 
             
 
-            <td class="description last"><p>Formatted post data.</p></td>
+            <td class="description last"><p>Post list.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$sophi_curated_page</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Sophi curated page param.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$sophi_curated_widget</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Sophi curated widget param.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$request_status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The request status, whether it was successful or not.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WP_Query</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Original query.</p></td>
         </tr>
 
     
@@ -118,7 +210,7 @@
 
     
     <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-since"><ul class="dummy"><li>1.0.9</li></ul></dd>
     
 
     
@@ -144,7 +236,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line286">line 286</a>
+        <a href="includes_classes_SiteAutomation_Integration.php.html">includes/classes/SiteAutomation/Integration.php</a>, <a href="includes_classes_SiteAutomation_Integration.php.html#line99">line 99</a>
     </li></ul></dd>
     
 
@@ -171,7 +263,7 @@
 
         
 <div class="param-desc">
-    <p>Formatted post data.</p>
+    <p>Post list.</p>
 </div>
 
 

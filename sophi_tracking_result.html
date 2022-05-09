@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: sophi_post_data - Sophi Plugin Developer Documentation</title>
+    <title>Action: sophi_tracking_result - Sophi Plugin Developer Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -21,7 +21,7 @@
 <div id="main">
 
 	
-    <h1 class="page-title">Filter: sophi_post_data</h1>
+    <h1 class="page-title">Action: sophi_tracking_result</h1>
 	
 
     
@@ -43,14 +43,14 @@
 
     
 
-    <h4 class="name" id="sophi_post_data">apply_filters( 'sophi_post_data', <span class="signature">$post_data )</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id="sophi_tracking_result">do_action( 'sophi_tracking_result', <span class="signature">$data, $tracker, $post, $action )</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter post data for content sync events (aka &quot;CMS updates&quot; in Sophi.io terms) sent to Sophi Collector.  This allows control over data before it is sent to Collector in case it needs to be modified for unique site needs.  Note that if you add, change, or remove any fields with this that those changes will need to be coordinated with the Sophi.io team to ensure content is appropriately received by Collector.</p>
+    <p>Fires after tracker sends the request.</p>
 </div>
 
 
@@ -84,7 +84,7 @@
 
         <tr>
             
-                <td class="name"><code>$post_data</code></td>
+                <td class="name"><code>$data</code></td>
             
 
             <td class="type">
@@ -100,7 +100,76 @@
 
             
 
-            <td class="description last"><p>Formatted post data.</p></td>
+            <td class="description last"><p>Tracked data.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$tracker</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Tracker</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Tracker object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$post</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WP_Post</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Post object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$action</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Publishing action.</p></td>
         </tr>
 
     
@@ -118,7 +187,7 @@
 
     
     <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-since"><ul class="dummy"><li>1.0.14</li></ul></dd>
     
 
     
@@ -144,7 +213,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line286">line 286</a>
+        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -167,28 +236,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Formatted post data.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">array</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
