@@ -135,11 +135,11 @@ function send_track_event( $tracker, $post, $action ) {
 	 * Filters the data used in Sophi track event request.
 	 *
 	 * @since 1.0.14
-	 * @hook sophi_tracking_data
+	 * @hook sophi_cms_tracking_request_data
 	 *
 	 * @param {array}   $data    Tracking data to send.
 	 * @param {Tracker} $tracker Tracker being used.
-	 * @param {string}  $url     Post object.
+	 * @param {string}  $post    Post object.
 	 * @param {string}  $action  Publishing action.
 	 * 
 	 * @return {array} Tracking data to send.
@@ -165,7 +165,7 @@ function send_track_event( $tracker, $post, $action ) {
 	 * Fires after tracker sends the request.
 	 *
 	 * @since 1.0.14
-	 * @hook sophi_tracking_result
+	 * @hook sophi_cms_tracking_result
 	 *
 	 * @param {array}   $data    Tracked data.
 	 * @param {Tracker} $tracker Tracker object.
