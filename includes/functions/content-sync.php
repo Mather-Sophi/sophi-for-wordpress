@@ -15,7 +15,7 @@ use SophiWP\Utils;
 
 use Snowplow\Tracker\Tracker;
 use Snowplow\Tracker\Subject;
-use Snowplow\Tracker\Emitters\SyncEmitter;
+use SophiWP\Emitter;
 
 /**
  * Default setup routine
@@ -224,7 +224,7 @@ function init_tracker() {
 	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
 
 	$app_id  = sprintf( '%s:cms', $tracker_client_id );
-	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, $debug );
+	$emitter = new Emitter( $collector_url, 'https', 'POST', 1, $debug );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
 }
