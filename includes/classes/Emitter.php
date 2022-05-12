@@ -16,27 +16,27 @@ use Snowplow\Tracker\Emitters\SyncEmitter;
 class Emitter extends SyncEmitter {
 
 	public function makeDir( $dir ) {
-		return false;
+		return true;
 	}
 
 	public function openFile( $file_path ) {
-		return false;
+		return true;
 	}
 
 	public function closeFile( $file_path ) {
-		return false;
+		return true;
 	}
 
 	public function copyFile( $path_from, $path_to ) {
-		return false;
+		return true;
 	}
 
 	public function deleteFile( $file_path ) {
-		return false;
+		return true;
 	}
 
 	public function writeToFile( $file_path, $content ) {
-		return false;
+		return true;
 	}
 
 }
