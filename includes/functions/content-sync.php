@@ -15,7 +15,7 @@ use SophiWP\Utils;
 
 use Snowplow\Tracker\Tracker;
 use Snowplow\Tracker\Subject;
-use Snowplow\Tracker\Emitters\SyncEmitter;
+use SophiWP\Emitter;
 
 /**
  * Default setup routine
@@ -145,6 +145,15 @@ function send_track_event( $tracker, $post, $action ) {
 	 * @return {array} Tracking data to send.
 	 */
 	$data = apply_filters_ref_array( 'sophi_cms_tracking_request_data', array( $data, &$tracker, $post, $action ) );
+
+	/** This filter is documented in includes/functions/content-sync.php */
+	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
+
+	// Suppress stdout from Emitters in debug mode.
+	if ( true === $debug ) {
+		ob_start();
+	}
+
 	$tracker->trackUnstructEvent(
 		[
 			'schema' => 'iglu:com.sophi/content_update/jsonschema/2-0-3',
@@ -160,6 +169,10 @@ function send_track_event( $tracker, $post, $action ) {
 			],
 		]
 	);
+
+	if ( true === $debug ) {
+		ob_end_clean();
+	}
 
 	/**
 	 * Fires after tracker sends the request.
@@ -211,7 +224,7 @@ function init_tracker() {
 	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
 
 	$app_id  = sprintf( '%s:cms', $tracker_client_id );
-	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, $debug );
+	$emitter = new Emitter( $collector_url, 'https', 'POST', 1, $debug );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
 }
