@@ -146,7 +146,7 @@ function send_track_event( $tracker, $post, $action ) {
 	 */
 	$data = apply_filters_ref_array( 'sophi_cms_tracking_request_data', array( $data, &$tracker, $post, $action ) );
 
-	/** This filter is documented in includes/classes/SiteAutomation/Request.php */
+	/** This filter is documented in includes/functions/content-sync.php */
 	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
 
 	// Suppress stdout from Emitters in debug mode.
