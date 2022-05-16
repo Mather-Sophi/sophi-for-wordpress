@@ -80,27 +80,26 @@ class Auth {
 		/** This filter is documented in includes/classes/SiteAutomation/Request.php */
 		$args = apply_filters( 'sophi_request_args', $args, $auth_url );
 
-		$request = wp_remote_post( $auth_url, $args );
+		$result = wp_remote_post( $auth_url, $args );
 
 		/** This filter is documented in includes/classes/SiteAutomation/Request.php */
-		$request = apply_filters( 'sophi_request_result', $request, $args, $auth_url );
+		$result = apply_filters( 'sophi_request_result', $result, $args, $auth_url );
 
-		if ( is_wp_error( $request ) ) {
-			return $request;
+		if ( is_wp_error( $result ) ) {
+			return $result;
 		}
 
-		if ( 401 === wp_remote_retrieve_response_code( $request ) ) {
+		if ( 401 === wp_remote_retrieve_response_code( $result ) ) {
 			return new \WP_Error( 401, __( 'Invalid credentials! Please confirm your client ID and secret then try again.', 'sophi-wp' ) );
 		}
 
-		if ( 200 !== wp_remote_retrieve_response_code( $request ) ) {
-			return new \WP_Error( $request['response']['code'], $request['response']['message'] );
+		if ( 200 !== wp_remote_retrieve_response_code( $result ) ) {
+			return new \WP_Error( $result['response']['code'], $result['response']['message'] );
 		}
 
-		$response = wp_remote_retrieve_body( $request );
-		$response = json_decode( $response, true );
+		$response = wp_remote_retrieve_body( $result );
 
-		return $response;
+		return json_decode( $response, true );
 	}
 
 	/**
