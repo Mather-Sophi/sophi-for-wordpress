@@ -401,14 +401,14 @@ function get_categories_hierarchical( $categories_tree ) {
  * Return an array of category paths from a given post.
  *
  * @param int $post_id The post ID.
- * @return array The array of category paths.
+ * @return array The array of category paths, or an empty array if no categories.
  */
 function get_post_categories_paths( $post_id ) {
 	$categories    = get_the_category( $post_id );
 	$paths         = [];
 
 	foreach ( $categories as $category ) {
-		if ( is_a( $category, 'WP_Term' ) ) {
+		if ( is_a( $category, 'WP_Term' ) && 'category' === $category->taxonomy ) {
 			$hierarchical_slugs = [];
 			$ancestors          = get_ancestors( $category->term_id, $category->taxonomy, 'taxonomy' );
 			foreach ( (array) $ancestors as $ancestor ) {
