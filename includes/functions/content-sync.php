@@ -269,7 +269,7 @@ function get_post_data( $post ) {
 		'publishedAt'         => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
 		'plainText'           => wp_strip_all_tags( $content ),
 		'size'                => str_word_count( wp_strip_all_tags( $content ) ),
-		'allSections'         => Utils\get_post_categories( $post->ID ),
+		'allSections'         => Utils\get_post_categories_paths( $post->ID ),
 		'modifiedAt'          => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'                => Utils\get_post_tags( $post ),
 		'url'                 => $permalink,
