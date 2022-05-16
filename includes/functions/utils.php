@@ -401,25 +401,24 @@ function get_categories_hierarchical( $categories_tree ) {
  * Return an array of category paths from a given post.
  *
  * @param int $post_id The post ID.
- * @return array The array of category paths. 
+ * @return array The array of category paths.
  */
 function get_post_categories_paths( $post_id ) {
 	$categories    = get_the_category( $post_id );
-	$paths = [];
+	$paths         = [];
 
 	foreach ( $categories as $category ) {
-		$taxonomy = $category->taxonomy;
-		$slug     = $category->slug;
-
-		$hierarchical_slugs = [];
-		$ancestors          = get_ancestors( $category->term_id, $taxonomy, 'taxonomy' );
-		foreach ( (array) $ancestors as $ancestor ) {
-			$ancestor_term        = get_term( $ancestor, $taxonomy );
-			$hierarchical_slugs[] = $ancestor_term->slug;
+		if ( is_a( $category, 'WP_Term' ) ) {
+			$hierarchical_slugs = [];
+			$ancestors          = get_ancestors( $category->term_id, $category->taxonomy, 'taxonomy' );
+			foreach ( (array) $ancestors as $ancestor ) {
+				$ancestor_term        = get_term( $ancestor, $category->taxonomy );
+				$hierarchical_slugs[] = $ancestor_term->slug;
+			}
+			$hierarchical_slugs   = array_reverse( $hierarchical_slugs );
+			$hierarchical_slugs[] = $category->slug;
+			$paths[] = '/' . implode( '/', $hierarchical_slugs );
 		}
-		$hierarchical_slugs   = array_reverse( $hierarchical_slugs );
-		$hierarchical_slugs[] = $slug;
-		$paths[] = '/' . implode( '/', $hierarchical_slugs );
 	}
 
 	return $paths;
