@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Action: sophi_tracking_result - Sophi Plugin Developer Documentation</title>
+    <title>Filter: sophi_cms_tracking_request_data - Sophi Plugin Developer Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -21,7 +21,7 @@
 <div id="main">
 
 	
-    <h1 class="page-title">Action: sophi_tracking_result</h1>
+    <h1 class="page-title">Filter: sophi_cms_tracking_request_data</h1>
 	
 
     
@@ -43,14 +43,14 @@
 
     
 
-    <h4 class="name" id="sophi_tracking_result">do_action( 'sophi_tracking_result', <span class="signature">$data, $tracker, $post, $action )</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="sophi_cms_tracking_request_data">apply_filters( 'sophi_cms_tracking_request_data', <span class="signature">$data, $tracker, $post, $action )</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Fires after tracker sends the request.</p>
+    <p>Filters the data used in Sophi track event request.</p>
 </div>
 
 
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last"><p>Tracked data.</p></td>
+            <td class="description last"><p>Tracking data to send.</p></td>
         </tr>
 
     
@@ -123,7 +123,7 @@
 
             
 
-            <td class="description last"><p>Tracker object.</p></td>
+            <td class="description last"><p>Tracker being used.</p></td>
         </tr>
 
     
@@ -136,7 +136,7 @@
             <td class="type">
             
                 
-<span class="param-type">WP_Post</span>
+<span class="param-type">string</span>
 
 
             
@@ -213,7 +213,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line164">line 164</a>
+        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -236,6 +236,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Tracking data to send.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -262,7 +284,7 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="sophi_init.html">sophi_init</a></li><li><a href="sophi_loaded.html">sophi_loaded</a></li><li><a href="sophi_tracking_result.html">sophi_tracking_result</a></li></ul><h3>Filters</h3><ul><li><a href="sophi_amp_tracking_data.html">sophi_amp_tracking_data</a></li><li><a href="sophi_available.html">sophi_available</a></li><li><a href="sophi_bypass_get_cache.html">sophi_bypass_get_cache</a></li><li><a href="sophi_cli_per_page_limit.html">sophi_cli_per_page_limit</a></li><li><a href="sophi_curated_post_list.html">sophi_curated_post_list</a></li><li><a href="sophi_hierarchial_taxonomy_for_breadcrumb.html">sophi_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_non_hierarchial_taxonomy_for_breadcrumb.html">sophi_non_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_page_need_tracking.html">sophi_page_need_tracking</a></li><li><a href="sophi_post_content_type.html">sophi_post_content_type</a></li><li><a href="sophi_post_data.html">sophi_post_data</a></li><li><a href="sophi_request_args.html">sophi_request_args</a></li><li><a href="sophi_request_result.html">sophi_request_result</a></li><li><a href="sophi_site_automation_block_output.html">sophi_site_automation_block_output</a></li><li><a href="sophi_supported_post_types.html">sophi_supported_post_types</a></li><li><a href="sophi_tracker_emitter_debug.html">sophi_tracker_emitter_debug</a></li><li><a href="sophi_tracking_data.html">sophi_tracking_data</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="sophi_cms_tracking_result.html">sophi_cms_tracking_result</a></li><li><a href="sophi_init.html">sophi_init</a></li><li><a href="sophi_loaded.html">sophi_loaded</a></li></ul><h3>Filters</h3><ul><li><a href="sophi_amp_tracking_data.html">sophi_amp_tracking_data</a></li><li><a href="sophi_available.html">sophi_available</a></li><li><a href="sophi_bypass_curated_posts_cache.html">sophi_bypass_curated_posts_cache</a></li><li><a href="sophi_bypass_get_cache.html">sophi_bypass_get_cache</a></li><li><a href="sophi_cli_per_page_limit.html">sophi_cli_per_page_limit</a></li><li><a href="sophi_cms_tracking_request_data.html">sophi_cms_tracking_request_data</a></li><li><a href="sophi_curated_post_list.html">sophi_curated_post_list</a></li><li><a href="sophi_hierarchial_taxonomy_for_breadcrumb.html">sophi_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_non_hierarchial_taxonomy_for_breadcrumb.html">sophi_non_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_page_need_tracking.html">sophi_page_need_tracking</a></li><li><a href="sophi_post_content_type.html">sophi_post_content_type</a></li><li><a href="sophi_post_data.html">sophi_post_data</a></li><li><a href="sophi_request_args.html">sophi_request_args</a></li><li><a href="sophi_request_result.html">sophi_request_result</a></li><li><a href="sophi_site_automation_block_output.html">sophi_site_automation_block_output</a></li><li><a href="sophi_supported_post_types.html">sophi_supported_post_types</a></li><li><a href="sophi_tracker_emitter_debug.html">sophi_tracker_emitter_debug</a></li><li><a href="sophi_tracking_data.html">sophi_tracking_data</a></li></ul>
 </nav>
 
 <br class="clear">

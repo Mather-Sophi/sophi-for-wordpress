@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: sophi_post_data - Sophi Plugin Developer Documentation</title>
+    <title>Filter: sophi_bypass_curated_posts_cache - Sophi Plugin Developer Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -21,7 +21,7 @@
 <div id="main">
 
 	
-    <h1 class="page-title">Filter: sophi_post_data</h1>
+    <h1 class="page-title">Filter: sophi_bypass_curated_posts_cache</h1>
 	
 
     
@@ -43,14 +43,14 @@
 
     
 
-    <h4 class="name" id="sophi_post_data">apply_filters( 'sophi_post_data', <span class="signature">$post_data )</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id="sophi_bypass_curated_posts_cache">apply_filters( 'sophi_bypass_curated_posts_cache', <span class="signature">$bypass_cache, $page, $widget )</span><span class="type-signature"> &rarr; {bool}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Filter post data for content sync events (aka &quot;CMS updates&quot; in Sophi.io terms) sent to Sophi Collector.  This allows control over data before it is sent to Collector in case it needs to be modified for unique site needs.  Note that if you add, change, or remove any fields with this that those changes will need to be coordinated with the Sophi.io team to ensure content is appropriately received by Collector.</p>
+    <p>Whether to bypass caching.</p>
 </div>
 
 
@@ -84,13 +84,13 @@
 
         <tr>
             
-                <td class="name"><code>$post_data</code></td>
+                <td class="name"><code>$bypass_cache</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">bool</span>
 
 
             
@@ -100,7 +100,53 @@
 
             
 
-            <td class="description last"><p>Formatted post data.</p></td>
+            <td class="description last"><p>True or false.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$page</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Page name.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$widget</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Widget name.</p></td>
         </tr>
 
     
@@ -118,7 +164,7 @@
 
     
     <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.1</li></ul></dd>
     
 
     
@@ -144,7 +190,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line300">line 300</a>
+        <a href="includes_blocks_site-automation-block_register.php.html">includes/blocks/site-automation-block/register.php</a>, <a href="includes_blocks_site-automation-block_register.php.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -171,7 +217,7 @@
 
         
 <div class="param-desc">
-    <p>Formatted post data.</p>
+    <p>Whether to bypass cache.</p>
 </div>
 
 
@@ -182,7 +228,7 @@
     </dt>
     <dd>
         
-<span class="param-type">array</span>
+<span class="param-type">bool</span>
 
 
     </dd>
