@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.1.1] - 2022-05-17
+### Added
+- `sophi_bypass_curated_posts_cache` filter to bypess curated posts cache (props [@cadic](https://github.com/cadic) via [#276](https://github.com/globeandmail/sophi-for-wordpress/pull/276)).
+- Send all Categories in new `allSections` field to Sophi (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@tott](https://github.com/tott) via [#275](https://github.com/globeandmail/sophi-for-wordpress/pull/275)).
+
+### Changed
+- `$result` is used instead of `$request` to store return value of the `sophi_request_result` filter (props [@faisal-alvi](https://github.com/faisal-alvi), [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic) via [#277](https://github.com/globeandmail/sophi-for-wordpress/pull/277)).
+- Suppress Emitter debug output and writing logs (props [@cadic](https://github.com/cadic) via [#272](https://github.com/globeandmail/sophi-for-wordpress/pull/272), [#274](https://github.com/globeandmail/sophi-for-wordpress/pull/274)).
+
+### Fixed
+- [Hook Docs](https://globeandmail.github.io/sophi-for-wordpress/) deployment GitHub Action and included filter docs (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@cadic](https://github.com/cadic) via [#266](https://github.com/globeandmail/sophi-for-wordpress/pull/266), [#268](https://github.com/globeandmail/sophi-for-wordpress/pull/268)).
+
 ## [1.1.0] - 2022-05-06
 ### Added
 - Filter `sophi_request_args` filters arguments used in Sophi HTTP request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
@@ -176,6 +188,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.1.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.13...1.1.0
 [1.0.13]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.12...1.0.13
 [1.0.12]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.11...1.0.12

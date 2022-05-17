@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Curator, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      5.9
-Stable tag:        1.1.0
+Stable tag:        1.1.1
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -148,6 +148,10 @@ Object caching is encouraged, as the plugin saves Sophi data as a transient.  If
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
+== Debugging ==
+
+If you are having difficulties with your Sophi integration, then we recommend utilizing the [Debug Bar for Sophi](https://wordpress.org/plugins/debug-bar-for-sophi/) plugin to help triage your Sophi Authentication, Sophi API integration, and CMS publish/update events.
+
 == Frequently Asked Questions ==
 
 = How was Sophi created? =
@@ -173,6 +177,13 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.1.1 - 2022-05-17 =
+* **Added:** `sophi_bypass_curated_posts_cache` filter to bypess curated posts cache (props [@cadic](https://github.com/cadic)).
+* **Added:** Send all Categories in new `allSections` field to Sophi (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@tott](https://github.com/tott)).
+* **Changed:** `$result` is used instead of `$request` to store return value of the `sophi_request_result` filter (props [@faisal-alvi](https://github.com/faisal-alvi), [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic)).
+* **Changed:** Suppress Emitter debug output and writing logs (props [@cadic](https://github.com/cadic)).
+* **Fixed:** [Hook Docs](https://globeandmail.github.io/sophi-for-wordpress/) deployment GitHub Action and included filter docs (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@cadic](https://github.com/cadic)).
 
 = 1.1.0 - 2022-05-06 =
 * **Added:** Filter `sophi_request_args` filters arguments used in Sophi HTTP request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
