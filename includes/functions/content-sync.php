@@ -15,7 +15,7 @@ use SophiWP\Utils;
 
 use Snowplow\Tracker\Tracker;
 use Snowplow\Tracker\Subject;
-use Snowplow\Tracker\Emitters\SyncEmitter;
+use SophiWP\Emitter;
 
 /**
  * Default setup routine
@@ -135,16 +135,25 @@ function send_track_event( $tracker, $post, $action ) {
 	 * Filters the data used in Sophi track event request.
 	 *
 	 * @since 1.0.14
-	 * @hook sophi_tracking_data
+	 * @hook sophi_cms_tracking_request_data
 	 *
 	 * @param {array}   $data    Tracking data to send.
 	 * @param {Tracker} $tracker Tracker being used.
-	 * @param {string}  $url     Post object.
+	 * @param {string}  $post    Post object.
 	 * @param {string}  $action  Publishing action.
 	 * 
 	 * @return {array} Tracking data to send.
 	 */
 	$data = apply_filters_ref_array( 'sophi_cms_tracking_request_data', array( $data, &$tracker, $post, $action ) );
+
+	/** This filter is documented in includes/functions/content-sync.php */
+	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
+
+	// Suppress stdout from Emitters in debug mode.
+	if ( true === $debug ) {
+		ob_start();
+	}
+
 	$tracker->trackUnstructEvent(
 		[
 			'schema' => 'iglu:com.sophi/content_update/jsonschema/2-0-3',
@@ -161,11 +170,15 @@ function send_track_event( $tracker, $post, $action ) {
 		]
 	);
 
+	if ( true === $debug ) {
+		ob_end_clean();
+	}
+
 	/**
 	 * Fires after tracker sends the request.
 	 *
 	 * @since 1.0.14
-	 * @hook sophi_tracking_result
+	 * @hook sophi_cms_tracking_result
 	 *
 	 * @param {array}   $data    Tracked data.
 	 * @param {Tracker} $tracker Tracker object.
@@ -211,7 +224,7 @@ function init_tracker() {
 	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
 
 	$app_id  = sprintf( '%s:cms', $tracker_client_id );
-	$emitter = new SyncEmitter( $collector_url, 'https', 'POST', 1, $debug );
+	$emitter = new Emitter( $collector_url, 'https', 'POST', 1, $debug );
 	$subject = new Subject();
 	return new Tracker( $emitter, $subject, 'sophiTag', $app_id, false );
 }
@@ -256,6 +269,7 @@ function get_post_data( $post ) {
 		'publishedAt'         => gmdate( \DateTime::RFC3339, strtotime( $post->post_date_gmt ) ),
 		'plainText'           => wp_strip_all_tags( $content ),
 		'size'                => str_word_count( wp_strip_all_tags( $content ) ),
+		'allSections'         => Utils\get_post_categories_paths( $post->ID ),
 		'sectionNames'        => Utils\get_post_categories( $post->ID ),
 		'modifiedAt'          => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'                => Utils\get_post_tags( $post ),

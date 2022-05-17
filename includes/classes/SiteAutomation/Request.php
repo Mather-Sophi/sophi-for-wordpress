@@ -225,16 +225,16 @@ class Request {
 		 *
 		 * @param {array}   $args HTTP request arguments.
 		 * @param {string}  $url  The request URL.
-		 * 
+		 *
 		 * @return {array} HTTP request arguments.
 		 */
 		$args = apply_filters( 'sophi_request_args', $args, $this->api_url );
 
 		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
-			$request = vip_safe_wp_remote_get( $this->api_url, '', 3, $timeout, 20, $args );
+			$result = vip_safe_wp_remote_get( $this->api_url, '', 3, $timeout, 20, $args );
 		} else {
 			$args['timeout'] = $timeout;
-			$request         = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
+			$result          = wp_remote_get( $this->api_url, $args ); // phpcs:ignore
 		}
 
 		/**
@@ -243,23 +243,23 @@ class Request {
 		 * @since 1.0.14
 		 * @hook sophi_request_result
 		 *
-		 * @param {array|WP_Error}  $request Result of HTTP request.
+		 * @param {array|WP_Error}  $result Result of HTTP request.
 		 * @param {array}           $args     HTTP request arguments.
 		 * @param {string}          $url      The request URL.
-		 * 
+		 *
 		 * @return {array|WP_Error} Result of HTTP request.
 		 */
-		$request = apply_filters( 'sophi_request_result', $request, $args, $this->api_url );
+		$result = apply_filters( 'sophi_request_result', $result, $args, $this->api_url );
 
-		if ( is_wp_error( $request ) ) {
-			return $request;
+		if ( is_wp_error( $result ) ) {
+			return $result;
 		}
 
-		if ( wp_remote_retrieve_response_code( $request ) !== 200 ) {
-			return new \WP_Error( wp_remote_retrieve_response_code( $request ), $request['response']['message'] );
+		if ( wp_remote_retrieve_response_code( $result ) !== 200 ) {
+			return new \WP_Error( wp_remote_retrieve_response_code( $result ), $result['response']['message'] );
 		}
 
-		return json_decode( wp_remote_retrieve_body( $request ), true );
+		return json_decode( wp_remote_retrieve_body( $result ), true );
 	}
 
 	/**
