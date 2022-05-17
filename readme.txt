@@ -174,6 +174,13 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.1.1 - 2022-05-17 =
+* **Added:** `sophi_bypass_curated_posts_cache` filter to bypess curated posts cache (props [@cadic](https://github.com/cadic)).
+* **Added:** Send all Categories in new `allSections` field to Sophi (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@tott](https://github.com/tott)).
+* **Changed:** `$result` is used instead of `$request` to store return value of the `sophi_request_result` filter (props [@faisal-alvi](https://github.com/faisal-alvi), [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic)).
+* **Changed:** Suppress Emitter debug output and writing logs (props [@cadic](https://github.com/cadic)).
+* **Fixed:** [Hook Docs](https://globeandmail.github.io/sophi-for-wordpress/) deployment GitHub Action and included filter docs (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@cadic](https://github.com/cadic)).
+
 = 1.1.0 - 2022-05-06 =
 * **Added:** Filter `sophi_request_args` filters arguments used in Sophi HTTP request (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257)).
 * **Added:** Filter `sophi_request_result` filters a Sophi HTTP request immediately after the response is received (props [@cadic](https://github.com/cadic), [@iamdharmesh](https://github.com/iamdharmesh) via [#257](https://github.com/globeandmail/sophi-for-wordpress/pull/257), [#261](https://github.com/globeandmail/sophi-for-wordpress/pull/261)).
