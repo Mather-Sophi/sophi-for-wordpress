@@ -165,6 +165,10 @@ Object caching is encouraged, as the plugin saves Sophi data as a transient.  If
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
+## Debugging
+
+If you are having difficulties with your Sophi integration, then we recommend utilizing the [Debug Bar for Sophi](https://wordpress.org/plugins/debug-bar-for-sophi/) plugin to help triage your Sophi Authentication, Sophi API integration, and CMS publish/update events.
+
 ## Frequently Asked Questions
 
 ### How was Sophi created?
