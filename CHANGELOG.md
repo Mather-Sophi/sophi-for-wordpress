@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.1.2] - 2022-05-18
+### Fixed
+- Incorrect posts rendered due to wrong transient name (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic) via [#282](https://github.com/globeandmail/sophi-for-wordpress/pull/282)).
+
 ## [1.1.1] - 2022-05-17
 ### Added
 - `sophi_bypass_curated_posts_cache` filter to bypess curated posts cache (props [@cadic](https://github.com/cadic) via [#276](https://github.com/globeandmail/sophi-for-wordpress/pull/276)).

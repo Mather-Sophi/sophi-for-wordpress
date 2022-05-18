@@ -178,6 +178,9 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.1.2 - 2022-05-18 =
+* **Fixed:** Incorrect posts rendered due to wrong transient name (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic)).
+
 = 1.1.1 - 2022-05-17 =
 * **Added:** `sophi_bypass_curated_posts_cache` filter to bypess curated posts cache (props [@cadic](https://github.com/cadic)).
 * **Added:** Send all Categories in new `allSections` field to Sophi (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@tott](https://github.com/tott)).
