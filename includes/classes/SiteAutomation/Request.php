@@ -157,7 +157,7 @@ class Request {
 	 * @return array
 	 */
 	public function get_status() {
-		return get_transient( "sophi_site_automation_status_{$this->post_id}_{$this->page}_{$this->widget}" );
+		return get_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}" );
 	}
 
 	/**
