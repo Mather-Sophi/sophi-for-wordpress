@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Curator, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      5.9
-Stable tag:        1.1.1
+Stable tag:        1.1.2
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -177,6 +177,9 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.1.2 - 2022-05-18 =
+* **Fixed:** Incorrect posts rendered due to wrong transient name (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic)).
 
 = 1.1.1 - 2022-05-17 =
 * **Added:** `sophi_bypass_curated_posts_cache` filter to bypess curated posts cache (props [@cadic](https://github.com/cadic)).
