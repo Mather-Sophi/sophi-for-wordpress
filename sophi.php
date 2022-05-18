@@ -122,36 +122,3 @@ function sophi_setup_notice() {
 	<?php
 
 }
-
-/**
- * Upgrader function for version 1.1.0
- * Deletes sophi_site_automation like options in favor of new post_meta approach.
- *
- * @param $installed string The version installed.
- */
-function sophi_upgrade_1_1_0( $installed ) {
-	global $wpdb;
-	if ( $installed && version_compare( $installed, '1.1.0', '<' ) ) {
-
-		$options = $wpdb->get_results( $wpdb->prepare( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE'%s' LIMIT 1000",  '%sophi_site_automation_data%' ) );
-
-		foreach ( $options as $option ) {
-			delete_option( $option->option_name );
-		}
-	}
-}
-
-add_action( 'sophi_upgrade', 'sophi_upgrade_1_1_0' );
-
-$installed = get_option( 'sophi_version' );
-
-if ( ! $installed || version_compare( $installed, SOPHI_WP_VERSION, '<' ) ) {
-	/**
-	 * Upgrader hook to
-	 *
-	 * @param string $installed The previous version reference installed.
-	 */
-	do_action( 'sophi_upgrade', $installed );
-
-	update_option( 'sophi_version', SOPHI_WP_VERSION, false );
-}
