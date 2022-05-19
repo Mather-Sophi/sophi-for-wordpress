@@ -293,6 +293,16 @@ class Request {
 	 * @return int
 	 */
 	private function get_cache_duration() {
+		/**
+		 * Filter Sophi cache duration. Defaults to five minutes.
+		 *
+		 * @since 1.0.0
+		 * @hook sophi_cache_duration
+		 *
+		 * @param {int} $cache_duration Cache duration in seconds. Default 300.
+		 *
+		 * @return {int} Cache duration in seconds.
+		 */
 		return apply_filters( 'sophi_cache_duration', 5 * MINUTE_IN_SECONDS );
 	}
 }
