@@ -24,4 +24,6 @@ jobs:
     - name: composer install
       run: composer install
     - name: PHPCS check
-      run: './vendor/bin/phpcs'
+      uses: chekalsky/phpcs-action@v1
+      with:
+        phpcs_bin_path: './vendor/bin/phpcs'
