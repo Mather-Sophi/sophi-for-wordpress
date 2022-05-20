@@ -82,7 +82,7 @@ function get_tracking_data() {
 		'data'     => [
 			'environment' => [
 				'environment' => $env,
-				'version'     => 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION,
+				'version'     => get_wp_sophi_versions(),
 			],
 			'page'        => [
 				'type'       => is_singular() ? get_post_content_type( $post ) : 'section',
