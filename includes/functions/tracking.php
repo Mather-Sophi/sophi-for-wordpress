@@ -81,7 +81,7 @@ function get_tracking_data() {
 		'data'     => [
 			'environment' => [
 				'environment' => $env,
-				'version'     => get_bloginfo( 'version' ),
+				'version'     => 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION,
 			],
 			'page'        => [
 				'type'       => is_singular() ? get_post_content_type( $post ) : 'section',
@@ -240,6 +240,7 @@ function get_custom_contexts() {
 					'data'   => [
 						'client'      => get_sophi_settings( 'tracker_client_id' ),
 						'environment' => get_sophi_settings( 'environment' ),
+						'version'     => 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION,
 					],
 				]
 			),
@@ -265,6 +266,7 @@ function get_custom_contexts() {
 					'data'   => [
 						'client'      => get_sophi_settings( 'tracker_client_id' ),
 						'environment' => get_sophi_settings( 'environment' ),
+						'version'     => 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION,
 					],
 				]
 			),

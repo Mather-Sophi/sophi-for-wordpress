@@ -165,6 +165,7 @@ function send_track_event( $tracker, $post, $action ) {
 				'data'   => [
 					'environment' => get_sophi_settings( 'environment' ),
 					'client'      => get_sophi_settings( 'tracker_client_id' ),
+					'version'     => 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION,
 				],
 			],
 		]
