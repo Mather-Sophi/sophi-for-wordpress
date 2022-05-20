@@ -319,7 +319,7 @@ function get_post_content_type( $post ) {
 function get_number_of_embedded_images( $post_content ) {
 	$dom = new \DOMDocument();
 
-	if ( @$dom->loadHTML(strip_tags( $post_content, '<img>' ) ) ) {
+	if ( @$dom->loadHTML( wp_kses( $post_content, array( 'img' => true ) ) ) ) {
 		$images = $dom->getElementsByTagName('img');
 
 		return $images->count();
