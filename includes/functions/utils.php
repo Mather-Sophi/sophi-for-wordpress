@@ -534,3 +534,12 @@ function get_post_categories( $post_id ) {
 
 	return $categories_formatted;
 }
+
+/**
+ * Utility function meant to be used to create appropriate data format for tracking events.
+ *
+ * @return string The formatted data.
+ */
+function get_wp_sophi_versions() {
+	return 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION;
+}

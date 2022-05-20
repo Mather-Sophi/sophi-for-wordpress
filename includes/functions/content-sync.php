@@ -16,6 +16,7 @@ use SophiWP\Utils;
 use Snowplow\Tracker\Tracker;
 use Snowplow\Tracker\Subject;
 use SophiWP\Emitter;
+use function SophiWP\Utils\get_wp_sophi_versions;
 
 /**
  * Default setup routine
@@ -165,6 +166,7 @@ function send_track_event( $tracker, $post, $action ) {
 				'data'   => [
 					'environment' => get_sophi_settings( 'environment' ),
 					'client'      => get_sophi_settings( 'tracker_client_id' ),
+					'version'     => get_wp_sophi_versions()
 				],
 			],
 		]
