@@ -13,6 +13,7 @@ use function SophiWP\Utils\get_section_name;
 use function SophiWP\Utils\get_breadcrumb;
 use function SophiWP\Utils\get_post_content_type;
 use function SophiWP\Core\script_url;
+use function SophiWP\Utils\get_wp_sophi_versions;
 
 /**
  * Default setup routine
@@ -240,7 +241,7 @@ function get_custom_contexts() {
 					'data'   => [
 						'client'      => get_sophi_settings( 'tracker_client_id' ),
 						'environment' => get_sophi_settings( 'environment' ),
-						'version'     => 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION,
+						'version'     => get_wp_sophi_versions(),
 					],
 				]
 			),
@@ -266,7 +267,7 @@ function get_custom_contexts() {
 					'data'   => [
 						'client'      => get_sophi_settings( 'tracker_client_id' ),
 						'environment' => get_sophi_settings( 'environment' ),
-						'version'     => 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION,
+						'version'     => get_wp_sophi_versions(),
 					],
 				]
 			),
