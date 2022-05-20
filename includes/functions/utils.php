@@ -486,6 +486,7 @@ function get_post_categories( $post_id ) {
 
 		usort( $categories_termid_name_parent, $order_by_term_id );
 
+		//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 		$categories_termid_name_parent = serialize( $categories_termid_name_parent );
 
 		if ( $categories_termid_name_parent === $cached_categories['term_id_name_parent_serialized'] ) {
@@ -527,6 +528,7 @@ function get_post_categories( $post_id ) {
 
 	set_transient( $transient_key,
 		[
+			//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 			'term_id_name_parent_serialized' => serialize( $categories_termid_name_parent ),
 			'formatted'                      => $categories_formatted
 		]
