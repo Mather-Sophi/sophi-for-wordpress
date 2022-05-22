@@ -15,7 +15,8 @@ class Core_Tests extends Base\TestCase {
 	 * @dataProvider data_provider_embedded_images
 	 */
 	public function test_get_number_of_embedded_images( $html, $count ) {
-		\WP_Mock::passthruFunction( 'wp_kses' );
+		// wp_kses expected to be called once if HTML is not empty.
+		\WP_Mock::passthruFunction( 'wp_kses', array( 'times' => $count === false ? 0 : 1 ) );
 
 		$this->assertEquals( $count, get_number_of_embedded_images( $html ) );
 	}
