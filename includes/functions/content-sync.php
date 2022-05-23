@@ -93,7 +93,7 @@ function track_event( $post_id, $post, $update, $post_before ) {
 		// Detect if the current request comes from Quick Edit.
 		if (
 			! empty( $_POST['_inline_edit'] )
-			&& wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' )
+			&& wp_verify_nonce( sanitize_text_field( $_POST['_inline_edit'] ), 'inlineeditnonce' )
 			&& ! empty( $_POST['action'] )
 			&& 'inline-save' === $_POST['action']
 		) {

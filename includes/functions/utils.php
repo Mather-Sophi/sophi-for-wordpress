@@ -319,7 +319,7 @@ function get_post_content_type( $post ) {
 function get_number_of_embedded_images( $post_content ) {
 	$dom = new \DOMDocument();
 
-	if ( ! empty( $post_content ) && @$dom->loadHTML(strip_tags( $post_content, '<img>' ) ) ) {
+	if ( ! empty( $post_content ) && @$dom->loadHTML( wp_kses( $post_content, array( 'img' => true ) ) ) ) {
 		$images = $dom->getElementsByTagName('img');
 
 		return $images->count();
@@ -486,6 +486,7 @@ function get_post_categories( $post_id ) {
 
 		usort( $categories_termid_name_parent, $order_by_term_id );
 
+		//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 		$categories_termid_name_parent = serialize( $categories_termid_name_parent );
 
 		if ( $categories_termid_name_parent === $cached_categories['term_id_name_parent_serialized'] ) {
@@ -527,6 +528,7 @@ function get_post_categories( $post_id ) {
 
 	set_transient( $transient_key,
 		[
+			//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 			'term_id_name_parent_serialized' => serialize( $categories_termid_name_parent ),
 			'formatted'                      => $categories_formatted
 		]
