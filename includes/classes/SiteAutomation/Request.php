@@ -176,7 +176,7 @@ class Request {
 		);
 
 		if ( empty( $data['success'] ) ) {
-			$data['retry'] = $this->status['retry'] + 1;
+			$data['retry'] = is_array( $this->status ) ? $this->status['retry'] + 1 : 1;
 		} else {
 			$data['retry'] = 0;
 		}
