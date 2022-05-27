@@ -16,6 +16,7 @@ use SophiWP\Utils;
 use Snowplow\Tracker\Tracker;
 use Snowplow\Tracker\Subject;
 use SophiWP\Emitter;
+use function SophiWP\Utils\get_wp_sophi_versions;
 
 /**
  * Default setup routine
@@ -92,7 +93,7 @@ function track_event( $post_id, $post, $update, $post_before ) {
 		// Detect if the current request comes from Quick Edit.
 		if (
 			! empty( $_POST['_inline_edit'] )
-			&& wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' )
+			&& wp_verify_nonce( sanitize_text_field( $_POST['_inline_edit'] ), 'inlineeditnonce' )
 			&& ! empty( $_POST['action'] )
 			&& 'inline-save' === $_POST['action']
 		) {
@@ -165,6 +166,7 @@ function send_track_event( $tracker, $post, $action ) {
 				'data'   => [
 					'environment' => get_sophi_settings( 'environment' ),
 					'client'      => get_sophi_settings( 'tracker_client_id' ),
+					'version'     => get_wp_sophi_versions()
 				],
 			],
 		]

@@ -50,13 +50,6 @@ class Request {
 	private $status;
 
 	/**
-	 * Post ID for Site Automation request.
-	 *
-	 * @var string $post_id
-	 */
-	protected $post_id;
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param Auth $auth Authentication object.
@@ -85,7 +78,6 @@ class Request {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
-		$this->post_id = get_the_ID();
 
 		$this->status         = $this->get_status();
 		$site_automation_data = false;
@@ -105,7 +97,7 @@ class Request {
 		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
 		if ( ! $bypass_cache ) {
-			$site_automation_data = get_post_meta( $this->post_id, "_sophi_site_automation_data_{$this->page}_{$this->widget}", true );
+			$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
 		}
 
 		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
@@ -165,7 +157,7 @@ class Request {
 	 * @return array
 	 */
 	public function get_status() {
-		return get_transient( "sophi_site_automation_status_{$this->post_id}_{$this->page}_{$this->widget}" );
+		return get_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}" );
 	}
 
 	/**
@@ -184,16 +176,13 @@ class Request {
 		);
 
 		if ( empty( $data['success'] ) ) {
-			$data['retry'] = $this->status['retry'] + 1;
+			$data['retry'] = is_array( $this->status ) ? $this->status['retry'] + 1 : 1;
 		} else {
 			$data['retry'] = 0;
 		}
 
 		$this->status = $data;
-
-		if ( ! empty( $this->post_id ) ) {
-			set_transient( "sophi_site_automation_status_{$this->post_id}_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
-		}
+		set_transient( "sophi_site_automation_status_{$this->page}_{$this->widget}", $data, $this->get_cache_duration() );
 	}
 
 	/**
@@ -275,21 +264,9 @@ class Request {
 			return [];
 		}
 
-
-		$post = get_post();
-
-		if ( ! $post || wp_is_post_revision( $post ) ) {
-			return $response;
+		if ( ! $bypass_cache ) {
+			update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
 		}
-
-		$meta_key   = "_sophi_site_automation_data_{$this->page}_{$this->widget}";
-		$created_at = date_create( 'now', wp_timezone() );
-
-		if ( $created_at && ! $bypass_cache ) {
-			update_post_meta( $post->ID, $meta_key, $response );
-			update_post_meta( $post->ID, $meta_key . '_created_at', $created_at->getTimestamp() );
-		}
-
 		return $response;
 	}
 
@@ -305,7 +282,7 @@ class Request {
 		$site_automation_url = get_sophi_settings( 'site_automation_url' );
 		$site_automation_url = untrailingslashit( $site_automation_url );
 
-		$host = parse_url( get_home_url(), PHP_URL_HOST );
+		$host = wp_parse_url( get_home_url(), PHP_URL_HOST );
 
 		return sprintf( '%1$s/curatedHosts/%2$s/curator?page=%3$s&widget=%4$s', $site_automation_url, $host, $page, $widget );
 	}
@@ -316,6 +293,16 @@ class Request {
 	 * @return int
 	 */
 	private function get_cache_duration() {
+		/**
+		 * Filter Sophi cache duration. Defaults to five minutes.
+		 *
+		 * @since 1.0.0
+		 * @hook sophi_cache_duration
+		 *
+		 * @param {int} $cache_duration Cache duration in seconds. Default 300.
+		 *
+		 * @return {int} Cache duration in seconds.
+		 */
 		return apply_filters( 'sophi_cache_duration', 5 * MINUTE_IN_SECONDS );
 	}
 }

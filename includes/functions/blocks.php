@@ -19,7 +19,7 @@ function setup() {
 		return __NAMESPACE__ . "\\$function";
 	};
 
-	add_filter( 'block_categories', $n( 'blocks_categories' ), 10, 2 );
+	add_filter( 'block_categories_all', $n( 'blocks_categories' ), 10, 2 );
 
 	register_blocks();
 }
@@ -41,13 +41,13 @@ function register_blocks() {
 /**
  * Filters the registered block categories.
  *
- * @param array  $categories Registered categories.
- * @param object $post       The post object.
+ * @param array  $categories           array                   Registered categories.
+ * @param object $block_editor_context WP_Block_Editor_Context The current block editor context.
  *
  * @return array Filtered categories.
  */
-function blocks_categories( $categories, $post ) {
-	if ( ! in_array( $post->post_type, get_supported_post_types(), true ) ) {
+function blocks_categories( $categories, $block_editor_context ) {
+	if ( isset( $block_editor_context->post ) && ! in_array( $block_editor_context->post->post_type, get_supported_post_types(), true ) ) {
 		return $categories;
 	}
 
