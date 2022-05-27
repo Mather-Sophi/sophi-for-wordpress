@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.1.3] - 2022-05-27
+### Added
+- WordPress and Sophi plugin versions to Javascript and AMP Tracking (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@YMufleh](https://github.com/YMufleh) via [#287](https://github.com/globeandmail/sophi-for-wordpress/pull/287)).
+- Documentation for `sophi_cache_duration` filter (props [@Sidsector9](https://github.com/Sidsector9), [@barryceelen](https://github.com/barryceelen), [@jeffpaul](https://github.com/jeffpaul) via [#285](https://github.com/globeandmail/sophi-for-wordpress/pull/285)).
+- Unit tests (props [@cadic](https://github.com/cadic) via [#291](https://github.com/globeandmail/sophi-for-wordpress/pull/291)).
+
+### Changed
+- Reverted response saving back to options table from post meta field (props [@oscarssanchez](https://github.com/oscarssanchez) via [#280](https://github.com/globeandmail/sophi-for-wordpress/pull/280)).
+- Replace deprecated `block_categories` filter with `block_categories_all` (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic), [@jeffpaul](https://github.com/jeffpaul) via [#292](https://github.com/globeandmail/sophi-for-wordpress/pull/292)).
+- Bump WordPress "tested up to" version 6.0 (props [@Sidsector9](https://github.com/Sidsector9), [@jeffpaul](https://github.com/jeffpaul) via [#293](https://github.com/globeandmail/sophi-for-wordpress/pull/293)).
+
+### Fixed
+- Fatal error on tracking a post with empty content (props [@cadic](https://github.com/cadic) via [#289](https://github.com/globeandmail/sophi-for-wordpress/pull/289)).
+- Warning shown due to access of undefined array (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic), [@jeffpaul](https://github.com/jeffpaul) via [#292](https://github.com/globeandmail/sophi-for-wordpress/pull/292)).
+- Warning on Widget page via check before accessing property (props [@Sidsector9](https://github.com/Sidsector9) via [#295](https://github.com/globeandmail/sophi-for-wordpress/pull/295)).
+- PHPCS check and linting issues (props [@cadic](https://github.com/cadic) via [#291](https://github.com/globeandmail/sophi-for-wordpress/pull/291)).
+
 ## [1.1.2] - 2022-05-18
 ### Fixed
 - Incorrect posts rendered due to wrong transient name (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic) via [#282](https://github.com/globeandmail/sophi-for-wordpress/pull/282)).
@@ -192,6 +209,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.1.3]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.0.13...1.1.0
