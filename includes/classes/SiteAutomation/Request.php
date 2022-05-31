@@ -81,6 +81,7 @@ class Request {
 
 		$this->status         = $this->get_status();
 		$site_automation_data = false;
+		$post_id = false;
 
 		/**
 		 * Whether to bypass caching.
@@ -96,8 +97,26 @@ class Request {
 		 */
 		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
-		if ( ! $bypass_cache ) {
-			$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+		if ( ! $bypass_cache && post_type_exists('sophi-response' ) ) {
+			$query = new \WP_Query(
+				[
+					's'                      => "sophi_site_automation_data_{$page}_{$widget}",
+					'post_type'              => 'sophi-response',
+					'posts_per_page'         => 1,
+					'fields'                 => 'ids',
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false
+				]
+			);
+
+			if ( $query->found_posts ) {
+				$post_id = $query->posts[0];
+				$last_update = get_post_meta( $post_id->posts[0], 'sophi_site_automation_last_updated', true );
+
+				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
+					$site_automation_data = get_post_meta( $post_id->posts[0], 'sophi_site_automation_data', true );
+				}
+			}
 		}
 
 		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
@@ -125,7 +144,7 @@ class Request {
 		}
 
 		$this->set_status( [ 'success' => true ] );
-		return $this->process( $response, $bypass_cache );
+		return $this->process( $response, $bypass_cache, $post_id );
 	}
 
 	/**
@@ -259,13 +278,27 @@ class Request {
 	 *
 	 * @return array
 	 */
-	private function process( $response, $bypass_cache ) {
+	private function process( $response, $bypass_cache, $post_id ) {
 		if ( ! $response ) {
 			return [];
 		}
 
-		if ( ! $bypass_cache ) {
-			update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+		if ( ! $bypass_cache && post_type_exists('sophi-response') ) {
+			if ( $post_id ) {
+				update_post_meta( $post_id, "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+				update_post_meta( $post_id, 'sophi_site_automation_last_updated', time() );
+			} else {
+				$post_id = wp_insert_post(
+					[
+						'post_type'  => 'sophi-response',
+						'post_title' => "sophi_site_automation_data_{$this->page}_{$this->widget}",
+					]
+				);
+				if ( $post_id ) {
+					update_post_meta( $post_id, "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+					update_post_meta( $post_id, 'sophi_site_automation_last_updated', time() );
+				}
+			}
 		}
 		return $response;
 	}
