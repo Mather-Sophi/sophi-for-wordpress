@@ -7,7 +7,7 @@ namespace SophiWP\PostType;
  */
 function post_type() {
 	$args = [
-		'description'        => esc_html__( 'Sophi Responses', 'sophi' ),
+		'description'        => esc_html__( 'Sophi Responses', 'sophi-wp' ),
 		'public'             => false,
 		'publicly_queryable' => false,
 		'show_ui'            => false,
