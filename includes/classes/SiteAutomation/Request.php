@@ -273,8 +273,9 @@ class Request {
 	/**
 	 * Process response from Sophi.
 	 *
-	 * @param array $response Response of Site Automation API.
-	 * @param bool  $bypass_cache Whether to bypass cache or not.
+	 * @param array    $response Response of Site Automation API.
+	 * @param bool     $bypass_cache Whether to bypass cache or not.
+	 * @param int|bool $post_id The post id to update the post meta with response or false.
 	 *
 	 * @return array
 	 */

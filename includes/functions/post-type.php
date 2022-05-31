@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The Sophi Post type register file.
+ */
 namespace SophiWP\PostType;
 
 /**
