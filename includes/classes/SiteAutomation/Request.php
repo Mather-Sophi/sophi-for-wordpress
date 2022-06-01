@@ -100,7 +100,7 @@ class Request {
 		if ( ! $bypass_cache && post_type_exists('sophi-response' ) ) {
 			$query = new \WP_Query(
 				[
-					's'                      => "sophi_site_automation_data_{$page}_{$widget}",
+					'post_name__in'          => "sophi-site-automation-data-{$page}-{$widget}",
 					'post_type'              => 'sophi-response',
 					'posts_per_page'         => 1,
 					'fields'                 => 'ids',
@@ -289,11 +289,12 @@ class Request {
 				$post_id = wp_insert_post(
 					[
 						'post_type'  => 'sophi-response',
-						'post_title' => "sophi_site_automation_data_{$this->page}_{$this->widget}",
+						'post_title' => "sophi-site-automation-data-{$this->page}-{$this->widget}",
+						'post_name'  => "sophi-site-automation-data-{$this->page}-{$this->widget}",
 					]
 				);
 			}
-			update_post_meta( $post_id, "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+			update_post_meta( $post_id, 'sophi_site_automation_data', $response );
 			update_post_meta( $post_id, 'sophi_site_automation_last_updated', time() );
 		}
 		return $response;
