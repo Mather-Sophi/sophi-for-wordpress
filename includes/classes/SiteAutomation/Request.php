@@ -285,21 +285,16 @@ class Request {
 		}
 
 		if ( ! $bypass_cache && post_type_exists( 'sophi-response' ) ) {
-			if ( $post_id ) {
-				update_post_meta( $post_id, "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
-				update_post_meta( $post_id, 'sophi_site_automation_last_updated', time() );
-			} else {
+			if ( ! $post_id ) {
 				$post_id = wp_insert_post(
 					[
 						'post_type'  => 'sophi-response',
 						'post_title' => "sophi_site_automation_data_{$this->page}_{$this->widget}",
 					]
 				);
-				if ( $post_id ) {
-					update_post_meta( $post_id, "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
-					update_post_meta( $post_id, 'sophi_site_automation_last_updated', time() );
-				}
 			}
+			update_post_meta( $post_id, "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+			update_post_meta( $post_id, 'sophi_site_automation_last_updated', time() );
 		}
 		return $response;
 	}
