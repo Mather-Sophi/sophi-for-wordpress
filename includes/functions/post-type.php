@@ -7,7 +7,7 @@ namespace SophiWP\PostType;
 /**
  * Registers the sophi-response post type.
  */
-function post_type() {
+function setup() {
 	$args = [
 		'description'        => esc_html__( 'Sophi Responses', 'sophi-wp' ),
 		'public'             => false,

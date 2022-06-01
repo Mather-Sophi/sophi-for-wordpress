@@ -61,7 +61,7 @@ add_action(
 			// Bootstrap.
 			SophiWP\Core\setup();
 			SophiWP\Settings\setup();
-			SophiWP\PostType\post_type();
+			SophiWP\PostType\setup();
 
 			if ( ! SophiWP\Utils\is_configured() ) {
 				return add_action( 'admin_notices', 'sophi_setup_notice' );
