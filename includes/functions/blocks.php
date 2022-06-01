@@ -47,7 +47,7 @@ function register_blocks() {
  * @return array Filtered categories.
  */
 function blocks_categories( $categories, $block_editor_context ) {
-	if ( ! in_array( $block_editor_context->post->post_type, get_supported_post_types(), true ) ) {
+	if ( isset( $block_editor_context->post ) && ! in_array( $block_editor_context->post->post_type, get_supported_post_types(), true ) ) {
 		return $categories;
 	}
 
