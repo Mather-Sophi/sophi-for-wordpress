@@ -284,7 +284,7 @@ class Request {
 			return [];
 		}
 
-		if ( ! $bypass_cache && post_type_exists('sophi-response') ) {
+		if ( ! $bypass_cache && post_type_exists( 'sophi-response' ) ) {
 			if ( $post_id ) {
 				update_post_meta( $post_id, "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
 				update_post_meta( $post_id, 'sophi_site_automation_last_updated', time() );
