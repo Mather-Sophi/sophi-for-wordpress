@@ -100,7 +100,7 @@ class Request {
 		if ( ! $bypass_cache && post_type_exists('sophi-response' ) ) {
 			$query = new \WP_Query(
 				[
-					'post_name__in'          => "sophi-site-automation-data-{$page}-{$widget}",
+					'post_name__in'          => [ "sophi-site-automation-data-{$page}-{$widget}" ],
 					'post_type'              => 'sophi-response',
 					'posts_per_page'         => 1,
 					'fields'                 => 'ids',

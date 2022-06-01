@@ -56,7 +56,7 @@ function render_block_callback( $attributes, $content, $block ) {
 
 	$sophi_cached_response = new \WP_Query(
 		[
-			'post_name__in'          => "sophi-site-automation-data-{$page_name}-{$widget_name}",
+			'post_name__in'          => [ "sophi-site-automation-data-{$page_name}-{$widget_name}" ],
 			'post_type'              => 'sophi-response',
 			'posts_per_page'         => 1,
 			'fields'                 => 'ids',
