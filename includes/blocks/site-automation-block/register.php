@@ -54,6 +54,8 @@ function render_block_callback( $attributes, $content, $block ) {
 	 */
 	$bypass_cache = apply_filters( 'sophi_bypass_curated_posts_cache', false, $page_name, $widget_name );
 
+	$curated_posts = false;
+
 	$sophi_cached_response = new \WP_Query(
 		[
 			'post_name__in'          => [ "sophi-site-automation-data-{$page_name}-{$widget_name}" ],
