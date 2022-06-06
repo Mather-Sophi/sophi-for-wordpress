@@ -111,10 +111,10 @@ class Request {
 
 			if ( $query->found_posts ) {
 				$post_id = $query->posts[0];
-				$last_update = get_post_meta( $post_id->posts[0], 'sophi_site_automation_last_updated', true );
+				$last_update = get_post_meta( $post_id, 'sophi_site_automation_last_updated', true );
 
 				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
-					$site_automation_data = get_post_meta( $post_id->posts[0], 'sophi_site_automation_data', true );
+					$site_automation_data = get_post_meta( $post_id, 'sophi_site_automation_data', true );
 				}
 			}
 		}
