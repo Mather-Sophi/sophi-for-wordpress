@@ -97,7 +97,7 @@ class Request {
 		 */
 		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
-		if ( ! $bypass_cache && post_type_exists('sophi-response' ) ) {
+		if ( ! $bypass_cache ) {
 			$query = new \WP_Query(
 				[
 					'post_name__in'          => [ "sophi-site-automation-data-{$page}-{$widget}" ],
@@ -284,7 +284,7 @@ class Request {
 			return [];
 		}
 
-		if ( ! $bypass_cache && post_type_exists( 'sophi-response' ) ) {
+		if ( ! $bypass_cache ) {
 			if ( ! $post_id ) {
 				$post_id = wp_insert_post(
 					[
