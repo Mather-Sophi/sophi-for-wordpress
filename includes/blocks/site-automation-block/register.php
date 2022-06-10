@@ -56,22 +56,24 @@ function render_block_callback( $attributes, $content, $block ) {
 
 	$curated_posts = false;
 
-	$sophi_cached_response = new \WP_Query(
-		[
-			'post_name__in'          => [ "sophi-site-automation-data-{$page_name}-{$widget_name}" ],
-			'post_type'              => 'sophi-response',
-			'posts_per_page'         => 1,
-			'fields'                 => 'ids',
-			'no_found_rows'          => true,
-			'update_post_term_cache' => false
-		]
-	);
+	if ( ! $bypass_cache ) {
+		$sophi_cached_response = new \WP_Query(
+			[
+				'post_name__in'          => [ "sophi-site-automation-data-{$page_name}-{$widget_name}" ],
+				'post_type'              => 'sophi-response',
+				'posts_per_page'         => 1,
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false
+			]
+		);
 
-	if ( $sophi_cached_response->found_posts ) {
-		$last_update = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_last_updated', true );
+		if ( $sophi_cached_response->found_posts ) {
+			$last_update = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_last_updated', true );
 
-		if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
-			$curated_posts = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_data' );
+			if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
+				$curated_posts = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_data' );
+			}
 		}
 	}
 
