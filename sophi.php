@@ -35,6 +35,7 @@ require_once SOPHI_WP_INC . 'functions/settings.php';
 require_once SOPHI_WP_INC . 'functions/tracking.php';
 require_once SOPHI_WP_INC . 'functions/content-sync.php';
 require_once SOPHI_WP_INC . 'functions/blocks.php';
+require_once SOPHI_WP_INC . 'functions/post-type.php';
 
 // phpcs:enable WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
@@ -60,6 +61,7 @@ add_action(
 			// Bootstrap.
 			SophiWP\Core\setup();
 			SophiWP\Settings\setup();
+			SophiWP\PostType\setup();
 
 			if ( ! SophiWP\Utils\is_configured() ) {
 				return add_action( 'admin_notices', 'sophi_setup_notice' );
