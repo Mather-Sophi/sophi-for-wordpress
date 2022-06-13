@@ -50,7 +50,7 @@ Once your credentials are validated and saved, your site is officially superchar
 
 == Usage ==
 
-There are two potential ways to integrate Sophi Site Automation results with your WordPress site. The default approach includes a Sophi Site Automation block that integrates with `WP_Query` by injecting Posts IDs via the `posts_pre_query` filter that gets fetched later to return the actual Posts. In the same fashion, you can integrate Sophi results with your `WP_Query` object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
+There are two potential ways to integrate Sophi Site Automation results with your WordPress site. The default approach includes a Sophi Site Automation block that integrates with `get_posts` by injecting Posts IDs via the `posts_pre_query` filter that gets fetched later to return the actual Posts. In the same fashion, you can integrate Sophi results with your `WP_Query` object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
 
 More details on each of these two options are described below.  If you are not certain on the best integration approach, considering the following:
 
@@ -143,6 +143,8 @@ WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugi
 = Object caching =
 
 Object caching is encouraged, as the plugin saves Sophi data as a transient.  If you do not have object caching, then the data will be saved as a transient in the options table but note that these will eventually expire.
+
+The default caching period is five minutes. This can be modified with the `sophi_cache_duration` hook.
 
 == Documentation ==
 
