@@ -104,7 +104,7 @@ class Request {
 					'post_type'              => 'sophi-response',
 					'posts_per_page'         => 1,
 					'fields'                 => 'ids',
-					'post_status'            => 'draft',
+					'post_status'            => 'any',
 					'no_found_rows'          => true,
 					'update_post_term_cache' => false
 				]

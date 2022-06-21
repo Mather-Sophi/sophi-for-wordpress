@@ -61,7 +61,7 @@ function render_block_callback( $attributes, $content, $block ) {
 			[
 				'post_name__in'          => [ "sophi-site-automation-data-{$page_name}-{$widget_name}" ],
 				'post_type'              => 'sophi-response',
-				'post_status'            => 'draft',
+				'post_status'            => 'any',
 				'posts_per_page'         => 1,
 				'fields'                 => 'ids',
 				'no_found_rows'          => true,
