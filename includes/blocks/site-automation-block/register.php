@@ -61,6 +61,7 @@ function render_block_callback( $attributes, $content, $block ) {
 			[
 				'post_name__in'          => [ "sophi-site-automation-data-{$page_name}-{$widget_name}" ],
 				'post_type'              => 'sophi-response',
+				'post_status'            => 'draft',
 				'posts_per_page'         => 1,
 				'fields'                 => 'ids',
 				'no_found_rows'          => true,
@@ -68,11 +69,11 @@ function render_block_callback( $attributes, $content, $block ) {
 			]
 		);
 
-		if ( $sophi_cached_response->found_posts ) {
+		if ( $sophi_cached_response->have_posts() ) {
 			$last_update = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_last_updated', true );
 
 			if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
-				$curated_posts = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_data' );
+				$curated_posts = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_data', true );
 			}
 		}
 	}

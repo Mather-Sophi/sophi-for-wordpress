@@ -104,12 +104,13 @@ class Request {
 					'post_type'              => 'sophi-response',
 					'posts_per_page'         => 1,
 					'fields'                 => 'ids',
+					'post_status'            => 'draft',
 					'no_found_rows'          => true,
 					'update_post_term_cache' => false
 				]
 			);
 
-			if ( $query->found_posts ) {
+			if ( $query->have_posts() ) {
 				$post_id = $query->posts[0];
 				$last_update = get_post_meta( $post_id, 'sophi_site_automation_last_updated', true );
 
