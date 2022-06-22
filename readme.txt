@@ -109,6 +109,8 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 
 == Caveats ==
 
+=== WordPress VIP and `WP_Query` ===
+
 While the above query integration works just fine, it has been observed on [WordPress VIP](https://wpvip.com/) infrastructure that `WP_Query` may return latest posts instead of the posts curated by Sophi due to the [Advanced Post Cache](https://github.com/Automattic/advanced-post-cache) plugin used by the VIP platform. A workaround for this is to use [`get_posts()`](https://developer.wordpress.org/reference/functions/get_posts/) instead and as good practice to add a comment explaining the usage of it so that developers new to it don't swap it for `WP_Query`. Also remember to whitelist `get_posts` by adding the following inline comment so that PHPCS doesn't throw a warning:
 
 `phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts`
@@ -145,6 +147,10 @@ WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugi
 Object caching is encouraged, as the plugin saves Sophi data as a transient.  If you do not have object caching, then the data will be saved as a transient in the options table but note that these will eventually expire.
 
 The default caching period is five minutes. This can be modified with the `sophi_cache_duration` hook.
+
+= Sophi API empty response =
+
+If the Sophi API returns an empty Post ID array, the plugin will result in a "no results" response.  The `found_posts` filter can be used to modify the Sophi API response to allow manual posts to be injected into the response (e.g., via a fallback method to inject posts that would be a good fit).
 
 == Documentation ==
 
