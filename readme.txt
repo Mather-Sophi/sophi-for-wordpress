@@ -243,7 +243,8 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 = 1.0.9 - 2022-02-18 =
 * **Added:** `hostname` and `path` fields to schema (props [@Rahmon](https://github.com/Rahmon), [@dinhtungdu](https://github.com/dinhtungdu)).
-* **Fixed:** Return empty post list from Sophi response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
+* **Added:** - `found_posts` filter to modify the Sophi API response to allow manual posts inject posts (e.g., via a fallback method to inject posts that would be a good fit) (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
+* **Fixed:** Sophi API empty Post ID array response changed using from `WP_Query` default results to a "no results" response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
 * **Security:** Update dependency `phpunit/phpunit` from 8.5.21 to 8.5.23 (props [@renovate](https://github.com/apps/renovate)).
 * **Security:** Update dependency `prop-types` from 15.8.0 to 15.8.1 (props [@renovate](https://github.com/apps/renovate)).
 * **Security:** Update dependency `10up-toolkit` from `1.0.13` to `2.1.1` (props [@renovate](https://github.com/apps/renovate), [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul)).
