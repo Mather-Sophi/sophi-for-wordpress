@@ -109,6 +109,8 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 
 == Caveats ==
 
+=== WordPress VIP and `WP_Query` ===
+
 While the above query integration works just fine, it has been observed on [WordPress VIP](https://wpvip.com/) infrastructure that `WP_Query` may return latest posts instead of the posts curated by Sophi due to the [Advanced Post Cache](https://github.com/Automattic/advanced-post-cache) plugin used by the VIP platform. A workaround for this is to use [`get_posts()`](https://developer.wordpress.org/reference/functions/get_posts/) instead and as good practice to add a comment explaining the usage of it so that developers new to it don't swap it for `WP_Query`. Also remember to whitelist `get_posts` by adding the following inline comment so that PHPCS doesn't throw a warning:
 
 `phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts`
@@ -145,6 +147,10 @@ WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugi
 Object caching is encouraged, as the plugin saves Sophi data as a transient.  If you do not have object caching, then the data will be saved as a transient in the options table but note that these will eventually expire.
 
 The default caching period is five minutes. This can be modified with the `sophi_cache_duration` hook.
+
+= Sophi API empty response =
+
+If the Sophi API returns an empty Post ID array, the plugin will result in a "no results" response.  The `sophi_curated_post_list` filter can be used to modify the Sophi API response to allow manual posts to be injected into the final array previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit).
 
 == Documentation ==
 
@@ -243,7 +249,8 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 = 1.0.9 - 2022-02-18 =
 * **Added:** `hostname` and `path` fields to schema (props [@Rahmon](https://github.com/Rahmon), [@dinhtungdu](https://github.com/dinhtungdu)).
-* **Fixed:** Return empty post list from Sophi response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
+* **Added:** - `sophi_curated_post_list` filter to modify the Sophi API response to allow manual posts to be injected previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit) (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
+* **Fixed:** Sophi API empty Post ID array response changed from using `WP_Query` default results to a "no results" response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
 * **Security:** Update dependency `phpunit/phpunit` from 8.5.21 to 8.5.23 (props [@renovate](https://github.com/apps/renovate)).
 * **Security:** Update dependency `prop-types` from 15.8.0 to 15.8.1 (props [@renovate](https://github.com/apps/renovate)).
 * **Security:** Update dependency `10up-toolkit` from `1.0.13` to `2.1.1` (props [@renovate](https://github.com/apps/renovate), [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul)).
