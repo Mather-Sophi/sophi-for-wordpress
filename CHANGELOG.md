@@ -98,7 +98,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 ## [1.0.9] - 2022-02-18
 ### Added
 - `hostname` and `path` fields to schema (props [@Rahmon](https://github.com/Rahmon), [@dinhtungdu](https://github.com/dinhtungdu) via [#164](https://github.com/globeandmail/sophi-for-wordpress/pull/164)).
-- `found_posts` filter to modify the Sophi API response to allow manual posts to be injected into the response (e.g., via a fallback method to inject posts that would be a good fit) (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia) via [#183](https://github.com/globeandmail/sophi-for-wordpress/pull/183)).
+- `sophi_curated_post_list` filter to modify the Sophi API response to allow manual posts to be injected previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit) (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia) via [#183](https://github.com/globeandmail/sophi-for-wordpress/pull/183)).
 
 ### Fixed
 - Sophi API empty Post ID array response changed from using `WP_Query` default results to a "no results" response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia) via [#183](https://github.com/globeandmail/sophi-for-wordpress/pull/183)).

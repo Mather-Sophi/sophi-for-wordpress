@@ -167,7 +167,7 @@ The default caching period is five minutes. This can be modified with the `sophi
 
 ### Sophi API empty response
 
-If the Sophi API returns an empty Post ID array, the plugin will result in a "no results" response.  The `found_posts` filter can be used to modify the Sophi API response to allow manual posts to be injected into the response (e.g., via a fallback method to inject posts that would be a good fit).
+If the Sophi API returns an empty Post ID array, the plugin will result in a "no results" response.  The `sophi_curated_post_list` filter can be used to modify the Sophi API response to allow manual posts to be injected into the final array previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit).
 
 ## Documentation
 
