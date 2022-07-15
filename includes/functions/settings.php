@@ -7,7 +7,6 @@
 
 namespace SophiWP\Settings;
 
-use SophiWP\SiteAutomation\Auth;
 use function SophiWP\Utils\get_domain;
 use function SophiWP\Utils\is_configured;
 
@@ -156,24 +155,24 @@ function fields_setup() {
 	);
 
 	add_settings_field(
-		'client_id',
-		__( 'Client ID', 'sophi-wp' ),
+		'host',
+		__( 'Host', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
 		[
-			'label_for' => 'client_id',
+			'label_for' => 'host',
 		]
 	);
 
 	add_settings_field(
-		'client_secret',
-		__( 'Client Secret', 'sophi-wp' ),
+		'tenant_id',
+		__( 'Tenant ID', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
 		'sophi_api',
 		[
-			'label_for' => 'client_secret',
+			'label_for' => 'tenant_id',
 		]
 	);
 
@@ -232,8 +231,6 @@ function get_default_settings( $key = '' ) {
 		'environment'         => $default_environment,
 		'collector_url'       => 'collector.sophi.io',
 		'tracker_client_id'   => get_domain(),
-		'client_id'           => '',
-		'client_secret'       => '',
 		'site_automation_url' => '',
 		'query_integration'   => 1,
 	];
@@ -260,30 +257,6 @@ function sanitize_settings( $settings ) {
 	}
 
 	$prev_settings = get_option( SETTINGS_GROUP );
-
-	// Delete the option that holds the access token when the environment is changed
-	if ( ! empty( $prev_settings['environment'] ) && ! empty( $settings['environment'] ) && $prev_settings['environment'] !== $settings['environment'] ) {
-		delete_option( 'sophi_site_automation_access_token' );
-	}
-
-	if ( ! empty( $settings['client_id'] && ! empty( $settings['client_secret'] ) ) ) {
-		$auth = new Auth();
-		$auth->set_environment( $settings['environment'] );
-		$response = $auth->request_access_token( $settings['client_id'], $settings['client_secret'] );
-		if ( is_wp_error( $response ) ) {
-			add_settings_error(
-				SETTINGS_GROUP,
-				SETTINGS_GROUP,
-				$response->get_error_message()
-			);
-		}
-	} else {
-		add_settings_error(
-			SETTINGS_GROUP,
-			SETTINGS_GROUP,
-			__( 'Both Client ID and Client Secret are required for Site Automation integration.', 'sophi-wp' )
-		);
-	}
 
 	if ( empty( $settings['site_automation_url']) ) {
 		add_settings_error(
