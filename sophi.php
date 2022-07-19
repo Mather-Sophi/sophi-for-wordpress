@@ -94,6 +94,49 @@ add_action(
 );
 
 /**
+ * Method to cleanup settings before setting the new version.
+ *
+ * @param string $plugin Full path to the plugin's main file.
+ */
+function sophi_remove_stale_data( $plugin ) {
+	/** Return if the plugin is not Sophi. */
+	if ( 'sophi.php' !== basename( $plugin ) ) {
+		return;
+	}
+
+	$version_key     = 'sophi_version';
+	$current_version = get_transient( $version_key );
+
+	if ( false === $current_version ) {
+		$current_version = get_option( $version_key, false );
+
+		if ( false !== $current_version ) {
+			set_transient( $version_key, $current_version );
+		}
+	}
+
+	if ( SOPHI_WP_VERSION === $current_version ) {
+		return;
+	}
+
+	if ( false === $current_version || version_compare( $current_version, SOPHI_WP_VERSION, '<' ) ) {
+
+		/** Cleanup logic before setting the new version of the plugin. */
+		delete_option( 'sophi_site_automation_access_token' );
+
+		$sophi_settings = get_option( 'sophi_settings' );
+		unset( $sophi_settings['client_id'] );
+		unset( $sophi_settings['client_secret'] );
+
+		update_option( 'sophi_settings', $sophi_settings );
+		update_option( $version_key, SOPHI_WP_VERSION, true );
+		set_transient( $version_key, SOPHI_WP_VERSION );
+	}
+}
+
+add_action( 'plugin_loaded', 'sophi_remove_stale_data' );
+
+/**
  * Sophi HTTPS notice.
  */
 function sophi_https_notice() {
