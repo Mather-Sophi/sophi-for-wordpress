@@ -256,8 +256,6 @@ function sanitize_settings( $settings ) {
 		$settings['query_integration'] = 0;
 	}
 
-	$prev_settings = get_option( SETTINGS_GROUP );
-
 	if ( empty( $settings['site_automation_url']) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
