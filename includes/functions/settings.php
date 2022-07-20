@@ -231,6 +231,8 @@ function get_default_settings( $key = '' ) {
 		'environment'         => $default_environment,
 		'collector_url'       => 'collector.sophi.io',
 		'tracker_client_id'   => get_domain(),
+		'host'                => '',
+		'tenant_id'           => '',
 		'site_automation_url' => '',
 		'query_integration'   => 1,
 	];
@@ -281,6 +283,14 @@ function sanitize_settings( $settings ) {
 		$url = str_replace( 'https://', '', $url );
 
 		$settings['collector_url'] = $url;
+	}
+
+	if ( empty( $settings['host'] ) || empty( $settings['tenant_id'] ) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Both Host and Tenant ID are required for Site Automation integration.', 'sophi-wp' )
+		);
 	}
 
 	return $settings;
