@@ -293,6 +293,14 @@ function sanitize_settings( $settings ) {
 		);
 	}
 
+	if ( isset( $settings['client_id'] ) ) {
+		unset( $settings['client_id'] );
+	}
+
+	if ( isset( $settings['client_secret'] ) ) {
+		unset( $settings['client_secret'] );
+	}
+
 	return $settings;
 }
 
