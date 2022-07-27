@@ -15,13 +15,6 @@ use function SophiWP\Settings\get_sophi_settings;
 class Request {
 
 	/**
-	 * Auth object which manages access_token.
-	 *
-	 * @var Auth $auth
-	 */
-	private $auth;
-
-	/**
 	 * Site Automation API URL.
 	 *
 	 * @var string $api_url
@@ -52,11 +45,8 @@ class Request {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Auth $auth Authentication object.
 	 */
-	public function __construct( $auth ) {
-		$this->auth    = $auth;
-
+	public function __construct() {
 		add_action(
 			'sophi_retry_get_curated_data',
 			[ $this, 'do_cron' ],
@@ -213,16 +203,11 @@ class Request {
 	 * @return mixed WP_Error on failure or body request on success.
 	 */
 	private function request( $timeout ) {
-		$access_token = $this->auth->get_access_token();
-
-		if ( is_wp_error( $access_token ) ) {
-			return $access_token;
-		}
 
 		$args = [
 			'headers' => [
 				'Content-Type'  => 'application/json',
-				'Authorization' => 'Bearer ' . $access_token,
+				'Cache-Control' => 'no-cache',
 			],
 		];
 
@@ -309,13 +294,29 @@ class Request {
 	 *
 	 * @return string
 	 */
-	private function set_api_url( $page, $widget ) {
+	private function set_api_url( $page = '', $widget = '' ) {
 		$site_automation_url = get_sophi_settings( 'site_automation_url' );
 		$site_automation_url = untrailingslashit( $site_automation_url );
+		$host                = get_sophi_settings( 'host' );
+		$tenant_id           = get_sophi_settings( 'tenant_id' );
 
-		$host = wp_parse_url( get_home_url(), PHP_URL_HOST );
+		$url = sprintf(
+			'%1$s/%2$s/hosts/%3$s/pages/%4$s',
+			$site_automation_url,
+			$tenant_id,
+			$host,
+			$page
+		);
 
-		return sprintf( '%1$s/curatedHosts/%2$s/curator?page=%3$s&widget=%4$s', $site_automation_url, $host, $page, $widget );
+		if ( ! empty ( $widget ) ) {
+			$url = sprintf(
+				'%1$s/widgets/%2$s',
+				$url,
+				$widget
+			);
+		}
+
+		return $url . '.json';
 	}
 
 	/**
