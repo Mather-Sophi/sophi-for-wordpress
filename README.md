@@ -171,7 +171,7 @@ If the Sophi API returns an empty Post ID array, the plugin will result in a "no
 
 ## Documentation
 
-Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
+Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin, as well as some helpful tutorials on how to use those hooks. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
 ## Debugging
 
