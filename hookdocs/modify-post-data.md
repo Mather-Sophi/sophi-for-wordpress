@@ -4,7 +4,7 @@ The data about each supported post item is passed through a custom filter ([`sop
 
 A few things to note:
 
-1. Where you add this code will depend on your individual setup. Often it makes sense to drop these in your main `functions.php` file
+1. Where you add this code will depend on your individual setup. If you are using a custom theme, you can add these to your main `functions.php` file. If you're using a public theme, you might want to create a custom plugin to hold these code changes, so you don't lose those changes when you update your theme
 2. If data is changed or added, you may need to coordinate with the Sophi.io team to ensure content is appropriately received
 3. Data that is changed needs to stay the same type as it is currently. For instance, if something is currently an array, it should stay an array
 
