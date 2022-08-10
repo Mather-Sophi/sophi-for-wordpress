@@ -4,6 +4,7 @@
 /.wordpress-org
 /assets
 /config
+/hookdocs
 /node_modules
 /tests
 # DO NOT EXCLUDE /vendor

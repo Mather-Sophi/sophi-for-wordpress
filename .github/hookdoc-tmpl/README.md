@@ -1,6 +1,6 @@
 # Welcome to the Sophi for WordPress Plugin Developer Documentation
 
-This resource is generated documentation on actions and filters found in the Sophi for WordPress plugin. Use the sidebar to browse and navigate.
+This resource is generated documentation on actions and filters found in the Sophi for WordPress plugin, as well as some helpful tutorials on how to utilize those hooks. Use the sidebar to browse and navigate.
 
 If you're looking to contribute to or extend the Sophi for WordPress plugin, then the following sub-sections are things to be aware of in terms of how the plugin is architected.
 
