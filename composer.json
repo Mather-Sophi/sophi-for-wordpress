@@ -30,7 +30,8 @@
     "phpunit/phpunit": "8.5.27",
     "10up/wp_mock": "dev-master",
     "automattic/vipwpcs": "2.3.3",
-    "dealerdirect/phpcodesniffer-composer-installer": "0.7.2"
+    "dealerdirect/phpcodesniffer-composer-installer": "0.7.2",
+    "10up/phpcs-composer": "dev-master"
   },
   "autoload": {
     "psr-4": {
