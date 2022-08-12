@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Curator, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      6.0
-Stable tag:        1.1.3
+Stable tag:        1.2.0
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
