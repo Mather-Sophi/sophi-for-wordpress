@@ -186,10 +186,22 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.2.0 - 2022-08-15 =
+* **Added:** New Curator API (props [@Sidsector9](https://github.com/Sidsector9), [@dinhtungdu](https://github.com/dinhtungdu) via [#310](https://github.com/globeandmail/sophi-for-wordpress/pull/310).
+* **Added:** Documentation on default handling of Sophi API empty array response (props [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez) via [#307](https://github.com/globeandmail/sophi-for-wordpress/pull/307).
+* **Added:** New tutorial sections added to the documentation site (props [@dkotter](https://github.com/dkotter), [@YMufleh](https://github.com/YMufleh) via [#318](https://github.com/globeandmail/sophi-for-wordpress/pull/318).
+* **Changed:** Instead of storing responses from Sophi in an option, store that in a new CPT, `sophi-response` (props [@oscarssanchez](https://github.com/oscarssanchez), [@cadic](https://github.com/cadic), [@felipeelia](https://github.com/felipeelia) via [#298](https://github.com/globeandmail/sophi-for-wordpress/pull/298).
+* **Changed:** Replaces `WP_Query` with `get_posts` in details about the Sophi Automation block (props [@Sidsector9](https://github.com/Sidsector9), [@jeffpaul](https://github.com/jeffpaul) via [#300](https://github.com/globeandmail/sophi-for-wordpress/pull/300).
+* **Removed:** Dependency on Auth0 and replaced with the new Curator API (props [@Sidsector9](https://github.com/Sidsector9), [@dinhtungdu](https://github.com/dinhtungdu) via [#310](https://github.com/globeandmail/sophi-for-wordpress/pull/310).
+* **Fixed:** Ensure we are properly getting cached responses (props [@oscarssanchez](https://github.com/oscarssanchez), [@Sidsector9](https://github.com/Sidsector9), [@felipeelia](https://github.com/felipeelia) via [#305](https://github.com/globeandmail/sophi-for-wordpress/pull/305).
+* **Security:** Added PHP compatibility checker (props [@Sidsector9](https://github.com/Sidsector9), [@dkotter](https://github.com/dkotter) via [#317](https://github.com/globeandmail/sophi-for-wordpress/pull/317).
+* **Security:** Update dependency `10up-toolkit` from v4.0.0 to v4.1.2 (props [@renovate](https://github.com/apps/renovate), [@Sidsector9](https://github.com/Sidsector9) via [#299](https://github.com/globeandmail/sophi-for-wordpress/pull/299), [#303](https://github.com/globeandmail/sophi-for-wordpress/pull/303).
+* **Security:** Update dependency `phpunit/phpunit` from v8.5.26 to v8.5.27 (props [@renovate](https://github.com/apps/renovate) via [#304](https://github.com/globeandmail/sophi-for-wordpress/pull/304).
+
 = 1.1.3 - 2022-05-27 =
-* **Added: WordPress and Sophi plugin versions to Javascript and AMP Tracking (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@YMufleh](https://github.com/YMufleh) via [#287](https://github.com/globeandmail/sophi-for-wordpress/pull/287)).
-* **Added: Documentation for `sophi_cache_duration` filter (props [@Sidsector9](https://github.com/Sidsector9), [@barryceelen](https://github.com/barryceelen), [@jeffpaul](https://github.com/jeffpaul) via [#285](https://github.com/globeandmail/sophi-for-wordpress/pull/285)).
-* **Added: Unit tests (props [@cadic](https://github.com/cadic) via [#291](https://github.com/globeandmail/sophi-for-wordpress/pull/291)).
+* **Added:** WordPress and Sophi plugin versions to Javascript and AMP Tracking (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@YMufleh](https://github.com/YMufleh) via [#287](https://github.com/globeandmail/sophi-for-wordpress/pull/287)).
+* **Added:** Documentation for `sophi_cache_duration` filter (props [@Sidsector9](https://github.com/Sidsector9), [@barryceelen](https://github.com/barryceelen), [@jeffpaul](https://github.com/jeffpaul) via [#285](https://github.com/globeandmail/sophi-for-wordpress/pull/285)).
+* **Added:** Unit tests (props [@cadic](https://github.com/cadic) via [#291](https://github.com/globeandmail/sophi-for-wordpress/pull/291)).
 * **Changed:** Reverted response saving back to options table from post meta field (props [@oscarssanchez](https://github.com/oscarssanchez) via [#280](https://github.com/globeandmail/sophi-for-wordpress/pull/280)).
 * **Changed:** Replace deprecated `block_categories` filter with `block_categories_all` (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic), [@jeffpaul](https://github.com/jeffpaul) via [#292](https://github.com/globeandmail/sophi-for-wordpress/pull/292)).
 * **Changed:** Bump WordPress "tested up to" version 6.0 (props [@Sidsector9](https://github.com/Sidsector9), [@jeffpaul](https://github.com/jeffpaul) via [#293](https://github.com/globeandmail/sophi-for-wordpress/pull/293)).
