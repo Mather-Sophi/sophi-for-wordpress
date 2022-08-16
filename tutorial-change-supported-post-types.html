@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Change Supported Post Types - Sophi Plugin Developer Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:300,400|Playfair+Display:900&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles-10up.css">
+</head>
+
+<body>
+
+<div id="main">
+
+	
+    <h1 class="page-title">Tutorial: Change Supported Post Types</h1>
+	
+
+    <section>
+
+<header>
+    
+
+    <h2>Change Supported Post Types</h2>
+</header>
+
+<article>
+    <p>By default, the Sophi for WordPress plugin only adds support for the standard <code>post</code> and <code>page</code> post types. This value is passed through a custom filter (<a href="sophi_supported_post_types.html"><code>sophi_supported_post_types</code></a>), which allows you to customize those values. See below for a few examples of how to utilize this filter.</p>
+<p>A few things to note:</p>
+<ol>
+<li>Where you add this code will depend on your individual setup. If you are using a custom theme, you can add these to your main <code>functions.php</code> file. If you're using a public theme, you might want to create a custom plugin to hold these code changes, so you don't lose those changes when you update your theme</li>
+<li>The examples here are set up to support any other code that may be using the same filters. If you're sure that's not the case, the code can be simplified as needed</li>
+</ol>
+<h3 id="remove-a-default-post-type">Remove a default post type</h3>
+<p>The <code>post</code> and <code>page</code> post types are supported by default. If you want to remove the <code>page</code> post type, for instance, you can do the following:</p>
+<pre class="prettyprint source lang-php"><code>/**
+ * Change the post types Sophi supports.
+ *
+ * Remove the `page` post type from being supported.
+ *
+ * @param array $post_types Default supported post types.
+ * @return array
+ */
+function custom_prefix_sophi_supported_post_types( $post_types = [] ) {
+	$post_types_to_remove = [ 'page' ];
+	return array_diff( $post_types, $post_types_to_remove );
+}
+add_filter( 'sophi_supported_post_types', 'custom_prefix_sophi_supported_post_types' );
+</code></pre>
+<h3 id="add-a-new-post-type-to-the-default-list">Add a new post type to the default list</h3>
+<p>If you have a custom post type that you want to support, along with the <code>post</code> and <code>page</code> post types, you can do the following:</p>
+<pre class="prettyprint source lang-php"><code>/**
+ * Change the post types Sophi supports.
+ *
+ * Add our custom `video` post type while still
+ * supporting the default post types.
+ *
+ * @param array $post_types Default supported post types.
+ * @return array
+ */
+function custom_prefix_sophi_supported_post_types( $post_types = [] ) {
+	$post_types_to_add = [ 'video' ];
+	return array_merge( $post_types, $post_types_to_add );
+}
+add_filter( 'sophi_supported_post_types', 'custom_prefix_sophi_supported_post_types' );
+</code></pre>
+<h3 id="replace-default-post-types-with-custom-ones">Replace default post types with custom ones</h3>
+<p>If you only want to support custom post types and not the defaults, you can do the following:</p>
+<pre class="prettyprint source lang-php"><code>/**
+ * Change the post types Sophi supports.
+ *
+ * Remove the `post` and `page` post types
+ * and add our custom video and gallery post types.
+ *
+ * @param array $post_types Default supported post types.
+ * @return array
+ */
+function custom_prefix_sophi_supported_post_types( $post_types = [] ) {
+	$post_types_to_remove = [ 'post', 'page' ];
+	$post_types_to_add    = [ 'video', 'gallery' ];
+	return array_merge(
+		array_diff( $post_types, $post_types_to_remove ),
+		$post_types_to_add
+	);
+}
+add_filter( 'sophi_supported_post_types', 'custom_prefix_sophi_supported_post_types' );
+</code></pre>
+</article>
+
+</section>
+
+
+    <footer>
+		<a href="https://sophi.io/">Sophi.io</a> &bull;
+		<a href="https://github.com/globeandmail/sophi-for-wordpress/">Sophi for WordPress on GitHub</a> &bull;
+    <a href="https://wordpress.org/plugins/sophi/">Sophi on WordPress.org</a> &bull;
+		<a href="https://www.sophi.io/careers/">Careers at Sophi</a>
+	</footer>
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="sophi_cms_tracking_result.html">sophi_cms_tracking_result</a></li><li><a href="sophi_init.html">sophi_init</a></li><li><a href="sophi_loaded.html">sophi_loaded</a></li></ul><h3>Filters</h3><ul><li><a href="sophi_amp_tracking_data.html">sophi_amp_tracking_data</a></li><li><a href="sophi_available.html">sophi_available</a></li><li><a href="sophi_bypass_curated_posts_cache.html">sophi_bypass_curated_posts_cache</a></li><li><a href="sophi_bypass_get_cache.html">sophi_bypass_get_cache</a></li><li><a href="sophi_cache_duration.html">sophi_cache_duration</a></li><li><a href="sophi_cli_per_page_limit.html">sophi_cli_per_page_limit</a></li><li><a href="sophi_cms_tracking_request_data.html">sophi_cms_tracking_request_data</a></li><li><a href="sophi_curated_post_list.html">sophi_curated_post_list</a></li><li><a href="sophi_hierarchial_taxonomy_for_breadcrumb.html">sophi_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_non_hierarchial_taxonomy_for_breadcrumb.html">sophi_non_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_page_need_tracking.html">sophi_page_need_tracking</a></li><li><a href="sophi_post_content_type.html">sophi_post_content_type</a></li><li><a href="sophi_post_data.html">sophi_post_data</a></li><li><a href="sophi_request_args.html">sophi_request_args</a></li><li><a href="sophi_request_result.html">sophi_request_result</a></li><li><a href="sophi_site_automation_block_output.html">sophi_site_automation_block_output</a></li><li><a href="sophi_supported_post_types.html">sophi_supported_post_types</a></li><li><a href="sophi_tracker_emitter_debug.html">sophi_tracker_emitter_debug</a></li><li><a href="sophi_tracking_data.html">sophi_tracking_data</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-change-supported-post-types.html">Change Supported Post Types</a></li><li><a href="tutorial-modify-post-data.html">Modify Post Data</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
