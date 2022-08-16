@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.2.0] - 2022-08-15
+### Added
+- New Curator API (props [@Sidsector9](https://github.com/Sidsector9), [@dinhtungdu](https://github.com/dinhtungdu) via [#310](https://github.com/globeandmail/sophi-for-wordpress/pull/310).
+- Documentation on default handling of Sophi API empty array response (props [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez) via [#307](https://github.com/globeandmail/sophi-for-wordpress/pull/307).
+- New tutorial sections added to the documentation site (props [@dkotter](https://github.com/dkotter), [@YMufleh](https://github.com/YMufleh) via [#318](https://github.com/globeandmail/sophi-for-wordpress/pull/318).
+
+### Changed
+- Instead of storing responses from Sophi in an option, store that in a new CPT, `sophi-response` (props [@oscarssanchez](https://github.com/oscarssanchez), [@cadic](https://github.com/cadic), [@felipeelia](https://github.com/felipeelia) via [#298](https://github.com/globeandmail/sophi-for-wordpress/pull/298).
+- Replaces `WP_Query` with `get_posts` in details about the Sophi Automation block (props [@Sidsector9](https://github.com/Sidsector9), [@jeffpaul](https://github.com/jeffpaul) via [#300](https://github.com/globeandmail/sophi-for-wordpress/pull/300).
+
+### Removed
+- Dependency on Auth0 and replaced with the new Curator API (props [@Sidsector9](https://github.com/Sidsector9), [@dinhtungdu](https://github.com/dinhtungdu) via [#310](https://github.com/globeandmail/sophi-for-wordpress/pull/310).
+
+### Fixed
+- Ensure we are properly getting cached responses (props [@oscarssanchez](https://github.com/oscarssanchez), [@Sidsector9](https://github.com/Sidsector9), [@felipeelia](https://github.com/felipeelia) via [#305](https://github.com/globeandmail/sophi-for-wordpress/pull/305).
+
+### Security
+- Added PHP compatibility checker (props [@Sidsector9](https://github.com/Sidsector9), [@dkotter](https://github.com/dkotter) via [#317](https://github.com/globeandmail/sophi-for-wordpress/pull/317).
+- Update dependency `10up-toolkit` from v4.0.0 to v4.1.2 (props [@renovate](https://github.com/apps/renovate), [@Sidsector9](https://github.com/Sidsector9) via [#299](https://github.com/globeandmail/sophi-for-wordpress/pull/299), [#303](https://github.com/globeandmail/sophi-for-wordpress/pull/303).
+- Update dependency `phpunit/phpunit` from v8.5.26 to v8.5.27 (props [@renovate](https://github.com/apps/renovate) via [#304](https://github.com/globeandmail/sophi-for-wordpress/pull/304).
+
 ## [1.1.3] - 2022-05-27
 ### Added
 - WordPress and Sophi plugin versions to Javascript and AMP Tracking (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@YMufleh](https://github.com/YMufleh) via [#287](https://github.com/globeandmail/sophi-for-wordpress/pull/287)).
@@ -98,9 +119,10 @@ All notable changes to this project will be documented in this file, per [the Ke
 ## [1.0.9] - 2022-02-18
 ### Added
 - `hostname` and `path` fields to schema (props [@Rahmon](https://github.com/Rahmon), [@dinhtungdu](https://github.com/dinhtungdu) via [#164](https://github.com/globeandmail/sophi-for-wordpress/pull/164)).
+- `sophi_curated_post_list` filter to modify the Sophi API response to allow manual posts to be injected previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit) (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia) via [#183](https://github.com/globeandmail/sophi-for-wordpress/pull/183)).
 
 ### Fixed
-- Return empty post list from Sophi response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia) via [#183](https://github.com/globeandmail/sophi-for-wordpress/pull/183)).
+- Sophi API empty Post ID array response changed from using `WP_Query` default results to a "no results" response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia) via [#183](https://github.com/globeandmail/sophi-for-wordpress/pull/183)).
 
 ### Security
 - Update dependency `phpunit/phpunit` from 8.5.21 to 8.5.23 (props [@renovate](https://github.com/apps/renovate) via [#160](https://github.com/globeandmail/sophi-for-wordpress/pull/160)).
@@ -209,6 +231,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.2.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.3...1.2.0
 [1.1.3]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.0...1.1.1

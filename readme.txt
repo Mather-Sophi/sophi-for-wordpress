@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Curator, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      6.0
-Stable tag:        1.1.3
+Stable tag:        1.2.0
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,7 +50,7 @@ Once your credentials are validated and saved, your site is officially superchar
 
 == Usage ==
 
-There are two potential ways to integrate Sophi Site Automation results with your WordPress site. The default approach includes a Sophi Site Automation block that integrates with `WP_Query` by injecting Posts IDs via the `posts_pre_query` filter that gets fetched later to return the actual Posts. In the same fashion, you can integrate Sophi results with your `WP_Query` object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
+There are two potential ways to integrate Sophi Site Automation results with your WordPress site. The default approach includes a Sophi Site Automation block that integrates with `get_posts` by injecting Posts IDs via the `posts_pre_query` filter that gets fetched later to return the actual Posts. In the same fashion, you can integrate Sophi results with your `WP_Query` object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
 
 More details on each of these two options are described below.  If you are not certain on the best integration approach, considering the following:
 
@@ -109,6 +109,8 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 
 == Caveats ==
 
+=== WordPress VIP and `WP_Query` ===
+
 While the above query integration works just fine, it has been observed on [WordPress VIP](https://wpvip.com/) infrastructure that `WP_Query` may return latest posts instead of the posts curated by Sophi due to the [Advanced Post Cache](https://github.com/Automattic/advanced-post-cache) plugin used by the VIP platform. A workaround for this is to use [`get_posts()`](https://developer.wordpress.org/reference/functions/get_posts/) instead and as good practice to add a comment explaining the usage of it so that developers new to it don't swap it for `WP_Query`. Also remember to whitelist `get_posts` by adding the following inline comment so that PHPCS doesn't throw a warning:
 
 `phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts`
@@ -144,6 +146,12 @@ WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugi
 
 Object caching is encouraged, as the plugin saves Sophi data as a transient.  If you do not have object caching, then the data will be saved as a transient in the options table but note that these will eventually expire.
 
+The default caching period is five minutes. This can be modified with the `sophi_cache_duration` hook.
+
+= Sophi API empty response =
+
+If the Sophi API returns an empty Post ID array, the plugin will result in a "no results" response.  The `sophi_curated_post_list` filter can be used to modify the Sophi API response to allow manual posts to be injected into the final array previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit).
+
 == Documentation ==
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
@@ -178,10 +186,22 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.2.0 - 2022-08-15 =
+* **Added:** New Curator API (props [@Sidsector9](https://github.com/Sidsector9), [@dinhtungdu](https://github.com/dinhtungdu) via [#310](https://github.com/globeandmail/sophi-for-wordpress/pull/310).
+* **Added:** Documentation on default handling of Sophi API empty array response (props [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez) via [#307](https://github.com/globeandmail/sophi-for-wordpress/pull/307).
+* **Added:** New tutorial sections added to the documentation site (props [@dkotter](https://github.com/dkotter), [@YMufleh](https://github.com/YMufleh) via [#318](https://github.com/globeandmail/sophi-for-wordpress/pull/318).
+* **Changed:** Instead of storing responses from Sophi in an option, store that in a new CPT, `sophi-response` (props [@oscarssanchez](https://github.com/oscarssanchez), [@cadic](https://github.com/cadic), [@felipeelia](https://github.com/felipeelia) via [#298](https://github.com/globeandmail/sophi-for-wordpress/pull/298).
+* **Changed:** Replaces `WP_Query` with `get_posts` in details about the Sophi Automation block (props [@Sidsector9](https://github.com/Sidsector9), [@jeffpaul](https://github.com/jeffpaul) via [#300](https://github.com/globeandmail/sophi-for-wordpress/pull/300).
+* **Removed:** Dependency on Auth0 and replaced with the new Curator API (props [@Sidsector9](https://github.com/Sidsector9), [@dinhtungdu](https://github.com/dinhtungdu) via [#310](https://github.com/globeandmail/sophi-for-wordpress/pull/310).
+* **Fixed:** Ensure we are properly getting cached responses (props [@oscarssanchez](https://github.com/oscarssanchez), [@Sidsector9](https://github.com/Sidsector9), [@felipeelia](https://github.com/felipeelia) via [#305](https://github.com/globeandmail/sophi-for-wordpress/pull/305).
+* **Security:** Added PHP compatibility checker (props [@Sidsector9](https://github.com/Sidsector9), [@dkotter](https://github.com/dkotter) via [#317](https://github.com/globeandmail/sophi-for-wordpress/pull/317).
+* **Security:** Update dependency `10up-toolkit` from v4.0.0 to v4.1.2 (props [@renovate](https://github.com/apps/renovate), [@Sidsector9](https://github.com/Sidsector9) via [#299](https://github.com/globeandmail/sophi-for-wordpress/pull/299), [#303](https://github.com/globeandmail/sophi-for-wordpress/pull/303).
+* **Security:** Update dependency `phpunit/phpunit` from v8.5.26 to v8.5.27 (props [@renovate](https://github.com/apps/renovate) via [#304](https://github.com/globeandmail/sophi-for-wordpress/pull/304).
+
 = 1.1.3 - 2022-05-27 =
-* **Added: WordPress and Sophi plugin versions to Javascript and AMP Tracking (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@YMufleh](https://github.com/YMufleh) via [#287](https://github.com/globeandmail/sophi-for-wordpress/pull/287)).
-* **Added: Documentation for `sophi_cache_duration` filter (props [@Sidsector9](https://github.com/Sidsector9), [@barryceelen](https://github.com/barryceelen), [@jeffpaul](https://github.com/jeffpaul) via [#285](https://github.com/globeandmail/sophi-for-wordpress/pull/285)).
-* **Added: Unit tests (props [@cadic](https://github.com/cadic) via [#291](https://github.com/globeandmail/sophi-for-wordpress/pull/291)).
+* **Added:** WordPress and Sophi plugin versions to Javascript and AMP Tracking (props [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul), [@YMufleh](https://github.com/YMufleh) via [#287](https://github.com/globeandmail/sophi-for-wordpress/pull/287)).
+* **Added:** Documentation for `sophi_cache_duration` filter (props [@Sidsector9](https://github.com/Sidsector9), [@barryceelen](https://github.com/barryceelen), [@jeffpaul](https://github.com/jeffpaul) via [#285](https://github.com/globeandmail/sophi-for-wordpress/pull/285)).
+* **Added:** Unit tests (props [@cadic](https://github.com/cadic) via [#291](https://github.com/globeandmail/sophi-for-wordpress/pull/291)).
 * **Changed:** Reverted response saving back to options table from post meta field (props [@oscarssanchez](https://github.com/oscarssanchez) via [#280](https://github.com/globeandmail/sophi-for-wordpress/pull/280)).
 * **Changed:** Replace deprecated `block_categories` filter with `block_categories_all` (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic), [@jeffpaul](https://github.com/jeffpaul) via [#292](https://github.com/globeandmail/sophi-for-wordpress/pull/292)).
 * **Changed:** Bump WordPress "tested up to" version 6.0 (props [@Sidsector9](https://github.com/Sidsector9), [@jeffpaul](https://github.com/jeffpaul) via [#293](https://github.com/globeandmail/sophi-for-wordpress/pull/293)).
@@ -241,7 +261,8 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 = 1.0.9 - 2022-02-18 =
 * **Added:** `hostname` and `path` fields to schema (props [@Rahmon](https://github.com/Rahmon), [@dinhtungdu](https://github.com/dinhtungdu)).
-* **Fixed:** Return empty post list from Sophi response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
+* **Added:** - `sophi_curated_post_list` filter to modify the Sophi API response to allow manual posts to be injected previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit) (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
+* **Fixed:** Sophi API empty Post ID array response changed from using `WP_Query` default results to a "no results" response (props [@oscarssanchez](https://github.com/oscarssanchez), [@barryceelen](https://github.com/barryceelen), [@felipeelia](https://github.com/felipeelia)).
 * **Security:** Update dependency `phpunit/phpunit` from 8.5.21 to 8.5.23 (props [@renovate](https://github.com/apps/renovate)).
 * **Security:** Update dependency `prop-types` from 15.8.0 to 15.8.1 (props [@renovate](https://github.com/apps/renovate)).
 * **Security:** Update dependency `10up-toolkit` from `1.0.13` to `2.1.1` (props [@renovate](https://github.com/apps/renovate), [@oscarssanchez](https://github.com/oscarssanchez), [@jeffpaul](https://github.com/jeffpaul)).

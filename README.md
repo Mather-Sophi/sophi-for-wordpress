@@ -67,7 +67,7 @@ Once your credentials are validated and saved, your site is officially superchar
 
 ## Usage
 
-There are two potential ways to integrate Sophi Site Automation results with your WordPress site. The default approach includes a Sophi Site Automation block that integrates with `WP_Query` by injecting Posts IDs via the `posts_pre_query` filter that gets fetched later to return the actual Posts. In the same fashion, you can integrate Sophi results with your `WP_Query` object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
+There are two potential ways to integrate Sophi Site Automation results with your WordPress site. The default approach includes a Sophi Site Automation block that integrates with `get_posts` by injecting Posts IDs via the `posts_pre_query` filter that gets fetched later to return the actual Posts. In the same fashion, you can integrate Sophi results with your `WP_Query` object by setting the `sophi_curated_page` and `sophi_curated_widget` query parameters.
 
 More details on each of these two options are described below.  If you are not certain on the best integration approach, considering the following:
 
@@ -126,6 +126,8 @@ Note that you need to add `data-sophi-feature=<widget_name>` to the wrapper div 
 
 #### Caveats
 
+##### WordPress VIP and `WP_Query`
+
 While the above query integration works just fine, it has been observed on [WordPress VIP](https://wpvip.com/) infrastructure that `WP_Query` may return latest posts instead of the posts curated by Sophi due to the [Advanced Post Cache](https://github.com/Automattic/advanced-post-cache) plugin used by the VIP platform. A workaround for this is to use [`get_posts()`](https://developer.wordpress.org/reference/functions/get_posts/) instead and as good practice to add a comment explaining the usage of it so that developers new to it don't swap it for `WP_Query`. Also remember to whitelist `get_posts` by adding the following inline comment so that PHPCS doesn't throw a warning:
 
 `phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts`
@@ -163,9 +165,13 @@ Object caching is encouraged, as the plugin saves Sophi data as a transient.  If
 
 The default caching period is five minutes. This can be modified with the `sophi_cache_duration` hook.
 
+### Sophi API empty response
+
+If the Sophi API returns an empty Post ID array, the plugin will result in a "no results" response.  The `sophi_curated_post_list` filter can be used to modify the Sophi API response to allow manual posts to be injected into the final array previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit).
+
 ## Documentation
 
-Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
+Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin, as well as some helpful tutorials on how to use those hooks. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
 ## Debugging
 

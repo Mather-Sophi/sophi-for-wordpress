@@ -15,13 +15,6 @@ use function SophiWP\Settings\get_sophi_settings;
 class Request {
 
 	/**
-	 * Auth object which manages access_token.
-	 *
-	 * @var Auth $auth
-	 */
-	private $auth;
-
-	/**
 	 * Site Automation API URL.
 	 *
 	 * @var string $api_url
@@ -52,11 +45,8 @@ class Request {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Auth $auth Authentication object.
 	 */
-	public function __construct( $auth ) {
-		$this->auth    = $auth;
-
+	public function __construct() {
 		add_action(
 			'sophi_retry_get_curated_data',
 			[ $this, 'do_cron' ],
@@ -81,6 +71,7 @@ class Request {
 
 		$this->status         = $this->get_status();
 		$site_automation_data = false;
+		$post_id = false;
 
 		/**
 		 * Whether to bypass caching.
@@ -97,7 +88,26 @@ class Request {
 		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
 		if ( ! $bypass_cache ) {
-			$site_automation_data = get_option( "sophi_site_automation_data_{$page}_{$widget}" );
+			$query = new \WP_Query(
+				[
+					'post_name__in'          => [ "sophi-site-automation-data-{$page}-{$widget}" ],
+					'post_type'              => 'sophi-response',
+					'posts_per_page'         => 1,
+					'fields'                 => 'ids',
+					'post_status'            => 'any',
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false
+				]
+			);
+
+			if ( $query->have_posts() ) {
+				$post_id = $query->posts[0];
+				$last_update = get_post_meta( $post_id, 'sophi_site_automation_last_updated', true );
+
+				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
+					$site_automation_data = get_post_meta( $post_id, 'sophi_site_automation_data', true );
+				}
+			}
 		}
 
 		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
@@ -125,7 +135,7 @@ class Request {
 		}
 
 		$this->set_status( [ 'success' => true ] );
-		return $this->process( $response, $bypass_cache );
+		return $this->process( $response, $bypass_cache, $post_id );
 	}
 
 	/**
@@ -193,16 +203,11 @@ class Request {
 	 * @return mixed WP_Error on failure or body request on success.
 	 */
 	private function request( $timeout ) {
-		$access_token = $this->auth->get_access_token();
-
-		if ( is_wp_error( $access_token ) ) {
-			return $access_token;
-		}
 
 		$args = [
 			'headers' => [
 				'Content-Type'  => 'application/json',
-				'Authorization' => 'Bearer ' . $access_token,
+				'Cache-Control' => 'no-cache',
 			],
 		];
 
@@ -254,18 +259,29 @@ class Request {
 	/**
 	 * Process response from Sophi.
 	 *
-	 * @param array $response Response of Site Automation API.
-	 * @param bool  $bypass_cache Whether to bypass cache or not.
+	 * @param array    $response Response of Site Automation API.
+	 * @param bool     $bypass_cache Whether to bypass cache or not.
+	 * @param int|bool $post_id The post id to update the post meta with response or false.
 	 *
 	 * @return array
 	 */
-	private function process( $response, $bypass_cache ) {
+	private function process( $response, $bypass_cache, $post_id ) {
 		if ( ! $response ) {
 			return [];
 		}
 
 		if ( ! $bypass_cache ) {
-			update_option( "sophi_site_automation_data_{$this->page}_{$this->widget}", $response );
+			if ( ! $post_id ) {
+				$post_id = wp_insert_post(
+					[
+						'post_type'  => 'sophi-response',
+						'post_title' => "sophi-site-automation-data-{$this->page}-{$this->widget}",
+						'post_name'  => "sophi-site-automation-data-{$this->page}-{$this->widget}",
+					]
+				);
+			}
+			update_post_meta( $post_id, 'sophi_site_automation_data', $response );
+			update_post_meta( $post_id, 'sophi_site_automation_last_updated', time() );
 		}
 		return $response;
 	}
@@ -278,13 +294,29 @@ class Request {
 	 *
 	 * @return string
 	 */
-	private function set_api_url( $page, $widget ) {
+	private function set_api_url( $page = '', $widget = '' ) {
 		$site_automation_url = get_sophi_settings( 'site_automation_url' );
 		$site_automation_url = untrailingslashit( $site_automation_url );
+		$host                = get_sophi_settings( 'host' );
+		$tenant_id           = get_sophi_settings( 'tenant_id' );
 
-		$host = wp_parse_url( get_home_url(), PHP_URL_HOST );
+		$url = sprintf(
+			'%1$s/%2$s/hosts/%3$s/pages/%4$s',
+			$site_automation_url,
+			$tenant_id,
+			$host,
+			$page
+		);
 
-		return sprintf( '%1$s/curatedHosts/%2$s/curator?page=%3$s&widget=%4$s', $site_automation_url, $host, $page, $widget );
+		if ( ! empty ( $widget ) ) {
+			$url = sprintf(
+				'%1$s/widgets/%2$s',
+				$url,
+				$widget
+			);
+		}
+
+		return $url . '.json';
 	}
 
 	/**

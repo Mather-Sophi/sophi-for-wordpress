@@ -3,7 +3,7 @@
  * Plugin Name:       Sophi
  * Plugin URI:        https://github.com/globeandmail/sophi-for-wordpress
  * Description:       WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
- * Version:           1.1.3
+ * Version:           1.2.0
  * Requires at least: 5.6
  * Requires PHP:      7.4
  * Author:            10up
@@ -16,7 +16,7 @@
  */
 
 // Useful global constants.
-define( 'SOPHI_WP_VERSION', '1.1.3' );
+define( 'SOPHI_WP_VERSION', '1.2.0' );
 define( 'SOPHI_WP_URL', plugin_dir_url( __FILE__ ) );
 define( 'SOPHI_WP_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SOPHI_WP_INC', SOPHI_WP_PATH . 'includes/' );
@@ -35,6 +35,7 @@ require_once SOPHI_WP_INC . 'functions/settings.php';
 require_once SOPHI_WP_INC . 'functions/tracking.php';
 require_once SOPHI_WP_INC . 'functions/content-sync.php';
 require_once SOPHI_WP_INC . 'functions/blocks.php';
+require_once SOPHI_WP_INC . 'functions/post-type.php';
 
 // phpcs:enable WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
@@ -60,6 +61,7 @@ add_action(
 			// Bootstrap.
 			SophiWP\Core\setup();
 			SophiWP\Settings\setup();
+			SophiWP\PostType\setup();
 
 			if ( ! SophiWP\Utils\is_configured() ) {
 				return add_action( 'admin_notices', 'sophi_setup_notice' );

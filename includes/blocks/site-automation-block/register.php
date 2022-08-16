@@ -40,8 +40,6 @@ function render_block_callback( $attributes, $content, $block ) {
 	$page_name   = sanitize_title( $attributes['pageName'] );
 	$widget_name = sanitize_title( $attributes['widgetName'] );
 
-	$curated_posts_transient_key = 'sophi_curated_posts_' . $page_name . '_' . $widget_name;
-
 	/**
 	 * Whether to bypass caching.
 	 *
@@ -56,9 +54,32 @@ function render_block_callback( $attributes, $content, $block ) {
 	 */
 	$bypass_cache = apply_filters( 'sophi_bypass_curated_posts_cache', false, $page_name, $widget_name );
 
-	$curated_posts = get_transient( $curated_posts_transient_key );
+	$curated_posts = false;
 
-	if ( $bypass_cache || false === $curated_posts ) {
+	if ( ! $bypass_cache ) {
+		$sophi_cached_response = new \WP_Query(
+			[
+				'post_name__in'          => [ "sophi-site-automation-data-{$page_name}-{$widget_name}" ],
+				'post_type'              => 'sophi-response',
+				'post_status'            => 'any',
+				'posts_per_page'         => 1,
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false
+			]
+		);
+
+		if ( $sophi_cached_response->have_posts() ) {
+			$last_update = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_last_updated', true );
+
+			if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
+				$curated_posts = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_data', true );
+			}
+		}
+	}
+
+	if ( $bypass_cache || ! $curated_posts ) {
+
 		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 		$curated_posts = get_posts(
 			[
@@ -71,7 +92,6 @@ function render_block_callback( $attributes, $content, $block ) {
 			return '';
 		}
 
-		set_transient( $curated_posts_transient_key, $curated_posts, 5 * MINUTE_IN_SECONDS );
 	}
 
 	ob_start();
