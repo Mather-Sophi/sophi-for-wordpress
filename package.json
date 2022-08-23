@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "10up-toolkit": "4.1.2",
-    "jsdoc": "3.6.10",
+    "jsdoc": "3.6.11",
     "prop-types": "15.8.1",
     "wp-hookdoc": "0.2.0"
   },
