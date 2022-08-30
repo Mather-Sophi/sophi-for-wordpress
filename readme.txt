@@ -186,6 +186,12 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 == Changelog ==
 
+= 1.2.1 - 2022-08-30 =
+* **Changed:** Bump `content_update` schema from 2-0-3 to 2-0-5 (props [@jeffpaul](https://github.com/jeffpaul), [@vjayaseelan90](https://github.com/vjayaseelan90), [@YMufleh](https://github.com/YMufleh) via [#323](https://github.com/globeandmail/sophi-for-wordpress/pull/323)).
+* **Security:** Update dependency `jsdoc` from 3.6.10 to 3.6.11 (props [@renovate](https://github.com/apps/renovate) via [#311](https://github.com/globeandmail/sophi-for-wordpress/pull/311)).
+* **Security:** Bump `terser` from 5.13.1 to 5.14.2 (props [@dependabot](https://github.com/apps/dependabot) via [#312](https://github.com/globeandmail/sophi-for-wordpress/pull/312)).
+* **Security:** Update dependency `phpunit/phpunit` from 8.5.27 to 8.5.29 (props [@renovate](https://github.com/apps/renovate) via [#316](https://github.com/globeandmail/sophi-for-wordpress/pull/316)).
+
 = 1.2.0 - 2022-08-15 =
 * **Added:** New Curator API (props [@Sidsector9](https://github.com/Sidsector9), [@dinhtungdu](https://github.com/dinhtungdu) via [#310](https://github.com/globeandmail/sophi-for-wordpress/pull/310).
 * **Added:** Documentation on default handling of Sophi API empty array response (props [@jeffpaul](https://github.com/jeffpaul), [@oscarssanchez](https://github.com/oscarssanchez) via [#307](https://github.com/globeandmail/sophi-for-wordpress/pull/307).
