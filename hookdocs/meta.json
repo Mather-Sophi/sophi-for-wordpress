@@ -4,5 +4,8 @@
     },
     "modify-post-data": {
         "title": "Modify Post Data"
-    }
+    },
+    "modify-tracking-data": {
+      "title": "Modify tracking data"
+  }
 }
