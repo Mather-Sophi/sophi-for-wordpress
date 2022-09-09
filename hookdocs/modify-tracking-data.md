@@ -1,4 +1,4 @@
-The plugin generates tracking data and sent it to Sophi Collector on normal (non-AMP) page views. While the intention of this plugin is to accurately capture all the necessary information automatically, there are some use cases that will need to modify this data prior to it being sent to Sophi.
+The plugin generates tracking data and sends it to the Sophi Collector on normal (non-AMP) page views. While the intention of this plugin is to accurately capture all the necessary information automatically, there are some use cases that will need to modify this data prior to it being sent to Sophi.
 
 The generated tracking data is passed through a custom filter ([`sophi_tracking_data`]{@link sophi_tracking_data}), which allows you to customize this information. See below for a few examples of how to utilize this filter.
 
@@ -10,7 +10,7 @@ A few things to note:
 
 ### Modify existing data
 
-One of the fields that are sent is called `type`. This is currently set to the content type of the post. If you need to change this to something else, like "video", you can do the following:
+One of the fields that is sent is called `type`. This is currently set to the content type of the post. If you need to change this to something else, like "video", you can do the following:
 
 ```php
 /**
