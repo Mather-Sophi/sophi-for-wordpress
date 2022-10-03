@@ -1,0 +1,31 @@
+{
+	"title": "Site Page Single Item",
+  "name": "sophi/page-list-item",
+  "attributes":{
+		"postUpdated": {
+			"type" : "boolean"
+    },
+		"postTitle": {
+			"type" : "string"
+		},
+		"postExcept": {
+			"type" : "string"
+		},
+		"postAuthor": {
+			"type" : "string"
+		},
+		"postDate": {
+			"type" : "string"
+		},
+		"featuredImage": {
+			"type" : "string"
+		},
+		"linkToFeaturedImage": {
+			"type" : "boolean"
+		},
+		"overrideRule": {
+			"type" : "string"
+		}
+  },
+	"editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js"
+}
