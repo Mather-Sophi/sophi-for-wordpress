@@ -11,6 +11,9 @@
     "wp-cli-commands": {
         "title": "WP-CLI Commands"
     },
+    "headless-integration": {
+        "title": "Headless Integration"
+    },
     "post-content-type": {
         "title": "Post Content Type"
     },
