@@ -24,6 +24,7 @@ class Services {
 	public function register() {
 		$this->request     = new Request();
 		$this->integration = new Integration( $this->request );
+		$this->endpoints   = new EndPoints();
 	}
 
 	/**
