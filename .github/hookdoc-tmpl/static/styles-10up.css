@@ -38,7 +38,7 @@ nav h3:nth-of-type(3) {
 }
 
 nav h3:nth-of-type(3):after {
-	content: 'Docs';
+	content: 'Tutorials';
 	visibility: visible;
 	position: absolute;
 	left: 0;
