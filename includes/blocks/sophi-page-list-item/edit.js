@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Popover, ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { Popover, ToolbarButton, ToolbarGroup, SelectControl } from '@wordpress/components';
 import { BlockControls, InnerBlocks, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
 
@@ -30,26 +30,35 @@ import { editPropsShape } from './props-shape';
  */
 const SiteAutomationItemBlockEdit = ({
 	attributes: {
-		postTitle,
-		postUpdated,
-		overrideRule
+		postTitle = '',
+		postUpdated = false,
+		overrideRule = '',
+		overrideData = {}
 	},
 	className,
 	setAttributes
 }) => {
 
 	const blockProps = useBlockProps();
-
 	const [ showPopup, setShowPopup ] = useState( false );
+	const [ postSearch, setPostSearch ] = useState( '' );
 
 	const onToggle = () => {
-		// Set up the anchorRange when the Popover is opened.
-		setAttributes( {
-			postUpdated: true,
-			overrideRule: 'add'
-		} );
 		setShowPopup( ( showPopup ) => ! showPopup );
 	};
+
+	const handleOverride = () => {
+		if( '' === overrideRule ) {
+			alert('Please select override rule');
+			return;
+		}
+		setAttributes( {
+			overrideData: {
+				'postTitle': 'new post title',
+			},
+			postUpdated: true,
+		} );
+	}
 
 	const overridePopover = showPopup && (
 		<Popover
@@ -63,7 +72,37 @@ const SiteAutomationItemBlockEdit = ({
 				'Override'
 			) }
 		>
-			This is a popup.
+			<div className='override-popup'>
+				<div className='override-row'>
+					<span>Please</span>
+					<SelectControl
+						label="Size"
+						value={ overrideRule }
+						options={ [
+							{ label: 'Please select override type', value: '' },
+							{ label: 'Add a post here', value: 'add' },
+							{ label: 'Replace this post', value: 'replace' },
+							{ label: 'Remove this post', value: 'remove' },
+							{ label: 'Ban this post', value: 'ban' },
+						] }
+						onChange={ ( newRule ) => setAttributes( { overrideRule: newRule } ) }
+						__nextHasNoMarginBottom
+					/>
+				</div>
+				<div className='override-row'>
+					<input
+						type='text'
+						placeholder='Post search..'
+						value={postSearch}
+						onChange={(event) => setPostSearch(event.target.value)}
+					/>
+				</div>
+				<div className='override-row'>
+					<label>Expire override on:</label>
+					<input type='text' value='2' /> <span>hours</span>
+				</div>
+				<input type='submit' value='Submit Override' className='button-primary' onClick={handleOverride} />
+			</div>
 		</Popover>
 	);
 

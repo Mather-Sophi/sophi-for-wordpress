@@ -56,10 +56,17 @@ const SiteAutomationBlockEdit = ({
 	const blockProps = useBlockProps();
 	const {replaceInnerBlocks} = dispatch(blockEditorStore);
 	const ALLOWED_BLOCKS = ['sophi/page-list-item'];
+
+	// Subscribe to the innerBlocks' state changing.
+	let innerBlocks = useSelect(
+		(select) => {
+			return select(blockEditorStore).getBlock(clientId).innerBlocks
+		},
+	);
+
 	const sophiEndpoint = '/sophi/v1/';
 
 	const getPosts = async () => {
-
 		if( '' === pageName || '' === widgetName ) {
 			return;
 		}
@@ -96,6 +103,39 @@ const SiteAutomationBlockEdit = ({
 
 		// Replace innerBlocks with the updated array.
 		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
+	}
+
+	if( undefined !== innerBlocks ) { //&& undefined === innerBlocks[2]
+
+		let updatesRequired = false;
+		let updatesInnerBlocks = [];
+		innerBlocks.map( ( item, index ) => {
+
+			if( item.attributes.postUpdated ) {
+				let newItem = {};
+				innerBlocks[index].attributes.postUpdated = false;
+
+				if( 'add' === item.attributes.overrideRule ) {
+					innerBlocks[index].attributes.overrideRule = '';
+
+					// make an API call and create new/updated block.
+					let newInnerBlocks = createBlock(
+						'sophi/page-list-item', {
+							postTitle: item.attributes.overrideData.postTitle,
+						},
+					);
+
+					updatesInnerBlocks.push(newInnerBlocks);
+					updatesRequired = true;
+				}
+			}
+
+			updatesInnerBlocks.push(item);
+		} );
+
+		if( updatesRequired ) {
+			replaceInnerBlocks( clientId, updatesInnerBlocks, false );
+		}
 	}
 
 	useEffect( () => {
@@ -169,18 +209,18 @@ const SiteAutomationBlockEdit = ({
 				</Placeholder>
 			)}
 
-			<div
-				className="sophi-site-automation-block"
-				id={`sophi-${pageName}-${widgetName}`}
-				data-sophi-feature={widgetName}
-				{ ...blockProps }
-			>
-				<InnerBlocks
-					allowedBlocks={ ALLOWED_BLOCKS }
-					templateLock='all'
-					template={ [ 'sophi/page-list-item' ] }
-				/>
-			</div>
+				<div
+					className="sophi-site-automation-block"
+					id={`sophi-${pageName}-${widgetName}`}
+					data-sophi-feature={widgetName}
+					{ ...blockProps }
+				>
+					<InnerBlocks
+						allowedBlocks={ ALLOWED_BLOCKS }
+						templateLock='all'
+						template={ [ 'sophi/page-list-item' ] }
+					/>
+				</div>
 		</div>
 	);
 };

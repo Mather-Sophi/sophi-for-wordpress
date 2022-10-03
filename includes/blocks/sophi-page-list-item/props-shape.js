@@ -9,7 +9,8 @@ export const propsShape = {
 		postDate: PropTypes.string,
 		featuredImage: PropTypes.string,
 		linkToFeaturedImage: PropTypes.string,
-		overrideRule: PropTypes.bool,
+		overrideRule: PropTypes.string,
+		overrideData: PropTypes.object,
 	}).isRequired,
 	className: PropTypes.string,
 };

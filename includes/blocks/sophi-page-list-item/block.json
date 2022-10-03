@@ -25,7 +25,11 @@
 		},
 		"overrideRule": {
 			"type" : "string"
+		},
+		"overrideData": {
+			"type" : "object"
 		}
   },
-	"editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js"
+	"editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js",
+	"editorStyle": "file:../../../dist/css/sophi-page-list-item.css"
 }
