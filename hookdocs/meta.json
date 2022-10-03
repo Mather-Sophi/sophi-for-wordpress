@@ -6,6 +6,21 @@
         "title": "Modify Post Data"
     },
     "modify-tracking-data": {
-      "title": "Modify tracking data"
-  }
+        "title": "Modify tracking data"
+    },
+    "wp-cli-commands": {
+        "title": "WP-CLI Commands"
+    },
+    "post-content-type": {
+        "title": "Post Content Type"
+    },
+    "canonical-url": {
+        "title": "Canonical URL"
+    },
+    "object-caching": {
+        "title": "Object Caching"
+    },
+    "sophi-api-empty-response": {
+        "title": "Sophi API Empty Response"
+    }
 }

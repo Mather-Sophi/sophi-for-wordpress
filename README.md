@@ -16,7 +16,7 @@
 * [Using the plugin](#usage)
   * [Site Automation block](#site-automation-block)
   * [Query integration](#query-integration)
-* [Documentation](#documentation)
+* [Developer Documentation](#developer-documentation)
 * [FAQs](#frequently-asked-questions)
 * [Changelog](#changelog)
 * [Contributing](#contributing)
@@ -132,44 +132,7 @@ While the above query integration works just fine, it has been observed on [Word
 
 `phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts`
 
-### Post content type
-
-By default, Sophi for WordPress uses post format as the content type. This plugin uses `content_type` internally to distinguish between WordPress post type and Sophi type.
-
-Sophi accepts 4 types: article, video, audio, and image. The default type is `article`. Any other types that are not included above will be treated as `article`.
-
-If you're not using post format for content type, you can utilize `sophi_post_content_type` to set the content type.
-
-```php
-add_filter(
-	'sophi_post_content_type',
-	function( $type, $post ) {
-		// You logic here.
-
-		return $new_type;
-	},
-	10,
-	2
-);
-```
-
-### Canonical URL
-
-Sophi for WordPress uses `wp_get_canonical_url` function introduced in WordPress 4.6 to get the canonical URL for given post. The plugin compares this canonical URL to post permalink to set the `isCanonical` attribute.
-
-WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugins and custom implementations, [`get_canonical_url`](https://developer.wordpress.org/reference/functions/wp_get_canonical_url/) filter can be used to change the canonical URL.
-
-### Object caching
-
-Object caching is encouraged, as the plugin saves Sophi data as a transient.  If you do not have object caching, then the data will be saved as a transient in the options table but note that these will eventually expire.
-
-The default caching period is five minutes. This can be modified with the `sophi_cache_duration` hook.
-
-### Sophi API empty response
-
-If the Sophi API returns an empty Post ID array, the plugin will result in a "no results" response.  The `sophi_curated_post_list` filter can be used to modify the Sophi API response to allow manual posts to be injected into the final array previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit).
-
-## Documentation
+## Developer Documentation
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin, as well as some helpful tutorials on how to use those hooks. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
