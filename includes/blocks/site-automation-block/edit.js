@@ -2,9 +2,19 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { InspectorControls } from '@wordpress/block-editor';
+import {
+	InspectorControls,
+	InnerBlocks,
+	useBlockProps,
+	store as blockEditorStore,
+	getBlocks
+} from '@wordpress/block-editor';
+import apiFetch from '@wordpress/api-fetch';
 import { PanelBody, TextControl, ToggleControl, Placeholder } from '@wordpress/components';
-import ServerSideRender from '@wordpress/server-side-render';
+import { addQueryArgs } from '@wordpress/url';
+import { useSelect, dispatch, useRegistry, useDispatch, select } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
+import { createBlock } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
@@ -31,8 +41,8 @@ import { editPropsShape } from './props-shape';
  */
 const SiteAutomationBlockEdit = ({
 	attributes: {
-		pageName,
-		widgetName,
+		pageName = '',
+		widgetName = '',
 		displayPostExcept,
 		displayAuthor,
 		displayPostDate,
@@ -41,7 +51,57 @@ const SiteAutomationBlockEdit = ({
 	},
 	className,
 	setAttributes,
+	clientId,
 }) => {
+	const blockProps = useBlockProps();
+	const {replaceInnerBlocks} = dispatch(blockEditorStore);
+	const ALLOWED_BLOCKS = ['sophi/page-list-item'];
+	const sophiEndpoint = '/sophi/v1/';
+
+	const getPosts = async () => {
+
+		if( '' === pageName || '' === widgetName ) {
+			return;
+		}
+
+		const queryArgs = {
+			pageName,
+			widgetName
+		};
+
+		let updatedInnerBlocks = [];
+
+		await apiFetch({
+			path: addQueryArgs(`${sophiEndpoint}get-posts`, {
+				...queryArgs,
+			}),
+			method: 'GET',
+		}).then(
+			(data) => {
+				data.map((item, index) => {
+					updatedInnerBlocks.push(
+						createBlock(
+							'sophi/page-list-item', {
+								postTitle: item.post_title,
+								postUpdated: false,
+							},
+						)
+					)
+				});
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+
+		// Replace innerBlocks with the updated array.
+		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
+	}
+
+	useEffect( () => {
+		getPosts();
+	}, [] );
+
 	return (
 		<div className={className}>
 			<InspectorControls>
@@ -108,20 +168,19 @@ const SiteAutomationBlockEdit = ({
 					</p>
 				</Placeholder>
 			)}
-			{pageName && widgetName && (
-				<ServerSideRender
-					block="sophi/site-automation-block"
-					attributes={{
-						pageName,
-						widgetName,
-						displayPostExcept,
-						displayAuthor,
-						displayPostDate,
-						displayFeaturedImage,
-						addLinkToFeaturedImage,
-					}}
+
+			<div
+				className="sophi-site-automation-block"
+				id={`sophi-${pageName}-${widgetName}`}
+				data-sophi-feature={widgetName}
+				{ ...blockProps }
+			>
+				<InnerBlocks
+					allowedBlocks={ ALLOWED_BLOCKS }
+					templateLock='all'
+					template={ [ 'sophi/page-list-item' ] }
 				/>
-			)}
+			</div>
 		</div>
 	);
 };
