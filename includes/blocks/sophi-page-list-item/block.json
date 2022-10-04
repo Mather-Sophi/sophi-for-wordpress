@@ -8,6 +8,9 @@
 		"postTitle": {
 			"type" : "string"
 		},
+		"postLink": {
+			"type" : "string"
+		},
 		"postExcept": {
 			"type" : "string"
 		},
@@ -15,6 +18,9 @@
 			"type" : "string"
 		},
 		"postDate": {
+			"type" : "string"
+		},
+		"postDateC": {
 			"type" : "string"
 		},
 		"featuredImage": {
@@ -26,8 +32,8 @@
 		"overrideRule": {
 			"type" : "string"
 		},
-		"overrideData": {
-			"type" : "object"
+		"overridePostID": {
+			"type" : "integer"
 		}
   },
 	"editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js",
