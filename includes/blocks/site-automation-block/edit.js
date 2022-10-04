@@ -105,6 +105,35 @@ const SiteAutomationBlockEdit = ({
 		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
 	}
 
+	const updatePost = async ({ ruleType, postID } ) => {
+
+		const queryArgs = {
+			ruleType,
+			postID,
+			pageName,
+			widgetName
+		};
+
+		let updatedInnerBlocks = [];
+
+		await apiFetch({
+			path: addQueryArgs(`${sophiEndpoint}update-posts`, {
+				...queryArgs,
+			}),
+			method: 'POST',
+		}).then(
+			(data) => {
+				console.log(data);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+
+		// Replace innerBlocks with the updated array.
+		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
+	}
+
 	if( undefined !== innerBlocks ) { //&& undefined === innerBlocks[2]
 
 		let updatesRequired = false;
@@ -112,21 +141,29 @@ const SiteAutomationBlockEdit = ({
 		innerBlocks.map( ( item, index ) => {
 
 			if( item.attributes.postUpdated ) {
-				let newItem = {};
 				innerBlocks[index].attributes.postUpdated = false;
 
 				if( 'add' === item.attributes.overrideRule ) {
 					innerBlocks[index].attributes.overrideRule = '';
 
+					let newPostData = {
+						postTitle: item.attributes.overrideData.postTitle,
+					}
+
 					// make an API call and create new/updated block.
 					let newInnerBlocks = createBlock(
-						'sophi/page-list-item', {
-							postTitle: item.attributes.overrideData.postTitle,
-						},
+						'sophi/page-list-item',
+						newPostData,
 					);
 
 					updatesInnerBlocks.push(newInnerBlocks);
 					updatesRequired = true;
+
+					// Update the post at API level.
+					updatePost( {
+						ruleType: 'in',
+						postID: item.attributes.overrideData.postID,
+					});
 				}
 			}
 
