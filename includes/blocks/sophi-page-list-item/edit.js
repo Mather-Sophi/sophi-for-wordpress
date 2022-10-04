@@ -54,7 +54,8 @@ const SiteAutomationItemBlockEdit = ({
 		}
 		setAttributes( {
 			overrideData: {
-				'postTitle': 'new post title',
+				'postID': 3132,
+				'postTitle': 'New post title',
 			},
 			postUpdated: true,
 		} );
