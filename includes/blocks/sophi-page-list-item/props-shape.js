@@ -4,13 +4,15 @@ export const propsShape = {
 	attributes: PropTypes.shape({
 		postUpdated: PropTypes.bool,
 		postTitle: PropTypes.string,
+		postLink: PropTypes.string,
 		postExcept: PropTypes.string,
 		postAuthor: PropTypes.string,
 		postDate: PropTypes.string,
+		postDateC: PropTypes.string,
 		featuredImage: PropTypes.string,
-		linkToFeaturedImage: PropTypes.string,
+		linkToFeaturedImage: PropTypes.bool,
 		overrideRule: PropTypes.string,
-		overrideData: PropTypes.object,
+		overridePostID: PropTypes.number,
 	}).isRequired,
 	className: PropTypes.string,
 };
