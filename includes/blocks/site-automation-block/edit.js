@@ -7,7 +7,7 @@ import {
 	InnerBlocks,
 	useBlockProps,
 	store as blockEditorStore,
-	getBlocks
+	getBlocks,
 } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 import { PanelBody, TextControl, ToggleControl, Placeholder } from '@wordpress/components';
@@ -25,8 +25,8 @@ import { editPropsShape } from './props-shape';
  * Edit component.
  * See https://wordpress.org/gutenberg/handbook/designers-developers/developers/block-api/block-edit-save/#edit
  *
- * @param {Object}   props                                   The block props.
- * @param {Object}   props.attributes                        Block attributes.
+ * @param {object}   props                                   The block props.
+ * @param {object}   props.attributes                        Block attributes.
  * @param {string}   props.attributes.pageName               Page name for Site Automation request.
  * @param {string}   props.attributes.widgetName             Widget name for Site Automation request.
  * @param {boolean}  props.attributes.displayPostExcept      Whether to display post excerpt.
@@ -37,7 +37,7 @@ import { editPropsShape } from './props-shape';
  * @param {string}   props.className                         Class name for the block.
  * @param {Function} props.setAttributes                     Sets the value for block attributes.
  *
- * @return {Function} Render the edit screen
+ * @returns {Function} Render the edit screen
  */
 const SiteAutomationBlockEdit = ({
 	attributes: {
@@ -54,29 +54,28 @@ const SiteAutomationBlockEdit = ({
 	clientId,
 }) => {
 	const blockProps = useBlockProps();
-	const {replaceInnerBlocks} = dispatch(blockEditorStore);
+	const { replaceInnerBlocks } = dispatch(blockEditorStore);
 	const ALLOWED_BLOCKS = ['sophi/page-list-item'];
 
 	// Subscribe to the innerBlocks' state changing.
-	let innerBlocks = useSelect(
-		(select) => {
-			return select(blockEditorStore).getBlock(clientId).innerBlocks
-		},
-	);
+	const innerBlocks = useSelect((select) => {
+		return select(blockEditorStore).getBlock(clientId).innerBlocks;
+	});
 
 	const sophiEndpoint = '/sophi/v1/';
 
 	const getPosts = async () => {
-		if( '' === pageName || '' === widgetName ) {
+		if (pageName === '' || widgetName === '') {
 			return;
 		}
 
 		const queryArgs = {
 			pageName,
-			widgetName
+			widgetName,
+			displayFeaturedImage,
 		};
 
-		let updatedInnerBlocks = [];
+		const updatedInnerBlocks = [];
 
 		await apiFetch({
 			path: addQueryArgs(`${sophiEndpoint}get-posts`, {
@@ -85,36 +84,42 @@ const SiteAutomationBlockEdit = ({
 			method: 'GET',
 		}).then(
 			(data) => {
-				data.map((item, index) => {
+				// eslint-disable-next-line array-callback-return
+				data.map((item) => {
 					updatedInnerBlocks.push(
-						createBlock(
-							'sophi/page-list-item', {
-								postTitle: item.post_title,
-								postUpdated: false,
-							},
-						)
-					)
+						createBlock('sophi/page-list-item', {
+							postTitle: item.post_title,
+							postUpdated: false,
+							postExcept: displayPostExcept ? item.post_excerpt : '',
+							featuredImage: displayFeaturedImage ? item.featuredImage : '',
+							linkToFeaturedImage: addLinkToFeaturedImage,
+							postAuthor: displayAuthor ? item.postAuthor : '',
+							postDate: displayPostDate ? item.postDate : '',
+							postDateC: displayPostDate ? item.postDateC : '',
+						}),
+					);
 				});
 			},
 			(err) => {
 				console.log(err);
-			}
+			},
 		);
 
 		// Replace innerBlocks with the updated array.
 		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
-	}
+	};
 
-	const updatePost = async ({ ruleType, postID } ) => {
-
+	const updatePost = async ({ ruleType, postID, overrideExpiry, position }) => {
 		const queryArgs = {
 			ruleType,
 			postID,
+			overrideExpiry,
+			position,
 			pageName,
-			widgetName
+			widgetName,
 		};
 
-		let updatedInnerBlocks = [];
+		const updatedInnerBlocks = [];
 
 		await apiFetch({
 			path: addQueryArgs(`${sophiEndpoint}update-posts`, {
@@ -127,57 +132,60 @@ const SiteAutomationBlockEdit = ({
 			},
 			(err) => {
 				console.log(err);
-			}
+			},
 		);
 
 		// Replace innerBlocks with the updated array.
 		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
-	}
+	};
 
-	if( undefined !== innerBlocks ) { //&& undefined === innerBlocks[2]
+	if (undefined !== innerBlocks) {
+		// && undefined === innerBlocks[2]
 
 		let updatesRequired = false;
-		let updatesInnerBlocks = [];
-		innerBlocks.map( ( item, index ) => {
-
-			if( item.attributes.postUpdated ) {
+		const updatesInnerBlocks = [];
+		// eslint-disable-next-line array-callback-return
+		innerBlocks.map((item, index) => {
+			if (item.attributes.postUpdated) {
 				innerBlocks[index].attributes.postUpdated = false;
 
-				if( 'add' === item.attributes.overrideRule ) {
+				if (item.attributes.overrideRule === 'add') {
 					innerBlocks[index].attributes.overrideRule = '';
 
-					let newPostData = {
-						postTitle: item.attributes.overrideData.postTitle,
-					}
+					const { overridePostID, overrideExpiry } = item.attributes;
+					const postData = wp.data
+						.select('core')
+						.getEntityRecord('postType', 'post', overridePostID);
 
 					// make an API call and create new/updated block.
-					let newInnerBlocks = createBlock(
-						'sophi/page-list-item',
-						newPostData,
-					);
+					const newInnerBlocks = createBlock('sophi/page-list-item', {
+						postTitle: postData.title.raw,
+					});
 
 					updatesInnerBlocks.push(newInnerBlocks);
 					updatesRequired = true;
 
 					// Update the post at API level.
-					updatePost( {
+					updatePost({
 						ruleType: 'in',
-						postID: item.attributes.overrideData.postID,
+						overridePostID,
+						overrideExpiry,
+						position: index + 1,
 					});
 				}
 			}
 
 			updatesInnerBlocks.push(item);
-		} );
+		});
 
-		if( updatesRequired ) {
-			replaceInnerBlocks( clientId, updatesInnerBlocks, false );
+		if (updatesRequired) {
+			replaceInnerBlocks(clientId, updatesInnerBlocks, false);
 		}
 	}
 
-	useEffect( () => {
+	useEffect(() => {
 		getPosts();
-	}, [] );
+	}, []);
 
 	return (
 		<div className={className}>
@@ -246,18 +254,18 @@ const SiteAutomationBlockEdit = ({
 				</Placeholder>
 			)}
 
-				<div
-					className="sophi-site-automation-block"
-					id={`sophi-${pageName}-${widgetName}`}
-					data-sophi-feature={widgetName}
-					{ ...blockProps }
-				>
-					<InnerBlocks
-						allowedBlocks={ ALLOWED_BLOCKS }
-						templateLock='all'
-						template={ [ 'sophi/page-list-item' ] }
-					/>
-				</div>
+			<div
+				className="sophi-site-automation-block"
+				id={`sophi-${pageName}-${widgetName}`}
+				data-sophi-feature={widgetName}
+				{...blockProps}
+			>
+				<InnerBlocks
+					allowedBlocks={ALLOWED_BLOCKS}
+					templateLock="all"
+					template={['sophi/page-list-item']}
+				/>
+			</div>
 		</div>
 	);
 };
