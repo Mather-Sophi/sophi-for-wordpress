@@ -70,12 +70,12 @@ class EndPoints extends WP_REST_Controller {
 		// Request parameters.
 		$attributes = $request->get_query_params();
 
-		if ( empty( $attributes['pageName'] ) || empty( $attributes['widgetName'] ) ) {
-			return '';
-		}
-
-		$page_name   = sanitize_title( $attributes['pageName'] );
-		$widget_name = sanitize_title( $attributes['widgetName'] );
+		$page_name              = sanitize_title( $attributes['pageName'] );
+		$widget_name            = sanitize_title( $attributes['widgetName'] );
+		$display_featured_image = sanitize_title( $attributes['displayFeaturedImage'] );
+		$display_author         = sanitize_title( $attributes['displayAuthor'] );
+		$display_post_date      = sanitize_title( $attributes['displayPostDate'] );
+		$display_post_excerpt   = sanitize_title( $attributes['displayPostExcept'] );
 
 		/**
 		 * Whether to bypass caching.
@@ -131,6 +131,25 @@ class EndPoints extends WP_REST_Controller {
 
 		}
 
+			foreach ( $curated_posts as $index => $curated_post ) {
+				$curated_posts[ $index ]->featuredImage = get_post_permalink( $curated_post->ID );
+				if ( $display_featured_image ) {
+					$curated_posts[ $index ]->featuredImage = get_the_post_thumbnail( $curated_post->ID );
+				}
+				if ( $display_author ) {
+					$author_display_name = get_the_author_meta( 'display_name', $curated_post->post_author );
+					$byline = sprintf( __( 'by %s', 'sophi-wp' ), $author_display_name );
+					$curated_posts[ $index ]->postAuthor = $byline;
+				}
+				if( $display_post_date ) {
+					$curated_posts[ $index ]->postDate = get_the_date( '', $curated_post );
+					$curated_posts[ $index ]->postDateC = get_the_date( 'c', $curated_post );
+				}
+				if( $display_post_excerpt ) {
+					$curated_posts[ $index ]->post_excerpt = wp_kses_post( get_the_excerpt( $curated_post ) );
+				}
+			}
+
 		return $curated_posts;
 	}
 
@@ -175,6 +194,14 @@ class EndPoints extends WP_REST_Controller {
 	 * @return mixed
 	 */
 	public function update_sophi_posts( $request ) {
+		$current_user = wp_get_current_user();
+
+		if ( $current_user->exists() ) {
+			$user_email = $current_user->user_email;
+		} else {
+			return __( 'Unauthorised user, please log in.', 'sophi-wp' );
+		}
+
 		// Request parameters.
 		$timeout = 3;
 		$attributes = $request->get_query_params();
@@ -183,18 +210,20 @@ class EndPoints extends WP_REST_Controller {
 		//		'Authorization' => 'Basic ' . base64_encode( $username . ':' . $password ),
 		$api_token = '';
 
-		$rule_type   = sanitize_title( $attributes['ruleType'] );
-		$post_ID  = sanitize_title( $attributes['postID'] );
-		$page_name   = sanitize_title( $attributes['pageName'] );
-		$widget_name = sanitize_title( $attributes['widgetName'] );
+		$rule_type       = sanitize_title( $attributes['ruleType'] );
+		$post_ID         = sanitize_title( $attributes['postID'] );
+		$override_expiry = sanitize_title( $attributes['overrideExpiry'] );
+		$position        = sanitize_title( $attributes['position'] );
+		$page_name       = sanitize_title( $attributes['pageName'] );
+		$widget_name     = sanitize_title( $attributes['widgetName'] );
 
 		$body = array(
 			"articleId"           => $post_ID,
-			"expirationHourOfDay" => 2,
+			"expirationHourOfDay" => $override_expiry,
 			"page"                => $page_name,
-			"position"            => 3,
-			"requestedUserName"   => "admin",
-			"ruleType"            => "in",
+			"position"            => $position,
+			"requestedUserName"   => $user_email,
+			"ruleType"            => $rule_type,
 			"widgetName"          => $widget_name,
 		);
 		$body = wp_json_encode( $body );
