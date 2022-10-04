@@ -65,5 +65,8 @@
       "site-automation-block": "./includes/blocks/site-automation-block/index.js",
       "sophi-page-list-item": "./includes/blocks/sophi-page-list-item/index.js"
     }
+  },
+  "dependencies": {
+    "@10up/block-components": "^1.13.0"
   }
 }
