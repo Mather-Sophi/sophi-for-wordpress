@@ -15,6 +15,7 @@ import { addQueryArgs } from '@wordpress/url';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies
@@ -43,11 +44,11 @@ const SiteAutomationBlockEdit = ({
 	attributes: {
 		pageName = '',
 		widgetName = '',
-		displayPostExcept,
-		displayAuthor,
-		displayPostDate,
-		displayFeaturedImage,
-		addLinkToFeaturedImage,
+		displayPostExcept = false,
+		displayAuthor = false,
+		displayPostDate = false,
+		displayFeaturedImage = false,
+		addLinkToFeaturedImage = false,
 	},
 	className,
 	setAttributes,
@@ -88,22 +89,26 @@ const SiteAutomationBlockEdit = ({
 			method: 'GET',
 		}).then(
 			(data) => {
-				// eslint-disable-next-line array-callback-return
-				data.map((item) => {
-					updatedInnerBlocks.push(
-						createBlock('sophi/page-list-item', {
-							postUpdated: false,
-							postLink: item.postLink,
-							postTitle: item.post_title,
-							postExcept: displayPostExcept ? item.post_excerpt : '',
-							featuredImage: displayFeaturedImage ? item.featuredImage : '',
-							linkToFeaturedImage: addLinkToFeaturedImage,
-							postAuthor: displayAuthor ? item.postAuthor : '',
-							postDate: displayPostDate ? item.postDate : '',
-							postDateC: displayPostDate ? item.postDateC : '',
-						}),
-					);
-				});
+				if (data?.length) {
+					// eslint-disable-next-line array-callback-return
+					data.map((item) => {
+						updatedInnerBlocks.push(
+							createBlock('sophi/page-list-item', {
+								postUpdated: false,
+								postLink: item.postLink,
+								postTitle: item.post_title,
+								postExcept: displayPostExcept ? item.post_excerpt : '',
+								featuredImage: displayFeaturedImage && item.featuredImage ? item.featuredImage : '',
+								linkToFeaturedImage: addLinkToFeaturedImage,
+								postAuthor: displayAuthor ? item.postAuthor : '',
+								postDate: displayPostDate ? item.postDate : '',
+								postDateC: displayPostDate ? item.postDateC : '',
+							}),
+						);
+					});
+				} else {
+					alert(__('Posts not found in the site!', 'sophi-wp'));
+				}
 			},
 			(err) => {
 				console.log(err);
@@ -178,7 +183,15 @@ const SiteAutomationBlockEdit = ({
 
 	useEffect(() => {
 		getPosts();
-	}, [displayFeaturedImage, displayAuthor, displayPostDate, displayPostExcept ]);
+	}, [
+		pageName,
+		widgetName,
+		displayFeaturedImage,
+		displayAuthor,
+		displayPostDate,
+		displayPostExcept,
+		addLinkToFeaturedImage,
+	]);
 
 	return (
 		<div className={className}>
@@ -247,18 +260,36 @@ const SiteAutomationBlockEdit = ({
 				</Placeholder>
 			)}
 
-			<div
-				className="sophi-site-automation-block"
-				id={`sophi-${pageName}-${widgetName}`}
-				data-sophi-feature={widgetName}
-				{...blockProps}
-			>
-				<InnerBlocks
-					allowedBlocks={ALLOWED_BLOCKS}
-					templateLock="all"
-					template={['sophi/page-list-item']}
+			{pageName && widgetName && (
+				<ServerSideRender
+					block="sophi/site-automation-block"
+					EmptyResponsePlaceholder={() => <></>}
+					attributes={{
+						pageName,
+						widgetName,
+						displayPostExcept,
+						displayAuthor,
+						displayPostDate,
+						displayFeaturedImage,
+						addLinkToFeaturedImage,
+					}}
 				/>
-			</div>
+			)}
+
+			{pageName && widgetName && (
+				<div
+					className="sophi-site-automation-block"
+					id={`sophi-${pageName}-${widgetName}`}
+					data-sophi-feature={widgetName}
+					{...blockProps}
+				>
+					<InnerBlocks
+						allowedBlocks={ALLOWED_BLOCKS}
+						templateLock="all"
+						template={['sophi/page-list-item']}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
