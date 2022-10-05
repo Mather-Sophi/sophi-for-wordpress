@@ -17,7 +17,6 @@ import block from './block.json';
 
 // CSS file.
 import './index.css';
-import {BLOCK_ICON as icon} from "../../../../woo-gutenberg-products-block/assets/js/atomic/blocks/product-elements/image/constants";
 
 /**
  * Register block
@@ -25,7 +24,7 @@ import {BLOCK_ICON as icon} from "../../../../woo-gutenberg-products-block/asset
 registerBlockType(block.name, {
 	title: __('Sophi Post Item', 'sophi-wp'),
 	description: __('Display curated content by Sophi', 'sophi-wp'),
-	parent: [ 'sophi/site-automation-block' ],
+	parent: ['sophi/site-automation-block'],
 	edit,
 	save,
 	icon: { src: 'admin-post' },
