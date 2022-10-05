@@ -164,6 +164,14 @@ class EndPoints extends WP_REST_Controller {
 		return $curated_posts;
 	}
 
+	/**
+	 * Get the post data with prepared items to be rendered to the inner blocks.
+	 *
+	 * @param int   $post_ID Post ID.
+	 * @param array $rules array of the parent block settings.
+	 *
+	 * @return \stdClass Prepared post data.
+	 */
 	public function get_post_details( $post_ID, $rules ) {
 		$post_data = new \stdClass();
 
@@ -172,8 +180,9 @@ class EndPoints extends WP_REST_Controller {
 			$post_data->featuredImage = get_the_post_thumbnail( $post_ID );
 		}
 		if ( $rules['display_author'] ) {
-			$author_display_name                 = get_the_author_meta( 'display_name', $post_ID );
-			$byline                              = sprintf( __( 'by %s', 'sophi-wp' ), $author_display_name );
+			$author_id             = get_post_field( 'post_author', $post_ID );
+			$author_display_name   = get_the_author_meta( 'display_name', $author_id );
+			$byline                = sprintf( __( 'by %s', 'sophi-wp' ), $author_display_name );
 			$post_data->postAuthor = $byline;
 		}
 		if ( $rules['display_post_date'] ) {

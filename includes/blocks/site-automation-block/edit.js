@@ -7,12 +7,12 @@ import {
 	InnerBlocks,
 	useBlockProps,
 	store as blockEditorStore,
-	getBlocks,
+
 } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 import { PanelBody, TextControl, ToggleControl, Placeholder } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
-import { useSelect, dispatch, useRegistry, useDispatch, select } from '@wordpress/data';
+import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
 
@@ -178,7 +178,7 @@ const SiteAutomationBlockEdit = ({
 
 	useEffect(() => {
 		getPosts();
-	}, []);
+	}, [displayFeaturedImage, displayAuthor, displayPostDate, displayPostExcept ]);
 
 	return (
 		<div className={className}>
