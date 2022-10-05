@@ -61,10 +61,11 @@ class Request {
 	 * @param string $page Page name.
 	 * @param string $widget Widget name.
 	 * @param float  $timeout The request timeout value.
+	 * @param array  $override_post We pass the post data that needs be overridden.
 	 *
 	 * @return array|bool
 	 */
-	public function get( $page, $widget, $timeout = 3 ) {
+	public function get( $page, $widget, $timeout = 3, $override_post = array() ) {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
@@ -72,6 +73,8 @@ class Request {
 		$this->status         = $this->get_status();
 		$site_automation_data = false;
 		$post_id = false;
+
+		$override_in_action = 0 !== count( $override_post );
 
 		/**
 		 * Whether to bypass caching.
@@ -85,7 +88,7 @@ class Request {
 		 *
 		 * @return {bool} Whether to bypass cache.
 		 */
-		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
+		$bypass_cache = $override_in_action ? false : apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
 		if ( ! $bypass_cache ) {
 			$query = new \WP_Query(
@@ -104,17 +107,26 @@ class Request {
 				$post_id = $query->posts[0];
 				$last_update = get_post_meta( $post_id, 'sophi_site_automation_last_updated', true );
 
-				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
+				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() || $override_in_action ) {
 					$site_automation_data = get_post_meta( $post_id, 'sophi_site_automation_data', true );
 				}
 			}
 		}
 
-		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
+		if ( $site_automation_data && ! empty( $this->status['success'] ) && ! $override_in_action ) {
 			return $site_automation_data;
 		}
 
-		$response = $this->request( $timeout );
+		// If override data is received, inject it into the database, and skip the actual call to API.
+		if( $override_in_action && is_array( $site_automation_data ) ) {
+			if( 'in' === $override_post['ruleType'] ) {
+				array_splice( $site_automation_data, $override_post['position'], 0, $override_post['overridePostID'] );
+			}
+
+			$response = $site_automation_data;
+		} else {
+			$response = $this->request( $timeout );
+		}
 
 		if ( is_wp_error( $response ) ) {
 			$this->set_status(

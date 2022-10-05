@@ -9,19 +9,32 @@ namespace SophiWP\SiteAutomation;
 
 use WP_REST_Controller;
 use WP_REST_Server;
+use function SophiWP\Settings\get_sophi_settings;
 
 /**
  * Class: EndPoints
  */
 class EndPoints extends WP_REST_Controller {
 
+	/**
+	 * Sophi default namespace for REST endpoints.
+	 */
 	const SOPHI_NAMESPACE = 'sophi/v1';
+
+	/**
+	 * Request object.
+	 *
+	 * @var Request $request
+	 */
+	public $request;
 
 	/**
 	 * Class constructor.
 	 *
 	 */
-	public function __construct() {
+	public function __construct( $request ) {
+		$this->request = $request;
+
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
 
@@ -251,13 +264,15 @@ class EndPoints extends WP_REST_Controller {
 		}
 
 		// @TODO: Create auth token periodically.
-		$api_token = get_option( 'auth_token' );
+		$api_token = get_transient( 'sophi_override_auth_token' );
 
-		// @TODO: Get details from the settings page.
 		// Request parameters.
 		$timeout = 3;
 		$attributes = $request->get_query_params();
-		$api_url = 'https://site-automation-api.ml.sophi.works/v1/hosts/sophi.10uplabs.dev/overrides';
+
+		$api_url = get_sophi_settings( 'sophi_override_url' );
+		$host    = get_sophi_settings( 'host' );
+		$api_url = $api_url . 'v1/hosts/' . $host . '/overrides';
 
 		$rule_type        = sanitize_title( $attributes['ruleType'] );
 		$override_post_ID = sanitize_title( $attributes['overridePostID'] );
@@ -265,8 +280,6 @@ class EndPoints extends WP_REST_Controller {
 		$position         = sanitize_title( $attributes['position'] );
 		$page_name        = sanitize_title( $attributes['pageName'] );
 		$widget_name      = sanitize_title( $attributes['widgetName'] );
-
-		// @TODO: Update the cache in the database so we don't have to wait for API to update the details.
 
 		$body = array(
 			"articleId"           => $override_post_ID,
@@ -288,12 +301,21 @@ class EndPoints extends WP_REST_Controller {
 			'body'      =>  $body,
 		];
 
-		if( 'in' === $rule_type ) {
+		if ( 'in' === $rule_type ) {
+
+			// Update the override entry in the database so we don't have to wait for API to update the details at front end.
+			$override_post = [
+				"overridePostID" => $override_post_ID,
+				"position"       => $position,
+				"ruleType"       => $rule_type,
+			];
+			$this->request->get( $page_name, $widget_name, 3, $override_post );
+
 			if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
 				$result = vip_safe_wp_remote_get( $api_url, '', 3, $timeout, 20, $args );
 			} else {
 				$args['timeout'] = $timeout;
-				$result = wp_remote_post( $api_url, $args ); // phpcs:ignore
+				$result          = wp_remote_post( $api_url, $args ); // phpcs:ignore
 			}
 
 			if ( is_wp_error( $result ) ) {
