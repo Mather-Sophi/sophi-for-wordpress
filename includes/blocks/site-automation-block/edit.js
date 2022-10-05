@@ -156,9 +156,12 @@ const SiteAutomationBlockEdit = ({
 				innerBlocks[index].attributes.postUpdated = false;
 
 				if (innerBlocks[index].attributes.overrideRule === 'in') {
-					innerBlocks[index].attributes.overrideRule = '';
 					// eslint-disable-next-line no-use-before-define
 					const { overridePostID, overrideExpiry } = innerBlocks[index].attributes;
+
+					// Reset override attributes before render new set.
+					innerBlocks[index].attributes.overrideRule = '';
+					innerBlocks[index].attributes.overridePostID = 0;
 
 					// Update the inner blocks.
 					// eslint-disable-next-line no-await-in-loop
