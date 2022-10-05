@@ -8,7 +8,7 @@ import {
 	useBlockProps,
 } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
-import { Link, ContentPicker } from '@10up/block-components';
+import { ContentPicker } from '@10up/block-components';
 
 /**
  * Internal dependencies
@@ -51,7 +51,7 @@ const SiteAutomationItemBlockEdit = ({
 }) => {
 	const blockProps = useBlockProps();
 	const [showPopup, setShowPopup] = useState(false);
-	const [selectedPost, setSelectedPost] = useState();
+	const [selectedPost, setSelectedPost] = useState('');
 
 	const onToggle = () => {
 		setShowPopup((showPopup) => !showPopup);
@@ -88,6 +88,7 @@ const SiteAutomationItemBlockEdit = ({
 			key="override-popover"
 			expandOnMobile
 			headerTitle={__('Override', 'Override')}
+			onFocusOutside={() => setShowPopup(false)}
 		>
 			<div className="override-popup">
 				<div className="override-row">
@@ -137,6 +138,10 @@ const SiteAutomationItemBlockEdit = ({
 		</Popover>
 	);
 
+	const featuredImageTag = (
+		<div style={{ maxWidth: '250px' }} dangerouslySetInnerHTML={{ __html: featuredImage }} />
+	);
+
 	return (
 		<div className={className}>
 			<BlockControls group="other">
@@ -144,7 +149,6 @@ const SiteAutomationItemBlockEdit = ({
 					<ToolbarButton
 						className="toolbar-button-with-text"
 						icon="admin-generic"
-						isPressed={showPopup}
 						label="Override"
 						onClick={onToggle}
 					/>
@@ -152,13 +156,11 @@ const SiteAutomationItemBlockEdit = ({
 			</BlockControls>
 			{overridePopover}
 			<div className="curated-item" {...blockProps}>
-				{featuredImage && linkToFeaturedImage && (
-					// eslint-disable-next-line jsx-a11y/anchor-is-valid
-					<Link value={featuredImage} url={postLink} />
-				)}
-				{featuredImage && !linkToFeaturedImage && { featuredImage }}
-				{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-				<Link value={postTitle} url={postLink} />
+				{featuredImage && !linkToFeaturedImage && featuredImageTag}
+				{featuredImage && linkToFeaturedImage && <a href={postLink}>{featuredImageTag}</a>}
+				<a href={postLink} target="_blank" rel="noreferrer">
+					{postTitle}
+				</a>
 				{postAuthor && <div className="post-author">{postAuthor}</div>}
 				<time dateTime={postDateC} className="post-date">
 					{postDate}
