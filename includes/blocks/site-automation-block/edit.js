@@ -64,15 +64,19 @@ const SiteAutomationBlockEdit = ({
 
 	const sophiEndpoint = '/sophi/v1/';
 
-	const getPosts = async () => {
+	const getPosts = async (overridePostID = '') => {
 		if (pageName === '' || widgetName === '') {
 			return;
 		}
 
 		const queryArgs = {
+			overridePostID,
 			pageName,
 			widgetName,
 			displayFeaturedImage,
+			displayAuthor,
+			displayPostDate,
+			displayPostExcept,
 		};
 
 		const updatedInnerBlocks = [];
@@ -88,8 +92,9 @@ const SiteAutomationBlockEdit = ({
 				data.map((item) => {
 					updatedInnerBlocks.push(
 						createBlock('sophi/page-list-item', {
-							postTitle: item.post_title,
 							postUpdated: false,
+							postLink: item.postLink,
+							postTitle: item.post_title,
 							postExcept: displayPostExcept ? item.post_excerpt : '',
 							featuredImage: displayFeaturedImage ? item.featuredImage : '',
 							linkToFeaturedImage: addLinkToFeaturedImage,
@@ -105,21 +110,24 @@ const SiteAutomationBlockEdit = ({
 			},
 		);
 
+		if (overridePostID !== '') {
+			// eslint-disable-next-line consistent-return
+			return updatedInnerBlocks;
+		}
+
 		// Replace innerBlocks with the updated array.
 		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
 	};
 
-	const updatePost = async ({ ruleType, postID, overrideExpiry, position }) => {
+	const updatePost = async ({ ruleType, overridePostID, overrideExpiry, position }) => {
 		const queryArgs = {
 			ruleType,
-			postID,
+			overridePostID,
 			overrideExpiry,
 			position,
 			pageName,
 			widgetName,
 		};
-
-		const updatedInnerBlocks = [];
 
 		await apiFetch({
 			path: addQueryArgs(`${sophiEndpoint}update-posts`, {
@@ -131,57 +139,42 @@ const SiteAutomationBlockEdit = ({
 				console.log(data);
 			},
 			(err) => {
-				console.log(err);
+				console.dir(err);
 			},
 		);
-
-		// Replace innerBlocks with the updated array.
-		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
 	};
 
-	if (undefined !== innerBlocks) {
-		// && undefined === innerBlocks[2]
+	const updateInnerBlocks = async () => {
+		if (undefined !== innerBlocks) {
+			const index = innerBlocks.findIndex((item) => item.attributes.postUpdated === true);
+			if (index !== -1) {
+				if (innerBlocks[index].attributes.postUpdated) {
+					innerBlocks[index].attributes.postUpdated = false;
 
-		let updatesRequired = false;
-		const updatesInnerBlocks = [];
-		// eslint-disable-next-line array-callback-return
-		innerBlocks.map((item, index) => {
-			if (item.attributes.postUpdated) {
-				innerBlocks[index].attributes.postUpdated = false;
+					if (innerBlocks[index].attributes.overrideRule === 'in') {
+						innerBlocks[index].attributes.overrideRule = '';
+						// eslint-disable-next-line no-use-before-define
+						const { overridePostID, overrideExpiry } = innerBlocks[index].attributes;
 
-				if (item.attributes.overrideRule === 'add') {
-					innerBlocks[index].attributes.overrideRule = '';
+						// Update the inner blocks.
+						// eslint-disable-next-line no-await-in-loop
+						const newInnerBlocks = await getPosts(overridePostID);
+						innerBlocks.splice(index + 1, 0, newInnerBlocks[0]);
+						replaceInnerBlocks(clientId, innerBlocks, false);
 
-					const { overridePostID, overrideExpiry } = item.attributes;
-					const postData = wp.data
-						.select('core')
-						.getEntityRecord('postType', 'post', overridePostID);
-
-					// make an API call and create new/updated block.
-					const newInnerBlocks = createBlock('sophi/page-list-item', {
-						postTitle: postData.title.raw,
-					});
-
-					updatesInnerBlocks.push(newInnerBlocks);
-					updatesRequired = true;
-
-					// Update the post at API level.
-					updatePost({
-						ruleType: 'in',
-						overridePostID,
-						overrideExpiry,
-						position: index + 1,
-					});
+						// Update the post at API level.
+						updatePost({
+							ruleType: 'in',
+							overridePostID,
+							overrideExpiry,
+							position: index + 1,
+						});
+					}
 				}
 			}
-
-			updatesInnerBlocks.push(item);
-		});
-
-		if (updatesRequired) {
-			replaceInnerBlocks(clientId, updatesInnerBlocks, false);
 		}
-	}
+	};
+	updateInnerBlocks();
 
 	useEffect(() => {
 		getPosts();

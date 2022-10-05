@@ -71,11 +71,30 @@ class EndPoints extends WP_REST_Controller {
 		$attributes = $request->get_query_params();
 
 		$page_name              = sanitize_title( $attributes['pageName'] );
+		$override_post_ID       = sanitize_title( $attributes['overridePostID'] );
 		$widget_name            = sanitize_title( $attributes['widgetName'] );
 		$display_featured_image = sanitize_title( $attributes['displayFeaturedImage'] );
 		$display_author         = sanitize_title( $attributes['displayAuthor'] );
 		$display_post_date      = sanitize_title( $attributes['displayPostDate'] );
 		$display_post_excerpt   = sanitize_title( $attributes['displayPostExcept'] );
+
+		$rules = [
+			'display_featured_image' => $display_featured_image,
+			'display_author'         => $display_author,
+			'display_post_date'      => $display_post_date,
+			'display_post_excerpt'   => $display_post_excerpt,
+		];
+
+		// If override ID exists, only return the post data.
+		// This is required only when updating (add/replace) the innerBlocks.
+		if ( ! empty( $override_post_ID ) ) {
+			$curated_posts     = [];
+			$post_data         = get_post( $override_post_ID );
+			$post_data_updated = $this->get_post_details( $override_post_ID, $rules );
+			$curated_posts[]   = (object) array_merge( (array) $post_data, (array) $post_data_updated );
+
+			return $curated_posts;
+		}
 
 		/**
 		 * Whether to bypass caching.
@@ -131,26 +150,41 @@ class EndPoints extends WP_REST_Controller {
 
 		}
 
-			foreach ( $curated_posts as $index => $curated_post ) {
-				$curated_posts[ $index ]->featuredImage = get_post_permalink( $curated_post->ID );
-				if ( $display_featured_image ) {
-					$curated_posts[ $index ]->featuredImage = get_the_post_thumbnail( $curated_post->ID );
-				}
-				if ( $display_author ) {
-					$author_display_name = get_the_author_meta( 'display_name', $curated_post->post_author );
-					$byline = sprintf( __( 'by %s', 'sophi-wp' ), $author_display_name );
-					$curated_posts[ $index ]->postAuthor = $byline;
-				}
-				if( $display_post_date ) {
-					$curated_posts[ $index ]->postDate = get_the_date( '', $curated_post );
-					$curated_posts[ $index ]->postDateC = get_the_date( 'c', $curated_post );
-				}
-				if( $display_post_excerpt ) {
-					$curated_posts[ $index ]->post_excerpt = wp_kses_post( get_the_excerpt( $curated_post ) );
-				}
-			}
+		$rules = [
+			'display_featured_image' => $display_featured_image,
+			'display_author'         => $display_author,
+			'display_post_date'      => $display_post_date,
+			'display_post_excerpt'   => $display_post_excerpt,
+		];
+		foreach ( $curated_posts as $index => $curated_post ) {
+			$post_data_updated       = $this->get_post_details( $curated_post->ID, $rules );
+			$curated_posts[ $index ] = (object) array_merge( (array) $curated_post, (array) $post_data_updated );
+		}
 
 		return $curated_posts;
+	}
+
+	public function get_post_details( $post_ID, $rules ) {
+		$post_data = new \stdClass();
+
+		$post_data->postLink = get_post_permalink( $post_ID );
+		if ( $rules['display_featured_image'] ) {
+			$post_data->featuredImage = get_the_post_thumbnail( $post_ID );
+		}
+		if ( $rules['display_author'] ) {
+			$author_display_name                 = get_the_author_meta( 'display_name', $post_ID );
+			$byline                              = sprintf( __( 'by %s', 'sophi-wp' ), $author_display_name );
+			$post_data->postAuthor = $byline;
+		}
+		if ( $rules['display_post_date'] ) {
+			$post_data->postDate  = get_the_date( '', $post_ID );
+			$post_data->postDateC = get_the_date( 'c', $post_ID );
+		}
+		if ( $rules['display_post_excerpt'] ) {
+			$post_data->post_excerpt = wp_kses_post( get_the_excerpt( $post_ID ) );
+		}
+
+		return $post_data;
 	}
 
 	/**
@@ -202,23 +236,26 @@ class EndPoints extends WP_REST_Controller {
 			return __( 'Unauthorised user, please log in.', 'sophi-wp' );
 		}
 
+		// @TODO: Create auth token periodically.
+		$api_token = get_option( 'auth_token' );
+
+		// @TODO: Get details from the settings page.
 		// Request parameters.
 		$timeout = 3;
 		$attributes = $request->get_query_params();
 		$api_url = 'https://site-automation-api.ml.sophi.works/v1/hosts/sophi.10uplabs.dev/overrides';
 
-		//		'Authorization' => 'Basic ' . base64_encode( $username . ':' . $password ),
-		$api_token = '';
+		$rule_type        = sanitize_title( $attributes['ruleType'] );
+		$override_post_ID = sanitize_title( $attributes['overridePostID'] );
+		$override_expiry  = sanitize_title( $attributes['overrideExpiry'] );
+		$position         = sanitize_title( $attributes['position'] );
+		$page_name        = sanitize_title( $attributes['pageName'] );
+		$widget_name      = sanitize_title( $attributes['widgetName'] );
 
-		$rule_type       = sanitize_title( $attributes['ruleType'] );
-		$post_ID         = sanitize_title( $attributes['postID'] );
-		$override_expiry = sanitize_title( $attributes['overrideExpiry'] );
-		$position        = sanitize_title( $attributes['position'] );
-		$page_name       = sanitize_title( $attributes['pageName'] );
-		$widget_name     = sanitize_title( $attributes['widgetName'] );
+		// @TODO: Update the cache in the database so we don't have to wait for API to update the details.
 
 		$body = array(
-			"articleId"           => $post_ID,
+			"articleId"           => $override_post_ID,
 			"expirationHourOfDay" => $override_expiry,
 			"page"                => $page_name,
 			"position"            => $position,
@@ -274,7 +311,7 @@ class EndPoints extends WP_REST_Controller {
 			'sanitize_callback' => 'sanitize_text_field',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-		$params['postID'] = array(
+		$params['overridePostID'] = array(
 			'description'       => __( 'ID of the post.', 'sophi-wp' ),
 			'required'          => true,
 			'type'              => 'int',

@@ -6,7 +6,6 @@ import { Popover, ToolbarButton, ToolbarGroup, SelectControl } from '@wordpress/
 import {
 	BlockControls,
 	useBlockProps,
-	__experimentalLinkControl as LinkControl,
 } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
 import { Link, ContentPicker } from '@10up/block-components';
@@ -52,13 +51,21 @@ const SiteAutomationItemBlockEdit = ({
 }) => {
 	const blockProps = useBlockProps();
 	const [showPopup, setShowPopup] = useState(false);
-	const [postSearch, setPostSearch] = useState('');
+	const [selectedPost, setSelectedPost] = useState();
 
 	const onToggle = () => {
 		setShowPopup((showPopup) => !showPopup);
 	};
 
+	const handlePickChanage = (pickedContent) => {
+		setAttributes({
+			overridePostID: pickedContent.length === 0 ? 0 : pickedContent[0].id,
+		});
+		setSelectedPost(pickedContent);
+	};
+
 	const handleOverride = () => {
+		console.log(overrideExpiry);
 		if (overrideRule === '') {
 			alert('Please select override rule');
 			return;
@@ -68,14 +75,8 @@ const SiteAutomationItemBlockEdit = ({
 			return;
 		}
 		setAttributes({
+			overrideExpiry,
 			postUpdated: true,
-		});
-	};
-
-	const handlePickChanage = (pickedContent) => {
-		console.log(pickedContent);
-		setAttributes({
-			overridePostID: pickedContent.id,
 		});
 	};
 
@@ -90,15 +91,14 @@ const SiteAutomationItemBlockEdit = ({
 		>
 			<div className="override-popup">
 				<div className="override-row">
-					<span>Please</span>
 					<SelectControl
-						label="Size"
+						label=""
 						value={overrideRule}
 						options={[
-							{ label: 'Please select override type', value: '' },
-							{ label: 'Add a post here', value: 'add' },
+							{ label: 'Select an action', value: '' },
+							{ label: 'Add a post here', value: 'in' },
 							{ label: 'Replace this post', value: 'replace' },
-							{ label: 'Remove this post', value: 'remove' },
+							{ label: 'Remove this post', value: 'out' },
 							{ label: 'Ban this post', value: 'ban' },
 						]}
 						onChange={(newRule) => setAttributes({ overrideRule: newRule })}
@@ -106,34 +106,24 @@ const SiteAutomationItemBlockEdit = ({
 					/>
 				</div>
 				<div className="override-row">
-					<input
-						type="text"
-						placeholder="Post search.."
-						value={postSearch}
-						onChange={(event) => setPostSearch(event.target.value)}
-					/>
 					<ContentPicker
+						content={selectedPost}
 						onPickChange={handlePickChanage}
 						mode="post"
 						label="Please select a Post:"
 						contentTypes={['post']}
 					/>
-					<LinkControl
-						searchInputPlaceholder="Search here..."
-						/* value={ attributes.post } */
-						withCreateSuggestion
-						onChange={(nextValue) => {
-							console.log(nextValue);
-						}}
-					/>
 				</div>
 				<div className="override-row">
 					{/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-					<label>Expire override on:</label>
+					<label>Expire override on:</label>{' '}
 					<input
-						type="text"
+						type="number"
+						style={{ maxWidth: '40px' }}
 						value={overrideExpiry}
-						onChange={(newExpiry) => setAttributes({ overrideExpiry: newExpiry })}
+						onChange={(newExpiry) =>
+							setAttributes({ overrideExpiry: newExpiry.target.value })
+						}
 					/>{' '}
 					<span>hours</span>
 				</div>

@@ -34,6 +34,9 @@
 		},
 		"overridePostID": {
 			"type" : "integer"
+		},
+		"overrideExpiry": {
+			"type" : "integer"
 		}
   },
 	"editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js",

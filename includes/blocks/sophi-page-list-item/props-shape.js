@@ -13,6 +13,7 @@ export const propsShape = {
 		linkToFeaturedImage: PropTypes.bool,
 		overrideRule: PropTypes.string,
 		overridePostID: PropTypes.number,
+		overrideExpiry: PropTypes.number,
 	}).isRequired,
 	className: PropTypes.string,
 };
