@@ -148,6 +148,11 @@ class EndPoints extends WP_REST_Controller {
 				return '';
 			}
 
+		} else {
+			$curated_posts = get_posts( [
+				'post__in'  => $curated_posts,
+				'post_type' => 'post',
+			] );
 		}
 
 		$rules = [
