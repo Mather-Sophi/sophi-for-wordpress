@@ -199,6 +199,84 @@ function fields_setup() {
 			'description' => __( 'Replace WP Query result with curated data from Sophi.', 'sophi-wp' ),
 		]
 	);
+
+	// Add Override settings section.
+	add_settings_section(
+			'sophi_override_api',
+			__( 'Override API settings', 'sophi-wp' ),
+			'',
+			SETTINGS_GROUP
+	);
+
+	add_settings_field(
+			'sophi_override_auth_url',
+			__( 'Override Auth URL', 'sophi-wp' ),
+			__NAMESPACE__ . '\render_input',
+			SETTINGS_GROUP,
+			'sophi_override_api',
+			[
+					'label_for'   => 'sophi_override_auth_url',
+					'description' => __( 'For example, https://sophi-xyz.auth0.com/oauth/token', 'sophi-wp' ),
+			]
+	);
+
+	add_settings_field(
+			'sophi_override_url',
+			__( 'Override API URL', 'sophi-wp' ),
+			__NAMESPACE__ . '\render_input',
+			SETTINGS_GROUP,
+			'sophi_override_api',
+			[
+					'label_for'   => 'sophi_override_url',
+					'description' => __( 'For example, https://xyz.sophi.io/v1/', 'sophi-wp' ),
+			]
+	);
+
+	add_settings_field(
+			'sophi_override_client_id',
+			__( 'Override Client ID', 'sophi-wp' ),
+			__NAMESPACE__ . '\render_input',
+			SETTINGS_GROUP,
+			'sophi_override_api',
+			[
+					'label_for' => 'sophi_override_client_id',
+			]
+	);
+
+	add_settings_field(
+			'sophi_override_client_secret',
+			__( 'Override Client Secret', 'sophi-wp' ),
+			__NAMESPACE__ . '\render_input',
+			SETTINGS_GROUP,
+			'sophi_override_api',
+			[
+					'label_for' => 'sophi_override_client_secret',
+			]
+	);
+
+	add_settings_field(
+			'sophi_override_audience',
+			__( 'Override Audience', 'sophi-wp' ),
+			__NAMESPACE__ . '\render_input',
+			SETTINGS_GROUP,
+			'sophi_override_api',
+			[
+					'label_for'   => 'sophi_override_audience',
+					'description' => __( 'For example, https://api.sophi.xyz/', 'sophi-wp' ),
+			]
+	);
+
+	add_settings_field(
+			'sophi_override_grant_type',
+			__( 'Override Grant Type', 'sophi-wp' ),
+			__NAMESPACE__ . '\render_input',
+			SETTINGS_GROUP,
+			'sophi_override_api',
+			[
+					'label_for' => 'sophi_override_grant_type',
+					'default'   => 'client_credentials'
+			]
+	);
 }
 
 /**
@@ -228,13 +306,19 @@ function get_default_settings( $key = '' ) {
 	}
 
 	$default = [
-		'environment'         => $default_environment,
-		'collector_url'       => 'collector.sophi.io',
-		'tracker_client_id'   => get_domain(),
-		'host'                => '',
-		'tenant_id'           => '',
-		'site_automation_url' => '',
-		'query_integration'   => 1,
+			'environment'                  => $default_environment,
+			'collector_url'                => 'collector.sophi.io',
+			'tracker_client_id'            => get_domain(),
+			'host'                         => '',
+			'tenant_id'                    => '',
+			'site_automation_url'          => '',
+			'sophi_override_auth_url'      => '',
+			'sophi_override_url'           => '',
+			'sophi_override_client_id'     => '',
+			'sophi_override_client_secret' => '',
+			'sophi_override_audience'      => '',
+			'sophi_override_grant_type'    => '',
+			'query_integration'            => 1,
 	];
 
 	if ( ! $key ) {
@@ -272,6 +356,34 @@ function sanitize_settings( $settings ) {
 		);
 	}
 
+	if ( empty( $settings['sophi_override_auth_url']) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Sophi Override Auth URL is required for Override actions.', 'sophi-wp' )
+		);
+	} else if ( ! filter_var( $settings['sophi_override_auth_url'], FILTER_VALIDATE_URL ) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Sophi Override Auth URL is invalid.', 'sophi-wp' )
+		);
+	}
+
+	if ( empty( $settings['sophi_override_url']) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Sophi Override URL is required for Override actions.', 'sophi-wp' )
+		);
+	} else if ( ! filter_var( $settings['sophi_override_url'], FILTER_VALIDATE_URL ) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Sophi Override URL is invalid.', 'sophi-wp' )
+		);
+	}
+
 	if ( empty( $settings['collector_url']) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
@@ -290,6 +402,18 @@ function sanitize_settings( $settings ) {
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
 			__( 'Both Host and Tenant ID are required for Site Automation integration.', 'sophi-wp' )
+		);
+	}
+
+	if ( empty( $settings['sophi_override_client_id'] )
+		 || empty( $settings['sophi_override_client_secret'] )
+		 || empty( $settings['sophi_override_audience'] )
+		 || empty( $settings['sophi_override_grant_type'] )
+	) {
+		add_settings_error(
+				SETTINGS_GROUP,
+				SETTINGS_GROUP,
+				__( 'All Client ID, Client Secret, Audience and Audience are required for Override actions.', 'sophi-wp' )
 		);
 	}
 

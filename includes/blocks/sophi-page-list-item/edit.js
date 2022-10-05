@@ -136,6 +136,7 @@ const SiteAutomationItemBlockEdit = ({
 	);
 
 	const featuredImageTag = (
+		// eslint-disable-next-line react/no-danger
 		<div style={{ maxWidth: '250px' }} dangerouslySetInnerHTML={{ __html: featuredImage }} />
 	);
 

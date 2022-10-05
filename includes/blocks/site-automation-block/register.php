@@ -35,6 +35,7 @@ function register() {
 function render_block_callback( $attributes, $content, $block ) {
 	$is_gb_editor = \defined( 'REST_REQUEST' ) && REST_REQUEST && ! empty( $_REQUEST['context'] ) && 'edit' === $_REQUEST['context'];
 
+	// Render only on the front end.
 	if( $is_gb_editor ) {
 		return '';
 	}
