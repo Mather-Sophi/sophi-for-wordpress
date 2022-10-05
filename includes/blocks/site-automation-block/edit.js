@@ -153,28 +153,26 @@ const SiteAutomationBlockEdit = ({
 		if (undefined !== innerBlocks) {
 			const index = innerBlocks.findIndex((item) => item.attributes.postUpdated === true);
 			if (index !== -1) {
-				if (innerBlocks[index].attributes.postUpdated) {
-					innerBlocks[index].attributes.postUpdated = false;
+				innerBlocks[index].attributes.postUpdated = false;
 
-					if (innerBlocks[index].attributes.overrideRule === 'in') {
-						innerBlocks[index].attributes.overrideRule = '';
-						// eslint-disable-next-line no-use-before-define
-						const { overridePostID, overrideExpiry } = innerBlocks[index].attributes;
+				if (innerBlocks[index].attributes.overrideRule === 'in') {
+					innerBlocks[index].attributes.overrideRule = '';
+					// eslint-disable-next-line no-use-before-define
+					const { overridePostID, overrideExpiry } = innerBlocks[index].attributes;
 
-						// Update the inner blocks.
-						// eslint-disable-next-line no-await-in-loop
-						const newInnerBlocks = await getPosts(overridePostID);
-						innerBlocks.splice(index + 1, 0, newInnerBlocks[0]);
-						replaceInnerBlocks(clientId, innerBlocks, false);
+					// Update the inner blocks.
+					// eslint-disable-next-line no-await-in-loop
+					const newInnerBlocks = await getPosts(overridePostID);
+					innerBlocks.splice(index + 1, 0, newInnerBlocks[0]);
+					replaceInnerBlocks(clientId, innerBlocks, false);
 
-						// Update the post at API level.
-						updatePost({
-							ruleType: 'in',
-							overridePostID,
-							overrideExpiry,
-							position: index + 1,
-						});
-					}
+					// Update the post at API level.
+					updatePost({
+						ruleType: 'in',
+						overridePostID,
+						overrideExpiry,
+						position: index + 1,
+					});
 				}
 			}
 		}

@@ -3,12 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Popover, ToolbarButton, ToolbarGroup, SelectControl } from '@wordpress/components';
-import {
-	BlockControls,
-	useBlockProps,
-} from '@wordpress/block-editor';
+import { BlockControls, useBlockProps } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
-import { ContentPicker } from '@10up/block-components';
+import { Link, ContentPicker } from '@10up/block-components';
 
 /**
  * Internal dependencies
@@ -158,9 +155,8 @@ const SiteAutomationItemBlockEdit = ({
 			<div className="curated-item" {...blockProps}>
 				{featuredImage && !linkToFeaturedImage && featuredImageTag}
 				{featuredImage && linkToFeaturedImage && <a href={postLink}>{featuredImageTag}</a>}
-				<a href={postLink} target="_blank" rel="noreferrer">
-					{postTitle}
-				</a>
+				{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+				<Link value={postTitle} url={postLink} />
 				{postAuthor && <div className="post-author">{postAuthor}</div>}
 				<time dateTime={postDateC} className="post-date">
 					{postDate}
