@@ -111,7 +111,7 @@ const SiteAutomationBlockEdit = ({
 				}
 			},
 			(err) => {
-				console.log(err);
+				alert(err.message);
 			},
 		);
 
@@ -144,7 +144,7 @@ const SiteAutomationBlockEdit = ({
 				console.log(data);
 			},
 			(err) => {
-				console.dir(err);
+				alert(err.message);
 			},
 		);
 	};

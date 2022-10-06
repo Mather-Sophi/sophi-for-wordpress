@@ -62,7 +62,6 @@ const SiteAutomationItemBlockEdit = ({
 	};
 
 	const handleOverride = () => {
-		console.log(overrideExpiry);
 		if (overrideRule === '') {
 			alert('Please select override rule');
 			return;

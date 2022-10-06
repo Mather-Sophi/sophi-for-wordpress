@@ -228,7 +228,7 @@ function fields_setup() {
 			'sophi_override_api',
 			[
 					'label_for'   => 'sophi_override_url',
-					'description' => __( 'For example, https://xyz.sophi.io/v1/', 'sophi-wp' ),
+					'description' => __( 'For example, https://xyz.sophi.io/v1/, please add a slash (/) in the end.', 'sophi-wp' ),
 			]
 	);
 
@@ -262,7 +262,7 @@ function fields_setup() {
 			'sophi_override_api',
 			[
 					'label_for'   => 'sophi_override_audience',
-					'description' => __( 'For example, https://api.sophi.xyz/', 'sophi-wp' ),
+					'description' => __( 'For example, https://api.sophi.xyz, do not add a slash (/) in the end.', 'sophi-wp' ),
 			]
 	);
 

@@ -260,11 +260,15 @@ class EndPoints extends WP_REST_Controller {
 		if ( $current_user->exists() ) {
 			$user_email = $current_user->user_email;
 		} else {
-			return __( 'Unauthorised user, please log in.', 'sophi-wp' );
+			return new \WP_Error( 401, __( 'Unauthorised user, please log in.', 'sophi-wp' ) );
 		}
 
-		// @TODO: Create auth token periodically.
-		$api_token = get_transient( 'sophi_override_auth_token' );
+		// Get the auth token.
+		$api_token = $this->request->get_the_override_token();
+
+		if ( is_wp_error( $api_token ) ) {
+			return new \WP_Error( 401, __( 'Invalid API token, please try adding correct credentials on the settings page.', 'sophi-wp' ) );
+		}
 
 		// Request parameters.
 		$timeout = 3;
@@ -272,7 +276,7 @@ class EndPoints extends WP_REST_Controller {
 
 		$api_url = get_sophi_settings( 'sophi_override_url' );
 		$host    = get_sophi_settings( 'host' );
-		$api_url = $api_url . 'v1/hosts/' . $host . '/overrides';
+		$api_url = $api_url . 'hosts/' . $host . '/overrides';
 
 		$rule_type        = sanitize_title( $attributes['ruleType'] );
 		$override_post_ID = sanitize_title( $attributes['overridePostID'] );
@@ -300,6 +304,16 @@ class EndPoints extends WP_REST_Controller {
 			),
 			'body'      =>  $body,
 		];
+
+		/**
+		 * Filters the arguments being passed to the override api auth request.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param array  $args    Arguments.
+		 * @param string $api_url Auth API URL.
+		 */
+		$args = apply_filters( 'sophi_override_request_args', $args, $api_url );
 
 		if ( 'in' === $rule_type ) {
 
@@ -329,7 +343,7 @@ class EndPoints extends WP_REST_Controller {
 			return json_decode( wp_remote_retrieve_body( $result ), true );
 		}
 
-		return false;
+		return new \WP_Error( 401, __( 'Invalid Rule Type.', 'sohi-wp' ) );
 	}
 
 	/**
