@@ -20,6 +20,7 @@ class SkipTracking_Tests extends Base\TestCase {
 
 		\WP_Mock::userFunction( 'wp_json_encode' )->andReturnUsing(
 			function( $data ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode -- Mocking the function
 				return json_encode( $data );
 			}
 		);
