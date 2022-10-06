@@ -9,29 +9,6 @@ class SkipTracking_Tests extends Base\TestCase {
 		'functions/content-sync.php',
 	);
 
-	public function setUp() :void {
-		\WP_Mock::setUp();
-
-		\WP_Mock::userFunction( 'wp_hash' )->andReturnUsing(
-			function( $data ) {
-				return md5( $data );
-			}
-		);
-
-		\WP_Mock::userFunction( 'wp_json_encode' )->andReturnUsing(
-			function( $data ) {
-				// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode -- Mocking the function
-				return json_encode( $data );
-			}
-		);
-
-		parent::setUp();
-	}
-
-	public function tearDown() :void {
-		\WP_Mock::tearDown();
-	}
-
 	/**
 	 * Test Maybe Skip logic
 	 *
