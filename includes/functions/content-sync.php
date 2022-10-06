@@ -316,6 +316,15 @@ function get_post_data( $post ) {
 	return apply_filters( 'sophi_post_data', $data );
 }
 
+/**
+ * Check if the current data has been already tracked recently ans should be skipped.
+ *
+ * @since 1.3.0
+ *
+ * @param array $data Data being tracked
+ *
+ * @return boolean
+ */
 function maybe_skip_track_event( $data ) {
 	// Ignore modifiedAt.
 	unset( $data['modifiedAt'] );
