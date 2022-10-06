@@ -54,7 +54,10 @@ class SkipTracking_Tests extends Base\TestCase {
 	public function data_provider_for_test_maybe_skip() {
 		return array(
 			'Should ignore modifiedAt argument'         => array(
-				'data'          => array( 'a' => 'b', 'modifiedAt' => 'c' ),
+				'data'          => array(
+					'a'          => 'b',
+					'modifiedAt' => 'c',
+				),
 				'get_transient' => false,
 				'set_transient' => array( 'a' => 'b' ),
 				'should_skip'   => false,
