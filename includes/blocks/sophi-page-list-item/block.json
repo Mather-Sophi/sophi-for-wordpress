@@ -32,6 +32,9 @@
 		"overrideRule": {
 			"type" : "string"
 		},
+		"overrideLocation": {
+			"type" : "string"
+		},
 		"overridePostID": {
 			"type" : "integer"
 		},

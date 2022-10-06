@@ -325,7 +325,7 @@ class EndPoints extends WP_REST_Controller {
 
 		if ( 'in' === $rule_type ) {
 
-			// Update the override entry in the database so we don't have to wait for API to update the details at front end.
+			// Update the override entry in the database, so we don't have to wait for API to update the details at front end.
 			$override_post = [
 				"overridePostID" => $override_post_ID,
 				"position"       => $position,

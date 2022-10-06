@@ -157,16 +157,19 @@ const SiteAutomationBlockEdit = ({
 
 				if (innerBlocks[index].attributes.overrideRule === 'in') {
 					// eslint-disable-next-line no-use-before-define
-					const { overridePostID, overrideExpiry } = innerBlocks[index].attributes;
+					const { overridePostID, overrideExpiry, overrideLocation } =
+						innerBlocks[index].attributes;
+					const insertLocation = overrideLocation === 'above' ? index : index + 1;
 
 					// Reset override attributes before render new set.
 					innerBlocks[index].attributes.overrideRule = '';
 					innerBlocks[index].attributes.overridePostID = 0;
+					innerBlocks[index].attributes.overrideLocation = '';
 
 					// Update the inner blocks.
 					// eslint-disable-next-line no-await-in-loop
 					const newInnerBlocks = await getPosts(overridePostID);
-					innerBlocks.splice(index + 1, 0, newInnerBlocks[0]);
+					innerBlocks.splice(insertLocation, 0, newInnerBlocks[0]);
 					replaceInnerBlocks(clientId, innerBlocks, false);
 
 					// Update the post at API level.
@@ -174,7 +177,7 @@ const SiteAutomationBlockEdit = ({
 						ruleType: 'in',
 						overridePostID,
 						overrideExpiry,
-						position: index + 1,
+						position: insertLocation + 1,
 					});
 				}
 			}

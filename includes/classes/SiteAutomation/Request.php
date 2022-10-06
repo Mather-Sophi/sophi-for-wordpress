@@ -120,7 +120,7 @@ class Request {
 		// If override data is received, inject it into the database, and skip the actual call to API.
 		if( $override_in_action && is_array( $site_automation_data ) ) {
 			if( 'in' === $override_post['ruleType'] ) {
-				array_splice( $site_automation_data, $override_post['position'], 0, $override_post['overridePostID'] );
+				array_splice( $site_automation_data, $override_post['position'] - 1 , 0, $override_post['overridePostID'] );
 			}
 
 			$response = $site_automation_data;

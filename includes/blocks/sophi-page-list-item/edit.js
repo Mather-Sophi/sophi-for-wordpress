@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { Popover, ToolbarButton, ToolbarGroup, SelectControl } from '@wordpress/components';
 import { BlockControls, useBlockProps } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
-import { Link, ContentPicker } from '@10up/block-components';
+import { Link, ContentPicker, CheckboxControl } from '@10up/block-components';
 
 /**
  * Internal dependencies
@@ -40,6 +40,7 @@ const SiteAutomationItemBlockEdit = ({
 		linkToFeaturedImage = false,
 		postUpdated = false,
 		overrideRule = '',
+		overrideLocation = 'below',
 		overridePostID = 0,
 		overrideExpiry = 2,
 	},
@@ -70,6 +71,11 @@ const SiteAutomationItemBlockEdit = ({
 			alert('Please select the post');
 			return;
 		}
+
+		// Close the popup.
+		setShowPopup(false);
+
+		// Set postUpdated to true so this get caught by the parent.
 		setAttributes({
 			overrideExpiry,
 			postUpdated: true,
@@ -102,21 +108,36 @@ const SiteAutomationItemBlockEdit = ({
 						__nextHasNoMarginBottom
 					/>
 				</div>
+				{overrideRule === 'in' && (
+					<div className="override-row">
+						<SelectControl
+							value={overrideLocation}
+							options={[
+								{ label: 'Insert below', value: 'below' },
+								{ label: 'Insert above', value: 'above' },
+							]}
+							onChange={(newLocation) =>
+								setAttributes({ overrideLocation: newLocation })
+							}
+						/>
+					</div>
+				)}
 				<div className="override-row">
 					<ContentPicker
 						content={selectedPost}
 						onPickChange={handlePickChanage}
 						mode="post"
-						label="Please select a Post:"
+						label="Please select a post:"
 						contentTypes={['post']}
 					/>
 				</div>
 				<div className="override-row">
 					{/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-					<label>Expire override on:</label>{' '}
+					<label htmlFor="override_expiry">Expire override on:</label>{' '}
 					<input
 						type="number"
 						style={{ maxWidth: '40px' }}
+						id="override_expiry"
 						value={overrideExpiry}
 						onChange={(newExpiry) =>
 							setAttributes({ overrideExpiry: newExpiry.target.value })
