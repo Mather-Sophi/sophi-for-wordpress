@@ -22,9 +22,10 @@ class Services {
 	 * Register services needs for Site Automation.
 	 */
 	public function register() {
+		$this->auth        = new Auth();
 		$this->request     = new Request();
 		$this->integration = new Integration( $this->request );
-		$this->endpoints   = new EndPoints( $this->request );
+		$this->endpoints   = new EndPoints( $this->auth, $this->request );
 	}
 
 	/**

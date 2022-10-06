@@ -22,6 +22,13 @@ class EndPoints extends WP_REST_Controller {
 	const SOPHI_NAMESPACE = 'sophi/v1';
 
 	/**
+	 * Auth object.
+	 *
+	 * @var Request $auth
+	 */
+	public $auth;
+
+	/**
 	 * Request object.
 	 *
 	 * @var Request $request
@@ -32,7 +39,8 @@ class EndPoints extends WP_REST_Controller {
 	 * Class constructor.
 	 *
 	 */
-	public function __construct( $request ) {
+	public function __construct( $auth, $request ) {
+		$this->auth    = $auth;
 		$this->request = $request;
 
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
@@ -264,7 +272,7 @@ class EndPoints extends WP_REST_Controller {
 		}
 
 		// Get the auth token.
-		$api_token = $this->request->get_the_override_token();
+		$api_token = $this->auth->get_access_token();
 
 		if ( is_wp_error( $api_token ) ) {
 			return new \WP_Error( 401, __( 'Invalid API token, please try adding correct credentials on the settings page.', 'sophi-wp' ) );
