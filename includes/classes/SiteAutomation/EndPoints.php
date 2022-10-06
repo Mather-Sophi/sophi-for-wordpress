@@ -91,13 +91,13 @@ class EndPoints extends WP_REST_Controller {
 		// Request parameters.
 		$attributes = $request->get_query_params();
 
-		$page_name              = sanitize_title( $attributes['pageName'] );
-		$override_post_ID       = sanitize_title( $attributes['overridePostID'] );
-		$widget_name            = sanitize_title( $attributes['widgetName'] );
-		$display_featured_image = sanitize_title( $attributes['displayFeaturedImage'] );
-		$display_author         = sanitize_title( $attributes['displayAuthor'] );
-		$display_post_date      = sanitize_title( $attributes['displayPostDate'] );
-		$display_post_excerpt   = sanitize_title( $attributes['displayPostExcept'] );
+		$page_name              = isset( $attributes['pageName'] ) ? sanitize_title( $attributes['pageName'] ) : '';
+		$override_post_ID       = isset( $attributes['overridePostID'] ) ? sanitize_title( $attributes['overridePostID'] ) : '';
+		$widget_name            = isset( $attributes['widgetName'] ) ? sanitize_title( $attributes['widgetName'] ) : '';
+		$display_featured_image = isset( $attributes['displayFeaturedImage'] ) ? sanitize_title( $attributes['displayFeaturedImage'] ) : '';
+		$display_author         = isset( $attributes['displayAuthor'] ) ? sanitize_title( $attributes['displayAuthor'] ) : '';
+		$display_post_date      = isset( $attributes['displayPostDate'] ) ? sanitize_title( $attributes['displayPostDate'] ) : '';
+		$display_post_excerpt   = isset( $attributes['displayPostExcept'] ) ? sanitize_title( $attributes['displayPostExcept'] ) : '';
 
 		$rules = [
 			'display_featured_image' => $display_featured_image,
@@ -201,7 +201,7 @@ class EndPoints extends WP_REST_Controller {
 	public function get_post_details( $post_ID, $rules ) {
 		$post_data = new \stdClass();
 
-		$post_data->postLink = get_post_permalink( $post_ID );
+		$post_data->postLink = get_the_permalink( $post_ID );
 		if ( $rules['display_featured_image'] ) {
 			$post_data->featuredImage = get_the_post_thumbnail( $post_ID );
 		}
@@ -279,21 +279,21 @@ class EndPoints extends WP_REST_Controller {
 		}
 
 		// Request parameters.
-		$timeout = 3;
+		$timeout    = 3;
 		$attributes = $request->get_query_params();
 
 		$api_url = get_sophi_settings( 'sophi_override_url' );
 		$host    = get_sophi_settings( 'host' );
 		$api_url = $api_url . 'hosts/' . $host . '/overrides';
 
-		$rule_type        = sanitize_title( $attributes['ruleType'] );
-		$override_post_ID = sanitize_title( $attributes['overridePostID'] );
-		$override_expiry  = sanitize_title( $attributes['overrideExpiry'] );
-		$position         = sanitize_title( $attributes['position'] );
-		$page_name        = sanitize_title( $attributes['pageName'] );
-		$widget_name      = sanitize_title( $attributes['widgetName'] );
+		$rule_type        = isset( $attributes['ruleType'] ) ? sanitize_title( $attributes['ruleType'] ) : '';
+		$page_name        = isset( $attributes['pageName'] ) ? sanitize_title( $attributes['pageName'] ) : '';
+		$override_post_ID = isset( $attributes['overridePostID'] ) ? sanitize_title( $attributes['overridePostID'] ) : '';
+		$widget_name      = isset( $attributes['widgetName'] ) ? sanitize_title( $attributes['widgetName'] ) : '';
+		$override_expiry  = isset( $attributes['widgetName'] ) ? sanitize_title( $attributes['overrideExpiry'] ) : 2;
+		$position         = isset( $attributes['position'] ) ? sanitize_title( $attributes['position'] ) : 1;
 
-		if( empty( $widget_name ) && 'ban' !== $rule_type ) {
+		if ( empty( $widget_name ) && 'ban' !== $rule_type ) {
 			return new \WP_Error( 401, __( 'Missing parameter: widgetName', 'sophi-wp' ) );
 		}
 
@@ -308,22 +308,23 @@ class EndPoints extends WP_REST_Controller {
 		);
 		$body = wp_json_encode( $body );
 		$args = [
-			'method'      => 'POST',
+			'method'  => 'POST',
 			'headers' => array(
 				'Content-Type'  => 'application/json',
 				'Authorization' => 'Bearer ' . $api_token,
 				'Cache-Control' => 'no-cache',
 			),
-			'body'      =>  $body,
+			'body'    => $body,
 		];
 
 		/**
 		 * Filters the arguments being passed to the override api auth request.
 		 *
+		 * @param array $args Arguments.
+		 * @param string $api_url Auth API URL.
+		 *
 		 * @since 1.3.0
 		 *
-		 * @param array  $args    Arguments.
-		 * @param string $api_url Auth API URL.
 		 */
 		$args = apply_filters( 'sophi_override_request_args', $args, $api_url );
 
@@ -342,15 +343,16 @@ class EndPoints extends WP_REST_Controller {
 			return new \WP_Error( wp_remote_retrieve_response_code( $result ), $result['response']['message'] );
 		}
 
-		// @TODO: check a successs parameter from response and wrap the following code in if condition.
-		// Update the override entry in the database, so we don't have
-		// to wait for API to update the details at front end.
-		$override_post = [
-			"overridePostID" => $override_post_ID,
-			"position"       => $position,
-			"ruleType"       => 'ban' === $rule_type ? 'out' : $rule_type,
-		];
-		$this->request->get( $page_name, $widget_name, 3, $override_post );
+		if ( 200 === $result['response']['code'] ) {
+			// Update the override entry in the database, so we don't have
+			// to wait for API to update the details at front end.
+			$override_post = [
+				"overridePostID" => $override_post_ID,
+				"position"       => $position,
+				"ruleType"       => 'ban' === $rule_type ? 'out' : $rule_type,
+			];
+			$this->request->get( $page_name, $widget_name, 3, $override_post );
+		}
 
 		return json_decode( wp_remote_retrieve_body( $result ), true );
 	}
