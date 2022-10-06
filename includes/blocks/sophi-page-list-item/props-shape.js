@@ -4,6 +4,7 @@ export const propsShape = {
 	attributes: PropTypes.shape({
 		postUpdated: PropTypes.bool,
 		postTitle: PropTypes.string,
+		postID: PropTypes.number,
 		postLink: PropTypes.string,
 		postExcept: PropTypes.string,
 		postAuthor: PropTypes.string,

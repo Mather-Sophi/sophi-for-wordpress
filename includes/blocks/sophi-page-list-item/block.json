@@ -8,6 +8,9 @@
 		"postTitle": {
 			"type" : "string"
 		},
+		"postID": {
+			"type" : "integer"
+		},
 		"postLink": {
 			"type" : "string"
 		},

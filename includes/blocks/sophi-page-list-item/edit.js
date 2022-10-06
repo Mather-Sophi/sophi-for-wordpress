@@ -30,6 +30,7 @@ import { editPropsShape } from './props-shape';
  */
 const SiteAutomationItemBlockEdit = ({
 	attributes: {
+		postID = 0,
 		postTitle = '',
 		postLink = '',
 		postExcept = '',
@@ -67,7 +68,7 @@ const SiteAutomationItemBlockEdit = ({
 			alert('Please select override rule');
 			return;
 		}
-		if (overridePostID === 0) {
+		if (overridePostID === 0 && (overrideRule === 'in' || overrideRule === 'replace')) {
 			alert('Please select the post');
 			return;
 		}
@@ -122,15 +123,17 @@ const SiteAutomationItemBlockEdit = ({
 						/>
 					</div>
 				)}
-				<div className="override-row">
-					<ContentPicker
-						content={selectedPost}
-						onPickChange={handlePickChanage}
-						mode="post"
-						label="Please select a post:"
-						contentTypes={['post']}
-					/>
-				</div>
+				{(overrideRule === 'in' || overrideRule === 'replace') && (
+					<div className="override-row">
+						<ContentPicker
+							content={selectedPost}
+							onPickChange={handlePickChanage}
+							mode="post"
+							label="Please select a post:"
+							contentTypes={['post']}
+						/>
+					</div>
+				)}
 				<div className="override-row">
 					{/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
 					<label htmlFor="override_expiry">Expire override on:</label>{' '}

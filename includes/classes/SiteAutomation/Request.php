@@ -72,7 +72,7 @@ class Request {
 
 		$this->status         = $this->get_status();
 		$site_automation_data = false;
-		$post_id = false;
+		$post_id              = false;
 
 		$override_in_action = 0 !== count( $override_post );
 
@@ -104,7 +104,7 @@ class Request {
 			);
 
 			if ( $query->have_posts() ) {
-				$post_id = $query->posts[0];
+				$post_id     = $query->posts[0];
 				$last_update = get_post_meta( $post_id, 'sophi_site_automation_last_updated', true );
 
 				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() || $override_in_action ) {
@@ -118,9 +118,22 @@ class Request {
 		}
 
 		// If override data is received, inject it into the database, and skip the actual call to API.
-		if( $override_in_action && is_array( $site_automation_data ) ) {
-			if( 'in' === $override_post['ruleType'] ) {
-				array_splice( $site_automation_data, $override_post['position'] - 1 , 0, $override_post['overridePostID'] );
+		if ( $override_in_action && is_array( $site_automation_data ) ) {
+			$remove    = 0;
+			$index     = $override_post['position'] - 1;
+			$rule_type = $override_post['ruleType'];
+
+			// Check where to perform override.
+			if ( 'in' !== $rule_type ) {
+				$remove = 1;
+			}
+
+			if ( 'out' === $rule_type ) {
+				// When out/ban.
+				array_splice( $site_automation_data, $index, $remove );
+			} else {
+				// When add/replace.
+				array_splice( $site_automation_data, $index, $remove, $override_post['overridePostID'] );
 			}
 
 			$response = $site_automation_data;
@@ -147,6 +160,7 @@ class Request {
 		}
 
 		$this->set_status( [ 'success' => true ] );
+
 		return $this->process( $response, $bypass_cache, $post_id );
 	}
 

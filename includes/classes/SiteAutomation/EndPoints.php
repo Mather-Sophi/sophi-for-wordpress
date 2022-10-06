@@ -293,14 +293,18 @@ class EndPoints extends WP_REST_Controller {
 		$page_name        = sanitize_title( $attributes['pageName'] );
 		$widget_name      = sanitize_title( $attributes['widgetName'] );
 
+		if( empty( $widget_name ) && 'ban' !== $rule_type ) {
+			return new \WP_Error( 401, __( 'Missing parameter: widgetName', 'sophi-wp' ) );
+		}
+
 		$body = array(
 			"articleId"           => $override_post_ID,
 			"expirationHourOfDay" => $override_expiry,
 			"page"                => $page_name,
-			"position"            => $position,
+			"position"            => 'ban' === $rule_type || 'out' === $rule_type ? '' : $position,
 			"requestedUserName"   => $user_email,
-			"ruleType"            => $rule_type,
-			"widgetName"          => $widget_name,
+			"ruleType"            => 'ban' === $rule_type ? 'out' : $rule_type,
+			"widgetName"          => 'ban' === $rule_type ? null : $widget_name,
 		);
 		$body = wp_json_encode( $body );
 		$args = [
@@ -323,35 +327,32 @@ class EndPoints extends WP_REST_Controller {
 		 */
 		$args = apply_filters( 'sophi_override_request_args', $args, $api_url );
 
-		if ( 'in' === $rule_type ) {
-
-			// Update the override entry in the database, so we don't have to wait for API to update the details at front end.
-			$override_post = [
-				"overridePostID" => $override_post_ID,
-				"position"       => $position,
-				"ruleType"       => $rule_type,
-			];
-			$this->request->get( $page_name, $widget_name, 3, $override_post );
-
-			if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
-				$result = vip_safe_wp_remote_get( $api_url, '', 3, $timeout, 20, $args );
-			} else {
-				$args['timeout'] = $timeout;
-				$result          = wp_remote_post( $api_url, $args ); // phpcs:ignore
-			}
-
-			if ( is_wp_error( $result ) ) {
-				return $result;
-			}
-
-			if ( wp_remote_retrieve_response_code( $result ) !== 200 ) {
-				return new \WP_Error( wp_remote_retrieve_response_code( $result ), $result['response']['message'] );
-			}
-
-			return json_decode( wp_remote_retrieve_body( $result ), true );
+		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
+			$result = vip_safe_wp_remote_get( $api_url, '', 3, $timeout, 20, $args );
+		} else {
+			$args['timeout'] = $timeout;
+			$result          = wp_remote_post( $api_url, $args ); // phpcs:ignore
 		}
 
-		return new \WP_Error( 401, __( 'Invalid Rule Type.', 'sohi-wp' ) );
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		if ( wp_remote_retrieve_response_code( $result ) !== 200 ) {
+			return new \WP_Error( wp_remote_retrieve_response_code( $result ), $result['response']['message'] );
+		}
+
+		// @TODO: check a successs parameter from response and wrap the following code in if condition.
+		// Update the override entry in the database, so we don't have
+		// to wait for API to update the details at front end.
+		$override_post = [
+			"overridePostID" => $override_post_ID,
+			"position"       => $position,
+			"ruleType"       => 'ban' === $rule_type ? 'out' : $rule_type,
+		];
+		$this->request->get( $page_name, $widget_name, 3, $override_post );
+
+		return json_decode( wp_remote_retrieve_body( $result ), true );
 	}
 
 	/**
@@ -385,7 +386,7 @@ class EndPoints extends WP_REST_Controller {
 		);
 		$params['widgetName'] = array(
 			'description'       => __( 'Name of the widget.', 'sophi-wp' ),
-			'required'          => true,
+			'required'          => false,
 			'type'              => 'string',
 			'sanitize_callback' => 'sanitize_text_field',
 			'validate_callback' => 'rest_validate_request_arg',

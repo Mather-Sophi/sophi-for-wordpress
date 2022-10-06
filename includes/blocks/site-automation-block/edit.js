@@ -95,10 +95,14 @@ const SiteAutomationBlockEdit = ({
 						updatedInnerBlocks.push(
 							createBlock('sophi/page-list-item', {
 								postUpdated: false,
-								postLink: item.postLink,
+								postID: item.ID,
 								postTitle: item.post_title,
+								postLink: item.postLink,
 								postExcept: displayPostExcept ? item.post_excerpt : '',
-								featuredImage: displayFeaturedImage && item.featuredImage ? item.featuredImage : '',
+								featuredImage:
+									displayFeaturedImage && item.featuredImage
+										? item.featuredImage
+										: '',
 								linkToFeaturedImage: addLinkToFeaturedImage,
 								postAuthor: displayAuthor ? item.postAuthor : '',
 								postDate: displayPostDate ? item.postDate : '',
@@ -149,37 +153,61 @@ const SiteAutomationBlockEdit = ({
 		);
 	};
 
+	// eslint-disable-next-line consistent-return
 	const updateInnerBlocks = async () => {
 		if (undefined !== innerBlocks) {
 			const index = innerBlocks.findIndex((item) => item.attributes.postUpdated === true);
 			if (index !== -1) {
-				innerBlocks[index].attributes.postUpdated = false;
+				let { overridePostID } = innerBlocks[index].attributes;
 
-				if (innerBlocks[index].attributes.overrideRule === 'in') {
-					// eslint-disable-next-line no-use-before-define
-					const { overridePostID, overrideExpiry, overrideLocation } =
-						innerBlocks[index].attributes;
-					const insertLocation = overrideLocation === 'above' ? index : index + 1;
+				// eslint-disable-next-line no-use-before-define
+				const { postID, overrideRule, overrideExpiry, overrideLocation } =
+					innerBlocks[index].attributes;
 
-					// Reset override attributes before render new set.
-					innerBlocks[index].attributes.overrideRule = '';
-					innerBlocks[index].attributes.overridePostID = 0;
-					innerBlocks[index].attributes.overrideLocation = '';
+				// Check where to perform override.
+				let removeItems = 0;
+				let insertLocation = index;
 
-					// Update the inner blocks.
-					// eslint-disable-next-line no-await-in-loop
-					const newInnerBlocks = await getPosts(overridePostID);
-					innerBlocks.splice(insertLocation, 0, newInnerBlocks[0]);
-					replaceInnerBlocks(clientId, innerBlocks, false);
-
-					// Update the post at API level.
-					updatePost({
-						ruleType: 'in',
-						overridePostID,
-						overrideExpiry,
-						position: insertLocation + 1,
-					});
+				// Adding a new one.
+				if (overrideRule === 'in') {
+					insertLocation = overrideLocation === 'above' ? index : index + 1;
+				} else {
+					// Remove an item when: replace/remove/ban.
+					removeItems = 1;
 				}
+
+				// Reset override attributes before render new set.
+				innerBlocks[index].attributes.postUpdated = false;
+				innerBlocks[index].attributes.overrideRule = '';
+				innerBlocks[index].attributes.overridePostID = 0;
+				innerBlocks[index].attributes.overrideLocation = '';
+
+				// Update the inner blocks.
+				// eslint-disable-next-line no-await-in-loop
+				if (overridePostID !== 0 && overridePostID !== undefined) {
+					// When add/replace.
+					const newInnerBlocks = await getPosts(overridePostID);
+					innerBlocks.splice(insertLocation, removeItems, newInnerBlocks[0]);
+				} else {
+					// When remove/ban.
+					innerBlocks.splice(insertLocation, removeItems);
+				}
+
+				// Replace now.
+				replaceInnerBlocks(clientId, innerBlocks, false);
+
+				// Set selected post ID as an override ID when remove/ban.
+				if (overrideRule === 'out' || overrideRule === 'ban') {
+					overridePostID = postID;
+				}
+
+				// Update the post at API level.
+				updatePost({
+					ruleType: overrideRule,
+					overridePostID,
+					overrideExpiry,
+					position: insertLocation + 1,
+				});
 			}
 		}
 	};
