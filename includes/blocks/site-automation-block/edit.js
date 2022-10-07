@@ -7,7 +7,6 @@ import {
 	InnerBlocks,
 	useBlockProps,
 	store as blockEditorStore,
-
 } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 import { PanelBody, TextControl, ToggleControl, Placeholder } from '@wordpress/components';
@@ -36,6 +35,7 @@ import { editPropsShape } from './props-shape';
  * @param {boolean}  props.attributes.displayFeaturedImage   Whether to display featured image.
  * @param {boolean}  props.attributes.addLinkToFeaturedImage Whether to add post permalink to featured image.
  * @param {string}   props.className                         Class name for the block.
+ * @param {string}   props.clientId                          Block's client ID.
  * @param {Function} props.setAttributes                     Sets the value for block attributes.
  *
  * @returns {Function} Render the edit screen
@@ -208,6 +208,7 @@ const SiteAutomationBlockEdit = ({
 
 	useEffect(() => {
 		curatorPosts();
+		// eslint-disable-next-line
 	}, [
 		pageName,
 		widgetName,
@@ -288,6 +289,7 @@ const SiteAutomationBlockEdit = ({
 			{pageName && widgetName && (
 				<ServerSideRender
 					block="sophi/site-automation-block"
+					// eslint-disable-next-line react/jsx-no-useless-fragment,react/no-unstable-nested-components
 					EmptyResponsePlaceholder={() => <></>}
 					attributes={{
 						pageName,

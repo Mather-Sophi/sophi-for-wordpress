@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { Popover, ToolbarButton, ToolbarGroup, SelectControl } from '@wordpress/components';
 import { BlockControls, useBlockProps } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
-import { Link, ContentPicker, CheckboxControl } from '@10up/block-components';
+import { Link, ContentPicker } from '@10up/block-components';
 
 /**
  * Internal dependencies
@@ -16,21 +16,26 @@ import { editPropsShape } from './props-shape';
  * Edit component.
  * See https://wordpress.org/gutenberg/handbook/designers-developers/developers/block-api/block-edit-save/#edit
  *
- * @param {object}   props                                   The block props.
- * @param {object}   props.attributes                        Block attributes.
- * @param {boolean}  props.attributes.displayPostExcept      Whether to display post excerpt.
- * @param {boolean}  props.attributes.displayAuthor          Whether to display post author.
- * @param {boolean}  props.attributes.displayPostDate        Whether to display post date.
- * @param {boolean}  props.attributes.displayFeaturedImage   Whether to display featured image.
- * @param {boolean}  props.attributes.addLinkToFeaturedImage Whether to add post permalink to featured image.
- * @param {string}   props.className                         Class name for the block.
- * @param {Function} props.setAttributes                     Sets the value for block attributes.
+ * @param {object}   props                                  The block props.
+ * @param {object}   props.attributes                       Block attributes.
+ * @param {boolean}  props.attributes.postTitle 			Post Title.
+ * @param {boolean}  props.attributes.postLink          	Whether to display post author.
+ * @param {boolean}  props.attributes.postExcept        	Whether to display post date.
+ * @param {boolean}  props.attributes.postAuthor   			Whether to display featured image.
+ * @param {boolean}  props.attributes.postDate 				Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.postDateC 			Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.featuredImage 		Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.linkToFeaturedImage 	Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.overrideRule 			Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.overridePostID 		Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.overrideExpiry 		Whether to add post permalink to featured image.
+ * @param {string}   props.className                        Class name for the block.
+ * @param {Function} props.setAttributes                    Sets the value for block attributes.
  *
  * @returns {Function} Render the edit screen
  */
 const SiteAutomationItemBlockEdit = ({
 	attributes: {
-		postID = 0,
 		postTitle = '',
 		postLink = '',
 		postExcept = '',
@@ -39,7 +44,6 @@ const SiteAutomationItemBlockEdit = ({
 		postDateC = '',
 		featuredImage = '',
 		linkToFeaturedImage = false,
-		postUpdated = false,
 		overrideRule = '',
 		overridePostID = 0,
 		overrideExpiry = 2,
@@ -144,7 +148,7 @@ const SiteAutomationItemBlockEdit = ({
 	);
 
 	const featuredImageTag = (
-		// eslint-disable-next-line react/no-danger
+		// phpcs:ignore
 		<div style={{ maxWidth: '250px' }} dangerouslySetInnerHTML={{ __html: featuredImage }} />
 	);
 
