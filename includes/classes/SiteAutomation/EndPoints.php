@@ -226,7 +226,7 @@ class EndPoints extends WP_REST_Controller {
 		$page_name        = isset( $attributes['pageName'] ) ? sanitize_title( $attributes['pageName'] ) : '';
 		$override_post_ID = isset( $attributes['overridePostID'] ) ? sanitize_title( $attributes['overridePostID'] ) : '';
 		$widget_name      = isset( $attributes['widgetName'] ) ? sanitize_title( $attributes['widgetName'] ) : '';
-		$override_expiry  = isset( $attributes['widgetName'] ) ? sanitize_title( $attributes['overrideExpiry'] ) : 2;
+		$override_expiry  = isset( $attributes['overrideExpiry'] ) ? sanitize_title( $attributes['overrideExpiry'] ) : 2;
 		$position         = isset( $attributes['position'] ) ? sanitize_title( $attributes['position'] ) : 1;
 
 		if ( empty( $widget_name ) && 'ban' !== $rule_type ) {

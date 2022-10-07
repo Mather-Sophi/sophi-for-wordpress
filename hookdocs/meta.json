@@ -2,6 +2,9 @@
     "change-supported-post-types": {
         "title": "Change Supported Post Types"
     },
+    "rest-end-points": {
+        "title": "WP REST Endpoints"
+    },
     "modify-post-data": {
         "title": "Modify Post Data"
     },
