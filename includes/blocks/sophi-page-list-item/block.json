@@ -1,5 +1,5 @@
 {
-	"title": "Site Page Single Item",
+	"title": "Sophi Recommend Post",
   "name": "sophi/page-list-item",
   "attributes":{
 		"postUpdated": {
@@ -33,9 +33,6 @@
 			"type" : "boolean"
 		},
 		"overrideRule": {
-			"type" : "string"
-		},
-		"overrideLocation": {
 			"type" : "string"
 		},
 		"overridePostID": {

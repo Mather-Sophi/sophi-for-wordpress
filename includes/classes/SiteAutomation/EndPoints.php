@@ -53,13 +53,13 @@ class EndPoints extends WP_REST_Controller {
 		// GET /sophi/v1/get-posts route.
 		register_rest_route(
 			self::SOPHI_NAMESPACE,
-			'/get-posts',
+			'/curator-posts',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_sophi_posts' ),
+					'callback'            => array( $this, 'get_curator_posts' ),
 					'permission_callback' => '__return_true',
-					'args'                => $this->get_collection_params(),
+					'args'                => $this->get_curator_posts_params(),
 				),
 			)
 		);
@@ -67,13 +67,13 @@ class EndPoints extends WP_REST_Controller {
 		// POST /sophi/v1/update-posts route.
 		register_rest_route(
 			self::SOPHI_NAMESPACE,
-			'/update-posts',
+			'/override-post',
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'update_sophi_posts' ),
+					'callback'            => array( $this, 'override_curator_post' ),
 					'permission_callback' => '__return_true',
-					'args'                => $this->update_collection_params(),
+					'args'                => $this->override_curator_post_params(),
 				),
 			)
 		);
@@ -87,7 +87,7 @@ class EndPoints extends WP_REST_Controller {
 	 * @param  WP_REST_Request $request The request.
 	 * @return mixed
 	 */
-	public function get_sophi_posts( $request ) {
+	public function get_curator_posts( $request ) {
 		// Request parameters.
 		$attributes = $request->get_query_params();
 
@@ -173,6 +173,7 @@ class EndPoints extends WP_REST_Controller {
 			$curated_posts = get_posts( [
 				'post__in'  => $curated_posts,
 				'post_type' => 'post',
+				'orderby'   => 'post__in'
 			] );
 		}
 
@@ -229,7 +230,7 @@ class EndPoints extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_collection_params() {
+	public function get_curator_posts_params() {
 		$params['pageName'] = array(
 			'description'       => __( 'Name of the page.', 'sophi-wp' ),
 			'required'          => true,
@@ -262,7 +263,7 @@ class EndPoints extends WP_REST_Controller {
 	 * @param  WP_REST_Request $request The request.
 	 * @return mixed
 	 */
-	public function update_sophi_posts( $request ) {
+	public function override_curator_post( $request ) {
 		$current_user = wp_get_current_user();
 
 		if ( $current_user->exists() ) {
@@ -364,7 +365,7 @@ class EndPoints extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function update_collection_params() {
+	public function override_curator_post_params() {
 		$params['ruleType'] = array(
 			'description'       => __( 'The rule of Override.', 'sophi-wp' ),
 			'required'          => true,

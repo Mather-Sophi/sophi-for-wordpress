@@ -22,8 +22,11 @@ import './index.css';
  * Register block
  */
 registerBlockType(block.name, {
-	title: __('Sophi Post Item', 'sophi-wp'),
-	description: __('Display curated content by Sophi', 'sophi-wp'),
+	title: __('Sophi Recommend Post', 'sophi-wp'),
+	description: __(
+		'This is the recommended post from Sophi Site Automation for the respective page and widget combination for the parent Site Automation block.',
+		'sophi-wp',
+	),
 	parent: ['sophi/site-automation-block'],
 	edit,
 	save,

@@ -41,7 +41,6 @@ const SiteAutomationItemBlockEdit = ({
 		linkToFeaturedImage = false,
 		postUpdated = false,
 		overrideRule = '',
-		overrideLocation = 'below',
 		overridePostID = 0,
 		overrideExpiry = 2,
 	},
@@ -109,20 +108,6 @@ const SiteAutomationItemBlockEdit = ({
 						__nextHasNoMarginBottom
 					/>
 				</div>
-				{overrideRule === 'in' && (
-					<div className="override-row">
-						<SelectControl
-							value={overrideLocation}
-							options={[
-								{ label: 'Insert below', value: 'below' },
-								{ label: 'Insert above', value: 'above' },
-							]}
-							onChange={(newLocation) =>
-								setAttributes({ overrideLocation: newLocation })
-							}
-						/>
-					</div>
-				)}
 				{(overrideRule === 'in' || overrideRule === 'replace') && (
 					<div className="override-row">
 						<ContentPicker
@@ -136,7 +121,7 @@ const SiteAutomationItemBlockEdit = ({
 				)}
 				<div className="override-row">
 					{/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-					<label htmlFor="override_expiry">Expire override on:</label>{' '}
+					<label htmlFor="override_expiry">Expire override in:</label>{' '}
 					<input
 						type="number"
 						style={{ maxWidth: '40px' }}

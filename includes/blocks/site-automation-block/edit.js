@@ -65,7 +65,7 @@ const SiteAutomationBlockEdit = ({
 
 	const sophiEndpoint = '/sophi/v1/';
 
-	const getPosts = async (overridePostID = '') => {
+	const curatorPosts = async (overridePostID = '') => {
 		if (pageName === '' || widgetName === '') {
 			return;
 		}
@@ -83,7 +83,7 @@ const SiteAutomationBlockEdit = ({
 		const updatedInnerBlocks = [];
 
 		await apiFetch({
-			path: addQueryArgs(`${sophiEndpoint}get-posts`, {
+			path: addQueryArgs(`${sophiEndpoint}curator-posts`, {
 				...queryArgs,
 			}),
 			method: 'GET',
@@ -128,7 +128,7 @@ const SiteAutomationBlockEdit = ({
 		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
 	};
 
-	const updatePost = async ({ ruleType, overridePostID, overrideExpiry, position }) => {
+	const overridePost = async ({ ruleType, overridePostID, overrideExpiry, position }) => {
 		const queryArgs = {
 			ruleType,
 			overridePostID,
@@ -139,7 +139,7 @@ const SiteAutomationBlockEdit = ({
 		};
 
 		await apiFetch({
-			path: addQueryArgs(`${sophiEndpoint}update-posts`, {
+			path: addQueryArgs(`${sophiEndpoint}override-post`, {
 				...queryArgs,
 			}),
 			method: 'POST',
@@ -161,20 +161,7 @@ const SiteAutomationBlockEdit = ({
 				let { overridePostID } = innerBlocks[index].attributes;
 
 				// eslint-disable-next-line no-use-before-define
-				const { postID, overrideRule, overrideExpiry, overrideLocation } =
-					innerBlocks[index].attributes;
-
-				// Check where to perform override.
-				let removeItems = 0;
-				let insertLocation = index;
-
-				// Adding a new one.
-				if (overrideRule === 'in') {
-					insertLocation = overrideLocation === 'above' ? index : index + 1;
-				} else {
-					// Remove an item when: replace/remove/ban.
-					removeItems = 1;
-				}
+				const { postID, overrideRule, overrideExpiry } = innerBlocks[index].attributes;
 
 				// Reset override attributes before render new set.
 				innerBlocks[index].attributes.postUpdated = false;
@@ -183,14 +170,15 @@ const SiteAutomationBlockEdit = ({
 				innerBlocks[index].attributes.overrideLocation = '';
 
 				// Update the inner blocks.
+				const removeItems = overrideRule === 'in' ? 0 : 1;
 				// eslint-disable-next-line no-await-in-loop
 				if (overridePostID !== 0 && overridePostID !== undefined) {
 					// When add/replace.
-					const newInnerBlocks = await getPosts(overridePostID);
-					innerBlocks.splice(insertLocation, removeItems, newInnerBlocks[0]);
+					const newInnerBlocks = await curatorPosts(overridePostID);
+					innerBlocks.splice(index, removeItems, newInnerBlocks[0]);
 				} else {
 					// When remove/ban.
-					innerBlocks.splice(insertLocation, removeItems);
+					innerBlocks.splice(index, removeItems);
 				}
 
 				// Replace now.
@@ -202,11 +190,11 @@ const SiteAutomationBlockEdit = ({
 				}
 
 				// Update the post at API level.
-				updatePost({
+				overridePost({
 					ruleType: overrideRule,
 					overridePostID,
 					overrideExpiry,
-					position: insertLocation + 1,
+					position: index + 1,
 				});
 			}
 		}
@@ -214,7 +202,7 @@ const SiteAutomationBlockEdit = ({
 	updateInnerBlocks();
 
 	useEffect(() => {
-		getPosts();
+		curatorPosts();
 	}, [
 		pageName,
 		widgetName,
