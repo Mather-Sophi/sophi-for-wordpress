@@ -10,6 +10,7 @@ namespace SophiWP\SiteAutomation;
 use WP_REST_Controller;
 use WP_REST_Server;
 use function SophiWP\Settings\get_sophi_settings;
+use function SophiWP\Blocks\SiteAutomationBlock\render_block_callback;
 
 /**
  * Class: EndPoints
@@ -91,9 +92,9 @@ class EndPoints extends WP_REST_Controller {
 		// Request parameters.
 		$attributes = $request->get_query_params();
 
-		$page_name              = isset( $attributes['pageName'] ) ? sanitize_title( $attributes['pageName'] ) : '';
+		$curated_posts = render_block_callback( $attributes, 'via_rest', [] );
+
 		$override_post_ID       = isset( $attributes['overridePostID'] ) ? sanitize_title( $attributes['overridePostID'] ) : '';
-		$widget_name            = isset( $attributes['widgetName'] ) ? sanitize_title( $attributes['widgetName'] ) : '';
 		$display_featured_image = isset( $attributes['displayFeaturedImage'] ) ? sanitize_title( $attributes['displayFeaturedImage'] ) : '';
 		$display_author         = isset( $attributes['displayAuthor'] ) ? sanitize_title( $attributes['displayAuthor'] ) : '';
 		$display_post_date      = isset( $attributes['displayPostDate'] ) ? sanitize_title( $attributes['displayPostDate'] ) : '';
@@ -117,72 +118,6 @@ class EndPoints extends WP_REST_Controller {
 			return $curated_posts;
 		}
 
-		/**
-		 * Whether to bypass caching.
-		 *
-		 * @param {bool} $bypass_cache True or false.
-		 * @param {string} $page Page name.
-		 * @param {string} $widget Widget name.
-		 *
-		 * @return {bool} Whether to bypass cache.
-		 * @since 1.1.1
-		 * @hook sophi_bypass_curated_posts_cache
-		 *
-		 */
-		$bypass_cache = apply_filters( 'sophi_bypass_curated_posts_cache', false, $page_name, $widget_name );
-
-		$curated_posts = false;
-
-		if ( ! $bypass_cache ) {
-			$sophi_cached_response = new \WP_Query(
-				[
-					'post_name__in'          => [ "sophi-site-automation-data-{$page_name}-{$widget_name}" ],
-					'post_type'              => 'sophi-response',
-					'post_status'            => 'any',
-					'posts_per_page'         => 1,
-					'fields'                 => 'ids',
-					'no_found_rows'          => true,
-					'update_post_term_cache' => false
-				]
-			);
-
-			if ( $sophi_cached_response->have_posts() ) {
-				$last_update = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_last_updated', true );
-
-				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
-					$curated_posts = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_data', true );
-				}
-			}
-		}
-
-		if ( $bypass_cache || ! $curated_posts ) {
-
-			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
-			$curated_posts = get_posts(
-				[
-					'sophi_curated_page'   => $page_name,
-					'sophi_curated_widget' => $widget_name,
-				]
-			);
-
-			if ( empty( $curated_posts ) ) {
-				return '';
-			}
-
-		} else {
-			$curated_posts = get_posts( [
-				'post__in'  => $curated_posts,
-				'post_type' => 'post',
-				'orderby'   => 'post__in'
-			] );
-		}
-
-		$rules = [
-			'display_featured_image' => $display_featured_image,
-			'display_author'         => $display_author,
-			'display_post_date'      => $display_post_date,
-			'display_post_excerpt'   => $display_post_excerpt,
-		];
 		foreach ( $curated_posts as $index => $curated_post ) {
 			$post_data_updated       = $this->get_post_details( $curated_post->ID, $rules );
 			$curated_posts[ $index ] = (object) array_merge( (array) $curated_post, (array) $post_data_updated );
