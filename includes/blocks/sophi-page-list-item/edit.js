@@ -68,10 +68,12 @@ const SiteAutomationItemBlockEdit = ({
 
 	const handleOverride = () => {
 		if (overrideRule === '') {
+			// eslint-disable-next-line
 			alert('Please select override rule');
 			return;
 		}
 		if (overridePostID === 0 && (overrideRule === 'in' || overrideRule === 'replace')) {
+			// eslint-disable-next-line
 			alert('Please select the post');
 			return;
 		}
@@ -148,8 +150,8 @@ const SiteAutomationItemBlockEdit = ({
 	);
 
 	const featuredImageTag = (
-		// phpcs:ignore
-		<div style={{ maxWidth: '250px' }} dangerouslySetInnerHTML={{ __html: featuredImage }} />
+		// eslint-disable-next-line react/no-danger
+		<div style={{ maxWidth: '250px' }} dangerouslySetInnerHTML={{ __html: featuredImage }} /> // phpcs:ignore
 	);
 
 	return (

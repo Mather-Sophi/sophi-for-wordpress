@@ -111,10 +111,12 @@ const SiteAutomationBlockEdit = ({
 						);
 					});
 				} else {
+					// eslint-disable-next-line
 					alert(__('Posts not found in the site!', 'sophi-wp'));
 				}
 			},
 			(err) => {
+				// eslint-disable-next-line
 				alert(err.message);
 			},
 		);
@@ -145,9 +147,11 @@ const SiteAutomationBlockEdit = ({
 			method: 'POST',
 		}).then(
 			(data) => {
+				// eslint-disable-next-line
 				console.log(data);
 			},
 			(err) => {
+				// eslint-disable-next-line
 				alert(err.message);
 			},
 		);
