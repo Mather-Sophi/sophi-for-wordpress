@@ -181,6 +181,11 @@ const SiteAutomationBlockEdit = ({
 					innerBlocks.splice(index, removeItems);
 				}
 
+				// Remove the last item after adding the new item.
+				if (overrideRule === 'in') {
+					innerBlocks.pop();
+				}
+
 				// Replace now.
 				replaceInnerBlocks(clientId, innerBlocks, false);
 

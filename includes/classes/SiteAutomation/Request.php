@@ -119,21 +119,22 @@ class Request {
 
 		// If override data is received, inject it into the database, and skip the actual call to API.
 		if ( $override_in_action && is_array( $site_automation_data ) ) {
-			$remove    = 0;
 			$index     = $override_post['position'] - 1;
 			$rule_type = $override_post['ruleType'];
 
 			// Check where to perform override.
-			if ( 'in' !== $rule_type ) {
-				$remove = 1;
-			}
-
+			$remove = 'in' === $rule_type ? 0 : 1;
 			if ( 'out' === $rule_type ) {
 				// When out/ban.
 				array_splice( $site_automation_data, $index, $remove );
 			} else {
 				// When add/replace.
 				array_splice( $site_automation_data, $index, $remove, $override_post['overridePostID'] );
+			}
+
+			// Remove the last item after adding the new item.
+			if ( 'in' === $rule_type ) {
+				array_pop( $site_automation_data );
 			}
 
 			$response = $site_automation_data;

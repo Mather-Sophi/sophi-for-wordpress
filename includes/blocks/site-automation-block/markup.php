@@ -25,7 +25,8 @@
 			</a>
 			<?php if ( ! empty( $attributes['displayAuthor'] ) ) : ?>
 				<?php
-				$author_display_name = get_the_author_meta( 'display_name', $curated_post->post_author );
+				$author_id           = get_post_field( 'post_author', $curated_post );
+				$author_display_name = get_the_author_meta( 'display_name', $author_id );
 
 				/* translators: byline. %s: current author. */
 				$byline = sprintf( __( 'by %s', 'sophi-wp' ), $author_display_name );
