@@ -16,21 +16,21 @@ import { editPropsShape } from './props-shape';
  * Edit component.
  * See https://wordpress.org/gutenberg/handbook/designers-developers/developers/block-api/block-edit-save/#edit
  *
- * @param {object}   props									The block props.
- * @param {object}   props.attributes						Block attributes.
- * @param {boolean}  props.attributes.postTitle				Post Title.
- * @param {boolean}  props.attributes.postLink				Whether to display post author.
- * @param {boolean}  props.attributes.postExcept			Whether to display post date.
- * @param {boolean}  props.attributes.postAuthor			Whether to display featured image.
- * @param {boolean}  props.attributes.postDate				Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.postDateC				Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.featuredImage			Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.linkToFeaturedImage	Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.overrideRule			Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.overridePostID		Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.overrideExpiry		Whether to add post permalink to featured image.
- * @param {string}   props.className						Class name for the block.
- * @param {Function} props.setAttributes					Sets the value for block attributes.
+ * @param {object}   props                                The block props.
+ * @param {object}   props.attributes                     Block attributes.
+ * @param {boolean}  props.attributes.postTitle           Post Title.
+ * @param {boolean}  props.attributes.postLink            Whether to display post author.
+ * @param {boolean}  props.attributes.postExcept          Whether to display post date.
+ * @param {boolean}  props.attributes.postAuthor          Whether to display featured image.
+ * @param {boolean}  props.attributes.postDate            Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.postDateC           Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.featuredImage       Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.linkToFeaturedImage Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.overrideRule        Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.overridePostID      Whether to add post permalink to featured image.
+ * @param {boolean}  props.attributes.overrideExpiry      Whether to add post permalink to featured image.
+ * @param {string}   props.className                      Class name for the block.
+ * @param {Function} props.setAttributes                  Sets the value for block attributes.
  *
  * @returns {Function} Render the edit screen
  */
