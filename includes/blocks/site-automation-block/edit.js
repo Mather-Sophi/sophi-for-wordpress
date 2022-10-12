@@ -174,15 +174,11 @@ const SiteAutomationBlockEdit = ({
 				innerBlocks[index].attributes.overrideLocation = '';
 
 				// Update the inner blocks.
-				const removeItems = overrideRule === 'in' ? 0 : 1;
 				// eslint-disable-next-line no-await-in-loop
 				if (overridePostID !== 0 && overridePostID !== undefined) {
 					// When add/replace.
 					const newInnerBlocks = await curatorPosts(overridePostID);
-					innerBlocks.splice(index, removeItems, newInnerBlocks[0]);
-				} else {
-					// When remove/ban.
-					innerBlocks.splice(index, removeItems);
+					innerBlocks.splice(index, 1, newInnerBlocks[0]);
 				}
 
 				// Remove the last item after adding the new item.

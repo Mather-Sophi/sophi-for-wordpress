@@ -124,10 +124,7 @@ class Request {
 
 			// Check where to perform override.
 			$remove = 'in' === $rule_type ? 0 : 1;
-			if ( 'out' === $rule_type ) {
-				// When out/ban.
-				array_splice( $site_automation_data, $index, $remove );
-			} else {
+			if ( 'out' !== $rule_type ) {
 				// When add/replace.
 				array_splice( $site_automation_data, $index, $remove, $override_post['overridePostID'] );
 			}
