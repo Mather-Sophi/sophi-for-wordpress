@@ -333,9 +333,11 @@ function maybe_skip_track_event( $data ) {
 	$transient_name = 'sophi_tracking_request_' . $transient_hash;
 	$tracked_data   = get_transient( $transient_name );
 
-	// Check if the object was already tracked within last 10 seconds.
-	if ( $tracked_data === $data ) {
-		// Skip duplicated track.
+	if ( isset( $_GET['meta-box-loader'] ) && $_GET['meta-box-loader'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// Skip if metabox is reloading.
+		$skip = true;
+	} elseif ( $tracked_data === $data ) {
+		// Skip duplicated track within last 10 seconds.
 		$skip = true;
 	} else {
 		/**
