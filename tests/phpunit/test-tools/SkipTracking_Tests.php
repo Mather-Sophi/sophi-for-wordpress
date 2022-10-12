@@ -12,14 +12,19 @@ class SkipTracking_Tests extends Base\TestCase {
 	/**
 	 * Test Maybe Skip logic
 	 *
+	 * @backupGlobals enabled
 	 * @covers \SophiWP\ContentSync\maybe_skip_track_event
 	 * @dataProvider data_provider_for_test_maybe_skip
 	 */
-	public function test_maybe_skip( $data, $get_transient, $set_transient, $should_skip ) {
+	public function test_maybe_skip( $data, $get_transient, $set_transient, $should_skip, $metabox = false ) {
 
 		\WP_Mock::userFunction( 'wp_hash' )->andReturn( '' );
 		\WP_Mock::userFunction( 'wp_json_encode' )->andReturn( '' );
 		\WP_Mock::userFunction( 'get_transient' )->andReturn( $get_transient );
+
+		if ( false !== $metabox ) {
+			$_GET['meta-box-loader'] = $metabox;
+		}
 
 		if ( $set_transient ) {
 			\WP_Mock::userFunction( 'set_transient' )->with( 'sophi_tracking_request_', $set_transient, 10 );
@@ -30,6 +35,13 @@ class SkipTracking_Tests extends Base\TestCase {
 
 	public function data_provider_for_test_maybe_skip() {
 		return array(
+			'Should skip if metabox is reloading'       => array(
+				'data'          => array( 'a' => 'b' ),
+				'get_transient' => array( 'c' => 'd' ),
+				'set_transient' => array( 'a' => 'b' ),
+				'should_skip'   => true,
+				'metabox'       => '1',
+			),
 			'Should ignore modifiedAt argument'         => array(
 				'data'          => array(
 					'a'          => 'b',
