@@ -1,47 +1,47 @@
 {
-	"title": "Sophi Recommend Post",
+  "title": "Sophi Recommend Post",
   "name": "sophi/page-list-item",
-  "attributes":{
-		"postUpdated": {
-			"type" : "boolean"
+  "attributes": {
+    "postUpdated": {
+      "type": "boolean"
     },
-		"postTitle": {
-			"type" : "string"
-		},
-		"postID": {
-			"type" : "integer"
-		},
-		"postLink": {
-			"type" : "string"
-		},
-		"postExcept": {
-			"type" : "string"
-		},
-		"postAuthor": {
-			"type" : "string"
-		},
-		"postDate": {
-			"type" : "string"
-		},
-		"postDateC": {
-			"type" : "string"
-		},
-		"featuredImage": {
-			"type" : "string"
-		},
-		"linkToFeaturedImage": {
-			"type" : "boolean"
-		},
-		"overrideRule": {
-			"type" : "string"
-		},
-		"overridePostID": {
-			"type" : "integer"
-		},
-		"overrideExpiry": {
-			"type" : "integer"
-		}
+    "postTitle": {
+      "type": "string"
+    },
+    "postID": {
+      "type": "integer"
+    },
+    "postLink": {
+      "type": "string"
+    },
+    "postExcept": {
+      "type": "string"
+    },
+    "postAuthor": {
+      "type": "string"
+    },
+    "postDate": {
+      "type": "string"
+    },
+    "postDateC": {
+      "type": "string"
+    },
+    "featuredImage": {
+      "type": "string"
+    },
+    "linkToFeaturedImage": {
+      "type": "boolean"
+    },
+    "overrideRule": {
+      "type": "string"
+    },
+    "overridePostID": {
+      "type": "integer"
+    },
+    "overrideExpiry": {
+      "type": "integer"
+    }
   },
-	"editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js",
-	"editorStyle": "file:../../../dist/css/sophi-page-list-item.css"
+  "editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js",
+  "editorStyle": "file:../../../dist/css/sophi-page-list-item.css"
 }

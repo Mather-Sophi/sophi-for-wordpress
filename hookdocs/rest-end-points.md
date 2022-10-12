@@ -9,7 +9,7 @@ Right now, there are the following REST Endpoints available in the plugin:
 
 To get the curators posts from the Sophi API, the following rest endpoint can be used:
 
-### [GET] `/wp-json/sophi/v1/curator-posts`
+### [GET] `/wp-json/sophi/v1/site-automation`
 
 It accepts the following parameters.
 
@@ -25,7 +25,7 @@ It accepts the following parameters.
 ### Example Request
 
 ```text
-{WPSiteURL}/wp-json/sophi/v1/curator-posts?pageName=test_page&widgetName=test_widget&displayFeaturedImage=true
+{WPSiteURL}/wp-json/sophi/v1/site-automation?pageName=test_page&widgetName=test_widget&displayFeaturedImage=true
 ```
 
 Where `{WPSiteURL}` is a URL of your WordPress site.
@@ -97,7 +97,7 @@ Where `{WPSiteURL}` is a URL of your WordPress site.
 
 To override the curators post, the following rest endpoint can be used:
 
-### [POST] `/wp-json/sophi/v1/override-post`
+### [POST] `/wp-json/sophi/v1/site-automation-override`
 
 It accepts the following parameters.
 
@@ -113,7 +113,7 @@ It accepts the following parameters.
 ### Example Request
 
 ```text
-{WPSiteURL}/wp-json/sophi/v1/override-post?pageName=test_name&widgetName=test_widget&ruleType=ban&overridePostID=123&position=1&overrideExpiry=2
+{WPSiteURL}/wp-json/sophi/v1/site-automation-override?pageName=test_name&widgetName=test_widget&ruleType=ban&overridePostID=123&position=1&overrideExpiry=2
 ```
 
 Where `{WPSiteURL}` is a URL of your WordPress site.
@@ -127,7 +127,7 @@ Where `{WPSiteURL}` is a URL of your WordPress site.
   "widgetName": null,
   "page": "test_name",
   "position": null,
-  "requestedUserName": "admin",
+  "requestedUserName": "admin@gmail.com",
   "expirationHour": 2,
   "expirationDate": "2022-10-07T15:34:33.712+00:00",
   "creationDate": "2022-10-07T13:34:33.712+00:00",

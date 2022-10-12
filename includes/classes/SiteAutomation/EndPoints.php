@@ -51,16 +51,16 @@ class EndPoints extends WP_REST_Controller {
 	 * Called automatically on `rest_api_init()`.
 	 */
 	public function register_routes() {
-		// GET /sophi/v1/get-posts route.
+		// GET /sophi/v1/site-automation route.
 		register_rest_route(
 			self::SOPHI_NAMESPACE,
-			'/curator-posts',
+			'/site-automation',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_curator_posts' ),
+					'callback'            => array( $this, 'site_automation' ),
 					'permission_callback' => '__return_true',
-					'args'                => $this->get_curator_posts_params(),
+					'args'                => $this->site_automation_params(),
 				),
 			)
 		);
@@ -68,13 +68,13 @@ class EndPoints extends WP_REST_Controller {
 		// POST /sophi/v1/update-posts route.
 		register_rest_route(
 			self::SOPHI_NAMESPACE,
-			'/override-post',
+			'/site-automation-override',
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'override_curator_post' ),
+					'callback'            => array( $this, 'site_automation_override' ),
 					'permission_callback' => '__return_true',
-					'args'                => $this->override_curator_post_params(),
+					'args'                => $this->site_automation_override_params(),
 				),
 			)
 		);
@@ -88,7 +88,7 @@ class EndPoints extends WP_REST_Controller {
 	 * @param  WP_REST_Request $request The request.
 	 * @return mixed
 	 */
-	public function get_curator_posts( $request ) {
+	public function site_automation( $request ) {
 		// Request parameters.
 		$attributes = $request->get_query_params();
 
@@ -165,7 +165,7 @@ class EndPoints extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_curator_posts_params() {
+	public function site_automation_params() {
 		$params['pageName'] = array(
 			'description'       => __( 'Name of the page.', 'sophi-wp' ),
 			'required'          => true,
@@ -186,8 +186,10 @@ class EndPoints extends WP_REST_Controller {
 		 * Filters the get sophi posts query params.
 		 *
 		 * @param array $params Query params.
+		 *
+		 * @since 1.3.0
 		 */
-		return apply_filters( 'sophi_get_posts_params', $params );
+		return apply_filters( 'site_automation_params', $params );
 	}
 
 	/**
@@ -198,7 +200,7 @@ class EndPoints extends WP_REST_Controller {
 	 * @param  WP_REST_Request $request The request.
 	 * @return mixed
 	 */
-	public function override_curator_post( $request ) {
+	public function site_automation_override( $request ) {
 		$current_user = wp_get_current_user();
 
 		if ( $current_user->exists() ) {
@@ -260,7 +262,6 @@ class EndPoints extends WP_REST_Controller {
 		 * @param string $api_url Auth API URL.
 		 *
 		 * @since 1.3.0
-		 *
 		 */
 		$args = apply_filters( 'sophi_override_request_args', $args, $api_url );
 
@@ -300,7 +301,7 @@ class EndPoints extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function override_curator_post_params() {
+	public function site_automation_override_params() {
 		$params['ruleType'] = array(
 			'description'       => __( 'The rule of Override.', 'sophi-wp' ),
 			'required'          => true,
@@ -334,7 +335,9 @@ class EndPoints extends WP_REST_Controller {
 		 * Filters the get sophi posts query params.
 		 *
 		 * @param array $params Query params.
+		 *
+		 * @since 1.3.0
 		 */
-		return apply_filters( 'sophi_get_posts_params', $params );
+		return apply_filters( 'site_automation_override_params', $params );
 	}
 }

@@ -24,13 +24,13 @@ function register() {
 }
 
 /**
- * Render callback method for the block. Also used by the rest endpoint '/curator-posts'.
+ * Render callback method for the block. Also used by the rest endpoint '/site-automation'.
  *
  * @param array  $attributes The blocks attributes
  * @param string $content    Data returned from InnerBlocks.Content
  * @param array  $block      Block information such as context.
  *
- * @return string|\WP_Post[] The rendered block markup OR WP_POst object to be returned to the REST callback.
+ * @return string|\WP_Post[] The rendered block markup OR WP_Post object to be returned to the REST callback.
  */
 function render_block_callback( $attributes, $content, $block ) {
 	$is_gb_editor = \defined( 'REST_REQUEST' ) && REST_REQUEST && ! empty( $_REQUEST['context'] ) && 'edit' === $_REQUEST['context']; // phpcs:ignore WordPress.Security.NonceVerification

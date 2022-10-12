@@ -83,7 +83,7 @@ const SiteAutomationBlockEdit = ({
 		const updatedInnerBlocks = [];
 
 		await apiFetch({
-			path: addQueryArgs(`${sophiEndpoint}curator-posts`, {
+			path: addQueryArgs(`${sophiEndpoint}site-automation`, {
 				...queryArgs,
 			}),
 			method: 'GET',
@@ -141,7 +141,7 @@ const SiteAutomationBlockEdit = ({
 		};
 
 		await apiFetch({
-			path: addQueryArgs(`${sophiEndpoint}override-post`, {
+			path: addQueryArgs(`${sophiEndpoint}site-automation-override`, {
 				...queryArgs,
 			}),
 			method: 'POST',
