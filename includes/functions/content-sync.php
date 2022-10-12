@@ -317,7 +317,7 @@ function get_post_data( $post ) {
 }
 
 /**
- * Check if the current data has been already tracked recently ans should be skipped.
+ * Check if the current data has been already tracked recently and should be skipped.
  *
  * @since 1.3.0
  *
