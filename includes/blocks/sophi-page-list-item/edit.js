@@ -69,12 +69,12 @@ const SiteAutomationItemBlockEdit = ({
 	const handleOverride = () => {
 		if (overrideRule === '') {
 			// eslint-disable-next-line
-			alert('Please select override rule');
+			alert(__('Please select override rule', 'sophi-wp'));
 			return;
 		}
 		if (overridePostID === 0 && (overrideRule === 'in' || overrideRule === 'replace')) {
 			// eslint-disable-next-line
-			alert('Please select the post');
+			alert(__('Please select the post', 'sophi-wp'));
 			return;
 		}
 
