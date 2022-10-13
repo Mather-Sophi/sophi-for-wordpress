@@ -12,7 +12,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { PanelBody, TextControl, ToggleControl, Placeholder } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import { useSelect, dispatch } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
 import ServerSideRender from '@wordpress/server-side-render';
 
@@ -55,6 +55,10 @@ const SiteAutomationBlockEdit = ({
 	clientId,
 }) => {
 	const blockProps = useBlockProps();
+	const [message, setMessage] = useState({
+		text: '',
+		color: 'green',
+	});
 	const { replaceInnerBlocks } = dispatch(blockEditorStore);
 	const ALLOWED_BLOCKS = ['sophi/page-list-item'];
 
@@ -111,13 +115,17 @@ const SiteAutomationBlockEdit = ({
 						);
 					});
 				} else {
-					// eslint-disable-next-line
-					alert(__('Posts not found in the site!', 'sophi-wp'));
+					setMessage({
+						text: __('Posts not found in the site!', 'sophi-wp'),
+						color: 'red',
+					});
 				}
 			},
 			(err) => {
-				// eslint-disable-next-line
-				alert(err.message);
+				setMessage({
+					text: err.message,
+					color: 'red',
+				});
 			},
 		);
 
@@ -126,8 +134,10 @@ const SiteAutomationBlockEdit = ({
 			return updatedInnerBlocks;
 		}
 
-		// Replace innerBlocks with the updated array.
-		replaceInnerBlocks(clientId, updatedInnerBlocks, false);
+		if (updatedInnerBlocks.length) {
+			// Replace innerBlocks with the updated array.
+			replaceInnerBlocks(clientId, updatedInnerBlocks, false);
+		}
 	};
 
 	const overridePost = async ({ ruleType, overridePostID, overrideExpiry, position }) => {
@@ -146,13 +156,17 @@ const SiteAutomationBlockEdit = ({
 			}),
 			method: 'POST',
 		}).then(
-			(data) => {
-				// eslint-disable-next-line
-				console.log(data);
+			() => {
+				setMessage({
+					text: __(`The "${ruleType}" override request sent to Sophi.`),
+					color: 'green',
+				});
 			},
 			(err) => {
-				// eslint-disable-next-line
-				alert(err.message);
+				setMessage({
+					text: err.message,
+					color: 'red',
+				});
 			},
 		);
 	};
@@ -175,10 +189,11 @@ const SiteAutomationBlockEdit = ({
 
 				// Update the inner blocks.
 				// eslint-disable-next-line no-await-in-loop
+				const removeItems = overrideRule === 'in' ? 0 : 1;
 				if (overridePostID !== 0 && overridePostID !== undefined) {
 					// When add/replace.
 					const newInnerBlocks = await curatorPosts(overridePostID);
-					innerBlocks.splice(index, 1, newInnerBlocks[0]);
+					innerBlocks.splice(index, removeItems, newInnerBlocks[0]);
 				}
 
 				// Remove the last item after adding the new item.
@@ -222,6 +237,18 @@ const SiteAutomationBlockEdit = ({
 	return (
 		<div className={className}>
 			<InspectorControls>
+				{message.text && (
+					<div
+						style={{
+							color: message.color,
+							border: '1px solid',
+							padding: '10px',
+							margin: '10px',
+						}}
+					>
+						{message.text}
+					</div>
+				)}
 				<PanelBody title={__('Site Automation settings', 'sophi-wp')}>
 					<TextControl
 						label={__('Page name', 'sophi-wp')}

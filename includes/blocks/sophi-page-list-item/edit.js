@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Popover, ToolbarButton, ToolbarGroup, SelectControl } from '@wordpress/components';
-import { BlockControls, useBlockProps } from '@wordpress/block-editor';
+import { BlockControls, useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
 import { Link, ContentPicker } from '@10up/block-components';
 
@@ -54,6 +54,10 @@ const SiteAutomationItemBlockEdit = ({
 	const blockProps = useBlockProps();
 	const [showPopup, setShowPopup] = useState(false);
 	const [selectedPost, setSelectedPost] = useState('');
+	const [message, setMessage] = useState({
+		text: '',
+		color: 'green',
+	});
 
 	const onToggle = () => {
 		setShowPopup((showPopup) => !showPopup);
@@ -68,18 +72,23 @@ const SiteAutomationItemBlockEdit = ({
 
 	const handleOverride = () => {
 		if (overrideRule === '') {
-			// eslint-disable-next-line
-			alert(__('Please select override rule', 'sophi-wp'));
+			setMessage({
+				text: __('Please select override rule.', 'sophi-wp'),
+				color: 'red',
+			});
 			return;
 		}
 		if (overridePostID === 0 && (overrideRule === 'in' || overrideRule === 'replace')) {
-			// eslint-disable-next-line
-			alert(__('Please select the post', 'sophi-wp'));
+			setMessage({
+				text: __('Please select the post', 'sophi-wp'),
+				color: 'red',
+			});
 			return;
 		}
 
-		// Close the popup.
+		// Close the popup & reset the selected post.
 		setShowPopup(false);
+		setSelectedPost('');
 
 		// Set postUpdated to true so this get caught by the parent.
 		setAttributes({
@@ -156,6 +165,20 @@ const SiteAutomationItemBlockEdit = ({
 
 	return (
 		<div className={className}>
+			<InspectorControls>
+				{message.text && (
+					<div
+						style={{
+							color: message.color,
+							border: '1px solid',
+							padding: '10px',
+							margin: '10px',
+						}}
+					>
+						{message.text}
+					</div>
+				)}
+			</InspectorControls>
 			<BlockControls group="other">
 				<ToolbarGroup>
 					<ToolbarButton
