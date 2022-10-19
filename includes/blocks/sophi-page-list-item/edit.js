@@ -18,17 +18,17 @@ import { editPropsShape } from './props-shape';
  *
  * @param {object}   props                                The block props.
  * @param {object}   props.attributes                     Block attributes.
- * @param {boolean}  props.attributes.postTitle           Post Title.
- * @param {boolean}  props.attributes.postLink            Whether to display post author.
- * @param {boolean}  props.attributes.postExcept          Whether to display post date.
- * @param {boolean}  props.attributes.postAuthor          Whether to display featured image.
- * @param {boolean}  props.attributes.postDate            Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.postDateC           Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.featuredImage       Whether to add post permalink to featured image.
+ * @param {string}   props.attributes.postTitle           Post Title.
+ * @param {string}   props.attributes.postLink            Whether to display post author.
+ * @param {string}   props.attributes.postExcept          Whether to display post date.
+ * @param {string}   props.attributes.postAuthor          Whether to display featured image.
+ * @param {string}   props.attributes.postDate            Whether to add post permalink to featured image.
+ * @param {string}   props.attributes.postDateC           Whether to add post permalink to featured image.
+ * @param {string}   props.attributes.featuredImage       Whether to add post permalink to featured image.
  * @param {boolean}  props.attributes.linkToFeaturedImage Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.overrideRule        Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.overridePostID      Whether to add post permalink to featured image.
- * @param {boolean}  props.attributes.overrideExpiry      Whether to add post permalink to featured image.
+ * @param {string}   props.attributes.overrideRule        Whether to add post permalink to featured image.
+ * @param {number}   props.attributes.overridePostID      Whether to add post permalink to featured image.
+ * @param {number}   props.attributes.overrideExpiry      Whether to add post permalink to featured image.
  * @param {string}   props.className                      Class name for the block.
  * @param {Function} props.setAttributes                  Sets the value for block attributes.
  *
@@ -88,13 +88,6 @@ const SiteAutomationItemBlockEdit = ({
 	};
 
 	const handleOverride = () => {
-		if (overrideRule === '') {
-			setMessage({
-				text: __('Please select override rule.', 'sophi-wp'),
-				color: 'red',
-			});
-			return;
-		}
 		if (overridePostID === 0 && (overrideRule === 'in' || overrideRule === 'replace')) {
 			setMessage({
 				text: __('Please select the post', 'sophi-wp'),
