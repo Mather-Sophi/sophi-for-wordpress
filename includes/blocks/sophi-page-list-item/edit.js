@@ -189,24 +189,28 @@ const SiteAutomationItemBlockEdit = ({
 						icon="insert"
 						label="Add"
 						onClick={onAdd}
+						ref={toolbarButtonRef}
 					/>
 					<ToolbarButton
 						className="toolbar-button-with-text"
 						icon="update"
 						label="Update"
 						onClick={onReplace}
+						ref={toolbarButtonRef}
 					/>
 					<ToolbarButton
 						className="toolbar-button-with-text"
 						icon="remove"
 						label="Remove"
 						onClick={onRemove}
+						ref={toolbarButtonRef}
 					/>
 					<ToolbarButton
 						className="toolbar-button-with-text"
 						icon="trash"
 						label="Trash"
 						onClick={onBan}
+						ref={toolbarButtonRef}
 					/>
 				</ToolbarGroup>
 			</BlockControls>
