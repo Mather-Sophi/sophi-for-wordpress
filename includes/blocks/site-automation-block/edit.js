@@ -92,34 +92,36 @@ const SiteAutomationBlockEdit = ({
 			}),
 			method: 'GET',
 		}).then(
+			// eslint-disable-next-line consistent-return
 			(data) => {
-				if (data?.length) {
-					// eslint-disable-next-line array-callback-return
-					data.map((item) => {
-						updatedInnerBlocks.push(
-							createBlock('sophi/page-list-item', {
-								postUpdated: false,
-								postID: item.ID,
-								postTitle: item.post_title,
-								postLink: item.postLink,
-								postExcept: displayPostExcept ? item.post_excerpt : '',
-								featuredImage:
-									displayFeaturedImage && item.featuredImage
-										? item.featuredImage
-										: '',
-								linkToFeaturedImage: addLinkToFeaturedImage,
-								postAuthor: displayAuthor ? item.postAuthor : '',
-								postDate: displayPostDate ? item.postDate : '',
-								postDateC: displayPostDate ? item.postDateC : '',
-							}),
-						);
-					});
-				} else {
+				if (!data?.length) {
 					setMessage({
 						text: __('Posts not found in the site!', 'sophi-wp'),
 						color: 'red',
 					});
+					return false;
 				}
+
+				// eslint-disable-next-line array-callback-return
+				data.map((item) => {
+					updatedInnerBlocks.push(
+						createBlock('sophi/page-list-item', {
+							postUpdated: false,
+							postID: item.ID,
+							postTitle: item.post_title,
+							postLink: item.postLink,
+							postExcept: displayPostExcept ? item.post_excerpt : '',
+							featuredImage:
+								displayFeaturedImage && item.featuredImage
+									? item.featuredImage
+									: '',
+							linkToFeaturedImage: addLinkToFeaturedImage,
+							postAuthor: displayAuthor ? item.postAuthor : '',
+							postDate: displayPostDate ? item.postDate : '',
+							postDateC: displayPostDate ? item.postDateC : '',
+						}),
+					);
+				});
 			},
 			(err) => {
 				setMessage({
@@ -173,51 +175,55 @@ const SiteAutomationBlockEdit = ({
 
 	// eslint-disable-next-line consistent-return
 	const updateInnerBlocks = async () => {
-		if (undefined !== innerBlocks) {
-			const index = innerBlocks.findIndex((item) => item.attributes.postUpdated === true);
-			if (index !== -1) {
-				let { overridePostID } = innerBlocks[index].attributes;
-
-				// eslint-disable-next-line no-use-before-define
-				const { postID, overrideRule, overrideExpiry } = innerBlocks[index].attributes;
-
-				// Reset override attributes before render new set.
-				innerBlocks[index].attributes.postUpdated = false;
-				innerBlocks[index].attributes.overrideRule = '';
-				innerBlocks[index].attributes.overridePostID = 0;
-				innerBlocks[index].attributes.overrideLocation = '';
-
-				// Update the inner blocks.
-				// eslint-disable-next-line no-await-in-loop
-				const removeItems = overrideRule === 'in' ? 0 : 1;
-				if (overridePostID !== 0 && overridePostID !== undefined) {
-					// When add/replace.
-					const newInnerBlocks = await curatorPosts(overridePostID);
-					innerBlocks.splice(index, removeItems, newInnerBlocks[0]);
-				}
-
-				// Remove the last item after adding the new item.
-				if (overrideRule === 'in') {
-					innerBlocks.pop();
-				}
-
-				// Replace now.
-				replaceInnerBlocks(clientId, innerBlocks, false);
-
-				// Set selected post ID as an override ID when remove/ban.
-				if (overrideRule === 'out' || overrideRule === 'ban') {
-					overridePostID = postID;
-				}
-
-				// Update the post at API level.
-				overridePost({
-					ruleType: overrideRule,
-					overridePostID,
-					overrideExpiry,
-					position: index + 1,
-				});
-			}
+		if (undefined === innerBlocks) {
+			return false;
 		}
+
+		const index = innerBlocks.findIndex((item) => item.attributes.postUpdated === true);
+		if (index === -1) {
+			return false;
+		}
+
+		let { overridePostID } = innerBlocks[index].attributes;
+
+		// eslint-disable-next-line no-use-before-define
+		const { postID, overrideRule, overrideExpiry } = innerBlocks[index].attributes;
+
+		// Reset override attributes before render new set.
+		innerBlocks[index].attributes.postUpdated = false;
+		innerBlocks[index].attributes.overrideRule = '';
+		innerBlocks[index].attributes.overridePostID = 0;
+		innerBlocks[index].attributes.overrideLocation = '';
+
+		// Update the inner blocks.
+		// eslint-disable-next-line no-await-in-loop
+		const removeItems = overrideRule === 'in' ? 0 : 1;
+		if (overridePostID !== 0 && overridePostID !== undefined) {
+			// When add/replace.
+			const newInnerBlocks = await curatorPosts(overridePostID);
+			innerBlocks.splice(index, removeItems, newInnerBlocks[0]);
+		}
+
+		// Remove the last item after adding the new item.
+		if (overrideRule === 'in') {
+			innerBlocks.pop();
+		}
+
+		// Replace now.
+		replaceInnerBlocks(clientId, innerBlocks, false);
+
+		// Set selected post ID as an override ID when remove/ban.
+		if (overrideRule === 'out' || overrideRule === 'ban') {
+			overridePostID = postID;
+		}
+
+		// Update the post at API level.
+		overridePost({
+			ruleType: overrideRule,
+			overridePostID,
+			overrideExpiry,
+			position: index + 1,
+		});
 	};
 	updateInnerBlocks();
 
