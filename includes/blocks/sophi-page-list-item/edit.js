@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { Popover, ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { BlockControls, useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { useState } from '@wordpress/element';
+import { useState, useRef } from '@wordpress/element';
 import { Link, ContentPicker } from '@10up/block-components';
 
 /**
@@ -52,6 +52,7 @@ const SiteAutomationItemBlockEdit = ({
 	setAttributes,
 }) => {
 	const blockProps = useBlockProps();
+	const toolbarButtonRef = useRef();
 	const [showPopup, setShowPopup] = useState(false);
 	const [selectedPost, setSelectedPost] = useState('');
 	const [message, setMessage] = useState({
@@ -122,6 +123,7 @@ const SiteAutomationItemBlockEdit = ({
 			expandOnMobile
 			headerTitle={__('Override', 'Override')}
 			onFocusOutside={() => setShowPopup(false)}
+			anchorRef={toolbarButtonRef?.current}
 		>
 			<div className="override-popup">
 				{(overrideRule === 'in' || overrideRule === 'replace') && (
