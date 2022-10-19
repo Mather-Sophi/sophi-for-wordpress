@@ -7,6 +7,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
+import { listItem as icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -30,5 +31,5 @@ registerBlockType(block.name, {
 	parent: ['sophi/site-automation-block'],
 	edit,
 	save,
-	icon: { src: 'admin-post' },
+	icon: { src: icon },
 });

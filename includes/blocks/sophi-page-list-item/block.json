@@ -42,6 +42,9 @@
       "type": "integer"
     }
   },
+  "supports": {
+    "lock": false
+  },
   "editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js",
   "editorStyle": "file:../../../dist/css/sophi-page-list-item.css"
 }

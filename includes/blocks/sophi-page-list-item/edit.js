@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Popover, ToolbarButton, ToolbarGroup, SelectControl } from '@wordpress/components';
+import { Popover, ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { BlockControls, useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
 import { Link, ContentPicker } from '@10up/block-components';
@@ -59,7 +59,23 @@ const SiteAutomationItemBlockEdit = ({
 		color: 'green',
 	});
 
-	const onToggle = () => {
+	const onAdd = () => {
+		setAttributes({ overrideRule: 'in' });
+		setShowPopup((showPopup) => !showPopup);
+	};
+
+	const onReplace = () => {
+		setAttributes({ overrideRule: 'replace' });
+		setShowPopup((showPopup) => !showPopup);
+	};
+
+	const onRemove = () => {
+		setAttributes({ overrideRule: 'out' });
+		setShowPopup((showPopup) => !showPopup);
+	};
+
+	const onBan = () => {
+		setAttributes({ overrideRule: 'ban' });
 		setShowPopup((showPopup) => !showPopup);
 	};
 
@@ -108,21 +124,6 @@ const SiteAutomationItemBlockEdit = ({
 			onFocusOutside={() => setShowPopup(false)}
 		>
 			<div className="override-popup">
-				<div className="override-row">
-					<SelectControl
-						label=""
-						value={overrideRule}
-						options={[
-							{ label: 'Select an action', value: '' },
-							{ label: 'Add a post here', value: 'in' },
-							{ label: 'Replace this post', value: 'replace' },
-							{ label: 'Remove this post', value: 'out' },
-							{ label: 'Ban this post', value: 'ban' },
-						]}
-						onChange={(newRule) => setAttributes({ overrideRule: newRule })}
-						__nextHasNoMarginBottom
-					/>
-				</div>
 				{(overrideRule === 'in' || overrideRule === 'replace') && (
 					<div className="override-row">
 						<ContentPicker
@@ -183,9 +184,27 @@ const SiteAutomationItemBlockEdit = ({
 				<ToolbarGroup>
 					<ToolbarButton
 						className="toolbar-button-with-text"
-						icon="admin-generic"
-						label="Override"
-						onClick={onToggle}
+						icon="insert"
+						label="Add"
+						onClick={onAdd}
+					/>
+					<ToolbarButton
+						className="toolbar-button-with-text"
+						icon="update"
+						label="Update"
+						onClick={onReplace}
+					/>
+					<ToolbarButton
+						className="toolbar-button-with-text"
+						icon="remove"
+						label="Remove"
+						onClick={onRemove}
+					/>
+					<ToolbarButton
+						className="toolbar-button-with-text"
+						icon="trash"
+						label="Trash"
+						onClick={onBan}
 					/>
 				</ToolbarGroup>
 			</BlockControls>
