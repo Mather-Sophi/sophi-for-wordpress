@@ -103,7 +103,7 @@ class Auth {
 	 * Set the environment to be used.
 	 *
 	 * @since 1.3.0
-	 * @param string $environment Could be 'prod', 'stg' or 'dev'
+	 * @param string $environment Could be 'prod', 'stg' or 'dev'.
 	 * @return void
 	 */
 	public function set_environment( $environment ) {
