@@ -90,7 +90,7 @@ function fields_setup() {
 		__NAMESPACE__ . '\sanitize_settings'
 	);
 
-	// Add settings section
+	// Add settings section.
 	add_settings_section(
 		'environment',
 		__( 'Environment settings', 'sophi-wp' ),
@@ -116,7 +116,7 @@ function fields_setup() {
 		]
 	);
 
-	// Add settings section
+	// Add settings section.
 	add_settings_section(
 		'collector_settings',
 		__( 'Collector settings', 'sophi-wp' ),
@@ -190,65 +190,65 @@ function fields_setup() {
 
 	// Add Auth settings section.
 	add_settings_section(
-			'sophi_api_auth',
-			__( 'Override settings', 'sophi-wp' ),
-			'',
-			SETTINGS_GROUP
+		'sophi_api_auth',
+		__( 'Override settings', 'sophi-wp' ),
+		'',
+		SETTINGS_GROUP
 	);
 
 	add_settings_field(
-			'sophi_override_client_id',
-			__( 'Client ID', 'sophi-wp' ),
-			__NAMESPACE__ . '\render_input',
-			SETTINGS_GROUP,
-			'sophi_api_auth',
-			[
-					'label_for' => 'sophi_override_client_id',
-			]
+		'sophi_override_client_id',
+		__( 'Client ID', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		SETTINGS_GROUP,
+		'sophi_api_auth',
+		[
+				'label_for' => 'sophi_override_client_id',
+		]
 	);
 
 	add_settings_field(
-			'sophi_override_client_secret',
-			__( 'Client Secret', 'sophi-wp' ),
-			__NAMESPACE__ . '\render_input',
-			SETTINGS_GROUP,
-			'sophi_api_auth',
-			[
-					'label_for' => 'sophi_override_client_secret',
-			]
+		'sophi_override_client_secret',
+		__( 'Client Secret', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		SETTINGS_GROUP,
+		'sophi_api_auth',
+		[
+				'label_for' => 'sophi_override_client_secret',
+		]
 	);
 
 	add_settings_field(
-			'sophi_override_url',
-			__( 'Override API URL', 'sophi-wp' ),
-			__NAMESPACE__ . '\render_input',
-			SETTINGS_GROUP,
-			'sophi_api_auth',
-			[
-					'label_for'   => 'sophi_override_url',
-					'description' => __( 'For example, https://xyz.sophi.io/v1/, please add a slash (/) in the end.', 'sophi-wp' ),
-			]
+		'sophi_override_url',
+		__( 'Override API URL', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		SETTINGS_GROUP,
+		'sophi_api_auth',
+		[
+				'label_for'   => 'sophi_override_url',
+				'description' => __( 'For example, https://xyz.sophi.io/v1/, please add a slash (/) in the end.', 'sophi-wp' ),
+		]
 	);
 
 	// Add Advanced settings section.
 	add_settings_section(
-			'sophi_advanced',
-			__( 'Advanced settings', 'sophi-wp' ),
-			'',
-			SETTINGS_GROUP
+		'sophi_advanced',
+		__( 'Advanced settings', 'sophi-wp' ),
+		'',
+		SETTINGS_GROUP
 	);
 
 	add_settings_field(
-			'query_integration',
-			__( 'Query Integration', 'sophi-wp' ),
-			__NAMESPACE__ . '\render_input',
-			SETTINGS_GROUP,
-			'sophi_advanced',
-			[
-					'label_for'   => 'query_integration',
-					'input_type'  => 'checkbox',
-					'description' => __( 'Replace WP Query result with curated data from Sophi.', 'sophi-wp' ),
-			]
+		'query_integration',
+		__( 'Query Integration', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		SETTINGS_GROUP,
+		'sophi_advanced',
+		[
+				'label_for'   => 'query_integration',
+				'input_type'  => 'checkbox',
+				'description' => __( 'Replace WP Query result with curated data from Sophi.', 'sophi-wp' ),
+		]
 	);
 }
 
