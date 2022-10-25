@@ -94,22 +94,23 @@ class EndPoints extends WP_REST_Controller {
 
 		$curated_posts = render_block_callback( $attributes, 'via_rest', [] );
 
-		$override_post_ID       = isset( $attributes['overridePostID'] ) ? sanitize_title( $attributes['overridePostID'] ) : '';
-		$display_featured_image = isset( $attributes['displayFeaturedImage'] ) ? sanitize_title( $attributes['displayFeaturedImage'] ) : '';
-		$display_author         = isset( $attributes['displayAuthor'] ) ? sanitize_title( $attributes['displayAuthor'] ) : '';
-		$display_post_date      = isset( $attributes['displayPostDate'] ) ? sanitize_title( $attributes['displayPostDate'] ) : '';
-		$display_post_excerpt   = isset( $attributes['displayPostExcept'] ) ? sanitize_title( $attributes['displayPostExcept'] ) : '';
+		$override_post_ID       = $attributes['overridePostID'] ?? '';
+		$display_featured_image = $attributes['displayFeaturedImage'] ?? '';
+		$display_author         = $attributes['displayAuthor'] ?? '';
+		$display_post_date      = $attributes['displayPostDate'] ?? '';
+		$display_post_excerpt   = $attributes['displayPostExcept'] ?? '';
 
 		$rules = [
-			'display_featured_image' => $display_featured_image,
-			'display_author'         => $display_author,
-			'display_post_date'      => $display_post_date,
-			'display_post_excerpt'   => $display_post_excerpt,
+			'display_featured_image' => sanitize_title( $display_featured_image ),
+			'display_author'         => sanitize_title( $display_author ),
+			'display_post_date'      => sanitize_title( $display_post_date ),
+			'display_post_excerpt'   => sanitize_title( $display_post_excerpt ),
 		];
 
 		// If override ID exists, only return the post data.
 		// This is required only when updating (add/replace) the innerBlocks.
 		if ( ! empty( $override_post_ID ) ) {
+			$override_post_ID  = sanitize_title( $override_post_ID );
 			$curated_posts     = [];
 			$post_data         = get_post( $override_post_ID );
 			$post_data_updated = $this->get_post_details( $override_post_ID, $rules );
@@ -238,25 +239,25 @@ class EndPoints extends WP_REST_Controller {
 		$host    = get_sophi_settings( 'host' );
 		$api_url = $api_url . 'hosts/' . $host . '/overrides';
 
-		$rule_type        = isset( $attributes['ruleType'] ) ? sanitize_title( $attributes['ruleType'] ) : '';
-		$page_name        = isset( $attributes['pageName'] ) ? sanitize_title( $attributes['pageName'] ) : '';
-		$override_post_ID = isset( $attributes['overridePostID'] ) ? sanitize_title( $attributes['overridePostID'] ) : '';
-		$widget_name      = isset( $attributes['widgetName'] ) ? sanitize_title( $attributes['widgetName'] ) : '';
-		$override_expiry  = isset( $attributes['overrideExpiry'] ) ? sanitize_title( $attributes['overrideExpiry'] ) : 2;
-		$position         = isset( $attributes['position'] ) ? sanitize_title( $attributes['position'] ) : 1;
+		$rule_type        = $attributes['ruleType'] ?? '';
+		$page_name        = $attributes['pageName'] ?? '';
+		$override_post_ID = $attributes['overridePostID'] ?? '';
+		$widget_name      = $attributes['widgetName'] ?? '';
+		$override_expiry  = $attributes['overrideExpiry'] ?? 2;
+		$position         = $attributes['position'] ?? 1;
 
 		if ( empty( $widget_name ) && 'ban' !== $rule_type ) {
 			return new \WP_Error( 401, __( 'Missing parameter: widgetName', 'sophi-wp' ) );
 		}
 
 		$body = array(
-			"articleId"           => $override_post_ID,
-			"expirationHourOfDay" => $override_expiry,
-			"page"                => $page_name,
-			"position"            => 'ban' === $rule_type || 'out' === $rule_type ? '' : $position,
+			"articleId"           => sanitize_title( $override_post_ID ),
+			"expirationHourOfDay" => sanitize_title( $override_expiry ),
+			"page"                => sanitize_title( $page_name ),
+			"position"            => 'ban' === $rule_type || 'out' === $rule_type ? '' : sanitize_title( $position ),
 			"requestedUserName"   => $current_user->user_email,
-			"ruleType"            => 'ban' === $rule_type ? 'out' : $rule_type,
-			"widgetName"          => 'ban' === $rule_type ? null : $widget_name,
+			"ruleType"            => 'ban' === $rule_type ? 'out' : sanitize_title( $rule_type ),
+			"widgetName"          => 'ban' === $rule_type ? null : sanitize_title( $widget_name ),
 		);
 		$body = wp_json_encode( $body );
 		$args = [
@@ -301,11 +302,11 @@ class EndPoints extends WP_REST_Controller {
 			// Update the override entry in the database, so we don't have
 			// to wait for API to update the details at front end.
 			$override_post = [
-				"overridePostID" => $override_post_ID,
-				"position"       => $position,
-				"ruleType"       => 'ban' === $rule_type ? 'out' : $rule_type,
+				"overridePostID" => sanitize_title( $override_post_ID ),
+				"position"       => sanitize_title( $position ),
+				"ruleType"       => 'ban' === $rule_type ? 'out' : sanitize_title( $rule_type ),
 			];
-			$this->request->get( $page_name, $widget_name, 3, $override_post );
+			$this->request->get( sanitize_title( $page_name ), sanitize_title( $widget_name ), 3, $override_post );
 		}
 
 		return json_decode( wp_remote_retrieve_body( $result ), true );
