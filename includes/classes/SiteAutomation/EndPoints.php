@@ -185,9 +185,12 @@ class EndPoints extends WP_REST_Controller {
 		/**
 		 * Filters the get sophi posts query params.
 		 *
-		 * @param array $params Query params.
-		 *
 		 * @since 1.3.0
+		 * @hook site_automation_params
+		 *
+		 * @param {array} $params Query params.
+		 *
+		 * @return {array} Automation API updated params.
 		 */
 		return apply_filters( 'site_automation_params', $params );
 	}
@@ -269,10 +272,13 @@ class EndPoints extends WP_REST_Controller {
 		/**
 		 * Filters the arguments being passed to the override api auth request.
 		 *
-		 * @param array $args Arguments.
-		 * @param string $api_url Auth API URL.
-		 *
 		 * @since 1.3.0
+		 * @hook sophi_override_request_args
+		 *
+		 * @param {array} $args Arguments.
+		 * @param {string} $api_url Auth API URL.
+		 *
+		 * @return {array} Updated arguments to pass in override API.
 		 */
 		$args = apply_filters( 'sophi_override_request_args', $args, $api_url );
 
@@ -345,9 +351,12 @@ class EndPoints extends WP_REST_Controller {
 		/**
 		 * Filters the get sophi posts query params.
 		 *
+		 * @since 1.3.0
+		 * @hook site_automation_override_params
+		 *
 		 * @param array $params Query params.
 		 *
-		 * @since 1.3.0
+		 * @return {array} Automation Override API updated params.
 		 */
 		return apply_filters( 'site_automation_override_params', $params );
 	}
