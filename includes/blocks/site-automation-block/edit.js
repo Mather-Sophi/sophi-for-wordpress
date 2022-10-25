@@ -14,6 +14,7 @@ import { addQueryArgs } from '@wordpress/url';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
+import { useDebounce } from '@wordpress/compose';
 import ServerSideRender from '@wordpress/server-side-render';
 
 /**
@@ -231,13 +232,21 @@ const SiteAutomationBlockEdit = ({
 		curatorPosts();
 		// eslint-disable-next-line
 	}, [
-		pageName,
-		widgetName,
 		displayFeaturedImage,
 		displayAuthor,
 		displayPostDate,
 		displayPostExcept,
 		addLinkToFeaturedImage,
+	]);
+
+	// Delay the API call to prevent unnecessary calls on typing each character.
+	const debouncedFetchData = useDebounce(curatorPosts, 1000);
+	useEffect(() => {
+		debouncedFetchData();
+		// eslint-disable-next-line
+	}, [
+		pageName,
+		widgetName,
 	]);
 
 	return (
