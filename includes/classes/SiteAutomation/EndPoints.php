@@ -59,7 +59,7 @@ class EndPoints extends WP_REST_Controller {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'site_automation' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'site_automation_permission' ),
 					'args'                => $this->site_automation_params(),
 				),
 			)
@@ -73,7 +73,7 @@ class EndPoints extends WP_REST_Controller {
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'site_automation_override' ),
-					'permission_callback' => array( $this, 'site_automation_override_permission' ),
+					'permission_callback' => array( $this, 'site_automation_permission' ),
 					'args'                => $this->site_automation_override_params(),
 				),
 			)
@@ -199,7 +199,7 @@ class EndPoints extends WP_REST_Controller {
 	 *
 	 * @return bool
 	 */
-	public function site_automation_override_permission(){
+	public function site_automation_permission(){
 		$current_user = wp_get_current_user();
  
 		if( ! $current_user->exists() ) { 
