@@ -73,7 +73,7 @@ class EndPoints extends WP_REST_Controller {
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'site_automation_override' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'site_automation_override_permission' ),
 					'args'                => $this->site_automation_override_params(),
 				),
 			)
@@ -193,6 +193,23 @@ class EndPoints extends WP_REST_Controller {
 	}
 
 	/**
+	 * Check the permission.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return bool
+	 */
+	public function site_automation_override_permission(){
+		$current_user = wp_get_current_user();
+ 
+		if( ! $current_user->exists() ) { 
+			return new \WP_Error(401, __( 'Unauthorised user, please log in.', 'sophi-wp' ) );
+		}
+
+		return true;
+	}
+
+	/**
 	 * Update the sophi posts.
 	 *
 	 * @since 1.3.0
@@ -203,16 +220,10 @@ class EndPoints extends WP_REST_Controller {
 	public function site_automation_override( $request ) {
 		$current_user = wp_get_current_user();
 
-		if ( $current_user->exists() ) {
-			$user_email = $current_user->user_email;
-		} else {
-			return new \WP_Error( 401, __( 'Unauthorised user, please log in.', 'sophi-wp' ) );
-		}
-
 		// Get the auth token.
 		$api_token = $this->auth->get_access_token();
 
-		if ( is_wp_error( $api_token ) ) {
+		if ( ! $api_token || is_wp_error( $api_token ) ) {
 			return new \WP_Error( 401, __( 'Invalid API token, please try adding correct credentials on the settings page.', 'sophi-wp' ) );
 		}
 
@@ -240,7 +251,7 @@ class EndPoints extends WP_REST_Controller {
 			"expirationHourOfDay" => $override_expiry,
 			"page"                => $page_name,
 			"position"            => 'ban' === $rule_type || 'out' === $rule_type ? '' : $position,
-			"requestedUserName"   => $user_email,
+			"requestedUserName"   => $current_user->user_email,
 			"ruleType"            => 'ban' === $rule_type ? 'out' : $rule_type,
 			"widgetName"          => 'ban' === $rule_type ? null : $widget_name,
 		);
