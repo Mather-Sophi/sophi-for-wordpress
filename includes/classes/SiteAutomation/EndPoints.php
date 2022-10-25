@@ -250,16 +250,17 @@ class EndPoints extends WP_REST_Controller {
 			return new \WP_Error( 401, __( 'Missing parameter: widgetName', 'sophi-wp' ) );
 		}
 
-		$body = array(
-			"articleId"           => sanitize_title( $override_post_ID ),
-			"expirationHourOfDay" => sanitize_title( $override_expiry ),
-			"page"                => sanitize_title( $page_name ),
-			"position"            => 'ban' === $rule_type || 'out' === $rule_type ? '' : sanitize_title( $position ),
-			"requestedUserName"   => $current_user->user_email,
-			"ruleType"            => 'ban' === $rule_type ? 'out' : sanitize_title( $rule_type ),
-			"widgetName"          => 'ban' === $rule_type ? null : sanitize_title( $widget_name ),
+		$body = wp_json_encode (
+			array(
+				"articleId"           => sanitize_title( $override_post_ID ),
+				"expirationHourOfDay" => sanitize_title( $override_expiry ),
+				"page"                => sanitize_title( $page_name ),
+				"position"            => 'ban' === $rule_type || 'out' === $rule_type ? '' : sanitize_title( $position ),
+				"requestedUserName"   => $current_user->user_email,
+				"ruleType"            => 'ban' === $rule_type ? 'out' : sanitize_title( $rule_type ),
+				"widgetName"          => 'ban' === $rule_type ? null : sanitize_title( $widget_name ),
+			)
 		);
-		$body = wp_json_encode( $body );
 		$args = [
 			'method'  => 'POST',
 			'headers' => array(
