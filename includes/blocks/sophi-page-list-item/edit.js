@@ -187,7 +187,7 @@ const SiteAutomationItemBlockEdit = ({
 					<ToolbarButton
 						className="toolbar-button-with-text"
 						icon="update"
-						label="Update"
+						label="Replace"
 						onClick={onReplace}
 						ref={toolbarButtonRef}
 					/>
@@ -201,7 +201,7 @@ const SiteAutomationItemBlockEdit = ({
 					<ToolbarButton
 						className="toolbar-button-with-text"
 						icon="trash"
-						label="Trash"
+						label="Ban"
 						onClick={onBan}
 						ref={toolbarButtonRef}
 					/>
