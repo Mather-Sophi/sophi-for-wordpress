@@ -18,8 +18,11 @@ class SkipTracking_Tests extends Base\TestCase {
 	 */
 	public function test_maybe_skip( $data, $get_transient, $set_transient, $should_skip, $metabox = false ) {
 
-		\WP_Mock::userFunction( 'wp_hash' )->andReturn( '' );
-		\WP_Mock::userFunction( 'wp_json_encode' )->andReturn( '' );
+		\WP_Mock::userFunction( 'wp_json_encode' )->andReturnUsing(
+			function( $arg ) {
+				return json_encode( $arg ); // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+			}
+		);
 		\WP_Mock::userFunction( 'get_transient' )->andReturn( $get_transient );
 
 		if ( false !== $metabox ) {
@@ -27,7 +30,10 @@ class SkipTracking_Tests extends Base\TestCase {
 		}
 
 		if ( $set_transient ) {
-			\WP_Mock::userFunction( 'set_transient' )->with( 'sophi_tracking_request_', $set_transient, 10 );
+			$data_to_hash = $data;
+			unset( $data_to_hash['modifiedAt'] );
+			$hash = substr( md5( json_encode( $data_to_hash ) ), 0, 8 );  // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+			\WP_Mock::userFunction( 'set_transient' )->with( 'sophi_tracking_request_' . $hash, $set_transient, 10 );
 		}
 
 		$this->assertSame( $should_skip, maybe_skip_track_event( $data ) );
