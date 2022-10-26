@@ -331,12 +331,12 @@ function maybe_skip_track_event( $data ) {
 
 	$transient_hash = substr( wp_hash( wp_json_encode( $data ) ), 0, 8 );
 	$transient_name = 'sophi_tracking_request_' . $transient_hash;
-	$tracked_data   = get_transient( $transient_name );
 
-	if ( isset( $_GET['meta-box-loader'] ) && $_GET['meta-box-loader'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( isset( $_GET['meta-box-loader'] ) && $_GET['meta-box-loader'] ) {
 		// Skip if metabox is reloading.
 		$skip = true;
-	} elseif ( $tracked_data === $data ) {
+	} elseif ( get_transient( $transient_name ) === $data ) {
 		// Skip duplicated track within last 10 seconds.
 		$skip = true;
 	} else {
