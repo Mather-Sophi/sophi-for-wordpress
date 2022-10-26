@@ -135,7 +135,7 @@ const SiteAutomationBlockEdit = ({
 			setMessage({
 				text:
 					__(
-						`Please contact your Sophi.io account representative as the Sophi service is providing post IDs that are not valid on this site:`,
+						`Please contact your Sophi.io account representative as the Sophi service is providing post IDs that are not valid on this site: `,
 						'sophi-wp',
 					) + notFoundPosts.join(', '),
 				color: 'red',
