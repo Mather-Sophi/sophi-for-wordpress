@@ -9,7 +9,11 @@
  */
 ?>
 <ul>
-	<?php foreach ( $curated_posts as $curated_post ) : // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable ?>
+	<?php foreach ( $curated_posts as $curated_post ) : // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
+		if ( ! get_post_status( $curated_post ) ) {
+			continue;
+		}
+		?>
 		<li class="curated-item">
 			<?php if ( ! empty( $attributes['displayFeaturedImage'] ) && has_post_thumbnail( $curated_post ) ) : ?>
 				<?php if ( ! empty( $attributes['addLinkToFeaturedImage'] ) ) : ?>
