@@ -106,7 +106,7 @@ const SiteAutomationBlockEdit = ({
 				}
 
 				// eslint-disable-next-line array-callback-return
-				data.map((item) => {
+				data.forEach((item) => {
 					updatedInnerBlocks.push(
 						createBlock('sophi/page-list-item', {
 							postUpdated: false,
