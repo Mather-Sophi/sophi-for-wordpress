@@ -203,7 +203,7 @@ function fields_setup() {
 		SETTINGS_GROUP,
 		'sophi_api_auth',
 		[
-				'label_for' => 'sophi_override_client_id',
+			'label_for' => 'sophi_override_client_id',
 		]
 	);
 
@@ -214,7 +214,7 @@ function fields_setup() {
 		SETTINGS_GROUP,
 		'sophi_api_auth',
 		[
-				'label_for' => 'sophi_override_client_secret',
+			'label_for' => 'sophi_override_client_secret',
 		]
 	);
 
@@ -225,8 +225,8 @@ function fields_setup() {
 		SETTINGS_GROUP,
 		'sophi_api_auth',
 		[
-				'label_for'   => 'sophi_override_url',
-				'description' => __( 'For example, https://xyz.sophi.io/v1/, please add a slash (/) in the end.', 'sophi-wp' ),
+			'label_for'   => 'sophi_override_url',
+			'description' => __( 'For example, https://xyz.sophi.io/v1/, please add a slash (/) in the end.', 'sophi-wp' ),
 		]
 	);
 
@@ -245,9 +245,9 @@ function fields_setup() {
 		SETTINGS_GROUP,
 		'sophi_advanced',
 		[
-				'label_for'   => 'query_integration',
-				'input_type'  => 'checkbox',
-				'description' => __( 'Replace WP Query result with curated data from Sophi.', 'sophi-wp' ),
+			'label_for'   => 'query_integration',
+			'input_type'  => 'checkbox',
+			'description' => __( 'Replace WP Query result with curated data from Sophi.', 'sophi-wp' ),
 		]
 	);
 }
@@ -279,16 +279,16 @@ function get_default_settings( $key = '' ) {
 	}
 
 	$default = [
-			'environment'                  => $default_environment,
-			'collector_url'                => 'collector.sophi.io',
-			'tracker_client_id'            => get_domain(),
-			'host'                         => '',
-			'tenant_id'                    => '',
-			'site_automation_url'          => '',
-			'sophi_override_url'           => '',
-			'sophi_override_client_id'     => '',
-			'sophi_override_client_secret' => '',
-			'query_integration'            => 1,
+		'environment'                  => $default_environment,
+		'collector_url'                => 'collector.sophi.io',
+		'tracker_client_id'            => get_domain(),
+		'host'                         => '',
+		'tenant_id'                    => '',
+		'site_automation_url'          => '',
+		'sophi_override_url'           => '',
+		'sophi_override_client_id'     => '',
+		'sophi_override_client_secret' => '',
+		'query_integration'            => 1,
 	];
 
 	if ( ! $key ) {
@@ -363,9 +363,9 @@ function sanitize_settings( $settings ) {
 
 	if ( empty( $settings['sophi_override_client_id'] ) || empty( $settings['sophi_override_client_secret'] ) ) {
 		add_settings_error(
-				SETTINGS_GROUP,
-				SETTINGS_GROUP,
-				__( 'Both Client ID and Client Secret are required to generate a token for API.', 'sophi-wp' )
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Both Client ID and Client Secret are required to generate a token for API.', 'sophi-wp' )
 		);
 	}
 

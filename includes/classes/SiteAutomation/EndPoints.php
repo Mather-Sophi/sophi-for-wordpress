@@ -205,7 +205,7 @@ class EndPoints extends WP_REST_Controller {
 	public function site_automation_permission(){
 		$current_user = wp_get_current_user();
  
-		if( ! $current_user->exists() ) { 
+		if ( ! $current_user->exists() ) { 
 			return new \WP_Error(401, __( 'Unauthorised user, please log in.', 'sophi-wp' ) );
 		}
 
