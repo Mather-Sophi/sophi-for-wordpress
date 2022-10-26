@@ -94,6 +94,7 @@ function get_tracking_data() {
 		],
 		'settings' => [
 			'client'            => get_sophi_settings( 'tracker_client_id' ),
+			'tracker_address'   => get_sophi_settings( 'tracker_address' ),
 			'appId'             => sprintf( '%s:website', get_sophi_settings( 'tracker_client_id' ) ),
 			'collectorEndpoint' => get_sophi_settings( 'collector_url' ),
 			'linkedDomains'     => [ get_domain() ],
