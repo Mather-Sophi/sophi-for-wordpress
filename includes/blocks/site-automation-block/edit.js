@@ -56,6 +56,7 @@ const SiteAutomationBlockEdit = ({
 	clientId,
 }) => {
 	const blockProps = useBlockProps();
+	const [postsFound, setPostsFound] = useState(false);
 	const [message, setMessage] = useState({
 		text: '',
 		color: 'green',
@@ -100,7 +101,8 @@ const SiteAutomationBlockEdit = ({
 						text: __('Posts not found in the site!', 'sophi-wp'),
 						color: 'red',
 					});
-					return false;
+					setPostsFound(false);
+					return;
 				}
 
 				// eslint-disable-next-line array-callback-return
@@ -139,6 +141,7 @@ const SiteAutomationBlockEdit = ({
 
 		if (updatedInnerBlocks.length) {
 			// Replace innerBlocks with the updated array.
+			setPostsFound(true);
 			replaceInnerBlocks(clientId, updatedInnerBlocks, false);
 		}
 	};
@@ -317,7 +320,7 @@ const SiteAutomationBlockEdit = ({
 				</PanelBody>
 			</InspectorControls>
 
-			{!(pageName && widgetName) && (
+			{!(pageName && widgetName && postsFound) && (
 				<Placeholder label={__('Sophi.io Site Automation', 'sophi-wp')}>
 					<p>
 						{__(
@@ -328,7 +331,7 @@ const SiteAutomationBlockEdit = ({
 				</Placeholder>
 			)}
 
-			{pageName && widgetName && (
+			{pageName && widgetName && postsFound && (
 				<ServerSideRender
 					block="sophi/site-automation-block"
 					// eslint-disable-next-line react/jsx-no-useless-fragment,react/no-unstable-nested-components
@@ -345,7 +348,7 @@ const SiteAutomationBlockEdit = ({
 				/>
 			)}
 
-			{pageName && widgetName && (
+			{pageName && widgetName && postsFound && (
 				<div
 					className="sophi-site-automation-block"
 					id={`sophi-${pageName}-${widgetName}`}
