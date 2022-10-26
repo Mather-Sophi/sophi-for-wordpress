@@ -329,7 +329,7 @@ function maybe_skip_track_event( $data ) {
 	// Ignore modifiedAt.
 	unset( $data['modifiedAt'] );
 
-	$transient_hash = substr( wp_hash( wp_json_encode( $data ) ), 0, 8 );
+	$transient_hash = substr( md5( wp_json_encode( $data ) ), 0, 8 );
 	$transient_name = 'sophi_tracking_request_' . $transient_hash;
 
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
