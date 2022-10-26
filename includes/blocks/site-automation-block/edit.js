@@ -133,7 +133,11 @@ const SiteAutomationBlockEdit = ({
 
 		if (notFoundPosts.length) {
 			setMessage({
-				text: __(`Posts not found in the site: `, 'sophi-wp') + notFoundPosts.join(', '),
+				text:
+					__(
+						`Please contact your Sophi.io account representative as the Sophi service is providing post IDs that are not valid on this site:`,
+						'sophi-wp',
+					) + notFoundPosts.join(', '),
 				color: 'red',
 			});
 		}
