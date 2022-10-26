@@ -15,7 +15,6 @@ import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
 import { useDebounce } from '@wordpress/compose';
-import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies
@@ -86,6 +85,7 @@ const SiteAutomationBlockEdit = ({
 			displayPostExcept,
 		};
 
+		const notFoundPosts = [];
 		const updatedInnerBlocks = [];
 
 		await apiFetch({
@@ -96,17 +96,14 @@ const SiteAutomationBlockEdit = ({
 		}).then(
 			// eslint-disable-next-line consistent-return
 			(data) => {
-				if (!data?.length) {
-					setMessage({
-						text: __('Posts not found in the site!', 'sophi-wp'),
-						color: 'red',
-					});
-					setPostsFound(false);
-					return;
-				}
-
 				// eslint-disable-next-line array-callback-return
 				data.forEach((item) => {
+					// If item is integer, it is a Post ID, that does not exist in the site.
+					if (Number.isInteger(item)) {
+						notFoundPosts.push(item);
+						return;
+					}
+
 					updatedInnerBlocks.push(
 						createBlock('sophi/page-list-item', {
 							postUpdated: false,
@@ -134,6 +131,13 @@ const SiteAutomationBlockEdit = ({
 			},
 		);
 
+		if (notFoundPosts.length) {
+			setMessage({
+				text: __(`Posts not found in the site: `, 'sophi-wp') + notFoundPosts.join(', '),
+				color: 'red',
+			});
+		}
+
 		if (overridePostID !== '') {
 			// eslint-disable-next-line consistent-return
 			return updatedInnerBlocks;
@@ -143,6 +147,8 @@ const SiteAutomationBlockEdit = ({
 			// Replace innerBlocks with the updated array.
 			setPostsFound(true);
 			replaceInnerBlocks(clientId, updatedInnerBlocks, false);
+		} else {
+			setPostsFound(false);
 		}
 	};
 
@@ -329,23 +335,6 @@ const SiteAutomationBlockEdit = ({
 						)}
 					</p>
 				</Placeholder>
-			)}
-
-			{pageName && widgetName && postsFound && (
-				<ServerSideRender
-					block="sophi/site-automation-block"
-					// eslint-disable-next-line react/jsx-no-useless-fragment,react/no-unstable-nested-components
-					EmptyResponsePlaceholder={() => <></>}
-					attributes={{
-						pageName,
-						widgetName,
-						displayPostExcept,
-						displayAuthor,
-						displayPostDate,
-						displayFeaturedImage,
-						addLinkToFeaturedImage,
-					}}
-				/>
 			)}
 
 			{pageName && widgetName && postsFound && (
