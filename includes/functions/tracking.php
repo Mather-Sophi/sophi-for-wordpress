@@ -54,7 +54,7 @@ function enqueue_scripts() {
 	wp_localize_script(
 		'sophi-tag',
 		'tracker_address',
-		get_sophi_settings( 'tracker_address' )
+		[ get_sophi_settings( 'tracker_address' ) ]
 	);
 }
 
