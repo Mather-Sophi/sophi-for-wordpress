@@ -154,6 +154,7 @@ function fields_setup() {
 		'collector_settings',
 		[
 			'label_for' => 'tracker_address',
+			'default'   => get_default_settings( 'tracker_address' ),
 		]
 	);
 
@@ -282,6 +283,15 @@ function sanitize_settings( $settings ) {
 			SETTINGS_GROUP,
 			__( 'Site Automation URL is invalid.', 'sophi-wp' )
 		);
+	}
+
+	if ( ! empty( $settings['tracker_address'] ) && ! filter_var( $settings['tracker_address'], FILTER_VALIDATE_URL ) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			sprintf( __( 'Tracker Address URL is invalid: %s', 'sophi-wp' ), $settings['tracker_address'] )
+		);
+		unset( $settings['tracker_address'] );
 	}
 
 	if ( empty( $settings['collector_url']) ) {
