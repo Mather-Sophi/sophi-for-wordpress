@@ -112,17 +112,16 @@ class EndPoints extends WP_REST_Controller {
 		if ( ! empty( $override_post_ID ) ) {
 			$override_post_ID  = sanitize_title( $override_post_ID );
 			$curated_posts     = [];
-			$post_data         = get_post( $override_post_ID );
-			$post_data_updated = $this->get_post_details( $override_post_ID, $rules );
-			$curated_posts[]   = (object) array_merge( (array) $post_data, (array) $post_data_updated );
+			$curated_posts[]   = $this->get_post_details( $override_post_ID, $rules );
 
 			return $curated_posts;
 		}
 
+		$curated_posts_new = [];
 		foreach ( $curated_posts as $index => $curated_post ) {
-			$post_data_updated       = $this->get_post_details( $curated_post->ID, $rules );
-			$curated_posts[ $index ] = (object) array_merge( (array) $curated_post, (array) $post_data_updated );
+			$curated_posts_new[ $index ] = $this->get_post_details( $curated_post, $rules );
 		}
+		$curated_posts = $curated_posts_new;
 
 		return $curated_posts;
 	}
@@ -136,7 +135,7 @@ class EndPoints extends WP_REST_Controller {
 	 * @return \stdClass Prepared post data.
 	 */
 	public function get_post_details( $post_ID, $rules ) {
-		$post_data = new \stdClass();
+		$post_data = get_post( $post_ID );
 
 		$post_data->postLink = get_the_permalink( $post_ID );
 		if ( $rules['display_featured_image'] ) {

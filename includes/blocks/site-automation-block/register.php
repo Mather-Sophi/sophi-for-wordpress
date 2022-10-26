@@ -99,12 +99,6 @@ function render_block_callback( $attributes, $content, $block ) {
 			return '';
 		}
 
-	} else {
-		$curated_posts = get_posts( [
-			'post__in'  => $curated_posts,
-			'post_type' => 'post',
-			'orderby'   => 'post__in'
-		] );
 	}
 
 	if ( 'via_rest' === $content ) {
