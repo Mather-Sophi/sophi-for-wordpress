@@ -81,7 +81,7 @@ function render_block_callback( $attributes, $content, $block ) {
 				$curated_posts = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_data', true );
 			}
 		}
-	}	
+	}
 
 	if ( $bypass_cache || ! $curated_posts ) {
 

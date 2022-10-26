@@ -138,7 +138,7 @@ class EndPoints extends WP_REST_Controller {
 		$post_data = get_post( $post_ID );
 
 		// If post not found in the site, return the postID only.
-		if( null === $post_data ) {
+		if ( null === $post_data ) {
 			return (int) $post_ID;
 		}
 
