@@ -33,10 +33,8 @@ function register() {
  * @return string|\WP_Post[] The rendered block markup OR WP_Post object to be returned to the REST callback.
  */
 function render_block_callback( $attributes, $content, $block ) {
-	$is_gb_editor = \defined( 'REST_REQUEST' ) && REST_REQUEST && ! empty( $_REQUEST['context'] ) && 'edit' === $_REQUEST['context']; // phpcs:ignore WordPress.Security.NonceVerification
-
-	// Render only on the front end.
-	if ( $is_gb_editor && 'via_rest' !== $content ) {
+	// Render only at the front end OR for REST API.
+	if ( is_admin() && 'via_rest' !== $content ) {
 		return '';
 	}
 
@@ -83,7 +81,7 @@ function render_block_callback( $attributes, $content, $block ) {
 				$curated_posts = get_post_meta( $sophi_cached_response->posts[0], 'sophi_site_automation_data', true );
 			}
 		}
-	}
+	}	
 
 	if ( $bypass_cache || ! $curated_posts ) {
 
