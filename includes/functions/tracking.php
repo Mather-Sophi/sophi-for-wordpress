@@ -50,6 +50,12 @@ function enqueue_scripts() {
 		'SOPHIDATA',
 		get_tracking_data()
 	);
+
+	wp_localize_script(
+		'sophi-tag',
+		'tracker_address',
+		get_sophi_settings( 'tracker_address' )
+	);
 }
 
 /**

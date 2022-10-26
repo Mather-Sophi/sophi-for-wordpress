@@ -146,6 +146,17 @@ function fields_setup() {
 		]
 	);
 
+	add_settings_field(
+		'tracker_address',
+		__( 'Tracker Address', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		SETTINGS_GROUP,
+		'collector_settings',
+		[
+			'label_for' => 'tracker_address',
+		]
+	);
+
 	// Add settings section
 	add_settings_section(
 		'sophi_api',
@@ -231,6 +242,7 @@ function get_default_settings( $key = '' ) {
 		'environment'         => $default_environment,
 		'collector_url'       => 'collector.sophi.io',
 		'tracker_client_id'   => get_domain(),
+		'tracker_address'     => 'https://cdn.sophi.io/latest/sophi.min.js',
 		'host'                => '',
 		'tenant_id'           => '',
 		'site_automation_url' => '',

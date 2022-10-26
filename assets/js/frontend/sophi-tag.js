@@ -25,7 +25,7 @@ try {
 	} catch (e) {
 		a = void 0;
 	}
-	b.loadFrom = a ? `${a}sophi.min.js` : b.loadFrom || 'https://cdn.sophi.io/latest/sophi.min.js';
+	b.loadFrom = a ? `${a}sophi.min.js` : b.loadFrom || tracker_address;
 	b.legacy = a
 		? `${a}sophi.legacy.min.js`
 		: b.loadFrom || 'https://cdn.sophi.io/latest/sophi.legacy.min.js';
