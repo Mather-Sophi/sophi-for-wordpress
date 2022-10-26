@@ -7,6 +7,7 @@
 
 namespace SophiWP\Settings;
 
+use SophiWP\SiteAutomation\Auth;
 use function SophiWP\Utils\get_domain;
 use function SophiWP\Utils\is_configured;
 
@@ -89,7 +90,7 @@ function fields_setup() {
 		__NAMESPACE__ . '\sanitize_settings'
 	);
 
-	// Add settings section
+	// Add settings section.
 	add_settings_section(
 		'environment',
 		__( 'Environment settings', 'sophi-wp' ),
@@ -115,7 +116,7 @@ function fields_setup() {
 		]
 	);
 
-	// Add settings section
+	// Add settings section.
 	add_settings_section(
 		'collector_settings',
 		__( 'Collector settings', 'sophi-wp' ),
@@ -199,12 +200,62 @@ function fields_setup() {
 		]
 	);
 
+	// Add Auth settings section.
+	add_settings_section(
+		'sophi_api_auth',
+		__( 'Override settings', 'sophi-wp' ),
+		'',
+		SETTINGS_GROUP
+	);
+
+	add_settings_field(
+		'sophi_override_client_id',
+		__( 'Client ID', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		SETTINGS_GROUP,
+		'sophi_api_auth',
+		[
+			'label_for' => 'sophi_override_client_id',
+		]
+	);
+
+	add_settings_field(
+		'sophi_override_client_secret',
+		__( 'Client Secret', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		SETTINGS_GROUP,
+		'sophi_api_auth',
+		[
+			'label_for' => 'sophi_override_client_secret',
+		]
+	);
+
+	add_settings_field(
+		'sophi_override_url',
+		__( 'Override API URL', 'sophi-wp' ),
+		__NAMESPACE__ . '\render_input',
+		SETTINGS_GROUP,
+		'sophi_api_auth',
+		[
+			'label_for'   => 'sophi_override_url',
+			'description' => __( 'For example, https://xyz.sophi.io/v1/, please add a slash (/) in the end.', 'sophi-wp' ),
+		]
+	);
+
+	// Add Advanced settings section.
+	add_settings_section(
+		'sophi_advanced',
+		__( 'Advanced settings', 'sophi-wp' ),
+		'',
+		SETTINGS_GROUP
+	);
+
 	add_settings_field(
 		'query_integration',
 		__( 'Query Integration', 'sophi-wp' ),
 		__NAMESPACE__ . '\render_input',
 		SETTINGS_GROUP,
-		'sophi_api',
+		'sophi_advanced',
 		[
 			'label_for'   => 'query_integration',
 			'input_type'  => 'checkbox',
@@ -240,14 +291,17 @@ function get_default_settings( $key = '' ) {
 	}
 
 	$default = [
-		'environment'         => $default_environment,
-		'collector_url'       => 'collector.sophi.io',
-		'tracker_client_id'   => get_domain(),
-		'tracker_address'     => 'https://cdn.sophi.io/latest/sophi.min.js',
-		'host'                => '',
-		'tenant_id'           => '',
-		'site_automation_url' => '',
-		'query_integration'   => 1,
+		'environment'                  => $default_environment,
+		'collector_url'                => 'collector.sophi.io',
+		'tracker_client_id'            => get_domain(),
+    'tracker_address'              => 'https://cdn.sophi.io/latest/sophi.min.js',
+		'host'                         => '',
+		'tenant_id'                    => '',
+		'site_automation_url'          => '',
+		'sophi_override_url'           => '',
+		'sophi_override_client_id'     => '',
+		'sophi_override_client_secret' => '',
+		'query_integration'            => 1,
 	];
 
 	if ( ! $key ) {
@@ -294,6 +348,20 @@ function sanitize_settings( $settings ) {
 		unset( $settings['tracker_address'] );
 	}
 
+	if ( empty( $settings['sophi_override_url']) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Sophi Override URL is required for Override actions.', 'sophi-wp' )
+		);
+	} else if ( ! filter_var( $settings['sophi_override_url'], FILTER_VALIDATE_URL ) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Sophi Override URL is invalid.', 'sophi-wp' )
+		);
+	}
+
 	if ( empty( $settings['collector_url']) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
@@ -312,6 +380,14 @@ function sanitize_settings( $settings ) {
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
 			__( 'Both Host and Tenant ID are required for Site Automation integration.', 'sophi-wp' )
+		);
+	}
+
+	if ( empty( $settings['sophi_override_client_id'] ) || empty( $settings['sophi_override_client_secret'] ) ) {
+		add_settings_error(
+			SETTINGS_GROUP,
+			SETTINGS_GROUP,
+			__( 'Both Client ID and Client Secret are required to generate a token for API.', 'sophi-wp' )
 		);
 	}
 

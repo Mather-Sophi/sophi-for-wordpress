@@ -62,7 +62,12 @@
     "entry": {
       "sophi-tag": "./assets/js/frontend/sophi-tag.js",
       "admin-style": "./assets/css/admin/admin-style.css",
-      "site-automation-block": "./includes/blocks/site-automation-block/index.js"
+      "site-automation-block": "./includes/blocks/site-automation-block/index.js",
+      "sophi-page-list-item": "./includes/blocks/sophi-page-list-item/index.js"
     }
+  },
+  "dependencies": {
+    "@10up/block-components": "^1.13.0",
+    "@wordpress/icons": "9.10.0"
   }
 }

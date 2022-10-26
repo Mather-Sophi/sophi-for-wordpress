@@ -36,6 +36,12 @@ function register_blocks() {
 
 	// Call block register functions for each block.
 	SiteAutomationBlock\register();
+
+	// Require custom blocks.
+	require_once SOPHI_WP_INC . '/blocks/sophi-page-list-item/register.php'; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
+
+	// Call block register functions for each block.
+	SiteAutomationItemBlock\register();
 }
 
 /**
