@@ -137,6 +137,11 @@ class EndPoints extends WP_REST_Controller {
 	public function get_post_details( $post_ID, $rules ) {
 		$post_data = get_post( $post_ID );
 
+		// If post not found in the site, return the postID only.
+		if( null === $post_data ) {
+			return (int) $post_ID;
+		}
+
 		$post_data->postLink = get_the_permalink( $post_ID );
 		if ( $rules['display_featured_image'] ) {
 			$post_data->featuredImage = get_the_post_thumbnail( $post_ID );
