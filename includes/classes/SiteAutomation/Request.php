@@ -61,17 +61,20 @@ class Request {
 	 * @param string $page Page name.
 	 * @param string $widget Widget name.
 	 * @param float  $timeout The request timeout value.
+	 * @param array  $override_post We pass the post data that needs be overridden.
 	 *
 	 * @return array|bool
 	 */
-	public function get( $page, $widget, $timeout = 3 ) {
+	public function get( $page, $widget, $timeout = 3, $override_post = array() ) {
 		$this->page    = $page;
 		$this->widget  = $widget;
 		$this->api_url = $this->set_api_url( $page, $widget );
 
 		$this->status         = $this->get_status();
 		$site_automation_data = false;
-		$post_id = false;
+		$post_id              = false;
+
+		$override_in_action = 0 !== count( $override_post );
 
 		/**
 		 * Whether to bypass caching.
@@ -85,7 +88,7 @@ class Request {
 		 *
 		 * @return {bool} Whether to bypass cache.
 		 */
-		$bypass_cache = apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
+		$bypass_cache = $override_in_action ? false : apply_filters( 'sophi_bypass_get_cache', false, $page, $widget );
 
 		if ( ! $bypass_cache ) {
 			$query = new \WP_Query(
@@ -101,20 +104,40 @@ class Request {
 			);
 
 			if ( $query->have_posts() ) {
-				$post_id = $query->posts[0];
+				$post_id     = $query->posts[0];
 				$last_update = get_post_meta( $post_id, 'sophi_site_automation_last_updated', true );
 
-				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() ) {
+				if ( $last_update + 5 * MINUTE_IN_SECONDS > time() || $override_in_action ) {
 					$site_automation_data = get_post_meta( $post_id, 'sophi_site_automation_data', true );
 				}
 			}
 		}
 
-		if ( $site_automation_data && ! empty( $this->status['success'] ) ) {
+		if ( $site_automation_data && ! empty( $this->status['success'] ) && ! $override_in_action ) {
 			return $site_automation_data;
 		}
 
-		$response = $this->request( $timeout );
+		// If override data is received, inject it into the database, and skip the actual call to API.
+		if ( $override_in_action && is_array( $site_automation_data ) ) {
+			$index     = $override_post['position'] - 1;
+			$rule_type = $override_post['ruleType'];
+
+			// Check where to perform override.
+			$remove = 'in' === $rule_type ? 0 : 1;
+			if ( 'out' !== $rule_type ) {
+				// When add/replace.
+				array_splice( $site_automation_data, $index, $remove, $override_post['overridePostID'] );
+			}
+
+			// Remove the last item after adding the new item.
+			if ( 'in' === $rule_type ) {
+				array_pop( $site_automation_data );
+			}
+
+			$response = $site_automation_data;
+		} else {
+			$response = $this->request( $timeout );
+		}
 
 		if ( is_wp_error( $response ) ) {
 			$this->set_status(
@@ -135,6 +158,7 @@ class Request {
 		}
 
 		$this->set_status( [ 'success' => true ] );
+
 		return $this->process( $response, $bypass_cache, $post_id );
 	}
 
