@@ -40,7 +40,7 @@ Sophi-driven pages outperform human curated pages by a significant margin and fr
 
 ## Requirements
 
-* [WordPress](http://wordpress.org) 5.6+
+* [WordPress](http://wordpress.org) 6.0+
 * [PHP](https://php.net/) 7.4+
 * [Sophi.io account](https://www.sophi.io/contact/) and related credentials to authorize and authenticate access within the plugin settings
 
