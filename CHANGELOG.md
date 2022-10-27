@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 ### Changed
 - Bump minimum WordPress version from 5.6 to 6.0 (props [@faisal-alvi](https://github.com/faisal-alvi) via [#346](https://github.com/globeandmail/sophi-for-wordpress/pull/346)).
 - Sophi Site Automation Block from a server-side-rendered custom block to a nested block (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333), [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
-- Hardcoded tracker endpoint removed and value used from the new Tracker Address request endpoint setting field (props [@faisal-alvi](https://github.com/faisal-alvi), [@YMufleh](https://github.com/YMufleh), [@jeffpaul](https://github.com/jeffpaul) via [#342](https://github.com/globeandmail/sophi-for-wordpress/pull/342)).
+- Replaced hardcoded tracker endpoint value with the new Tracker Address setting (props [@faisal-alvi](https://github.com/faisal-alvi), [@YMufleh](https://github.com/YMufleh), [@jeffpaul](https://github.com/jeffpaul) via [#342](https://github.com/globeandmail/sophi-for-wordpress/pull/342)).
 - Developer Documentation updates (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@faisal-alvi](https://github.com/faisal-alvi) via [#332](https://github.com/globeandmail/sophi-for-wordpress/pull/332), [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333)).
 
 ### Fixed
