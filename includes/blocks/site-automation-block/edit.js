@@ -96,6 +96,13 @@ const SiteAutomationBlockEdit = ({
 		}).then(
 			// eslint-disable-next-line consistent-return
 			(data) => {
+				if (!data.length) {
+					setMessage({
+						text: __('No posts returned.', 'sophi-wp'),
+						color: 'red',
+					});
+				}
+
 				// eslint-disable-next-line array-callback-return
 				data.forEach((item) => {
 					// If item is integer, it is a Post ID, that does not exist in the site.
