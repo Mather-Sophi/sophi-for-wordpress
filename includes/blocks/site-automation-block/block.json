@@ -1,33 +1,34 @@
 {
 	"title": "Site Automation",
+	"api_version": "1.0.1",
 	"text-domain": "sophi-wp",
 	"name": "sophi/site-automation-block",
-  "category": "sophi-blocks",
-	"attributes":{
+	"category": "sophi-blocks",
+	"attributes": {
 		"customTitle": {
-			"type" : "string"
+			"type": "string"
 		},
 		"pageName": {
-			"type" : "string"
+			"type": "string"
 		},
 		"widgetName": {
-			"type" : "string"
+			"type": "string"
 		},
 		"displayPostExcept": {
-			"type" : "boolean"
+			"type": "boolean"
 		},
 		"displayAuthor": {
-			"type" : "boolean"
+			"type": "boolean"
 		},
 		"displayPostDate": {
-			"type" : "boolean"
+			"type": "boolean"
 		},
 		"displayFeaturedImage": {
-			"type" : "boolean"
+			"type": "boolean"
 		},
 		"addLinkToFeaturedImage": {
-			"type" : "boolean"
+			"type": "boolean"
 		}
-  },
+	},
 	"editorScript": "file:../../../dist/blocks/site-automation-block/editor.js"
 }

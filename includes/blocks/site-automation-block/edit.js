@@ -96,6 +96,13 @@ const SiteAutomationBlockEdit = ({
 		}).then(
 			// eslint-disable-next-line consistent-return
 			(data) => {
+				if (!data.length) {
+					setMessage({
+						text: __('No posts returned.', 'sophi-wp'),
+						color: 'red',
+					});
+				}
+
 				// eslint-disable-next-line array-callback-return
 				data.forEach((item) => {
 					// If item is integer, it is a Post ID, that does not exist in the site.
@@ -131,6 +138,23 @@ const SiteAutomationBlockEdit = ({
 			},
 		);
 
+		if (overridePostID !== '') {
+			// eslint-disable-next-line consistent-return
+			return updatedInnerBlocks;
+		}
+
+		if (updatedInnerBlocks.length) {
+			// Replace innerBlocks with the updated array.
+			setPostsFound(true);
+			setMessage({
+				text: '',
+				color: 'green',
+			});
+			replaceInnerBlocks(clientId, updatedInnerBlocks, false);
+		} else {
+			setPostsFound(false);
+		}
+
 		if (notFoundPosts.length) {
 			setMessage({
 				text:
@@ -140,19 +164,6 @@ const SiteAutomationBlockEdit = ({
 					) + notFoundPosts.join(', '),
 				color: 'red',
 			});
-		}
-
-		if (overridePostID !== '') {
-			// eslint-disable-next-line consistent-return
-			return updatedInnerBlocks;
-		}
-
-		if (updatedInnerBlocks.length) {
-			// Replace innerBlocks with the updated array.
-			setPostsFound(true);
-			replaceInnerBlocks(clientId, updatedInnerBlocks, false);
-		} else {
-			setPostsFound(false);
 		}
 	};
 
