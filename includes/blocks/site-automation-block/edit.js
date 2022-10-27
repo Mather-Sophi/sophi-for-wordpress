@@ -138,6 +138,23 @@ const SiteAutomationBlockEdit = ({
 			},
 		);
 
+		if (overridePostID !== '') {
+			// eslint-disable-next-line consistent-return
+			return updatedInnerBlocks;
+		}
+
+		if (updatedInnerBlocks.length) {
+			// Replace innerBlocks with the updated array.
+			setPostsFound(true);
+			setMessage({
+				text: '',
+				color: 'green',
+			});
+			replaceInnerBlocks(clientId, updatedInnerBlocks, false);
+		} else {
+			setPostsFound(false);
+		}
+
 		if (notFoundPosts.length) {
 			setMessage({
 				text:
@@ -147,19 +164,6 @@ const SiteAutomationBlockEdit = ({
 					) + notFoundPosts.join(', '),
 				color: 'red',
 			});
-		}
-
-		if (overridePostID !== '') {
-			// eslint-disable-next-line consistent-return
-			return updatedInnerBlocks;
-		}
-
-		if (updatedInnerBlocks.length) {
-			// Replace innerBlocks with the updated array.
-			setPostsFound(true);
-			replaceInnerBlocks(clientId, updatedInnerBlocks, false);
-		} else {
-			setPostsFound(false);
 		}
 	};
 
