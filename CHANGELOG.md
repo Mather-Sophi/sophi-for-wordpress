@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Display message when no posts are returned from Sophi Site Automation (props [@faisal-alvi](https://github.com/faisal-alvi) via [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
 - Functionality to remove old error messages when posts are found (props [@faisal-alvi](https://github.com/faisal-alvi) via [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
 - Tracker Address option on plugin settings page (props [@faisal-alvi](https://github.com/faisal-alvi), [@YMufleh](https://github.com/YMufleh), [@jeffpaul](https://github.com/jeffpaul) via [#342](https://github.com/globeandmail/sophi-for-wordpress/pull/342)).
-- New tutorial for modify tracking data on documentation site (props [@iamdharmesh](https://github.com/iamdharmesh), [@YMufleh](https://github.com/YMufleh), [@dkotter](https://github.com/dkotter) via [#327](https://github.com/globeandmail/sophi-for-wordpress/pull/327)).
+- New tutorial for modifying tracking data on documentation site (props [@iamdharmesh](https://github.com/iamdharmesh), [@YMufleh](https://github.com/YMufleh), [@dkotter](https://github.com/dkotter) via [#327](https://github.com/globeandmail/sophi-for-wordpress/pull/327)).
 
 ### Changed
 - Bump minimum WordPress version from 5.6 to 6.0 (props [@faisal-alvi](https://github.com/faisal-alvi) via [#346](https://github.com/globeandmail/sophi-for-wordpress/pull/346)).
