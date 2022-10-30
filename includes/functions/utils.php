@@ -545,3 +545,28 @@ function get_post_categories( $post_id ) {
 function get_wp_sophi_versions() {
 	return 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION;
 }
+
+/**
+ * Get the primary term name.
+ *
+ * @param string $taxonomy Optional. The taxonomy to get the primary term ID for. Defaults to category.
+ * @param int    $post_id            Optional. Post to get the primary term ID for.
+ *
+ * @return string
+ */
+function get_primary_category( $post_id = 0, $taxonomy = 'category' ) {
+	if ( ! function_exists( 'yoast_get_primary_term_id' ) ) {
+		$post_terms = wp_get_post_terms( $post_id, $taxonomy );
+
+		if ( is_array( $post_terms ) && count( $post_terms ) > 0 ) {
+			return $post_terms[0]->name;
+		} else {
+			return '';
+		}
+	}
+
+	$primary_term_id  = yoast_get_primary_term_id( $taxonomy, $post_id );
+	$primary_category = get_term( $primary_term_id );
+
+	return $primary_category->name;
+}
