@@ -108,25 +108,4 @@ class Core_Tests extends Base\TestCase {
 
 		$this->assertEquals( $term_name, 'Uncategorized' );
 	}
-
-	public function test_get_primary_category__custom_category__yoast_activated() {
-		\WP_Mock::userFunction( 'yoast_get_primary_term_id', array(
-			'times'  => 1,
-			'args'   => array( 'category', null ),
-			'return' => 123,
-		) );
-
-		\WP_Mock::userFunction( 'get_term', array(
-			'times'  => 1,
-			'args'   => array( 123 ),
-			'return' => (object) array(
-				'term_id' => 123,
-				'name'    => 'Art',
-			),
-		) );
-
-		$term_name = get_primary_category();
-
-		$this->assertEquals( $term_name, 'Art' );
-	}
 }
