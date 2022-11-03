@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: sophi_tracker_emitter_debug - Sophi Plugin Developer Documentation</title>
+    <title>Tutorial: Post Content Type - Sophi Plugin Developer Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -21,187 +21,35 @@
 <div id="main">
 
 	
-    <h1 class="page-title">Filter: sophi_tracker_emitter_debug</h1>
+    <h1 class="page-title">Tutorial: Post Content Type</h1>
 	
 
-    
-
-
-
-
-<section>
+    <section>
 
 <header>
-    <h2></h2>
     
+
+    <h2>Post Content Type</h2>
 </header>
 
 <article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    <h4 class="name" id="sophi_tracker_emitter_debug">apply_filters( 'sophi_tracker_emitter_debug', <span class="signature">$debug )</span><span class="type-signature"> &rarr; {bool}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Whether to turn on emitter debug</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>$debug</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">bool</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Debug is active.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>1.0.14</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line220">line 220</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Whether to turn on emitter debug.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">bool</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-    
-    </div>
-
-    
+    <p>By default, Sophi for WordPress uses post format as the content type. This plugin uses <code>content_type</code> internally to distinguish between WordPress post type and Sophi type.</p>
+<p>Sophi accepts 4 types: article, video, audio, and image. The default type is <code>article</code>. Any other types that are not included above will be treated as <code>article</code>.</p>
+<p>If you're not using post format for content type, you can utilize <code>sophi_post_content_type</code> to set the content type.</p>
+<pre class="prettyprint source lang-php"><code>add_filter(
+	'sophi_post_content_type',
+	function( $type, $post ) {
+		// You logic here.
+
+		return $new_type;
+	},
+	10,
+	2
+);
+</code></pre>
 </article>
 
 </section>
-
-
-
 
 
     <footer>

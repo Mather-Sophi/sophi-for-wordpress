@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: sophi_tracker_emitter_debug - Sophi Plugin Developer Documentation</title>
+    <title>Tutorial: Modify tracking data - Sophi Plugin Developer Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -21,187 +21,66 @@
 <div id="main">
 
 	
-    <h1 class="page-title">Filter: sophi_tracker_emitter_debug</h1>
+    <h1 class="page-title">Tutorial: Modify tracking data</h1>
 	
 
-    
-
-
-
-
-<section>
+    <section>
 
 <header>
-    <h2></h2>
     
+
+    <h2>Modify tracking data</h2>
 </header>
 
 <article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    <h4 class="name" id="sophi_tracker_emitter_debug">apply_filters( 'sophi_tracker_emitter_debug', <span class="signature">$debug )</span><span class="type-signature"> &rarr; {bool}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Whether to turn on emitter debug</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>$debug</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">bool</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Debug is active.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>1.0.14</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line220">line 220</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Whether to turn on emitter debug.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">bool</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-    
-    </div>
-
-    
+    <p>The plugin generates tracking data and sends it to the Sophi Collector on normal (non-AMP) page views. While the intention of this plugin is to accurately capture all the necessary information automatically, there are some use cases that will need to modify this data prior to it being sent to Sophi.</p>
+<p>The generated tracking data is passed through a custom filter (<a href="sophi_tracking_data.html"><code>sophi_tracking_data</code></a>), which allows you to customize this information. See below for a few examples of how to utilize this filter.</p>
+<p>A few things to note:</p>
+<ol>
+<li>Where you add this code will depend on your individual setup. If you are using a custom theme, you can add these to your main <code>functions.php</code> file. If you're using a public theme, you might want to create a custom plugin to hold these code changes, so you don't lose those changes when you update your theme</li>
+<li>If data is changed or added, you may need to coordinate with the Sophi.io team to ensure tracking data is appropriately received</li>
+<li>Data that is changed needs to stay the same type as it is currently. For instance, if something is currently an array, it should stay an array</li>
+</ol>
+<h3 id="modify-existing-data">Modify existing data</h3>
+<p>One of the fields that is sent is called <code>type</code>. This is currently set to the content type of the post. If you need to change this to something else, like &quot;video&quot;, you can do the following:</p>
+<pre class="prettyprint source lang-php"><code>/**
+ * Change the tracking data we send to Sophi.
+ *
+ * Update the content type and page type data to video.
+ *
+ * @param array $tracking_data Formatted tracking data.
+ * @return array
+ */
+function custom_prefix_sophi_tracking_data( $tracking_data = [] ) {
+	$tracking_data['data']['page']['type']    = 'video';
+	$tracking_data['data']['content']['type'] = 'video';
+
+	return $tracking_data;
+}
+add_filter( 'sophi_tracking_data', 'custom_prefix_sophi_tracking_data' );
+</code></pre>
+<h3 id="add-new-data">Add new data</h3>
+<p>If you need to add an entirely new field, that can be done as well:</p>
+<pre class="prettyprint source lang-php"><code>/**
+ * Change the tracking data we send to Sophi.
+ *
+ * Add a new field called videoIds.
+ *
+ * @param array $tracking_data Formatted tracking data.
+ * @return array
+ */
+function custom_prefix_sophi_tracking_data( $tracking_data = [] ) {
+	// This custom function is not provided here but this would
+	// run some logic to get video IDs from the post object.
+	$tracking_data['data']['content']['videoIds'] = custom_prefix_get_video_ids();
+
+	return $tracking_data;
+}
+add_filter( 'sophi_tracking_data', 'custom_prefix_sophi_tracking_data' );
+</code></pre>
 </article>
 
 </section>
-
-
-
 
 
     <footer>

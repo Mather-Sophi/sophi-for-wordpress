@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: WP REST Endpoints - Sophi Plugin Developer Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:300,400|Playfair+Display:900&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles-10up.css">
+</head>
+
+<body>
+
+<div id="main">
+
+	
+    <h1 class="page-title">Tutorial: WP REST Endpoints</h1>
+	
+
+    <section>
+
+<header>
+    
+
+    <h2>WP REST Endpoints</h2>
+</header>
+
+<article>
+    <p>The Sophi plugin supports several WP REST Endpoints to perform specific actions on the curated posts.</p>
+<p>Right now, there are the following REST Endpoints available in the plugin:</p>
+<ol>
+<li>Get the Curator Posts</li>
+<li>Override the curator Posts</li>
+</ol>
+<h3 id="1.-get-the-curator-posts">1. Get the Curator Posts</h3>
+<p>To get the curators posts from the Sophi API, the following rest endpoint can be used:</p>
+<h3 id="%5Bget%5D-%2Fwp-json%2Fsophi%2Fv1%2Fsite-automation">[GET] <code>/wp-json/sophi/v1/site-automation</code></h3>
+<p>It accepts the following parameters.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pageName</td>
+<td>yes</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>widgetName</td>
+<td>yes</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>displayPostExcept</td>
+<td>no</td>
+<td>string</td>
+<td>''</td>
+</tr>
+<tr>
+<td>displayAuthor</td>
+<td>no</td>
+<td>string</td>
+<td>''</td>
+</tr>
+<tr>
+<td>displayPostDate</td>
+<td>no</td>
+<td>string</td>
+<td>''</td>
+</tr>
+<tr>
+<td>displayFeaturedImage</td>
+<td>no</td>
+<td>string</td>
+<td>''</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-request">Example Request</h3>
+<pre class="prettyprint source lang-text"><code>{WPSiteURL}/wp-json/sophi/v1/site-automation?pageName=test_page&widgetName=test_widget&displayFeaturedImage=true
+</code></pre>
+<p>Where <code>{WPSiteURL}</code> is a URL of your WordPress site.</p>
+<h3 id="example-response">Example Response</h3>
+<pre class="prettyprint source lang-json"><code>[
+  {
+	&quot;ID&quot;: 5859,
+	&quot;post_author&quot;: &quot;1&quot;,
+	&quot;post_date&quot;: &quot;2022-09-20 15:09:39&quot;,
+	&quot;post_date_gmt&quot;: &quot;2022-09-20 09:39:39&quot;,
+	&quot;post_content&quot;: &quot;&lt;!-- wp:paragraph -->\n&lt;p>Lorem ipsum&lt;/p>\n&lt;!-- /wp:paragraph -->&quot;,
+	&quot;post_title&quot;: &quot;Test 01&quot;,
+	&quot;post_excerpt&quot;: &quot;&quot;,
+	&quot;post_status&quot;: &quot;publish&quot;,
+	&quot;comment_status&quot;: &quot;open&quot;,
+	&quot;ping_status&quot;: &quot;open&quot;,
+	&quot;post_password&quot;: &quot;&quot;,
+	&quot;post_name&quot;: &quot;test-01&quot;,
+	&quot;to_ping&quot;: &quot;&quot;,
+	&quot;pinged&quot;: &quot;&quot;,
+	&quot;post_modified&quot;: &quot;2022-10-04 15:39:21&quot;,
+	&quot;post_modified_gmt&quot;: &quot;2022-10-04 10:09:21&quot;,
+	&quot;post_content_filtered&quot;: &quot;&quot;,
+	&quot;post_parent&quot;: 0,
+	&quot;guid&quot;: &quot;https://wpne.local/?p=5859&quot;,
+	&quot;menu_order&quot;: 0,
+	&quot;post_type&quot;: &quot;post&quot;,
+	&quot;post_mime_type&quot;: &quot;&quot;,
+	&quot;comment_count&quot;: &quot;0&quot;,
+	&quot;filter&quot;: &quot;raw&quot;,
+	&quot;postLink&quot;: &quot;https://wpne.local/test-01/&quot;,
+	&quot;featuredImage&quot;: &quot;&lt;img width=\&quot;591\&quot; height=\&quot;590\&quot; src=\&quot;https://wpne.local/wp-content/uploads/2022/05/test-01.jpg\&quot; class=\&quot;attachment-post-thumbnail size-post-thumbnail wp-post-image\&quot; alt=\&quot;\&quot; loading=\&quot;lazy\&quot; srcset=\&quot;https://wpne.local/wp-content/uploads/2022/05/test-01.jpg 591w, https://wpne.local/wp-content/uploads/2022/05/test-01-450x450.jpg 450w, https://wpne.local/wp-content/uploads/2022/05/test-01-100x100.jpg 100w, https://wpne.local/wp-content/uploads/2022/05/test-01-300x300.jpg 300w, https://wpne.local/wp-content/uploads/2022/05/test-01-150x150.jpg 150w\&quot; sizes=\&quot;(max-width: 591px) 100vw, 591px\&quot; style=\&quot;width:100%;height:99.83%;max-width:591px;\&quot; />&quot;
+  },
+  {
+	&quot;ID&quot;: 5856,
+	&quot;post_author&quot;: &quot;1&quot;,
+	&quot;post_date&quot;: &quot;2022-09-20 15:00:48&quot;,
+	&quot;post_date_gmt&quot;: &quot;2022-09-20 09:30:48&quot;,
+	&quot;post_content&quot;: &quot;&lt;!-- wp:paragraph -->\n&lt;p>Lorem ipsum&lt;/p>\n&lt;!-- /wp:paragraph -->&quot;,
+	&quot;post_title&quot;: &quot;test-02&quot;,
+	&quot;post_excerpt&quot;: &quot;&quot;,
+	&quot;post_status&quot;: &quot;publish&quot;,
+	&quot;comment_status&quot;: &quot;open&quot;,
+	&quot;ping_status&quot;: &quot;open&quot;,
+	&quot;post_password&quot;: &quot;&quot;,
+	&quot;post_name&quot;: &quot;test-02&quot;,
+	&quot;to_ping&quot;: &quot;&quot;,
+	&quot;pinged&quot;: &quot;&quot;,
+	&quot;post_modified&quot;: &quot;2022-09-20 17:00:51&quot;,
+	&quot;post_modified_gmt&quot;: &quot;2022-09-20 11:30:51&quot;,
+	&quot;post_content_filtered&quot;: &quot;&quot;,
+	&quot;post_parent&quot;: 0,
+	&quot;guid&quot;: &quot;https://wpne.local/?p=5856&quot;,
+	&quot;menu_order&quot;: 0,
+	&quot;post_type&quot;: &quot;post&quot;,
+	&quot;post_mime_type&quot;: &quot;&quot;,
+	&quot;comment_count&quot;: &quot;0&quot;,
+	&quot;filter&quot;: &quot;raw&quot;,
+	&quot;postLink&quot;: &quot;https://wpne.local/test-02/&quot;,
+	&quot;featuredImage&quot;: &quot;&quot;
+  }
+]
+</code></pre>
+<h3 id="2.-override-the-curator-posts">2. Override the curator Posts</h3>
+<p>To override the curators post, the following rest endpoint can be used:</p>
+<h3 id="%5Bpost%5D-%2Fwp-json%2Fsophi%2Fv1%2Fsite-automation-override">[POST] <code>/wp-json/sophi/v1/site-automation-override</code></h3>
+<p>It accepts the following parameters.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ruleType</td>
+<td>yes</td>
+<td>string</td>
+<td>Default is not set<br>Acceptable values:<br><code>in/replace/remove/ban</code></td>
+</tr>
+<tr>
+<td>overridePostID</td>
+<td>yes</td>
+<td>integer</td>
+<td></td>
+</tr>
+<tr>
+<td>pageName</td>
+<td>yes</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>widgetName</td>
+<td>no</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>position</td>
+<td>no</td>
+<td>integer</td>
+<td>1</td>
+</tr>
+<tr>
+<td>overrideExpiry</td>
+<td>no</td>
+<td>integer</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-request-1">Example Request</h3>
+<pre class="prettyprint source lang-text"><code>{WPSiteURL}/wp-json/sophi/v1/site-automation-override?pageName=test_name&widgetName=test_widget&ruleType=ban&overridePostID=123&position=1&overrideExpiry=2
+</code></pre>
+<p>Where <code>{WPSiteURL}</code> is a URL of your WordPress site.</p>
+<h3 id="example-response-1">Example Response</h3>
+<pre class="prettyprint source lang-json"><code>{
+  &quot;id&quot;: &quot;1085&quot;,
+  &quot;articleId&quot;: &quot;123&quot;,
+  &quot;widgetName&quot;: null,
+  &quot;page&quot;: &quot;test_name&quot;,
+  &quot;position&quot;: null,
+  &quot;requestedUserName&quot;: &quot;admin@gmail.com&quot;,
+  &quot;expirationHour&quot;: 2,
+  &quot;expirationDate&quot;: &quot;2022-10-07T15:34:33.712+00:00&quot;,
+  &quot;creationDate&quot;: &quot;2022-10-07T13:34:33.712+00:00&quot;,
+  &quot;ruleType&quot;: &quot;out&quot;,
+  &quot;replacedArticleId&quot;: null,
+  &quot;tenantId&quot;: &quot;10up&quot;,
+  &quot;hostConfigId&quot;: &quot;34&quot;,
+  &quot;status&quot;: &quot;ACTIVE&quot;
+}
+</code></pre>
+<h3 id="a-few-error-response-examples%3A">A few error response examples:</h3>
+<p>When a required parameter is missing in the request.</p>
+<pre class="prettyprint source lang-json"><code>{
+  &quot;code&quot;: &quot;rest_missing_callback_param&quot;,
+  &quot;message&quot;: &quot;Missing parameter(s): pageName&quot;,
+  &quot;data&quot;: {
+	&quot;status&quot;: 400,
+	&quot;params&quot;: [
+	  &quot;pageName&quot;
+	]
+  }
+}
+</code></pre>
+<p>When invalid credentials provided. An auth token is generated from the credentials details saved in the WordPress settings page. The error response is received when a token is not generated or invalid.</p>
+<pre class="prettyprint source lang-json"><code>{
+  &quot;code&quot;: 401,
+  &quot;message&quot;: &quot;Invalid API token, please try adding correct credentials on the settings page.&quot;,
+  &quot;data&quot;: null
+}
+</code></pre>
+<p>When WordPress user is not logged in. Basic Authentication is required.</p>
+<pre class="prettyprint source lang-json"><code>{
+  &quot;code&quot;: 401,
+  &quot;message&quot;: &quot;Unauthorised user, please log in.&quot;,
+  &quot;data&quot;: null
+}
+</code></pre>
+<p>On unauthorised request.</p>
+<pre class="prettyprint source lang-json"><code>{
+  &quot;code&quot;: 401,
+  &quot;message&quot;: &quot;Unauthorized&quot;,
+  &quot;data&quot;: null
+}
+</code></pre>
+</article>
+
+</section>
+
+
+    <footer>
+		<a href="https://sophi.io/">Sophi.io</a> &bull;
+		<a href="https://github.com/globeandmail/sophi-for-wordpress/">Sophi for WordPress on GitHub</a> &bull;
+    <a href="https://wordpress.org/plugins/sophi/">Sophi on WordPress.org</a> &bull;
+		<a href="https://www.sophi.io/careers/">Careers at Sophi</a>
+	</footer>
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="sophi_cms_tracking_result.html">sophi_cms_tracking_result</a></li><li><a href="sophi_init.html">sophi_init</a></li><li><a href="sophi_loaded.html">sophi_loaded</a></li></ul><h3>Filters</h3><ul><li><a href="site_automation_override_params.html">site_automation_override_params</a></li><li><a href="site_automation_params.html">site_automation_params</a></li><li><a href="sophi_amp_tracking_data.html">sophi_amp_tracking_data</a></li><li><a href="sophi_available.html">sophi_available</a></li><li><a href="sophi_bypass_curated_posts_cache.html">sophi_bypass_curated_posts_cache</a></li><li><a href="sophi_bypass_get_cache.html">sophi_bypass_get_cache</a></li><li><a href="sophi_cache_duration.html">sophi_cache_duration</a></li><li><a href="sophi_cli_per_page_limit.html">sophi_cli_per_page_limit</a></li><li><a href="sophi_cms_track_duplicate_ttl.html">sophi_cms_track_duplicate_ttl</a></li><li><a href="sophi_cms_tracking_request_data.html">sophi_cms_tracking_request_data</a></li><li><a href="sophi_curated_post_list.html">sophi_curated_post_list</a></li><li><a href="sophi_hierarchial_taxonomy_for_breadcrumb.html">sophi_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_non_hierarchial_taxonomy_for_breadcrumb.html">sophi_non_hierarchial_taxonomy_for_breadcrumb</a></li><li><a href="sophi_override_request_args.html">sophi_override_request_args</a></li><li><a href="sophi_page_need_tracking.html">sophi_page_need_tracking</a></li><li><a href="sophi_post_content_type.html">sophi_post_content_type</a></li><li><a href="sophi_post_data.html">sophi_post_data</a></li><li><a href="sophi_request_args.html">sophi_request_args</a></li><li><a href="sophi_request_result.html">sophi_request_result</a></li><li><a href="sophi_site_automation_block_output.html">sophi_site_automation_block_output</a></li><li><a href="sophi_skip_track_event.html">sophi_skip_track_event</a></li><li><a href="sophi_supported_post_types.html">sophi_supported_post_types</a></li><li><a href="sophi_tracker_emitter_debug.html">sophi_tracker_emitter_debug</a></li><li><a href="sophi_tracking_data.html">sophi_tracking_data</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-canonical-url.html">Canonical URL</a></li><li><a href="tutorial-change-supported-post-types.html">Change Supported Post Types</a></li><li><a href="tutorial-headless-integration.html">Headless Integration</a></li><li><a href="tutorial-modify-post-data.html">Modify Post Data</a></li><li><a href="tutorial-modify-tracking-data.html">Modify tracking data</a></li><li><a href="tutorial-object-caching.html">Object Caching</a></li><li><a href="tutorial-post-content-type.html">Post Content Type</a></li><li><a href="tutorial-rest-end-points.html">WP REST Endpoints</a></li><li><a href="tutorial-sophi-api-empty-response.html">Sophi API Empty Response</a></li><li><a href="tutorial-wp-cli-commands.html">WP-CLI Commands</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

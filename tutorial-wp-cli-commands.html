@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Filter: sophi_tracker_emitter_debug - Sophi Plugin Developer Documentation</title>
+    <title>Tutorial: WP-CLI Commands - Sophi Plugin Developer Documentation</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -21,187 +21,57 @@
 <div id="main">
 
 	
-    <h1 class="page-title">Filter: sophi_tracker_emitter_debug</h1>
+    <h1 class="page-title">Tutorial: WP-CLI Commands</h1>
 	
 
-    
-
-
-
-
-<section>
+    <section>
 
 <header>
-    <h2></h2>
     
+
+    <h2>WP-CLI Commands</h2>
 </header>
 
 <article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    <h4 class="name" id="sophi_tracker_emitter_debug">apply_filters( 'sophi_tracker_emitter_debug', <span class="signature">$debug )</span><span class="type-signature"> &rarr; {bool}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Whether to turn on emitter debug</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>$debug</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">bool</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Debug is active.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>1.0.14</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="includes_functions_content-sync.php.html">includes/functions/content-sync.php</a>, <a href="includes_functions_content-sync.php.html#line220">line 220</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Whether to turn on emitter debug.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">bool</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-    
-    </div>
-
-    
+    <h3 id="sync-content-to-sophi-collector">Sync content to Sophi Collector</h3>
+<p><code>$ wp sophi sync [--post_types=&lt;string&gt;] [--limit=&lt;number&gt;] [--per_page=&lt;number&gt;] [--include=&lt;number&gt;]</code></p>
+<p>Sync all supported content to Sophi Collector, firing off update events for all of them.  The expected use case with the Sophi for WordPress plugin is that someone will install it on an existing site and instead of having to manually update each piece of content to ensure that it makes it to the Collector, they can run this script to handle that all at once.</p>
+<h4 id="options">Options</h4>
+<p><strong><code>--post_types=&lt;string&gt;</code></strong></p>
+<p>Post types to be processed. Comma separated for passing multiple post types.</p>
+<p>default: <code>false</code>
+options:</p>
+<ul>
+<li>any post type name</li>
+<li><code>false</code></li>
+</ul>
+<p><strong><code>--limit=&lt;number&gt;</code></strong></p>
+<p>Limit the amount of posts to be synced.</p>
+<p>default: <code>false</code>
+options:</p>
+<ul>
+<li><code>false</code>, no limit</li>
+<li><code>N</code>, max number of posts to sync</li>
+</ul>
+<p><strong><code>--per_page=&lt;number&gt;</code></strong></p>
+<p>Number of posts to process each batch.</p>
+<p>default: <code>false</code>
+options:</p>
+<ul>
+<li><code>false</code>, no limit</li>
+<li><code>N</code>, max number of posts to sync each batch</li>
+</ul>
+<p><strong><code>--include=&lt;number&gt;</code></strong></p>
+<p>Post IDs to process. Comma separated for passing multiple item.</p>
+<p>default: <code>false</code>
+options:</p>
+<ul>
+<li><code>false</code>, no limit</li>
+<li><code>N</code>, Post IDs to sync</li>
+</ul>
 </article>
 
 </section>
-
-
-
 
 
     <footer>
