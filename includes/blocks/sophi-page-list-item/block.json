@@ -1,5 +1,6 @@
 {
   "title": "Sophi Recommended Post",
+  "api_version": "1.0.1",
   "name": "sophi/page-list-item",
   "attributes": {
     "postUpdated": {
