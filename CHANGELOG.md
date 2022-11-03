@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.3.0] - 2022-10-28
+**Note that this version bumps the minimum WordPress version from 5.6 to 6.0 and adds an integration with the Sophi Override feature.**
+
+### Added
+- Override feature to the Sophi Site Automation Block (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333), [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+- [GET] `/wp-json/sophi/v1/site-automation` WP REST endpoint to Get Posts from Site Automation (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333)).
+- [POST] `/wp-json/sophi/v1/site-automation-override` WP REST endpoint to Override the Posts for Site Automation (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333)).
+- `api_version` to the block JSON files (props [@faisal-alvi](https://github.com/faisal-alvi) via [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+- Display message when no posts are returned from Sophi Site Automation (props [@faisal-alvi](https://github.com/faisal-alvi) via [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+- Functionality to remove old error messages when posts are found (props [@faisal-alvi](https://github.com/faisal-alvi) via [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+- Tracker Address option on plugin settings page (props [@faisal-alvi](https://github.com/faisal-alvi), [@YMufleh](https://github.com/YMufleh), [@jeffpaul](https://github.com/jeffpaul) via [#342](https://github.com/globeandmail/sophi-for-wordpress/pull/342)).
+- New tutorial for modifying tracking data on documentation site (props [@iamdharmesh](https://github.com/iamdharmesh), [@YMufleh](https://github.com/YMufleh), [@dkotter](https://github.com/dkotter) via [#327](https://github.com/globeandmail/sophi-for-wordpress/pull/327)).
+
+### Changed
+- Bump minimum WordPress version from 5.6 to 6.0 (props [@faisal-alvi](https://github.com/faisal-alvi) via [#346](https://github.com/globeandmail/sophi-for-wordpress/pull/346)).
+- Sophi Site Automation Block from a server-side-rendered custom block to a nested block (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333), [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+- Replaced hardcoded tracker endpoint value with the new Tracker Address setting (props [@faisal-alvi](https://github.com/faisal-alvi), [@YMufleh](https://github.com/YMufleh), [@jeffpaul](https://github.com/jeffpaul) via [#342](https://github.com/globeandmail/sophi-for-wordpress/pull/342)).
+- Developer Documentation updates (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@faisal-alvi](https://github.com/faisal-alvi) via [#332](https://github.com/globeandmail/sophi-for-wordpress/pull/332), [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333)).
+
+### Fixed
+- Prevent duplicate CMS publish/update event tracking (props [@cadic](https://github.com/cadic), [@peterwilsoncc](https://github.com/peterwilsoncc), [@jeffpaul](https://github.com/jeffpaul) via [#335](https://github.com/globeandmail/sophi-for-wordpress/pull/335)).
+
+### Security
+- Added latest PHPCompatibility checks for PHP 8.0 (props [@Sidsector9](https://github.com/Sidsector9) via [#331](https://github.com/globeandmail/sophi-for-wordpress/pull/331)).
+- Update dependency `phpunit/phpunit` from 8.5.29 to 9.5.25 (props [@renovate](https://github.com/apps/renovate), [@Sidsector9](https://github.com/Sidsector9), [@faisal-alvi](https://github.com/faisal-alvi) via [#329](https://github.com/globeandmail/sophi-for-wordpress/pull/329), [#337](https://github.com/globeandmail/sophi-for-wordpress/pull/337), [#339](https://github.com/globeandmail/sophi-for-wordpress/pull/339)).
+- Update dependency `10up-toolkit` from 4.1.2 to 4.3.0 (props [@renovate](https://github.com/apps/renovate), [@Sidsector9](https://github.com/Sidsector9), [@faisal-alvi](https://github.com/faisal-alvi) via [#330](https://github.com/globeandmail/sophi-for-wordpress/pull/330), [#340](https://github.com/globeandmail/sophi-for-wordpress/pull/340)).
+- Update `actions/checkout` action from v2 to v3 and v3.0.2 to v3.1.0 (props [@renovate](https://github.com/apps/renovate) via [#334](https://github.com/globeandmail/sophi-for-wordpress/pull/334)).
+
 ## [1.2.1] - 2022-08-30
 ### Changed
 - Bump `content_update` schema from 2-0-3 to 2-0-5 (props [@jeffpaul](https://github.com/jeffpaul), [@vjayaseelan90](https://github.com/vjayaseelan90), [@YMufleh](https://github.com/YMufleh) via [#323](https://github.com/globeandmail/sophi-for-wordpress/pull/323)).
@@ -240,6 +268,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.3.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.2.1...1.3.0
 [1.2.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.3...1.2.0
 [1.1.3]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.2...1.1.3
