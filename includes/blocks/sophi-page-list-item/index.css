@@ -1,0 +1,7 @@
+.override-map-popover .components-popover__content {padding: 20px;}
+.override-row {
+	margin: 0 0 15px;
+}
+.override-popup {
+	min-width: 350px;
+}

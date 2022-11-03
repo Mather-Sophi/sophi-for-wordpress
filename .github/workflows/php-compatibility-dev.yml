@@ -1,0 +1,38 @@
+name: PHP Compatibility-dev for 8.0
+
+on:
+  push:
+    branches:
+      - develop
+      - trunk
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  php-compatibility:
+    name: PHP minimum 8.0
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+              composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+              composer g require --dev phpcompatibility/phpcompatibility-wp:"*"
+              composer g config minimum-stability dev
+              composer g require --dev phpcompatibility/phpcompatibility-wp
+              composer g require --dev phpcompatibility/php-compatibility:"dev-develop as 9.99.99"
+
+      - name: Run PHP Compatibility
+        run: ~/.composer/vendor/bin/phpcs sophi.php includes/ --standard=PHPCompatibilityWP --severity=1 --runtime-set testVersion 8.0- --extensions=php

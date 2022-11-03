@@ -2,7 +2,7 @@
 Contributors:      10up, sophidev
 Tags:              Sophi, Site Automation, Curator, Collector, AI, Artifical Intelligence, ML, Machine Learning, Content Curation
 Tested up to:      6.0
-Stable tag:        1.2.1
+Stable tag:        1.3.0
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,44 +115,7 @@ While the above query integration works just fine, it has been observed on [Word
 
 `phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts`
 
-= Post content type =
-
-By default, Sophi for WordPress uses post format as the content type. This plugin uses `content_type` internally to distinguish between WordPress post type and Sophi type.
-
-Sophi accepts 4 types: article, video, audio, and image. The default type is `article`. Any other types that are not included above will be treated as `article`.
-
-If you're not using post format for content type, you can utilize `sophi_post_content_type` to set the content type.
-
-`
-add_filter(
-	'sophi_post_content_type',
-	function( $type, $post ) {
-		// You logic here.
-
-		return $new_type;
-	},
-	10,
-	2
-);
-`
-
-= Canonical URL =
-
-Sophi for WordPress uses `wp_get_canonical_url` function introduced in WordPress 4.6 to get the canonical URL for given post. The plugin compares this canonical URL to post permalink to set the `isCanonical` attribute.
-
-WordPress SEO (Yoast) canonical is supported out of the box. For other SEO plugins and custom implementations, [`get_canonical_url`](https://developer.wordpress.org/reference/functions/wp_get_canonical_url/) filter can be used to change the canonical URL.
-
-= Object caching =
-
-Object caching is encouraged, as the plugin saves Sophi data as a transient.  If you do not have object caching, then the data will be saved as a transient in the options table but note that these will eventually expire.
-
-The default caching period is five minutes. This can be modified with the `sophi_cache_duration` hook.
-
-= Sophi API empty response =
-
-If the Sophi API returns an empty Post ID array, the plugin will result in a "no results" response.  The `sophi_curated_post_list` filter can be used to modify the Sophi API response to allow manual posts to be injected into the final array previous to returning the filterable value from `posts_pre_query` (e.g., via a fallback method to inject posts that would be a good fit).
-
-== Documentation ==
+== Developer Documentation ==
 
 Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
 
@@ -185,6 +148,27 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
+
+= 1.3.0 - 2022-10-28 =
+**Note that this version bumps the minimum WordPress version from 5.6 to 6.0 and adds an integration with the Sophi Override feature.**
+
+* **Added:** Override feature to the Sophi Site Automation Block (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333), [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+* **Added:** [GET] `/wp-json/sophi/v1/site-automation` WP REST endpoint to Get Posts from Site Automation (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333)).
+* **Added:** [POST] `/wp-json/sophi/v1/site-automation-override` WP REST endpoint to Override the Posts for Site Automation (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333)).
+* **Added:** `api_version` to the block JSON files (props [@faisal-alvi](https://github.com/faisal-alvi) via [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+* **Added:** Display message when no posts are returned from Sophi Site Automation (props [@faisal-alvi](https://github.com/faisal-alvi) via [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+* **Added:** Functionality to remove old error messages when posts are found (props [@faisal-alvi](https://github.com/faisal-alvi) via [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+* **Added:** Tracker Address option on plugin settings page (props [@faisal-alvi](https://github.com/faisal-alvi), [@YMufleh](https://github.com/YMufleh), [@jeffpaul](https://github.com/jeffpaul) via [#342](https://github.com/globeandmail/sophi-for-wordpress/pull/342)).
+* **Added:** New tutorial for modifying tracking data on documentation site (props [@iamdharmesh](https://github.com/iamdharmesh), [@YMufleh](https://github.com/YMufleh), [@dkotter](https://github.com/dkotter) via [#327](https://github.com/globeandmail/sophi-for-wordpress/pull/327)).
+* **Changed:** Bump minimum WordPress version from 5.6 to 6.0 (props [@faisal-alvi](https://github.com/faisal-alvi) via [#346](https://github.com/globeandmail/sophi-for-wordpress/pull/346)).
+* **Changed:** Sophi Site Automation Block from a server-side-rendered custom block to a nested block (props [@faisal-alvi](https://github.com/faisal-alvi), [@jeffpaul](https://github.com/jeffpaul), [@fabiankaegy](https://github.com/fabiankaegy), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333), [#345](https://github.com/globeandmail/sophi-for-wordpress/pull/345)).
+* **Changed:** Replaced hardcoded tracker endpoint value with the new Tracker Address setting (props [@faisal-alvi](https://github.com/faisal-alvi), [@YMufleh](https://github.com/YMufleh), [@jeffpaul](https://github.com/jeffpaul) via [#342](https://github.com/globeandmail/sophi-for-wordpress/pull/342)).
+* **Changed:** Developer Documentation updates (props [@iamdharmesh](https://github.com/iamdharmesh), [@jeffpaul](https://github.com/jeffpaul), [@faisal-alvi](https://github.com/faisal-alvi) via [#332](https://github.com/globeandmail/sophi-for-wordpress/pull/332), [#333](https://github.com/globeandmail/sophi-for-wordpress/pull/333)).
+* **Fixed:** Prevent duplicate CMS publish/update event tracking (props [@cadic](https://github.com/cadic), [@peterwilsoncc](https://github.com/peterwilsoncc), [@jeffpaul](https://github.com/jeffpaul) via [#335](https://github.com/globeandmail/sophi-for-wordpress/pull/335)).
+* **Security:** Added latest PHPCompatibility checks for PHP 8.0 (props [@Sidsector9](https://github.com/Sidsector9) via [#331](https://github.com/globeandmail/sophi-for-wordpress/pull/331)).
+* **Security:** Update dependency `phpunit/phpunit` from 8.5.29 to 9.5.25 (props [@renovate](https://github.com/apps/renovate), [@Sidsector9](https://github.com/Sidsector9), [@faisal-alvi](https://github.com/faisal-alvi) via [#329](https://github.com/globeandmail/sophi-for-wordpress/pull/329), [#337](https://github.com/globeandmail/sophi-for-wordpress/pull/337), [#339](https://github.com/globeandmail/sophi-for-wordpress/pull/339)).
+* **Security:** Update dependency `10up-toolkit` from 4.1.2 to 4.3.0 (props [@renovate](https://github.com/apps/renovate), [@Sidsector9](https://github.com/Sidsector9), [@faisal-alvi](https://github.com/faisal-alvi) via [#330](https://github.com/globeandmail/sophi-for-wordpress/pull/330), [#340](https://github.com/globeandmail/sophi-for-wordpress/pull/340)).
+* **Security:** Update `actions/checkout` action from v2 to v3 and v3.0.2 to v3.1.0 (props [@renovate](https://github.com/apps/renovate) via [#334](https://github.com/globeandmail/sophi-for-wordpress/pull/334)).
 
 = 1.2.1 - 2022-08-30 =
 * **Changed:** Bump `content_update` schema from 2-0-3 to 2-0-5 (props [@jeffpaul](https://github.com/jeffpaul), [@vjayaseelan90](https://github.com/vjayaseelan90), [@YMufleh](https://github.com/YMufleh) via [#323](https://github.com/globeandmail/sophi-for-wordpress/pull/323)).
@@ -340,3 +324,8 @@ Note: this was a hotfix release to fix an issue with deploys to WordPress.org.
 
 = 1.0.0 - 2021-04-14 =
 * Initial public release! 🎉
+
+== Upgrade Notice ==
+
+= 1.3.0 =
+This version bumps the minimum WordPress version from 5.6 to 6.0 and adds an integration with the Sophi Override feature.

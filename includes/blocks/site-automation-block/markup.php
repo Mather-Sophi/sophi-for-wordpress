@@ -9,7 +9,11 @@
  */
 ?>
 <ul>
-	<?php foreach ( $curated_posts as $curated_post ) : // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable ?>
+	<?php foreach ( $curated_posts as $curated_post ) : // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
+		if ( ! get_post_status( $curated_post ) ) {
+			continue;
+		}
+		?>
 		<li class="curated-item">
 			<?php if ( ! empty( $attributes['displayFeaturedImage'] ) && has_post_thumbnail( $curated_post ) ) : ?>
 				<?php if ( ! empty( $attributes['addLinkToFeaturedImage'] ) ) : ?>
@@ -25,7 +29,8 @@
 			</a>
 			<?php if ( ! empty( $attributes['displayAuthor'] ) ) : ?>
 				<?php
-				$author_display_name = get_the_author_meta( 'display_name', $curated_post->post_author );
+				$author_id           = get_post_field( 'post_author', $curated_post );
+				$author_display_name = get_the_author_meta( 'display_name', $author_id );
 
 				/* translators: byline. %s: current author. */
 				$byline = sprintf( __( 'by %s', 'sophi-wp' ), $author_display_name );
@@ -52,3 +57,4 @@
 		</li>
 	<?php endforeach; ?>
 </ul>
+

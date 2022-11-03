@@ -1,0 +1,51 @@
+{
+  "title": "Sophi Recommended Post",
+  "api_version": "1.0.1",
+  "name": "sophi/page-list-item",
+  "attributes": {
+    "postUpdated": {
+      "type": "boolean"
+    },
+    "postTitle": {
+      "type": "string"
+    },
+    "postID": {
+      "type": "integer"
+    },
+    "postLink": {
+      "type": "string"
+    },
+    "postExcept": {
+      "type": "string"
+    },
+    "postAuthor": {
+      "type": "string"
+    },
+    "postDate": {
+      "type": "string"
+    },
+    "postDateC": {
+      "type": "string"
+    },
+    "featuredImage": {
+      "type": "string"
+    },
+    "linkToFeaturedImage": {
+      "type": "boolean"
+    },
+    "overrideRule": {
+      "type": "string"
+    },
+    "overridePostID": {
+      "type": "integer"
+    },
+    "overrideExpiry": {
+      "type": "integer"
+    }
+  },
+  "supports": {
+    "lock": false
+  },
+  "editorScript": "file:../../../dist/blocks/sophi-page-list-item/editor.js",
+  "editorStyle": "file:../../../dist/css/sophi-page-list-item.css"
+}

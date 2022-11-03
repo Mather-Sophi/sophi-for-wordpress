@@ -24,15 +24,20 @@ function register() {
 }
 
 /**
- * Render callback method for the block
+ * Render callback method for the block. Also used by the rest endpoint '/site-automation'.
  *
  * @param array  $attributes The blocks attributes
  * @param string $content    Data returned from InnerBlocks.Content
  * @param array  $block      Block information such as context.
  *
- * @return string The rendered block markup.
+ * @return string|\WP_Post[] The rendered block markup OR WP_Post object to be returned to the REST callback.
  */
 function render_block_callback( $attributes, $content, $block ) {
+	// Render only at the front end OR for REST API.
+	if ( is_admin() && 'via_rest' !== $content ) {
+		return '';
+	}
+
 	if ( empty( $attributes['pageName'] ) || empty( $attributes['widgetName'] ) ) {
 		return '';
 	}
@@ -92,6 +97,10 @@ function render_block_callback( $attributes, $content, $block ) {
 			return '';
 		}
 
+	}
+
+	if ( 'via_rest' === $content ) {
+		return $curated_posts;
 	}
 
 	ob_start();

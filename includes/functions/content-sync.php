@@ -150,6 +150,10 @@ function send_track_event( $tracker, $post, $action ) {
 	/** This filter is documented in includes/functions/content-sync.php */
 	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
 
+	if ( maybe_skip_track_event( $data ) ) {
+		return;
+	}
+
 	// Suppress stdout from Emitters in debug mode.
 	if ( true === $debug ) {
 		ob_start();
@@ -310,4 +314,61 @@ function get_post_data( $post ) {
 	 * @return {array} Formatted post data.
 	 */
 	return apply_filters( 'sophi_post_data', $data );
+}
+
+/**
+ * Check if the current data has been already tracked recently and should be skipped.
+ *
+ * @since 1.3.0
+ *
+ * @param array $data Data being tracked
+ *
+ * @return boolean
+ */
+function maybe_skip_track_event( $data ) {
+	// Ignore modifiedAt.
+	unset( $data['modifiedAt'] );
+
+	$transient_hash = substr( md5( wp_json_encode( $data ) ), 0, 8 );
+	$transient_name = 'sophi_tracking_request_' . $transient_hash;
+
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( isset( $_GET['meta-box-loader'] ) && $_GET['meta-box-loader'] ) {
+		// Skip if metabox is reloading.
+		$skip = true;
+	} elseif ( get_transient( $transient_name ) === $data ) {
+		// Skip duplicated track within last 10 seconds.
+		$skip = true;
+	} else {
+		/**
+		 * Filters the TTL of duplicated request.
+		 *
+		 * @since 1.3.0
+		 * @hook sophi_cms_track_duplicate_ttl
+		 *
+		 * @param {int}   $ttl  TTL of duplicated request.
+		 * @param {array} $data Data to track.
+		 *
+		 * @return {int}
+		 */
+		$ttl = apply_filters( 'sophi_cms_track_duplicate_ttl', 10, $data );
+
+		// Remember the current tracking object.
+		set_transient( $transient_name, $data, $ttl );
+
+		$skip = false;
+	}
+
+	/**
+	 * Allow to override the flag of tracking event should be skipped.
+	 *
+	 * @since 1.3.0
+	 * @hook sophi_skip_track_event
+	 *
+	 * @param {boolean} $skip Whether to skip tracking.
+	 * @param {array}   $data Data to track.
+	 * 
+	 * @return {boolean}
+	 */
+	return apply_filters( 'sophi_skip_track_event', $skip, $data );
 }
