@@ -131,7 +131,7 @@ function fields_setup() {
 		SETTINGS_GROUP,
 		'collector_settings',
 		[
-			'label_for' => 'collector_url',
+			'label_for'   => 'collector_url',
 			'description' => __( 'Please use URL without http(s) scheme.', 'sophi-wp' ),
 		]
 	);
@@ -200,6 +200,9 @@ function fields_setup() {
 		]
 	);
 
+	/* // phpcs:ignore
+	Commenting out the Sophi Override settings for now.
+
 	// Add Auth settings section.
 	add_settings_section(
 		'sophi_api_auth',
@@ -241,6 +244,7 @@ function fields_setup() {
 			'description' => __( 'For example, https://xyz.sophi.io/v1/, please add a slash (/) in the end.', 'sophi-wp' ),
 		]
 	);
+	*/
 
 	// Add Advanced settings section.
 	add_settings_section(
@@ -325,13 +329,13 @@ function sanitize_settings( $settings ) {
 		$settings['query_integration'] = 0;
 	}
 
-	if ( empty( $settings['site_automation_url']) ) {
+	if ( empty( $settings['site_automation_url'] ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
 			__( 'Site Automation URL is required for Site Automation integration.', 'sophi-wp' )
 		);
-	} else if ( ! filter_var( $settings['site_automation_url'], FILTER_VALIDATE_URL ) ) {
+	} elseif ( ! filter_var( $settings['site_automation_url'], FILTER_VALIDATE_URL ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
@@ -343,26 +347,30 @@ function sanitize_settings( $settings ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
+			/* translators: %s is replaced with the tracker URL */
 			sprintf( __( 'Tracker Address URL is invalid: %s', 'sophi-wp' ), $settings['tracker_address'] )
 		);
 		unset( $settings['tracker_address'] );
 	}
 
-	if ( empty( $settings['sophi_override_url']) ) {
+	/* // phpcs:ignore
+	Commenting out the Sophi Override settings for now.
+	if ( empty( $settings['sophi_override_url'] ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
 			__( 'Sophi Override URL is required for Override actions.', 'sophi-wp' )
 		);
-	} else if ( ! filter_var( $settings['sophi_override_url'], FILTER_VALIDATE_URL ) ) {
+	} elseif ( ! filter_var( $settings['sophi_override_url'], FILTER_VALIDATE_URL ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
 			__( 'Sophi Override URL is invalid.', 'sophi-wp' )
 		);
 	}
+	*/
 
-	if ( empty( $settings['collector_url']) ) {
+	if ( empty( $settings['collector_url'] ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
 			SETTINGS_GROUP,
@@ -383,6 +391,8 @@ function sanitize_settings( $settings ) {
 		);
 	}
 
+	/* // phpcs:ignore
+	Commenting out the Sophi Override settings for now.
 	if ( empty( $settings['sophi_override_client_id'] ) || empty( $settings['sophi_override_client_secret'] ) ) {
 		add_settings_error(
 			SETTINGS_GROUP,
@@ -390,6 +400,7 @@ function sanitize_settings( $settings ) {
 			__( 'Both Client ID and Client Secret are required to generate a token for API.', 'sophi-wp' )
 		);
 	}
+	*/
 
 	if ( isset( $settings['client_id'] ) ) {
 		unset( $settings['client_id'] );
@@ -506,15 +517,15 @@ function render_select( $args ) {
  *
  * @return array
  */
-function add_action_links ( $actions ) {
+function add_action_links( $actions ) {
 	if ( ! is_configured() ) {
-		$action_label = __('Set up your Sophi.io account', 'sophi-wp');
+		$action_label = __( 'Set up your Sophi.io account', 'sophi-wp' );
 	} else {
-		$action_label = __('Settings', 'sophi-wp');
+		$action_label = __( 'Settings', 'sophi-wp' );
 	}
 	return array_merge(
 		[
-			'<a href="' . admin_url('options-general.php?page=sophi') . '">' . $action_label . '</a>',
+			'<a href="' . admin_url( 'options-general.php?page=sophi' ) . '">' . $action_label . '</a>',
 		],
 		$actions
 	);
