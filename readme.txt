@@ -153,6 +153,9 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 = 1.3.1 - 2022-11-10 =
 * **Changed:** Mapping for `sectionNames` field to reflect Primary Category or first Category (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic), [@jeffpaul](https://github.com/jeffpaul), [@vjayaseelan90](https://github.com/vjayaseelan90) via [#350](https://github.com/globeandmail/sophi-for-wordpress/pull/350)).
+* **Changed:** Update our configured check to be smarter (props [@dkotter](https://github.com/dkotter), [@vjayaseelan90](https://github.com/vjayaseelan90), [@jeffpaul](https://github.com/jeffpaul) via [#361](https://github.com/globeandmail/sophi-for-wordpress/pull/361)).
+* **Removed:** Comment out the override settings _for now_ (props [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul) via [#362](https://github.com/globeandmail/sophi-for-wordpress/pull/362)).
+* **Fixed:** Ensure we have an array of items before iterating over them (props [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul) via [#362](https://github.com/globeandmail/sophi-for-wordpress/pull/362)).
 
 = 1.3.0 - 2022-10-28 =
 **Note that this version bumps the minimum WordPress version from 5.6 to 6.0 and adds an integration with the Sophi Override feature.**
