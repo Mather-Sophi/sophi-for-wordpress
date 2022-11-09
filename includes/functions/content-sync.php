@@ -276,7 +276,7 @@ function get_post_data( $post ) {
 		'plainText'           => wp_strip_all_tags( $content ),
 		'size'                => str_word_count( wp_strip_all_tags( $content ) ),
 		'allSections'         => Utils\get_post_categories_paths( $post->ID ),
-		'sectionNames'        => Utils\get_post_categories( $post->ID ),
+		'sectionNames'        => array( Utils\get_primary_category( $post->ID ) ),
 		'modifiedAt'          => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'                => Utils\get_post_tags( $post ),
 		'url'                 => $permalink,
