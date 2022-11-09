@@ -506,15 +506,15 @@ function render_select( $args ) {
  *
  * @return array
  */
-function add_action_links ( $actions ) {
-	if ( ! is_configured() ) {
-		$action_label = __('Set up your Sophi.io account', 'sophi-wp');
+function add_action_links( $actions ) {
+	if ( ! is_configured( 'collector' ) || ! is_configured( 'automation' ) ) {
+		$action_label = __( 'Set up your Sophi.io account', 'sophi-wp' );
 	} else {
-		$action_label = __('Settings', 'sophi-wp');
+		$action_label = __( 'Settings', 'sophi-wp' );
 	}
 	return array_merge(
 		[
-			'<a href="' . admin_url('options-general.php?page=sophi') . '">' . $action_label . '</a>',
+			'<a href="' . admin_url( 'options-general.php?page=sophi' ) . '">' . $action_label . '</a>',
 		],
 		$actions
 	);
