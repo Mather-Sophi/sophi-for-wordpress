@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.3.1] - 2022-11-10
+### Changed
+- Mapping for `sectionNames` field to reflect Primary Category or first Category (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic), [@jeffpaul](https://github.com/jeffpaul), [@vjayaseelan90](https://github.com/vjayaseelan90) via [#350](https://github.com/globeandmail/sophi-for-wordpress/pull/350)).
+
 ## [1.3.0] - 2022-10-28
 **Note that this version bumps the minimum WordPress version from 5.6 to 6.0 and adds an integration with the Sophi Override feature.**
 
@@ -268,6 +272,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.3.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.2.1...1.3.0
 [1.2.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.1.3...1.2.0
