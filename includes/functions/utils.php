@@ -254,20 +254,51 @@ function get_supported_post_types() {
 /**
  * Check if Sophi is configured or not.
  *
+ * @param string $section Settings section to check for. Default 'all'.
  * @return bool
  */
-function is_configured() {
+function is_configured( $section = 'all' ) {
 	$settings = get_sophi_settings();
 
-	unset( $settings['environment'] );
-	unset( $settings['query_integration'] );
-
-	$settings = array_filter(
-		$settings,
-		function( $item ) {
-			return empty( $item );
-		}
-	);
+	switch ( $section ) {
+		case 'collector':
+			$settings = array_filter(
+				$settings,
+				function( $item, $key ) {
+					return in_array( $key, [ 'collector_url', 'tracker_address', 'tracker_client_id' ], true ) && empty( $item );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
+			break;
+		case 'automation':
+			$settings = array_filter(
+				$settings,
+				function( $item, $key ) {
+					return in_array( $key, [ 'host', 'tenant_id', 'site_automation_url' ], true ) && empty( $item );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
+			break;
+		case 'override':
+			$settings = array_filter(
+				$settings,
+				function( $item, $key ) {
+					return in_array( $key, [ 'sophi_override_url', 'sophi_override_client_id', 'sophi_override_client_secret' ], true ) && empty( $item );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
+			break;
+		case 'all':
+		default:
+			$settings = array_filter(
+				$settings,
+				function( $item, $key ) {
+					return ! in_array( $key, [ 'environment', 'query_integration' ], true ) && empty( $item );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
+			break;
+	}
 
 	if ( count( $settings ) > 0 ) {
 		return false;

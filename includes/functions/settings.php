@@ -518,7 +518,7 @@ function render_select( $args ) {
  * @return array
  */
 function add_action_links( $actions ) {
-	if ( ! is_configured() ) {
+	if ( ! is_configured( 'collector' ) || ! is_configured( 'automation' ) ) {
 		$action_label = __( 'Set up your Sophi.io account', 'sophi-wp' );
 	} else {
 		$action_label = __( 'Settings', 'sophi-wp' );
