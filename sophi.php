@@ -63,21 +63,26 @@ add_action(
 			SophiWP\Settings\setup();
 			SophiWP\PostType\setup();
 
-			if ( ! SophiWP\Utils\is_configured() ) {
-				return add_action( 'admin_notices', 'sophi_setup_notice' );
+			if ( ! SophiWP\Utils\is_configured( 'collector' ) || ! SophiWP\Utils\is_configured( 'automation' ) ) {
+				add_action( 'admin_notices', 'sophi_setup_notice' );
 			}
 
-			SophiWP\ContentSync\setup();
-			SophiWP\Tracking\setup();
-			SophiWP\Blocks\setup();
-			( new SophiWP\SiteAutomation\Services() )->register();
+			if ( SophiWP\Utils\is_configured( 'collector' ) ) {
+				SophiWP\ContentSync\setup();
+				SophiWP\Tracking\setup();
 
-			if ( defined( 'WP_CLI' ) && WP_CLI ) {
-				try {
-					\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
-				} catch ( \Exception $e ) {
-					error_log( $e->getMessage() ); // phpcs:ignore
+				if ( defined( 'WP_CLI' ) && WP_CLI ) {
+					try {
+						\WP_CLI::add_command( 'sophi', 'SophiWP\Command' );
+					} catch ( \Exception $e ) {
+						error_log( $e->getMessage() ); // phpcs:ignore
+					}
 				}
+			}
+
+			if ( SophiWP\Utils\is_configured( 'automation' ) ) {
+				SophiWP\Blocks\setup();
+				( new SophiWP\SiteAutomation\Services() )->register();
 			}
 
 			/**
