@@ -2,7 +2,6 @@
 namespace SophiWP\Utils;
 
 use SophiWP as Base;
-use stdClass;
 
 class Core_Tests extends Base\TestCase {
 

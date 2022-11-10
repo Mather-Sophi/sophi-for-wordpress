@@ -596,7 +596,5 @@ function get_primary_category( $post_id = 0, $taxonomy = 'category' ) {
 		}
 	}
 
-	$primary_term = yoast_get_primary_term( $taxonomy, $post_id );
-
-	return $primary_term;
+	return yoast_get_primary_term( $taxonomy, $post_id );
 }
