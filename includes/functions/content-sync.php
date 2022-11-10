@@ -142,7 +142,7 @@ function send_track_event( $tracker, $post, $action ) {
 	 * @param {Tracker} $tracker Tracker being used.
 	 * @param {string}  $post    Post object.
 	 * @param {string}  $action  Publishing action.
-	 * 
+	 *
 	 * @return {array} Tracking data to send.
 	 */
 	$data = apply_filters_ref_array( 'sophi_cms_tracking_request_data', array( $data, &$tracker, $post, $action ) );
@@ -224,7 +224,7 @@ function init_tracker() {
 	 * @hook sophi_tracker_emitter_debug
 	 *
 	 * @param {bool} $debug Debug is active.
-	 * 
+	 *
 	 * @return {bool} Whether to turn on emitter debug.
 	 */
 	$debug = apply_filters( 'sophi_tracker_emitter_debug', false );
@@ -276,7 +276,7 @@ function get_post_data( $post ) {
 		'plainText'           => wp_strip_all_tags( $content ),
 		'size'                => str_word_count( wp_strip_all_tags( $content ) ),
 		'allSections'         => Utils\get_post_categories_paths( $post->ID ),
-		'sectionNames'        => array( Utils\get_primary_category( $post->ID ) ),
+		'sectionNames'        => Utils\get_primary_category( $post->ID ) ? [ Utils\get_primary_category( $post->ID ) ] : [],
 		'modifiedAt'          => gmdate( \DateTime::RFC3339, strtotime( $post->post_modified_gmt ) ),
 		'tags'                => Utils\get_post_tags( $post ),
 		'url'                 => $permalink,
@@ -367,7 +367,7 @@ function maybe_skip_track_event( $data ) {
 	 *
 	 * @param {boolean} $skip Whether to skip tracking.
 	 * @param {array}   $data Data to track.
-	 * 
+	 *
 	 * @return {boolean}
 	 */
 	return apply_filters( 'sophi_skip_track_event', $skip, $data );
