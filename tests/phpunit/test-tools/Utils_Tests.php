@@ -90,24 +90,10 @@ class Core_Tests extends Base\TestCase {
 	}
 
 	public function test_get_primary_category__default_category__yoast_activated() {
-		\WP_Mock::userFunction( 'yoast_get_primary_term_id', array(
+		\WP_Mock::userFunction( 'yoast_get_primary_term', array(
 			'times'  => 2,
 			'args'   => array( 'category', null ),
-			'return' => 123,
-		) );
-
-		\WP_Mock::userFunction( 'get_term', array(
-			'times'  => 1,
-			'args'   => array( 123 ),
-			'return' => (object) array(
-				'term_id' => 123,
-				'name'    => 'Uncategorized',
-			),
-		) );
-
-		\WP_Mock::userFunction( 'is_wp_error', array(
-			'times'  => 1,
-			'return' => false,
+			'return' => 'Uncategorized',
 		) );
 
 		$term_name = get_primary_category();
