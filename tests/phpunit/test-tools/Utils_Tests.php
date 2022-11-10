@@ -2,6 +2,7 @@
 namespace SophiWP\Utils;
 
 use SophiWP as Base;
+use stdClass;
 
 class Core_Tests extends Base\TestCase {
 
@@ -90,7 +91,7 @@ class Core_Tests extends Base\TestCase {
 
 	public function test_get_primary_category__default_category__yoast_activated() {
 		\WP_Mock::userFunction( 'yoast_get_primary_term_id', array(
-			'times'  => 1,
+			'times'  => 2,
 			'args'   => array( 'category', null ),
 			'return' => 123,
 		) );
@@ -102,6 +103,11 @@ class Core_Tests extends Base\TestCase {
 				'term_id' => 123,
 				'name'    => 'Uncategorized',
 			),
+		) );
+
+		\WP_Mock::userFunction( 'is_wp_error', array(
+			'times'  => 1,
+			'return' => false,
 		) );
 
 		$term_name = get_primary_category();
