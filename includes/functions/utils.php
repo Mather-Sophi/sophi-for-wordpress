@@ -586,7 +586,7 @@ function get_wp_sophi_versions() {
  * @return string
  */
 function get_primary_category( $post_id = 0, $taxonomy = 'category' ) {
-	if ( ! function_exists( 'yoast_get_primary_term_id' ) ) {
+	if ( ! function_exists( 'yoast_get_primary_term' ) || ! yoast_get_primary_term( $taxonomy, $post_id ) ) {
 		$post_terms = wp_get_post_terms( $post_id, $taxonomy );
 
 		if ( is_array( $post_terms ) && count( $post_terms ) > 0 ) {
@@ -596,8 +596,5 @@ function get_primary_category( $post_id = 0, $taxonomy = 'category' ) {
 		}
 	}
 
-	$primary_term_id  = yoast_get_primary_term_id( $taxonomy, $post_id );
-	$primary_category = get_term( $primary_term_id );
-
-	return $primary_category->name;
+	return yoast_get_primary_term( $taxonomy, $post_id );
 }
