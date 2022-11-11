@@ -118,8 +118,10 @@ class EndPoints extends WP_REST_Controller {
 		}
 
 		$curated_posts_new = [];
-		foreach ( $curated_posts as $index => $curated_post ) {
-			$curated_posts_new[ $index ] = $this->get_post_details( $curated_post, $rules );
+		if ( is_array( $curated_posts ) ) {
+			foreach ( $curated_posts as $index => $curated_post ) {
+				$curated_posts_new[ $index ] = $this->get_post_details( $curated_post, $rules );
+			}
 		}
 		$curated_posts = $curated_posts_new;
 
@@ -209,8 +211,8 @@ class EndPoints extends WP_REST_Controller {
 	 */
 	public function site_automation_permission(){
 		$current_user = wp_get_current_user();
- 
-		if ( ! $current_user->exists() ) { 
+
+		if ( ! $current_user->exists() ) {
 			return new \WP_Error(401, __( 'Unauthorised user, please log in.', 'sophi-wp' ) );
 		}
 
