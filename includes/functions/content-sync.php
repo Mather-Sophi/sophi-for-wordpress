@@ -333,8 +333,9 @@ function maybe_skip_track_event( $data ) {
 	$transient_name = 'sophi_tracking_request_' . $transient_hash;
 
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-	if ( isset( $_GET['meta-box-loader'] ) && $_GET['meta-box-loader'] ) {
-		// Skip if metabox is reloading.
+	if ( ( isset( $_GET['meta-box-loader'] ) && $_GET['meta-box-loader'] ) &&
+		! filter_input( INPUT_POST, 'yoast_wpseo_primary_category_term', FILTER_SANITIZE_NUMBER_INT ) ) {
+		// Skip if metabox is reloading and we're not saving the primary category.
 		$skip = true;
 	} elseif ( get_transient( $transient_name ) === $data ) {
 		// Skip duplicated track within last 10 seconds.
