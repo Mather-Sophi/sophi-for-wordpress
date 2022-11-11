@@ -287,20 +287,51 @@ function get_supported_post_types() {
 /**
  * Check if Sophi is configured or not.
  *
+ * @param string $section Settings section to check for. Default 'all'.
  * @return bool
  */
-function is_configured() {
+function is_configured( $section = 'all' ) {
 	$settings = get_sophi_settings();
 
-	unset( $settings['environment'] );
-	unset( $settings['query_integration'] );
-
-	$settings = array_filter(
-		$settings,
-		function( $item ) {
-			return empty( $item );
-		}
-	);
+	switch ( $section ) {
+		case 'collector':
+			$settings = array_filter(
+				$settings,
+				function( $item, $key ) {
+					return in_array( $key, [ 'collector_url', 'tracker_address', 'tracker_client_id' ], true ) &amp;&amp; empty( $item );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
+			break;
+		case 'automation':
+			$settings = array_filter(
+				$settings,
+				function( $item, $key ) {
+					return in_array( $key, [ 'host', 'tenant_id', 'site_automation_url' ], true ) &amp;&amp; empty( $item );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
+			break;
+		case 'override':
+			$settings = array_filter(
+				$settings,
+				function( $item, $key ) {
+					return in_array( $key, [ 'sophi_override_url', 'sophi_override_client_id', 'sophi_override_client_secret' ], true ) &amp;&amp; empty( $item );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
+			break;
+		case 'all':
+		default:
+			$settings = array_filter(
+				$settings,
+				function( $item, $key ) {
+					return ! in_array( $key, [ 'environment', 'query_integration' ], true ) &amp;&amp; empty( $item );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
+			break;
+	}
 
 	if ( count( $settings ) > 0 ) {
 		return false;
@@ -577,6 +608,28 @@ function get_post_categories( $post_id ) {
  */
 function get_wp_sophi_versions() {
 	return 'wp-' . get_bloginfo( 'version' ) . ':plugin-' . SOPHI_WP_VERSION;
+}
+
+/**
+ * Get the primary term name.
+ *
+ * @param string $taxonomy Optional. The taxonomy to get the primary term ID for. Defaults to category.
+ * @param int    $post_id            Optional. Post to get the primary term ID for.
+ *
+ * @return string
+ */
+function get_primary_category( $post_id = 0, $taxonomy = 'category' ) {
+	if ( ! function_exists( 'yoast_get_primary_term' ) || ! yoast_get_primary_term( $taxonomy, $post_id ) ) {
+		$post_terms = wp_get_post_terms( $post_id, $taxonomy );
+
+		if ( is_array( $post_terms ) &amp;&amp; count( $post_terms ) > 0 ) {
+			return $post_terms[0]->name;
+		} else {
+			return '';
+		}
+	}
+
+	return yoast_get_primary_term( $taxonomy, $post_id );
 }
 </code></pre>
         </article>
