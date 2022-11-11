@@ -156,6 +156,7 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 * **Changed:** Update our configured check to be smarter (props [@dkotter](https://github.com/dkotter), [@vjayaseelan90](https://github.com/vjayaseelan90), [@jeffpaul](https://github.com/jeffpaul) via [#361](https://github.com/globeandmail/sophi-for-wordpress/pull/361)).
 * **Removed:** Comment out the override settings _for now_ (props [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul) via [#362](https://github.com/globeandmail/sophi-for-wordpress/pull/362)).
 * **Fixed:** Ensure we have an array of items before iterating over them (props [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul) via [#362](https://github.com/globeandmail/sophi-for-wordpress/pull/362)).
+* **Fixed:** Ensure we send tracking events when the Yoast featured category data is saved (props [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul) via [#365](https://github.com/globeandmail/sophi-for-wordpress/pull/365)).
 
 = 1.3.0 - 2022-10-28 =
 **Note that this version bumps the minimum WordPress version from 5.6 to 6.0 and adds an integration with the Sophi Override feature.**

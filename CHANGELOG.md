@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ### Fixed
 - Ensure we have an array of items before iterating over them (props [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul) via [#362](https://github.com/globeandmail/sophi-for-wordpress/pull/362)).
+- Ensure we send tracking events when the Yoast featured category data is saved (props [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul) via [#365](https://github.com/globeandmail/sophi-for-wordpress/pull/365)).
 
 ## [1.3.0] - 2022-10-28
 **Note that this version bumps the minimum WordPress version from 5.6 to 6.0 and adds an integration with the Sophi Override feature.**
