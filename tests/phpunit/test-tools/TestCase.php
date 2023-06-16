@@ -19,7 +19,7 @@ class TestCase extends BaseTestCase {
 		if ( ! empty( $this->testFiles ) ) {
 			foreach ( $this->testFiles as $file ) {
 				if ( file_exists( PROJECT . $file ) ) {
-					require_once( PROJECT . $file );
+					require_once PROJECT . $file;
 				}
 			}
 		}
@@ -27,7 +27,7 @@ class TestCase extends BaseTestCase {
 		parent::setUp();
 	}
 
-	public function assertActionsCalled() {
+	public function assertActionsCalled(): void {
 		$actions_not_added = $expected_actions = 0;
 		try {
 			WP_Mock::assertActionsCalled();
