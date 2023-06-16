@@ -121,7 +121,7 @@ function script_url( $script, $context ) {
 		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in SophiWP script loader.' );
 	}
 
-	return SOPHI_WP_URL . "dist/js/${script}.js";
+	return SOPHI_WP_URL . "dist/js/{$script}.js";
 
 }
 
@@ -139,7 +139,7 @@ function style_url( $stylesheet, $context ) {
 		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in SophiWP stylesheet loader.' );
 	}
 
-	return SOPHI_WP_URL . "dist/css/${stylesheet}.css";
+	return SOPHI_WP_URL . "dist/css/{$stylesheet}.css";
 
 }
 
