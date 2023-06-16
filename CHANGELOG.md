@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.3.2] - 2023-06-16
+### Changed
+- Bump WordPress "tested up to" version 6.2 (props [@iamdharmesh](https://github.com/iamdharmesh), [@Sidsector9](https://github.com/Sidsector9) via [#384](https://github.com/globeandmail/sophi-for-wordpress/pull/384)).
+
+### Security
+- Update dependency `phpunit/phpunit` from 9.5.25 to 9.5.27 (props [@renovate](https://github.com/apps/renovate), [@jeffpaul](https://github.com/jeffpaul) via [#349](https://github.com/globeandmail/sophi-for-wordpress/pull/349), [#369](https://github.com/globeandmail/sophi-for-wordpress/pull/369)).
+- Update dependency `10up-toolkit` from 4.3.0.to 4.3.1 (props [@renovate](https://github.com/apps/renovate), [@jeffpaul](https://github.com/jeffpaul) via [#366](https://github.com/globeandmail/sophi-for-wordpress/pull/366)).
+- Update dependency `loader-utils` from 2.0.2 to 2.0.4 (props [@dependabot](https://github.com/apps/dependabot), [@jeffpaul](https://github.com/jeffpaul) via [#367](https://github.com/globeandmail/sophi-for-wordpress/pull/367)).
+- Update dependency `actions/checkout` from 3.1.0 to 3.5.3 (props [@renovate](https://github.com/apps/renovate), [@jeffpaul](https://github.com/jeffpaul), [@iamdharmesh](https://github.com/iamdharmesh) via [#370](https://github.com/globeandmail/sophi-for-wordpress/pull/370), [#375](https://github.com/globeandmail/sophi-for-wordpress/pull/375)).
+- Update dependency `@wordpress/icons` from 9.10.0 to 9.14.0 (props [@renovate](https://github.com/apps/renovate), [@jeffpaul](https://github.com/jeffpaul) via [#344](https://github.com/globeandmail/sophi-for-wordpress/pull/344)).
+- Update dependency `snowplow/snowplow-tracker` from 0.5.0 to 0.6.1 (props [@renovate](https://github.com/apps/renovate), [@jeffpaul](https://github.com/jeffpaul), [@YMufleh](https://github.com/YMufleh) via [#372](https://github.com/globeandmail/sophi-for-wordpress/pull/372)).
+- Update dependency `json5` from 1.0.1 to 1.0.2 (props [@renovate](https://github.com/apps/renovate), [@iamdharmesh](https://github.com/iamdharmesh) via [#374](https://github.com/globeandmail/sophi-for-wordpress/pull/374)).
+- Update dependency `dns-packet` from 5.3.1 to 5.6.0 (props [@renovate](https://github.com/apps/renovate), [@iamdharmesh](https://github.com/iamdharmesh) via [#385](https://github.com/globeandmail/sophi-for-wordpress/pull/385)).
+- Update dependency `webpack` from 5.72.1 to 5.87.0 (props [@renovate](https://github.com/apps/renovate), [@iamdharmesh](https://github.com/iamdharmesh) via [#386](https://github.com/globeandmail/sophi-for-wordpress/pull/386)).
+
 ## [1.3.1] - 2022-11-10
 ### Changed
 - Mapping for `sectionNames` field to reflect Primary Category or first Category (props [@Sidsector9](https://github.com/Sidsector9), [@cadic](https://github.com/cadic), [@jeffpaul](https://github.com/jeffpaul), [@vjayaseelan90](https://github.com/vjayaseelan90), [@dkotter](https://github.com/dkotter) via [#350](https://github.com/globeandmail/sophi-for-wordpress/pull/350), [#363](https://github.com/globeandmail/sophi-for-wordpress/pull/363)).
@@ -280,6 +295,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial public release! 🎉
 
 [Unreleased]: https://github.com/globeandmail/sophi-for-wordpress/compare/trunk...develop
+[1.3.2]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.3.1...1.3.2
 [1.3.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.2.1...1.3.0
 [1.2.1]: https://github.com/globeandmail/sophi-for-wordpress/compare/1.2.0...1.2.1
