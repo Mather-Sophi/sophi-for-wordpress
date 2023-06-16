@@ -19,7 +19,7 @@ class TestCase extends BaseTestCase {
 		if ( ! empty( $this->testFiles ) ) {
 			foreach ( $this->testFiles as $file ) {
 				if ( file_exists( PROJECT . $file ) ) {
-					require_once( PROJECT . $file );
+					require_once PROJECT . $file;
 				}
 			}
 		}
