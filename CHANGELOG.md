@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
-## [1.3.2] - 2023-06-XX
+## [1.3.2] - 2023-06-16
 ### Changed
 - Bump WordPress "tested up to" version 6.2 (props [@iamdharmesh](https://github.com/iamdharmesh), [@Sidsector9](https://github.com/Sidsector9) via [#384](https://github.com/globeandmail/sophi-for-wordpress/pull/384)).
 
