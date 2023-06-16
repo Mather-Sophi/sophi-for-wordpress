@@ -150,7 +150,7 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 2. Sophi Site Automation block.
 
 == Changelog ==
-= 1.3.2 - 2023-06-xx =
+= 1.3.2 - 2023-06-16 =
 * **Changed:** Bump WordPress "tested up to" version 6.2 (props [@iamdharmesh](https://github.com/iamdharmesh), [@Sidsector9](https://github.com/Sidsector9) via [#384](https://github.com/globeandmail/sophi-for-wordpress/pull/384)).
 * **Security:** Update dependency `phpunit/phpunit` from 9.5.25 to 9.5.27 (props [@renovate](https://github.com/apps/renovate), [@jeffpaul](https://github.com/jeffpaul) via [#349](https://github.com/globeandmail/sophi-for-wordpress/pull/349), [#369](https://github.com/globeandmail/sophi-for-wordpress/pull/369)).
 * **Security:** Update dependency `10up-toolkit` from 4.3.0.to 4.3.1 (props [@renovate](https://github.com/apps/renovate), [@jeffpaul](https://github.com/jeffpaul) via [#366](https://github.com/globeandmail/sophi-for-wordpress/pull/366)).
