@@ -67,7 +67,7 @@
     }
   },
   "dependencies": {
-    "@10up/block-components": "^1.13.0",
+    "@10up/block-components": "^1.15.12",
     "@wordpress/icons": "9.14.0"
   }
 }
