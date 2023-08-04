@@ -24,7 +24,7 @@
   },
   "require": {
     "php": ">=7.4",
-    "snowplow/snowplow-tracker": "0.6.1"
+    "snowplow/snowplow-tracker": "0.7.0"
   },
   "require-dev": {
     "phpunit/phpunit": "9.5.27",
