@@ -27,7 +27,7 @@
     "snowplow/snowplow-tracker": "0.6.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "9.5.27",
+    "phpunit/phpunit": "9.6.11",
     "10up/wp_mock": "dev-trunk",
     "automattic/vipwpcs": "2.3.3",
     "dealerdirect/phpcodesniffer-composer-installer": "0.7.2",
