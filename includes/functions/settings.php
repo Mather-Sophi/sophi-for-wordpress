@@ -66,10 +66,10 @@ function render_settings_page() {
 					</strong>
 				</p>
 				<nav>
-					<a href="https://github.com/globeandmail/sophi-for-wordpress#frequently-asked-questions" target="_blank" title="<?php esc_attr_e( 'FAQs', 'sophi-wp' ); ?>">
+					<a href="https://github.com/mather-sophi/sophi-for-wordpress#frequently-asked-questions" target="_blank" title="<?php esc_attr_e( 'FAQs', 'sophi-wp' ); ?>">
 						<?php esc_html_e( 'FAQs', 'sophi-wp' ); ?><span class="dashicons dashicons-external"></span>
 					</a>
-					<a href="https://github.com/globeandmail/sophi-for-wordpress/issues" target="_blank" title="<?php esc_attr_e( 'Support', 'sophi-wp' ); ?>">
+					<a href="https://github.com/mather-sophi/sophi-for-wordpress/issues" target="_blank" title="<?php esc_attr_e( 'Support', 'sophi-wp' ); ?>">
 						<?php esc_html_e( 'Support', 'sophi-wp' ); ?><span class="dashicons dashicons-external"></span>
 					</a>
 				</nav>

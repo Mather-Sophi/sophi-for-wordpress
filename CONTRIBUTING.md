@@ -10,11 +10,11 @@ Contributing isn't just writing code - it's anything that improves the project. 
 
 ### Reporting bugs
 
-If you're running into an issue with the plugin, please take a look through [existing issues](https://github.com/globeandmail/sophi-for-wordpress/issues) and [open a new one](https://github.com/globeandmail/sophi-for-wordpress/issues/new) if needed.  If you're able, include steps to reproduce, environment information, and screenshots/screencasts as relevant.
+If you're running into an issue with the plugin, please take a look through [existing issues](https://github.com/mather-sophi/sophi-for-wordpress/issues) and [open a new one](https://github.com/mather-sophi/sophi-for-wordpress/issues/new) if needed.  If you're able, include steps to reproduce, environment information, and screenshots/screencasts as relevant.
 
 ### Suggesting enhancements
 
-New features and enhancements are also managed via [issues](https://github.com/globeandmail/sophi-for-wordpress/issues).
+New features and enhancements are also managed via [issues](https://github.com/mather-sophi/sophi-for-wordpress/issues).
 
 ### Pull requests
 
@@ -37,16 +37,16 @@ The `develop` branch is the development branch which means it contains the next 
 1. Merge: Make a non-fast-forward merge from your release branch to `develop` (or merge the pull request), then do the same for `develop` into `trunk` (`git checkout trunk && git merge --no-ff develop`).  `trunk` contains the stable development version.
 1. Test: While still on the `trunk` branch, test for functionality locally.
 1. Push: Push your `trunk` branch to GitHub (e.g. `git push origin trunk`).
-1. Release: Create a [new release](https://github.com/globeandmail/sophi-for-wordpress/releases/new), naming the tag and the release with the new version number, and **targeting the `trunk` branch**.  Paste the changelog from `CHANGELOG.md` into the body of the release and include a link to the [closed issues on the milestone](https://github.com/globeandmail/sophi-for-wordpress/milestone/#?closed=1).
-1. SVN: Wait for the [GitHub Action](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/dotorg-push-deploy.yml) to finish deploying to the WordPress.org repository. If all goes well, users with SVN commit access for that plugin will receive an emailed diff of changes.
+1. Release: Create a [new release](https://github.com/mather-sophi/sophi-for-wordpress/releases/new), naming the tag and the release with the new version number, and **targeting the `trunk` branch**.  Paste the changelog from `CHANGELOG.md` into the body of the release and include a link to the [closed issues on the milestone](https://github.com/mather-sophi/sophi-for-wordpress/milestone/#?closed=1).
+1. SVN: Wait for the [GitHub Action](https://github.com/mather-sophi/sophi-for-wordpress/actions/workflows/dotorg-push-deploy.yml) to finish deploying to the WordPress.org repository. If all goes well, users with SVN commit access for that plugin will receive an emailed diff of changes.
 1. Check WordPress.org: Ensure that the changes are live on https://wordpress.org/plugins/sophi/. This may take a few minutes.
-1. Close the milestone: Edit the [milestone](https://github.com/globeandmail/sophi-for-wordpress/milestone/#) with release date (in the `Due date (optional)` field) and link to GitHub release (in the `Description` field), then close the milestone.
+1. Close the milestone: Edit the [milestone](https://github.com/mather-sophi/sophi-for-wordpress/milestone/#) with release date (in the `Due date (optional)` field) and link to GitHub release (in the `Description` field), then close the milestone.
 1. Punt incomplete items: If any open issues or PRs which were milestoned for `X.Y.Z` do not make it into the release, update their milestone to `X+1.0.0`, `X.Y+1.0`, `X.Y.Z+1`, or `Future Release`.
 1. Version bump (again): In the `develop` branch (`cd ../ && git checkout develop`) bump the version number in `sophi.php` to `X.Y.(Z+1)-dev`.  It's okay if the next release might be a different version number; that change can be handled right before release in the first step, as might also be the case with ``@since` annotations.
 1. Test sites: Check the Sophi test sites to ensure the new version has been deployed there.
 
 ### What to do if things go wrong
 
-If you run into issues during the release process and things have NOT fully deployed to WordPress.org / npm / whatever external-to-GitHub location that we might be publishing to, then the best thing to do will be to delete any Tag (e.g., https://github.com/globeandmail/sophi-for-wordpress/releases/tag/TAGNAME) or Release that's been created, research what's wrong, and once things are resolved work on re-tagging and re-releasing on GitHub and publishing externally where needed.
+If you run into issues during the release process and things have NOT fully deployed to WordPress.org / npm / whatever external-to-GitHub location that we might be publishing to, then the best thing to do will be to delete any Tag (e.g., https://github.com/mather-sophi/sophi-for-wordpress/releases/tag/TAGNAME) or Release that's been created, research what's wrong, and once things are resolved work on re-tagging and re-releasing on GitHub and publishing externally where needed.
 
 If you run into issues during the release process and things HAVE deployed to WordPress.org / npm / whatever external-to-GitHub location that we might be publishing to, then the best thing to do will be to research what's wrong and once things are resolved work on a patch release and tag on GitHub and publishing externally where needed.  At the top of the changelog / release notes it's best to note that its a hotfix to resolve whatever issues were found after the previous release.

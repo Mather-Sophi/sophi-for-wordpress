@@ -1,12 +1,12 @@
-<img alt="Sophi.io icon" src="https://github.com/globeandmail/sophi-for-wordpress/blob/trunk/.wordpress-org/icon.svg" height="45" width="45" align="left">
+<img alt="Sophi.io icon" src="https://github.com/mather-sophi/sophi-for-wordpress/blob/trunk/.wordpress-org/icon.svg" height="45" width="45" align="left">
 
 # Sophi for WordPress
 
 > WordPress VIP-compatible plugin for the Sophi.io Site Automation service.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/release/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/sophi?color=blue&label=WordPress&logo=WordPress) [![GPL-2.0-or-later License](https://img.shields.io/github/license/globeandmail/sophi-for-wordpress.svg)](https://github.com/globeandmail/sophi-for-wordpress/blob/trunk/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/release/mather-sophi/sophi-for-wordpress.svg)](https://github.com/mather-sophi/sophi-for-wordpress/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/sophi?color=blue&label=WordPress&logo=WordPress) [![GPL-2.0-or-later License](https://img.shields.io/github/license/mather-sophi/sophi-for-wordpress.svg)](https://github.com/mather-sophi/sophi-for-wordpress/blob/trunk/LICENSE.md)
 
-[![Developer Docs](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/build-docs.yml/badge.svg?branch=trunk)](https://globeandmail.github.io/sophi-for-wordpress/) [![PHPUnit Testing](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/test.yml) [![PHPCS Linting](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml/badge.svg)](https://github.com/globeandmail/sophi-for-wordpress/actions/workflows/lint.yml)
+[![Developer Docs](https://github.com/mather-sophi/sophi-for-wordpress/actions/workflows/build-docs.yml/badge.svg?branch=trunk)](https://mather-sophi.github.io/sophi-for-wordpress/) [![PHPUnit Testing](https://github.com/mather-sophi/sophi-for-wordpress/actions/workflows/test.yml/badge.svg)](https://github.com/mather-sophi/sophi-for-wordpress/actions/workflows/test.yml) [![PHPCS Linting](https://github.com/mather-sophi/sophi-for-wordpress/actions/workflows/lint.yml/badge.svg)](https://github.com/mather-sophi/sophi-for-wordpress/actions/workflows/lint.yml)
 
 ## Table of Contents
 * [Overview](#overview)
@@ -23,7 +23,7 @@
 
 ## Overview
 
-[Sophi.io](https://www.sophi.io) is a suite of artificial intelligence (AI) tools developed by [The Globe and Mail](https://www.theglobeandmail.com/) to help content publishers make important strategic and tactical decisions. The tools range from automated content curation engines to predictive analytics and paywall solutions.
+[Sophi.io](https://www.sophi.io) is a suite of artificial intelligence (AI) tools developed by [The Globe and Mail](https://www.themather-sophi.com/) to help content publishers make important strategic and tactical decisions. The tools range from automated content curation engines to predictive analytics and paywall solutions.
 
 Sophi-driven pages outperform human curated pages by a significant margin and free up publisher resources so that they can focus on finding the next story that matters. Invisible, automated curation of your home and section pages to streamline your team’s workflow. Continuously optimize the performance characteristics of the site based on demand and your brand, so the content is always the right fit.
 
@@ -52,7 +52,7 @@ Sophi-driven pages outperform human curated pages by a significant margin and fr
 You can upload and install the [plugin ZIP file](https://downloads.wordpress.org/plugin/sophi.zip) via the WordPress dashboard (`Plugins` > `Add New` -> `Upload Plugin`) or manually inside of the `wp-content/plugins` directory, and activate on the Plugins dashboard.
 
 ### 1b. Download or Clone this repo, install dependencies, and build.
-- `git clone https://github.com/globeandmail/sophi-for-wordpress.git && cd sophi-for-wordpress`
+- `git clone https://github.com/mather-sophi/sophi-for-wordpress.git && cd sophi-for-wordpress`
 - `composer install && npm install && npm run build`
 
 ### 2. Activate Plugin
@@ -134,7 +134,7 @@ While the above query integration works just fine, it has been observed on [Word
 
 ## Developer Documentation
 
-Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin, as well as some helpful tutorials on how to use those hooks. [Visit the developer docs ☞](https://globeandmail.github.io/sophi-for-wordpress/)
+Sophi for WordPress has an in-depth documentation site that details the available actions and filters found within the plugin, as well as some helpful tutorials on how to use those hooks. [Visit the developer docs ☞](https://mather-sophi.github.io/sophi-for-wordpress/)
 
 ## Debugging
 
@@ -157,7 +157,7 @@ You can read more details in [The Globe and Mail case study](https://www.sophi.i
 
 ### What Privacy and Terms govern Sophi.io?
 
-The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobeandmail.com/privacy-terms/) cover the Sophi.io service.
+The same [Privacy & Terms that govern The Globe and Mail](https://www.themather-sophi.com/privacy-terms/) cover the Sophi.io service.
 
 ## Support Level
 
@@ -165,11 +165,11 @@ The same [Privacy & Terms that govern The Globe and Mail](https://www.theglobean
 
 ## Changelog
 
-A complete listing of all notable changes to Sophi for WordPress are documented in [CHANGELOG.md](https://github.com/globeandmail/sophi-for-wordpress/blob/develop/CHANGELOG.md).
+A complete listing of all notable changes to Sophi for WordPress are documented in [CHANGELOG.md](https://github.com/mather-sophi/sophi-for-wordpress/blob/develop/CHANGELOG.md).
 
 ## Contributing
 
-Please read [CODE_OF_CONDUCT.md](https://github.com/globeandmail/sophi-for-wordpress/blob/develop/CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](https://github.com/globeandmail/sophi-for-wordpress/blob/develop/CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](https://github.com/globeandmail/sophi-for-wordpress/blob/develop/CREDITS.md) for a listing of maintainers, contributors, and libraries for Sophi for WordPress.
+Please read [CODE_OF_CONDUCT.md](https://github.com/mather-sophi/sophi-for-wordpress/blob/develop/CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](https://github.com/mather-sophi/sophi-for-wordpress/blob/develop/CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](https://github.com/mather-sophi/sophi-for-wordpress/blob/develop/CREDITS.md) for a listing of maintainers, contributors, and libraries for Sophi for WordPress.
 
 ## Like what you see?
 

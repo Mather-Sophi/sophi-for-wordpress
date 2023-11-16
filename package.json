@@ -2,9 +2,9 @@
   "name": "@globeandmail/sophi-for-wordpress",
   "version": "1.3.2",
   "description": "WordPress VIP-compatible plugin for the Sophi.io Site Automation service.",
-  "homepage": "https://github.com/globeandmail/sophi-for-wordpress",
+  "homepage": "https://github.com/mather-sophi/sophi-for-wordpress",
   "bugs": {
-    "url": "https://github.com/globeandmail/sophi-for-wordpress/issues"
+    "url": "https://github.com/mather-sophi/sophi-for-wordpress/issues"
   },
   "license": "GPL-2.0-or-later",
   "author": {
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/globeandmail/sophi-for-wordpress"
+    "url": "https://github.com/mather-sophi/sophi-for-wordpress"
   },
   "scripts": {
     "start": "10up-toolkit start",
